@@ -85,7 +85,12 @@ function MathRange()
 {
 	this.addInput("in","number",{locked:true});
 	this.addOutput("out","number",{locked:true});
-	this.properties = { "in": 0, in_min:0, in_max:1, out_min: 0, out_max: 1 };
+
+	this.addProperty( "in", 0 );
+	this.addProperty( "in_min", 0 );
+	this.addProperty( "in_max", 1 );
+	this.addProperty( "out_min", 0 );
+	this.addProperty( "out_max", 1 );
 }
 
 MathRange.title = "Range";
@@ -136,7 +141,8 @@ LiteGraph.registerNodeType("math/range", MathRange);
 function MathRand()
 {
 	this.addOutput("value","number");
-	this.properties = { min:0, max:1 };
+	this.addProperty( "min", 0 );
+	this.addProperty( "max", 1 );
 	this.size = [60,20];
 }
 
@@ -182,7 +188,8 @@ function MathClamp()
 	this.addInput("in","number");
 	this.addOutput("out","number");
 	this.size = [60,20];
-	this.properties = {min:0, max:1};
+	this.addProperty( "min", 0 );
+	this.addProperty( "max", 1 );
 }
 
 MathClamp.title = "Clamp";
@@ -310,7 +317,7 @@ function MathScale()
 	this.addInput("in","number",{label:""});
 	this.addOutput("out","number",{label:""});
 	this.size = [60,20];
-	this.properties = {"factor":1};
+	this.addProperty( "factor", 1 );
 }
 
 MathScale.title = "Scale";
@@ -332,12 +339,16 @@ function MathOperation()
 	this.addInput("A","number");
 	this.addInput("B","number");
 	this.addOutput("=","number");
-	this.properties = {A:1.0, B:1.0, OP:"+"};
+	this.addProperty( "A", 1 );
+	this.addProperty( "B", 1 );
+	this.addProperty( "OP", "+", "string", { values: MathOperation.values } );
 }
+
+MathOperation.values = ["+","-","*","/","%","^"];
 
 MathOperation.title = "Operation";
 MathOperation.desc = "Easy math operators";
-MathOperation["@OP"] = { type:"enum", title: "operation", values:["+","-","*","/","%","^"]};
+MathOperation["@OP"] = { type:"enum", title: "operation", values: MathOperation.values };
 
 
 MathOperation.prototype.setValue = function(v)
@@ -365,16 +376,28 @@ MathOperation.prototype.onExecute = function()
 	{
 		case '+': result = A+B; break;
 		case '-': result = A-B; break;
+		case 'x': 
+		case 'X': 
+		case '*': result = A*B; break;
 		case '/': result = A/B; break;
 		case '%': result = A%B; break;
 		case '^': result = Math.pow(A,B); break;
+		default:
+			console.warn("Unknown operation: " + this.properties.OP);
 	}
 	this.setOutputData(0, result );
 }
 
 MathOperation.prototype.onDrawBackground = function(ctx)
 {
-	this.outputs[0].label = "A" + this.properties.OP + "B";
+	if(this.flags.collapsed)
+		return;
+
+	ctx.font = "40px Arial";
+	ctx.fillStyle = "black";
+	ctx.textAlign = "center";
+	ctx.fillText(this.properties.OP, this.size[0] * 0.5, this.size[1] * 0.5 + LiteGraph.NODE_TITLE_HEIGHT );
+	ctx.textAlign = "left";
 }
 
 LiteGraph.registerNodeType("math/operation", MathOperation );
@@ -387,7 +410,8 @@ function MathCompare()
 	this.addInput( "B","number" );
 	this.addOutput("A==B","boolean");
 	this.addOutput("A!=B","boolean");
-	this.properties = {A:0,B:0};
+	this.addProperty( "A", 0 );
+	this.addProperty( "B", 0 );
 }
 
 MathCompare.title = "Compare";
@@ -437,11 +461,15 @@ function MathCondition()
 	this.addInput("A","number");
 	this.addInput("B","number");
 	this.addOutput("out","boolean");
-	this.properties = { A:0, B:1, OP:">" };
+	this.addProperty( "A", 1 );
+	this.addProperty( "B", 1 );
+	this.addProperty( "OP", ">", "string", { values: MathCondition.values } );
+
 	this.size = [60,40];
 }
 
-MathCondition["@OP"] = { type:"enum", title: "operation", values:[">","<","==","!=","<=",">="]};
+MathCondition.values = [">","<","==","!=","<=",">="];
+MathCondition["@OP"] = { type:"enum", title: "operation", values: MathCondition.values };
 
 MathCondition.title = "Condition";
 MathCondition.desc = "evaluates condition between A and B";
@@ -481,7 +509,8 @@ function MathAccumulate()
 {
 	this.addInput("inc","number");
 	this.addOutput("total","number");
-	this.properties = { increment: 0, value: 0 };
+	this.addProperty( "increment", 1 );
+	this.addProperty( "value", 0 );
 }
 
 MathAccumulate.title = "Accumulate";
@@ -504,7 +533,9 @@ function MathTrigonometry()
 {
 	this.addInput("v","number");
 	this.addOutput("sin","number");
-	this.properties = {amplitude:1.0, offset: 0};
+
+	this.addProperty( "amplitude", 1 );
+	this.addProperty( "offset", 0 );
 	this.bgImageUrl = "nodes/imgs/icon-sin.png";
 }
 
