@@ -4421,9 +4421,12 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 
 	if(flow)
 	{
-		for(var i = 0; i < 5; ++i)
+		var dotsCount = Math.round(dist/47);
+		var dotsSpeed = 0.235/dist;
+
+		for(var i = 0; i < dotsCount; ++i)
 		{
-			var f = (LiteGraph.getTime() * 0.001 + (i * 0.2)) % 1;
+			var f = (LiteGraph.getTime() * dotsSpeed + (i * 1/dotsCount)) % 1;
 			var pos = this.computeConnectionPoint(a,b,f);
 			ctx.beginPath();
 			ctx.arc(pos[0],pos[1],5,0,2*Math.PI);
