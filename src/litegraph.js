@@ -4963,6 +4963,10 @@ LGraphCanvas.prototype.getNodeMenuOptions = function(node)
 	if(node.getMenuOptions)
 		options = node.getMenuOptions(this);
 	else
+	{
+		var isCollapsed = node.flags.collapsed || false;
+		var collapseText = isCollapsed ? "Expand" : "Collapse";
+		
 		options = [
 			{content:"Inputs", is_menu: true, disabled:true, callback: LGraphCanvas.showMenuNodeInputs },
 			{content:"Outputs", is_menu: true, disabled:true, callback: LGraphCanvas.showMenuNodeOutputs },
@@ -4970,12 +4974,13 @@ LGraphCanvas.prototype.getNodeMenuOptions = function(node)
 			{content:"Properties", is_menu: true, callback: LGraphCanvas.onShowMenuNodeProperties },
 			null,
 			{content:"Mode", is_menu: true, callback: LGraphCanvas.onMenuNodeMode },
-			{content:"Collapse", callback: LGraphCanvas.onMenuNodeCollapse },
+			{content:collapseText, callback: LGraphCanvas.onMenuNodeCollapse },
 			{content:"Pin", callback: LGraphCanvas.onMenuNodePin },
 			{content:"Colors", is_menu: true, callback: LGraphCanvas.onMenuNodeColors },
 			{content:"Shapes", is_menu: true, callback: LGraphCanvas.onMenuNodeShapes },
 			null
 		];
+	}
 
 	if(node.getExtraMenuOptions)
 	{
