@@ -2905,7 +2905,7 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 						{
 							this.connecting_node = n;
 							this.connecting_output = output;
-							this.connecting_pos = n.getConnectionPos(false,i);
+							this.connecting_pos = link_pos;
 							this.connecting_slot = i;
 
 							skip_action = true;
@@ -2923,9 +2923,29 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 						{
 							if(input.link !== null)
 							{
+								var link = this.graph.links[ input.link ];
+
 								n.disconnectInput(i);
-								this.dirty_bgcanvas = true;
+								
+								if(link !== null)
+								{
+									var node = this.graph.getNodeById( link.origin_id );
+									if(node !== null)
+									{
+										var slot = link.origin_slot;
+										var output = node.outputs[slot];
+										link_pos = node.getConnectionPos(false,slot);
+
+										this.connecting_node = node;
+										this.connecting_output = output;
+										this.connecting_pos = link_pos;
+										this.connecting_slot = slot;
+									}
+								}
+								
+								//this.dirty_bgcanvas = true;
 								skip_action = true;
+								break;
 							}
 						}
 					}
