@@ -3137,7 +3137,10 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 				this.canvas.style.cursor = null;
 		}
 		else
+		{
+			this._highlight_input = null;
 			this.canvas.style.cursor = null;
+		}
 
 		if(this.node_capturing_input && this.node_capturing_input != n && this.node_capturing_input.onMouseMove)
 		{
