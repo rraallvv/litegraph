@@ -124,6 +124,8 @@ var LiteGraph = {
 		if(!node.size) node.size = node.computeSize();
 		if(!node.pos) node.pos = LiteGraph.DEFAULT_POSITION.concat();
 		if(!node.mode) node.mode = LiteGraph.ALWAYS;
+		
+		node.shape = type === "graph/subgraph" ? "box" : "round";
 
 		//extra options
 		if(options)
