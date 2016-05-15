@@ -2420,7 +2420,7 @@ function LGraphCanvas( canvas, graph, options )
 	this.render_curved_connections = true;
 	this.render_connection_arrows = false;
 
-	this.connections_width = 4;
+	this.connections_width = 2;
 
 	//link canvas and graph
 	if(graph)
