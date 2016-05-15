@@ -4247,7 +4247,8 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		}
 		else if (shape == "round")
 		{
-			ctx.roundRect(0,-title_height,size[0], title_height,10,0);
+			var bottom_radius = node.flags.collapsed ? 10 : 0;
+			ctx.roundRect(0,-title_height,size[0], title_height,10,bottom_radius);
 			//ctx.fillRect(0,8,size[0],NODE_TITLE_HEIGHT - 12);
 			ctx.fill();
 			//ctx.stroke();
