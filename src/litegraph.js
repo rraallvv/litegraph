@@ -4256,10 +4256,18 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		//title box
 		ctx.fillStyle = node.boxcolor || LiteGraph.NODE_DEFAULT_BOXCOLOR;
 		ctx.beginPath();
-		if (shape == "round")
-			ctx.arc(title_height *0.5, title_height * -0.5, (title_height - 6) *0.5,0,Math.PI*2);
+		if(node.flags.collapsed)
+		{
+			ctx.moveTo(11,8-title_height);
+			ctx.lineTo(5,13-title_height);
+			ctx.lineTo(5,3-title_height);
+		}
 		else
-			ctx.rect(3,-title_height + 3,title_height - 6,title_height - 6);
+		{
+			ctx.moveTo(8,12-title_height);
+			ctx.lineTo(13,6-title_height);
+			ctx.lineTo(3,6-title_height);
+		}
 		ctx.fill();
 		ctx.globalAlpha = old_alpha;
 
