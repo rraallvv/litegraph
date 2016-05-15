@@ -2418,7 +2418,7 @@ function LGraphCanvas( canvas, graph, options )
 	this.render_connections_shadows = false; //too much cpu
 	this.render_connections_border = false;
 	this.render_curved_connections = true;
-	this.render_connection_arrows = true;
+	this.render_connection_arrows = false;
 
 	this.connections_width = 4;
 
