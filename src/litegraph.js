@@ -2421,7 +2421,8 @@ function LGraphCanvas( canvas, graph, options )
 	this.render_connections_border = false;
 	this.render_curved_connections = true;
 	this.render_connection_arrows = false;
-
+	this.render_connection_flow = true;
+	
 	this.connections_width = 2;
 	
 	this.target_interval = 1 / 60;
@@ -4422,10 +4423,6 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	ctx.fillStyle = ctx.strokeStyle = color;
 	ctx.stroke();
 
-	//no symbols
-	if(!this.render_connection_arrows || this.scale < 0.6)
-		return;
-
 	//render arrow
 	if(this.render_connection_arrows && this.scale > 0.6)
 	{
@@ -4450,7 +4447,8 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 		ctx.restore();
 	}
 
-	if(flow)
+	//render flow
+	if(flow && this.render_connection_flow && this.scale > 0.6)
 	{
 		var dotsCount = Math.round(dist/47);
 		var dotsSpeed = 0.235/dist;
