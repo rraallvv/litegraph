@@ -2405,7 +2405,7 @@ function LGraphCanvas( canvas, graph, options )
 	this.highquality_render = true;
 	this.editor_alpha = 1; //used for transition
 	this.pause_rendering = false;
-	this.render_shadows = true;
+	this.render_shadows = false;
 	this.clear_background = true;
 
 	this.render_only_selected = true;
@@ -2416,7 +2416,7 @@ function LGraphCanvas( canvas, graph, options )
 
 	this.always_render_background = false; 
 	this.render_connections_shadows = false; //too much cpu
-	this.render_connections_border = true;
+	this.render_connections_border = false;
 	this.render_curved_connections = true;
 	this.render_connection_arrows = true;
 
