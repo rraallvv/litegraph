@@ -2423,6 +2423,8 @@ function LGraphCanvas( canvas, graph, options )
 	this.render_connection_arrows = false;
 
 	this.connections_width = 2;
+	
+	this.target_interval = 1 / 60;
 
 	//link canvas and graph
 	if(graph)
@@ -3685,23 +3687,27 @@ LGraphCanvas.prototype.draw = function(force_canvas, force_bgcanvas)
 	//fps counting
 	var now = LiteGraph.getTime();
 	this.render_time = (now - this.last_draw_time)*0.001;
-	this.last_draw_time = now;
-
-	if(this.graph)
+	
+	if(this.render_time > this.target_interval)
 	{
-		var start = [-this.offset[0], -this.offset[1] ];
-		var end = [start[0] + this.canvas.width / this.scale, start[1] + this.canvas.height / this.scale];
-		this.visible_area = new Float32Array([start[0],start[1],end[0],end[1]]);
+		if(this.graph)
+		{
+			var start = [-this.offset[0], -this.offset[1] ];
+			var end = [start[0] + this.canvas.width / this.scale, start[1] + this.canvas.height / this.scale];
+			this.visible_area = new Float32Array([start[0],start[1],end[0],end[1]]);
+		}
+		
+		if(this.dirty_bgcanvas || force_bgcanvas || this.always_render_background || (this.graph && this.graph._last_trigger_time && (now - this.graph._last_trigger_time) < 1000) )
+			this.drawBackCanvas();
+		
+		if(this.dirty_canvas || force_canvas)
+			this.drawFrontCanvas();
+		
+		this.fps = this.render_time ? (1.0 / this.render_time) : 0;
+		this.frame += 1;
+		
+		this.last_draw_time = now - 1000 * (this.render_time % this.target_interval);
 	}
-
-	if(this.dirty_bgcanvas || force_bgcanvas || this.always_render_background || (this.graph && this.graph._last_trigger_time && (now - this.graph._last_trigger_time) < 1000) )
-		this.drawBackCanvas();
-
-	if(this.dirty_canvas || force_canvas)
-		this.drawFrontCanvas();
-
-	this.fps = this.render_time ? (1.0 / this.render_time) : 0;
-	this.frame += 1;
 }
 
 LGraphCanvas.prototype.drawFrontCanvas = function()
