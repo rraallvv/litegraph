@@ -4460,7 +4460,7 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 			var f = (LiteGraph.getTime() * dotsSpeed + (i * 1/dotsCount)) % 1;
 			var pos = this.computeConnectionPoint(a,b,f);
 			ctx.beginPath();
-			ctx.arc(pos[0],pos[1],5,0,2*Math.PI);
+			ctx.arc(pos[0],pos[1],2*this.connections_width,0,2*Math.PI);
 			ctx.fill();
 		}
 	}
