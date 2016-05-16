@@ -30,7 +30,7 @@ function Editor(container_id, options)
 	this.addToolsButton("livemode_button","Live","imgs/icon-record.png", this.onLiveButton.bind(this), ".tools-right" );
 	this.addToolsButton("maximize_button","","imgs/icon-maximize.png", this.onFullscreenButton.bind(this), ".tools-right" );
 
-	this.addMiniWindow(300,200);
+	//this.addMiniWindow(300,200);
 
 	//append to DOM
 	var	parent = document.getElementById(container_id);
