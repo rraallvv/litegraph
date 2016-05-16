@@ -2397,7 +2397,7 @@ function LGraphCanvas( canvas, graph, options )
 	if(canvas && canvas.constructor === String )
 		canvas = document.querySelector( canvas );
 
-	this.max_zoom = 10;
+	this.max_zoom = 1;
 	this.min_zoom = 0.1;
 
 	this.title_text_font = "bold 14px Arial";
