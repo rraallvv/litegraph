@@ -9,7 +9,7 @@
 		this.addProperty( "text","" );
 		this.addProperty( "font","40px Arial" );
 		this.addProperty( "message", "" );
-		this.size = [64,84];
+		this.size = [64,64];
 	}
 
 	WidgetButton.title = "Button";
@@ -23,11 +23,11 @@
 		//ctx.font = "40px Arial";
 		//ctx.textAlign = "center";
 		ctx.fillStyle = "black";
-		ctx.fillRect(1,1,this.size[0] - 3, this.size[1] - 3);
+		ctx.fillRect(7,7,this.size[0] - 13, this.size[1] - 13);
 		ctx.fillStyle = "#AAF";
-		ctx.fillRect(0,0,this.size[0] - 3, this.size[1] - 3);
+		ctx.fillRect(6,6,this.size[0] - 13, this.size[1] - 13);
 		ctx.fillStyle = this.clicked ? "white" : (this.mouseOver ? "#668" : "#334");
-		ctx.fillRect(1,1,this.size[0] - 4, this.size[1] - 4);
+		ctx.fillRect(7,7,this.size[0] - 14, this.size[1] - 14);
 
 		if( this.properties.text || this.properties.text === 0 )
 		{
