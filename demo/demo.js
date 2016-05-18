@@ -9,14 +9,22 @@ function multiConnection()
 
 
 	var node_button = LiteGraph.createNode("widget/button");
-	node_button.pos = [100,400];
+	node_button.pos = [1000,200];
 	graph.add(node_button);
 
 	var node_console = LiteGraph.createNode("basic/console");
-	node_console.pos = [400,400];
+	node_console.pos = [1200,200];
 	graph.add(node_console);
 	node_button.connect(0, node_console );
-
+	
+	var node_button2 = LiteGraph.createNode("widget/button");
+	node_button2.pos = [1000,300];
+	graph.add(node_button2);
+	
+	var node_console2 = LiteGraph.createNode("basic/console");
+	node_console2.pos = [1200,300];
+	graph.add(node_console2);
+	
 	var node_const_A = LiteGraph.createNode("basic/const");
 	node_const_A.pos = [200,200];
 	graph.add(node_const_A);
