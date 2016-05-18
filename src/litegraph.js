@@ -1480,11 +1480,13 @@ LGraphNode.prototype.getInputData = function( slot, force_update )
 {
 	if(!this.inputs) 
 		return; //undefined;
+	
+	var input = this.inputs[slot];
 
-	if(slot >= this.inputs.length || this.inputs[slot].link == null)
+	if(slot >= this.inputs.length || input.link == null)
 		return;
 
-	var link_id = this.inputs[slot].link;
+	var link_id = input.link;
 	var link = this.graph.links[ link_id ];
 
 	if(!force_update)
@@ -2014,8 +2016,10 @@ LGraphNode.prototype.connect = function( slot, node, target_slot )
 		return false;
 	}
 
+	var input = node.inputs[target_slot];
+	
 	//if there is something already plugged there, disconnect
-	if(node.inputs[ target_slot ].link != null )
+	if(input.link != null )
 		node.disconnectInput( target_slot );
 
 	//why here??
@@ -2028,8 +2032,6 @@ LGraphNode.prototype.connect = function( slot, node, target_slot )
 	if(node.onConnectInput)
 		if( node.onConnectInput( target_slot, output.type, output ) === false)
 			return false;
-
-	var input = node.inputs[target_slot];
 
 	if( LiteGraph.isValidConnection( output.type, input.type) )
 	{
@@ -2049,7 +2051,7 @@ LGraphNode.prototype.connect = function( slot, node, target_slot )
 			output.links = [];
 		output.links.push( link.id );
 		//connect in input
-		node.inputs[target_slot].link = link.id;
+		input.link = link.id;
 
 		if(this.onConnectionsChange)
 			this.onConnectionsChange( LiteGraph.OUTPUT, slot );
@@ -2167,8 +2169,8 @@ LGraphNode.prototype.disconnectInput = function(slot)
 	if(!input)
 		return false;
 
-	var link_id = this.inputs[slot].link;
-	this.inputs[slot].link = null;
+	var link_id = input.link;
+	input.link = null;
 
 	//remove other side
 	var link_info = this.graph.links[ link_id ];
