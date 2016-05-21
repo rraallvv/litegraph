@@ -5,7 +5,7 @@
 
 	function WidgetButton()
 	{
-		this.addOutput( "clicked", LiteGraph.EVENT );
+		this.addOutput( "clicked", LiteGraph.EXECUTE );
 		this.addProperty( "text","" );
 		this.addProperty( "font","40px Arial" );
 		this.addProperty( "message", "" );
