@@ -358,21 +358,13 @@ function Console()
 Console.title = "Console";
 Console.desc = "Show value inside the console";
 
-Console.prototype.onAction = function(action, param)
-{
-	if(action == "log")
-		console.log( param );
-	else if(action == "warn")
-		console.warn( param );
-	else if(action == "error")
-		console.error( param );
-}
-
 Console.prototype.onExecute = function()
 {
 	var msg = this.getInputData(0);
-	if(msg !== null)
+	if(msg !== undefined)
 		this.properties.msg = msg;
+	else
+		msg = this.properties.msg;
 	console.log(msg);
 }
 
