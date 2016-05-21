@@ -277,7 +277,7 @@ MIDIInterface.prototype.sendMIDI = function( port, midi_data )
 
 function LGMIDIIn()
 {
-	this.addOutput( "on_midi", LiteGraph.EVENT );
+	this.addOutput( "on_midi", LiteGraph.EXECUTE );
 	this.addOutput( "out", "midi" );
 	this.properties = {port: 0};
 	this._last_midi_event = null;
@@ -338,12 +338,12 @@ LGMIDIIn.prototype.onExecute = function()
 LGMIDIIn.prototype.onGetOutputs = function() {
 	return [
 		["last_midi","midi"],
-		["on_midi",LiteGraph.EVENT],
-		["on_noteon",LiteGraph.EVENT],
-		["on_noteoff",LiteGraph.EVENT],
-		["on_cc",LiteGraph.EVENT],
-		["on_pc",LiteGraph.EVENT],
-		["on_pitchbend",LiteGraph.EVENT]
+		["on_midi",LiteGraph.EXECUTE],
+		["on_noteon",LiteGraph.EXECUTE],
+		["on_noteoff",LiteGraph.EXECUTE],
+		["on_cc",LiteGraph.EXECUTE],
+		["on_pc",LiteGraph.EXECUTE],
+		["on_pitchbend",LiteGraph.EXECUTE]
 	];
 }
 
@@ -352,7 +352,7 @@ LiteGraph.registerNodeType("midi/input", LGMIDIIn);
 
 function LGMIDIOut()
 {
-	this.addInput( "send", LiteGraph.EVENT );
+	this.addInput( "send", LiteGraph.EXECUTE );
 	this.properties = {port: 0};
 }
 
@@ -380,11 +380,11 @@ LGMIDIOut.prototype.onAction = function(event, midi_event )
 }
 
 LGMIDIOut.prototype.onGetInputs = function() {
-	return [["send",LiteGraph.ACTION]];
+	return [["send",LiteGraph.EXECUTE]];
 }
 
 LGMIDIOut.prototype.onGetOutputs = function() {
-	return [["on_midi",LiteGraph.EVENT]];
+	return [["on_midi",LiteGraph.EXECUTE]];
 }
 
 LiteGraph.registerNodeType("midi/output", LGMIDIOut);
@@ -392,7 +392,7 @@ LiteGraph.registerNodeType("midi/output", LGMIDIOut);
 
 function LGMIDIShow()
 {
-	this.addInput( "on_midi", LiteGraph.EVENT );
+	this.addInput( "on_midi", LiteGraph.EXECUTE );
 	this._str = "";
 	this.size = [200,40]
 }
@@ -420,11 +420,11 @@ LGMIDIShow.prototype.onDrawForeground = function( ctx )
 }
 
 LGMIDIShow.prototype.onGetInputs = function() {
-	return [["in",LiteGraph.ACTION]];
+	return [["in",LiteGraph.EXECUTE]];
 }
 
 LGMIDIShow.prototype.onGetOutputs = function() {
-	return [["on_midi",LiteGraph.EVENT]];
+	return [["on_midi",LiteGraph.EXECUTE]];
 }
 
 LiteGraph.registerNodeType("midi/show", LGMIDIShow);
@@ -440,8 +440,8 @@ function LGMIDIFilter()
 		max_value: -1
 	};
 
-	this.addInput( "in", LiteGraph.EVENT );
-	this.addOutput( "on_midi", LiteGraph.EVENT );
+	this.addInput( "in", LiteGraph.EXECUTE );
+	this.addOutput( "on_midi", LiteGraph.EXECUTE );
 }
 
 LGMIDIFilter.title = "MIDI Filter";
@@ -475,9 +475,9 @@ function LGMIDIEvent()
 		value2: 1
 	};
 
-	this.addInput( "send", LiteGraph.EVENT );
-	this.addInput( "assign", LiteGraph.EVENT );
-	this.addOutput( "on_midi", LiteGraph.EVENT );
+	this.addInput( "send", LiteGraph.EXECUTE );
+	this.addInput( "assign", LiteGraph.EXECUTE );
+	this.addOutput( "on_midi", LiteGraph.EXECUTE );
 }
 
 LGMIDIEvent.title = "MIDIEvent";
@@ -548,7 +548,7 @@ LGMIDIEvent.prototype.onPropertyChanged = function(name,value)
 LGMIDIEvent.prototype.onGetOutputs = function() {
 	return [
 		["midi","midi"],
-		["on_midi",LiteGraph.EVENT],
+		["on_midi",LiteGraph.EXECUTE],
 		["command","number"],
 		["note","number"],
 		["velocity","number"],

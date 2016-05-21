@@ -351,7 +351,7 @@ function Console()
 	this.mode = LiteGraph.ON_EVENT;
 	this.size = [60,20];
 	this.addProperty( "msg", "" );
-	this.addInput("log", LiteGraph.EVENT);
+	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
 }
 
@@ -378,7 +378,7 @@ Console.prototype.onExecute = function()
 
 Console.prototype.onGetInputs = function()
 {
-	return [["log",LiteGraph.ACTION],["warn",LiteGraph.ACTION],["error",LiteGraph.ACTION]];
+	return [["log",LiteGraph.EXECUTE],["warn",LiteGraph.EXECUTE],["error",LiteGraph.EXECUTE]];
 }
 
 LiteGraph.registerNodeType("basic/console", Console );

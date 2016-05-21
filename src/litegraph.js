@@ -32,8 +32,7 @@ var LiteGraph = {
 	INPUT: 1, 
 	OUTPUT: 2, 
 
-	EVENT: -1, //for outputs
-	ACTION: -1, //for inputs
+	EXECUTE: -1,
 
 	ALWAYS: 0,
 	ON_EVENT: 1,
@@ -249,7 +248,7 @@ var LiteGraph = {
 		if( !type_a ||  //generic output
 			!type_b || //generic input
 			type_a == type_a || //same type (is valid for triggers)
-			(type_a !== LiteGraph.EVENT && type_b !== LiteGraph.EVENT && type_a.toLowerCase() == type_b.toLowerCase()) ) //same type
+			(type_a !== LiteGraph.EXECUTE && type_b !== LiteGraph.EXECUTE && type_a.toLowerCase() == type_b.toLowerCase()) ) //same type
 			return true;
 		return false;
 	}
@@ -1483,7 +1482,7 @@ LGraphNode.prototype.getInputData = function( slot, force_update )
 	
 	var input = this.inputs[slot];
 	
-	if(input.type == LiteGraph.EVENT)
+	if(input.type == LiteGraph.EXECUTE)
 		return; //only data ports shoud carry data
 
 	if(slot >= this.inputs.length || input.links.length == 0)
@@ -1602,7 +1601,7 @@ LGraphNode.prototype.trigger = function( action, param )
 	for(var i = 0; i < this.outputs.length; ++i)
 	{
 		var output = this.outputs[i];
-		if(output.type !== LiteGraph.EVENT || output.name != action)
+		if(output.type !== LiteGraph.EXECUTE || output.name != action)
 			continue;
 
 		var links = output.links;
@@ -2001,12 +2000,12 @@ LGraphNode.prototype.connect = function( slot, node, target_slot )
 			return false;
 		}
 	}
-	else if( target_slot === LiteGraph.EVENT )
+	else if( target_slot === LiteGraph.EXECUTE )
 	{
 		//search for first slot with event?
 		/*
 		//create input for trigger
-		var input = node.addInput("onTrigger", LiteGraph.EVENT );
+		var input = node.addInput("onTrigger", LiteGraph.EXECUTE );
 		target_slot = node.inputs.length - 1; //last one is the one created
 		node.mode = LiteGraph.ON_TRIGGER;
 		*/
@@ -2022,7 +2021,7 @@ LGraphNode.prototype.connect = function( slot, node, target_slot )
 	var input = node.inputs[target_slot];
 	
 	//if there is something already connected to a data port, disconnect it
-	if(input.links && input.links.length > 0 && input.type != LiteGraph.EVENT)
+	if(input.links && input.links.length > 0 && input.type != LiteGraph.EXECUTE)
 		node.disconnectInput( target_slot );
 
 	//why here??
@@ -3270,9 +3269,9 @@ LGraphCanvas.prototype.processMouseUp = function(e)
 			//node below mouse
 			if(node)
 			{
-				if( this.connecting_output.type == LiteGraph.EVENT && this.isOverNodeBox( node, e.canvasX, e.canvasY ) )
+				if( this.connecting_output.type == LiteGraph.EXECUTE && this.isOverNodeBox( node, e.canvasX, e.canvasY ) )
 				{
-					this.connecting_node.connect( this.connecting_slot, node, LiteGraph.EVENT );
+					this.connecting_node.connect( this.connecting_slot, node, LiteGraph.EXECUTE );
 				}
 				else
 				{
@@ -3286,11 +3285,11 @@ LGraphCanvas.prototype.processMouseUp = function(e)
 					{ //not on top of an input
 						var input = node.getInputInfo(0);
 						//auto connect
-						if(this.connecting_output.type == LiteGraph.EVENT)
-							this.connecting_node.connect( this.connecting_slot, node, LiteGraph.EVENT );
+						if(this.connecting_output.type == LiteGraph.EXECUTE)
+							this.connecting_node.connect( this.connecting_slot, node, LiteGraph.EXECUTE );
 						else
 							// allow multiple connections for non-data inputs
-							if(input && (input.type == LiteGraph.EVENT || input.links.length == 0) && input.type == this.connecting_output.type) //toLowerCase missing
+							if(input && (input.type == LiteGraph.EXECUTE || input.links.length == 0) && input.type == this.connecting_output.type) //toLowerCase missing
 								this.connecting_node.connect(this.connecting_slot, node, 0);
 					}
 				}
@@ -3835,7 +3834,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 			var link_color = null;
 			switch( this.connecting_output.type )
 			{
-				case LiteGraph.EVENT: link_color = "#F85"; break;
+				case LiteGraph.EXECUTE: link_color = "#F85"; break;
 				default:
 					link_color = "#AFA";
 			}
@@ -3843,7 +3842,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 
 			ctx.beginPath();
 
-			if( this.connecting_output.type === LiteGraph.EVENT )
+			if( this.connecting_output.type === LiteGraph.EXECUTE )
 				ctx.rect( (this.connecting_pos[0] - 6) + 0.5, (this.connecting_pos[1] - 5) + 0.5,14,10);
 			else
 				ctx.arc( this.connecting_pos[0], this.connecting_pos[1],4,0,Math.PI*2);
@@ -4134,7 +4133,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 
 				ctx.beginPath();
 
-				if (slot.type === LiteGraph.EVENT)
+				if (slot.type === LiteGraph.EXECUTE)
 					ctx.rect((pos[0] - 6) + 0.5, (pos[1] - 5) + 0.5,14,10);
 				else
 					ctx.arc(pos[0],pos[1],4,0,Math.PI*2);
@@ -4174,7 +4173,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				ctx.beginPath();
 				//ctx.rect( node.size[0] - 14,i*14,10,10);
 
-				if (slot.type === LiteGraph.EVENT)
+				if (slot.type === LiteGraph.EXECUTE)
 					ctx.rect((pos[0] - 6) + 0.5,(pos[1] - 5) + 0.5,14,10);
 				else
 					ctx.arc( pos[0],pos[1],4,0, Math.PI*2 );
@@ -4767,7 +4766,7 @@ LGraphCanvas.showMenuNodeOutputs = function(node, e, prev_menu)
 			if(entry[2] && entry[2].label)
 				label = entry[2].label;
 			var data = {content: label, value: entry};
-			if(entry[1] == LiteGraph.EVENT)
+			if(entry[1] == LiteGraph.EXECUTE)
 				data.className = "event";
 			entries.push(data);
 		}
@@ -5090,7 +5089,7 @@ LGraphCanvas.prototype.processContextualMenu = function(node, event)
 	{
 		menu_info = slot.locked ? [ "Cannot remove" ] : { "Remove Slot": slot };
 		options.title = slot.input ? slot.input.type : slot.output.type;
-		if(slot.input && slot.input.type == LiteGraph.EVENT)
+		if(slot.input && slot.input.type == LiteGraph.EXECUTE)
 			options.title = "Event";
 	}
 	else
