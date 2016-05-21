@@ -3858,7 +3858,11 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 			if(this._highlight_input)
 			{
 				ctx.beginPath();
-				ctx.arc( this._highlight_input[0], this._highlight_input[1],6,0,Math.PI*2);
+				//ctx.arc( this._highlight_input[0], this._highlight_input[1],6,0,Math.PI*2);
+				if (this.connecting_output.type === LiteGraph.EXECUTE)
+					ctx.rect((this._highlight_input[0] - 6) + 0.5,(this._highlight_input[1] - 5) + 0.5,14,10);
+				else
+					ctx.arc( this._highlight_input[0],this._highlight_input[1],4,0, Math.PI*2 );
 				ctx.fill();
 			}
 		}
