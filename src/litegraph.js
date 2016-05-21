@@ -507,7 +507,7 @@ LGraph.prototype.computeExecutionOrder = function()
 		var num = 0; //num of input connections
 		if(n.inputs)
 			for(var j = 0, l2 = n.inputs.length; j < l2; j++)
-				if(n.inputs[j] && n.inputs[j].links && n.inputs[j].links.length > 0)
+				if(n.inputs[j] && n.inputs[j].links)
 					num += n.inputs[j].links.length;
 
 		if(num == 0) //is a starting node
@@ -532,7 +532,7 @@ LGraph.prototype.computeExecutionOrder = function()
 			{
 				var output = n.outputs[i];
 				//not connected
-				if(output == null || output.links == null || output.links.length == 0)
+				if(!output || !output.links)
 					continue;
 
 				//for every connection
@@ -1344,7 +1344,7 @@ LGraphNode.prototype.configure = function(info)
 	for(var i in this.outputs)
 	{
 		var output = this.outputs[i];
-		if(!output.links || output.links.length == 0)
+		if(!output.links)
 			continue;
 		for(var j in output.links)
 		{
@@ -1410,10 +1410,10 @@ LGraphNode.prototype.clone = function()
 	//remove links
 	if(data.inputs)
 		for(var i in data.inputs)
-			data.inputs[i].links.length = 0;
+			data.inputs[i].links = null;
 	if(data.outputs)
 		for(var i in data.outputs)
-			data.outputs[i].links.length = 0;
+			data.outputs[i].links = null;
 	delete data["id"];
 	//remove links
 	node.configure(data);
@@ -1518,7 +1518,7 @@ LGraphNode.prototype.isInputConnected = function(slot)
 {
 	if(!this.inputs) 
 		return false;
-	return (slot < this.inputs.length && this.inputs[slot].links && this.inputs[slot].links.length > 0);
+	return (slot < this.inputs.length && this.inputs[slot].links);
 }
 
 /**
@@ -2023,7 +2023,7 @@ LGraphNode.prototype.connect = function( slot, node, target_slot )
 	var input = node.inputs[target_slot];
 	
 	//if there is something already connected to a data port, disconnect it
-	if(input.links && input.links.length > 0 && input.type != LiteGraph.EXECUTE)
+	if(input.links && input.type != LiteGraph.EXECUTE)
 		node.disconnectInput( target_slot );
 
 	//why here??
@@ -2099,7 +2099,7 @@ LGraphNode.prototype.disconnectOutput = function(slot, target_node)
 
 	//get output slot
 	var output = this.outputs[slot];
-	if(!output.links || output.links.length == 0)
+	if(!output.links)
 		return false;
 
 	//one of the links
@@ -2119,6 +2119,7 @@ LGraphNode.prototype.disconnectOutput = function(slot, target_node)
 			if( link_info.target_id == target_node.id )
 			{
 				output.links.splice(i,1); //remove here
+				if(output.links.length == 0) output.links = null;
 				
 				var input = target_node.inputs[ link_info.target_slot ];
 
@@ -2127,6 +2128,7 @@ LGraphNode.prototype.disconnectOutput = function(slot, target_node)
 					if(input.links[j] == link_id)
 					{
 						input.links.splice(j,1); //remove there
+						if(input.links.length == 0) input.links = null;
 						break;
 					}
 				}
@@ -2152,6 +2154,7 @@ LGraphNode.prototype.disconnectOutput = function(slot, target_node)
 					if(input.links[j] == link_id)
 					{
 						input.links.splice(j,1); //remove other side link
+						if(input.links.length == 0) input.links = null;
 						break;
 					}
 				}
@@ -2209,7 +2212,7 @@ LGraphNode.prototype.disconnectInput = function(slot)
 				continue;
 			
 			var output = node.outputs[ link_info.origin_slot ];
-			if(!output || !output.links || output.links.length == 0)
+			if(!output || !output.links)
 				continue;
 			
 			//check outputs
@@ -2219,6 +2222,7 @@ LGraphNode.prototype.disconnectInput = function(slot)
 				if( link_info.target_id == this.id )
 				{
 					output.links.splice(i,1);
+					if(output.links.length == 0) output.links = null;
 					disconnected = true;
 					break;
 				}
@@ -2231,7 +2235,7 @@ LGraphNode.prototype.disconnectInput = function(slot)
 		}
 	}
 	
-	input.links.length = 0;
+	input.links = null;
 
 	if(disconnected)
 	{
@@ -2963,7 +2967,7 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 						var link_pos = n.getConnectionPos(true,i);
 						if( isInsideRectangle(e.canvasX, e.canvasY, link_pos[0] - 10, link_pos[1] - 5, 20,10) )
 						{
-							if(input.links && input.links.length > 0)
+							if(input.links)
 							{
 								// save one link for reconnection
 								var link = this.graph.links[ input.links[0] ];
@@ -3291,7 +3295,7 @@ LGraphCanvas.prototype.processMouseUp = function(e)
 							this.connecting_node.connect( this.connecting_slot, node, LiteGraph.EXECUTE );
 						else
 							// allow multiple connections for non-data inputs
-							if(input && (input.type == LiteGraph.EXECUTE || input.links.length == 0) && input.type == this.connecting_output.type) //toLowerCase missing
+							if(input && (input.type == LiteGraph.EXECUTE || !input.links) && input.type == this.connecting_output.type) //toLowerCase missing
 								this.connecting_node.connect(this.connecting_slot, node, 0);
 					}
 				}
@@ -4401,7 +4405,7 @@ LGraphCanvas.prototype.drawConnections = function(ctx)
 			for(var i = 0; i < node.inputs.length; ++i)
 			{
 				var input = node.inputs[i];
-				if(!input || !input.links || input.links.length == 0)
+				if(!input || !input.links)
 					continue;
 
 				for(var j = 0; j < input.links.length; ++j)
