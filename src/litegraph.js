@@ -2969,13 +2969,15 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 						{
 							if(input.links)
 							{
+								var should_reconnect = input.links.length == 1;
+								
 								// save one link for reconnection
 								var link = this.graph.links[ input.links[0] ];
 
 								n.disconnectInput(i);
 								
 								// start reconnection if there was only one output connected to this input
-								if(link !== null && input.links.length == 1)
+								if(link !== null && should_reconnect)
 								{
 									var node = this.graph.getNodeById( link.origin_id );
 									if(node !== null)
