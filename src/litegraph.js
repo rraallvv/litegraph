@@ -246,9 +246,8 @@ var LiteGraph = {
 	isValidConnection: function( type_a, type_b )
 	{
 		if( !type_a ||  //generic output
-			!type_b || //generic input
-			type_a == type_a || //same type (is valid for triggers)
-			(type_a !== LiteGraph.EXECUTE && type_b !== LiteGraph.EXECUTE && type_a.toLowerCase() == type_b.toLowerCase()) ) //same type
+			type_a == type_b || //same type (is valid for triggers)
+			(type_a !== LiteGraph.EXECUTE && (!type_b || (type_b !== LiteGraph.EXECUTE && type_a.toLowerCase() == type_b.toLowerCase()) ) ) ) //same type
 			return true;
 		return false;
 	}
