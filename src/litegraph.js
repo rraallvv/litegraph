@@ -4905,7 +4905,7 @@ LGraphCanvas.onMenuNodePin = function(node)
 
 LGraphCanvas.onMenuNodeMode = function(node, e, prev_menu)
 {
-	LiteGraph.createContextualMenu(["Always","On Event","Never"], {event: e, callback: inner_clicked, from: prev_menu});
+	LiteGraph.createContextualMenu(["Always","On Execute","Never"], {event: e, callback: inner_clicked, from: prev_menu});
 
 	function inner_clicked(v)
 	{
@@ -4913,7 +4913,7 @@ LGraphCanvas.onMenuNodeMode = function(node, e, prev_menu)
 			return;
 		switch(v)
 		{
-			case "On Event": node.mode = LiteGraph.ON_EXECUTE; break;
+			case "On Execute": node.mode = LiteGraph.ON_EXECUTE; break;
 			case "Never": node.mode = LiteGraph.NEVER; break;
 			case "Always": 
 			default:
