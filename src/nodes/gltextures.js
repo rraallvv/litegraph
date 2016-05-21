@@ -587,7 +587,7 @@ if(typeof(LiteGraph) != "undefined")
 				for(var i = 0; i < this.inputs.length; i++)
 				{
 					var slot = this.inputs[i];
-					if(slot.link != null)
+					if(slot.links)
 						this.disconnectInput(i);
 				}
 
