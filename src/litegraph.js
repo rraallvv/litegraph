@@ -1621,7 +1621,7 @@ LGraphNode.prototype.trigger = function( action, param )
 
 				if(node.onAction)
 					node.onAction( target_connection.name, param );
-				else if(node.mode === LiteGraph.ON_TRIGGER)
+				else if(node.mode === LiteGraph.ON_EXECUTE)
 				{
 					if(node.onExecute)
 						node.onExecute(param);
