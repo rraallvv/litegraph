@@ -348,7 +348,7 @@ LiteGraph.registerNodeType("basic/watch", Watch);
 //Show value inside the debug console
 function Console()
 {
-	this.mode = LiteGraph.ON_EVENT;
+	this.mode = LiteGraph.ON_EXECUTE;
 	this.size = [60,20];
 	this.addProperty( "msg", "" );
 	this.addInput("log", LiteGraph.EXECUTE);
