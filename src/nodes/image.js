@@ -157,7 +157,7 @@ ColorPalette.prototype.onExecute = function()
 
 	for(var i in result)
 		result[i] /= 255;
-	
+
 	this.boxcolor = colorToString(result);
 	this.setOutputData(0, result);
 }
@@ -617,7 +617,7 @@ ImageWebcam.prototype.openStream = function()
 	this._waiting_confirmation = true;
 
 	// Not showing vendor prefixes.
-	navigator.getUserMedia({video: true}, this.streamReady.bind(this), onFailSoHard);		
+	navigator.getUserMedia({video: true}, this.streamReady.bind(this), onFailSoHard);
 
 	var that = this;
 	function onFailSoHard(e) {
@@ -674,8 +674,8 @@ ImageWebcam.prototype.getExtraMenuOptions = function(graphcanvas)
 {
 	var that = this;
 	var txt = !that.properties.show ? "Show Frame" : "Hide Frame";
-	return [ {content: txt, callback: 
-		function() { 
+	return [ {content: txt, callback:
+		function() {
 			that.properties.show = !that.properties.show;
 		}
 	}];

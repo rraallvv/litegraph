@@ -1479,14 +1479,17 @@ LGraphNode.prototype.getInputData = function( slot, force_update )
 	if(!this.inputs) 
 		return; //undefined;
 	
+	if(slot < 0 || slot >= this.inputs.length)
+		return; //slot is out of range
+
 	var input = this.inputs[slot];
 	
 	if(input.type == LiteGraph.EXECUTE)
 		return; //only data ports shoud carry data
-
-	if(slot >= this.inputs.length || input.links.length == 0)
-		return;
-
+	
+	if(!input.links || input.length == 0)
+		return; //not connected, TODO: check whether this is necessary anyway
+	
 	var link_id = input.links[0]; //only one data port is allowed to be connected at a time
 	var link = this.graph.links[ link_id ];
 

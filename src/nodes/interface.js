@@ -209,7 +209,7 @@
 	{
 		//this.oldmouse = null;
 	}
-	
+
 	WidgetKnob.prototype.onWidget = function(e,widget)
 	{
 		if(widget.name=="increase")
@@ -277,7 +277,7 @@
 
 	WidgetHSlider.prototype.onDrawImage = function(ctx)
 	{
-		if(!this.imgfg || !this.imgfg.width) 
+		if(!this.imgfg || !this.imgfg.width)
 			return;
 
 		//border
@@ -404,8 +404,8 @@
 
 		createGradient: function(ctx)
 		{
-			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);  
-			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);  
+			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);
+			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);
 			this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
 		},
 
@@ -462,7 +462,7 @@
 			if(!this.oldmouse) return;
 
 			var m = [ e.canvasX - this.pos[0], e.canvasY - this.pos[1] ];
-			
+
 			this.properties.x = m[0] / this.size[0];
 			this.properties.y = m[1] / this.size[1];
 
@@ -504,8 +504,8 @@
 
 		createGradient: function(ctx)
 		{
-			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);  
-			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);  
+			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);
+			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);
 			this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
 		},
 
@@ -513,7 +513,7 @@
 		{
 			ctx.fillStyle = this.mouseOver ? this.properties["color"] : "#AAA";
 
-			if(this.clicking) 
+			if(this.clicking)
 				ctx.fillStyle = "#FFF";
 
 			ctx.strokeStyle = "#AAA";
@@ -543,7 +543,7 @@
 				this.createGradient(ctx);
 
 			ctx.fillStyle = this.mouseOver ? this.properties["color"] : this.lineargradient;
-			if(this.clicking) 
+			if(this.clicking)
 				ctx.fillStyle = "#444";
 
 			ctx.strokeStyle = "#FFF";
@@ -574,7 +574,7 @@
 			}
 			else if(module && module.onTrigger)
 			{
-				module.onTrigger();  
+				module.onTrigger();
 			}
 		},
 
@@ -733,8 +733,8 @@
 			return;
 		}
 
-		this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);  
-		this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);  
+		this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);
+		this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);
 		this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
 	}
 
