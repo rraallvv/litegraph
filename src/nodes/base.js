@@ -20,7 +20,7 @@ function Subgraph()
 	this.subgraph.onGlobalOutputAdded = this.onSubgraphNewGlobalOutput.bind(this);
 	this.subgraph.onGlobalOutputRenamed = this.onSubgraphRenamedGlobalOutput.bind(this);
 	this.subgraph.onGlobalOutputTypeChanged = this.onSubgraphTypeChangeGlobalOutput.bind(this);
-	
+
 
 	this.bgcolor = "#940";
 }
@@ -82,8 +82,8 @@ Subgraph.prototype.onSubgraphTypeChangeGlobalOutput = function(name, type)
 Subgraph.prototype.getExtraMenuOptions = function(graphcanvas)
 {
 	var that = this;
-	return [ {content:"Open", callback: 
-		function() { 
+	return [ {content:"Open", callback:
+		function() {
 			graphcanvas.openSubgraph( that.subgraph );
 		}
 	}];
@@ -155,7 +155,7 @@ function GlobalInput()
 	var that = this;
 
 	Object.defineProperty( this.properties, "name", {
-		get: function() { 
+		get: function() {
 			return input_name;
 		},
 		set: function(v) {
@@ -175,8 +175,8 @@ function GlobalInput()
 
 	Object.defineProperty( this.properties, "type", {
 		get: function() { return that.outputs[0].type; },
-		set: function(v) { 
-			that.outputs[0].type = v; 
+		set: function(v) {
+			that.outputs[0].type = v;
 			if(that.graph)
 				that.graph.changeGlobalInputType(input_name, that.outputs[0].type);
 		},
@@ -222,7 +222,7 @@ function GlobalOutput()
 	var that = this;
 
 	Object.defineProperty(this.properties, "name", {
-		get: function() { 
+		get: function() {
 			return output_name;
 		},
 		set: function(v) {
@@ -242,7 +242,7 @@ function GlobalOutput()
 
 	Object.defineProperty(this.properties, "type", {
 		get: function() { return that.inputs[0].type; },
-		set: function(v) { 
+		set: function(v) {
 			that.inputs[0].type = v;
 			if(that.graph)
 				that.graph.changeGlobalInputType( output_name, that.inputs[0].type );
@@ -328,7 +328,7 @@ Watch.prototype.onExecute = function()
 Watch.prototype.onDrawBackground = function(ctx)
 {
 	//show the current value
-	if(this.inputs[0] && this.properties["value"] != null)	
+	if(this.inputs[0] && this.properties["value"] != null)
 	{
 		if (this.properties["value"].constructor === Number )
 			this.inputs[0].label = this.properties["value"].toFixed(3);
