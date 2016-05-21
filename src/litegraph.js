@@ -35,7 +35,7 @@ var LiteGraph = {
 	EXECUTE: -1,
 
 	ALWAYS: 0,
-	ON_EVENT: 1,
+	ON_EXECUTE: 1,
 	NEVER: 2,
 
 	proxy: null, //used to redirect calls
@@ -4913,7 +4913,7 @@ LGraphCanvas.onMenuNodeMode = function(node, e, prev_menu)
 			return;
 		switch(v)
 		{
-			case "On Event": node.mode = LiteGraph.ON_EVENT; break;
+			case "On Event": node.mode = LiteGraph.ON_EXECUTE; break;
 			case "Never": node.mode = LiteGraph.NEVER; break;
 			case "Always": 
 			default:
