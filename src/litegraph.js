@@ -721,7 +721,7 @@ LGraph.prototype.remove = function(node)
 		for(var i = 0; i < node.inputs.length; i++)
 		{
 			var slot = node.inputs[i];
-			if(slot.link != null)
+			if(slot.links)
 				node.disconnectInput(i);
 		}
 
@@ -730,7 +730,7 @@ LGraph.prototype.remove = function(node)
 		for(var i = 0; i < node.outputs.length; i++)
 		{
 			var slot = node.outputs[i];
-			if(slot.links != null && slot.links.length)
+			if(slot.links)
 				node.disconnectOutput(i);
 		}
 
@@ -4137,7 +4137,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				if ( this.connecting_node && LiteGraph.isValidConnection( slot.type && out_slot.type ) )
 					ctx.globalAlpha = 0.4 * editor_alpha;
 
-				ctx.fillStyle = slot.link != null ? "#7F7" : "#AAA";
+				ctx.fillStyle = slot.links ? "#7F7" : "#AAA";
 
 				var pos = node.getConnectionPos(true,i);
 				pos[0] -= node.pos[0];
@@ -4181,7 +4181,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				pos[0] -= node.pos[0];
 				pos[1] -= node.pos[1];
 
-				ctx.fillStyle = slot.links && slot.links.length ? "#7F7" : "#AAA";
+				ctx.fillStyle = slot.links ? "#7F7" : "#AAA";
 				ctx.beginPath();
 				//ctx.rect( node.size[0] - 14,i*14,10,10);
 
