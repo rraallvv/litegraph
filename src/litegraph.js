@@ -2201,8 +2201,10 @@ LGraphNode.prototype.disconnectInput = function(slot)
 
 	var disconnected = false;
 	
-	for(var link_id in input.links)
+	for(var i = 0, l = input.links.length; i < l; i++)
 	{
+		var link_id = input.links[i]
+
 		//remove other side
 		var link_info = this.graph.links[ link_id ];
 		if( link_info )
@@ -2216,12 +2218,12 @@ LGraphNode.prototype.disconnectInput = function(slot)
 				continue;
 			
 			//check outputs
-			for(var i = 0, l = output.links.length; i < l; i++)
+			for(var j = 0, m = output.links.length; j < m; j++)
 			{
-				var link_info = this.graph.links[ output.links[i] ];
+				var link_info = this.graph.links[ output.links[j] ];
 				if( link_info.target_id == this.id )
 				{
-					output.links.splice(i,1);
+					output.links.splice(j,1);
 					if(output.links.length == 0) output.links = null;
 					disconnected = true;
 					break;
