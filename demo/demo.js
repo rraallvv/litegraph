@@ -12,14 +12,13 @@ function multiConnection()
 	node_button.pos = [1000,200];
 	graph.add(node_button);
 
-	var node_console = LiteGraph.createNode("basic/console");
-	node_console.pos = [1200,200];
-	graph.add(node_console);
-	node_button.connect(0, node_console );
-	
 	var node_button2 = LiteGraph.createNode("widget/button");
 	node_button2.pos = [1000,300];
 	graph.add(node_button2);
+	
+	var node_console = LiteGraph.createNode("basic/console");
+	node_console.pos = [1200,200];
+	graph.add(node_console);
 	
 	var node_console2 = LiteGraph.createNode("basic/console");
 	node_console2.pos = [1200,300];
@@ -47,6 +46,8 @@ function multiConnection()
 	node_watch2.pos = [700,300];
 	graph.add(node_watch2);
 
+	node_button.connect(0, node_console );
+	node_button2.connect(0, node_console );
 	node_const_A.connect(0,node_math,0 );
 	node_const_B.connect(0,node_math,1 );
 	node_math.connect(0,node_watch,0 );
