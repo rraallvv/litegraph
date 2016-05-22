@@ -1183,7 +1183,37 @@ LGraph.prototype.configure = function(data, keep_old)
 		this.add(node, true); //add before configure, otherwise configure cannot create links
 		node.configure(n_info);
 	}
-
+	
+	//create links
+	var links = data.links;
+	for(var i = 0, l = links.length; i < l; ++i)
+	{
+		var l_info = links[i]; //stored info
+		
+		var node_a = this.getNodeById(l_info[0]);
+		if(!node_a)
+		{
+			if(LiteGraph.debug)
+				console.log("Node A in link not found: " + l_info.type);
+			error = true;
+			continue;
+		}
+		
+		var node_b = this.getNodeById(l_info[2]);
+		if(!node_b)
+		{
+			if(LiteGraph.debug)
+				console.log("Node B in link not found: " + l_info.type);
+			error = true;
+			continue;
+		}
+		
+		var slot_a = l_info[1];
+		var slot_b = l_info[3];
+		
+		node_a.connect(slot_a, node_b, slot_b);
+	}
+	
 	this.updateExecutionOrder();
 	this.setDirtyCanvas(true,true);
 	return error;
