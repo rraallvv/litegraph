@@ -1,7 +1,28 @@
 
 function demo()
 {
-	multiConnection();
+	JSONGraph();
+}
+
+function JSONGraph()
+{
+	graph.configure({
+					nodes:[{type:"widget/button",pos:[1000,200]},
+						   {type:"widget/button",pos:[1000,300]},
+						   {type:"basic/console",pos:[1200,200]},
+						   {type:"basic/console",pos:[1200,300]},
+						   {type:"basic/const",pos:[200,200]},
+						   {type:"basic/const",pos:[200,300]},
+						   {type:"math/operation",pos:[400,200]},
+						   {type:"basic/watch",pos:[700,200]},
+						   {type:"basic/watch",pos:[700,300]}],
+					links:[[0,0,2],
+						   [1,0,2],
+						   [4,0,6],
+						   [5,0,6,1],
+						   [6,0,7],
+						   [6,0,8]]
+	});
 }
 
 function multiConnection()
