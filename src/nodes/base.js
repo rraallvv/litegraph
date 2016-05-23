@@ -165,6 +165,7 @@ function GlobalInput( title )
 			if(info.name == v)
 				return;
 			info.name = v;
+			that.title = v;
 			if(that.graph)
 				that.graph.renameGlobalInput(input_name, v);
 			input_name = v;
@@ -232,6 +233,7 @@ function GlobalOutput( title )
 			if(info.name == v)
 				return;
 			info.name = v;
+			that.title = v;
 			if(that.graph)
 				that.graph.renameGlobalOutput(output_name, v);
 			output_name = v;
