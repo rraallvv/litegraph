@@ -15,13 +15,21 @@ function JSONGraph()
 						   {type:"basic/const",pos:[200,300]},
 						   {type:"math/operation",pos:[400,200]},
 						   {type:"basic/watch",pos:[700,200]},
-						   {type:"basic/watch",pos:[700,300]}],
+						   {type:"basic/watch",pos:[700,300]},
+						   {type:"graph/subgraph",pos:[700,400],subgraph:{
+						   nodes:[{type:"graph/input",pos:[200,200]},
+								  {type:"basic/watch",pos:[400,200]},
+								  {type:"graph/output",pos:[600,200]}],
+						   links:[{origin_id:0,origin_slot:0,target_id:1},
+								  {origin_id:1,origin_slot:0,target_id:2}]
+						   }}],
 					links:[{origin_id:0,origin_slot:0,target_id:2},
 						   {origin_id:1,origin_slot:0,target_id:2},
 						   {origin_id:4,origin_slot:0,target_id:6},
 						   {origin_id:5,origin_slot:0,target_id:6,target_slot:1},
 						   {origin_id:6,origin_slot:0,target_id:7},
-						   {origin_id:6,origin_slot:0,target_id:8}]
+						   {origin_id:6,origin_slot:0,target_id:8},
+						   {origin_id:6,origin_slot:0,target_id:9}]
 	});
 }
 
