@@ -142,13 +142,12 @@ LiteGraph.registerNodeType("graph/subgraph", Subgraph );
 
 
 //Input for a subgraph
-function GlobalInput()
+function GlobalInput( title )
 {
-
 	//random name to avoid problems with other outputs when added
-	var input_name = "input_" + (Math.random()*1000).toFixed();
+	var input_name = title || "input_" + (Math.random()*1000).toFixed();
 
-	this.addOutput(input_name, null );
+	this.addOutput(input_name, null, {label:""});
 
 	this.properties = { name: input_name, type: null };
 
@@ -210,12 +209,12 @@ LiteGraph.registerNodeType("graph/input", GlobalInput);
 
 
 //Output for a subgraph
-function GlobalOutput()
+function GlobalOutput( title )
 {
 	//random name to avoid problems with other outputs when added
-	var output_name = "output_" + (Math.random()*1000).toFixed();
+	var output_name = title || "output_" + (Math.random()*1000).toFixed();
 
-	this.addInput(output_name, null);
+	this.addInput(output_name, null, {label:""});
 
 	this.properties = {name: output_name, type: null };
 
