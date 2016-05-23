@@ -4315,6 +4315,15 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 	{
 		ctx.roundRect(0,no_title ? 0 : -title_height,size[0], no_title ? size[1] : size[1] + title_height, 10);
 		ctx.fill();
+		ctx.shadowColor = "transparent";
+
+		if(selected)
+		{
+			ctx.strokeStyle = "#CCC";
+			ctx.roundRect(-0.5,no_title ? -0.5 : -title_height + -0.5, size[0]+1, no_title ? (size[1]+2) : (size[1] + title_height+2) - 1, 10);
+			ctx.stroke();
+			ctx.strokeStyle = fgcolor;
+		}
 	}
 	else if (node.shape == "circle")
 	{
