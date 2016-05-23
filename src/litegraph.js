@@ -2520,6 +2520,7 @@ function LGraphCanvas( canvas, graph, options )
 	this.render_connection_flow = true;
 
 	this.connections_width = 2;
+	this.selection_outline_width = 10;
 
 	this.target_interval = 1 / 60;
 
@@ -4295,30 +4296,26 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 	//*/
 
 	var title_height = LiteGraph.NODE_TITLE_HEIGHT;
+	ctx.lineWidth = this.selection_outline_width;
 
 	//render depending on shape
 	var shape = node.shape || "box";
 	if(shape == "box")
 	{
-		ctx.beginPath();
-		ctx.rect(0,no_title ? 0 : -title_height, size[0]+1, no_title ? size[1] : size[1] + title_height);
-		ctx.fill();
-		ctx.shadowColor = "transparent";
-
 		if(selected)
 		{
 			ctx.strokeStyle = "#CCC";
 			ctx.strokeRect(-0.5,no_title ? -0.5 : -title_height + -0.5, size[0]+2, no_title ? (size[1]+2) : (size[1] + title_height+2) - 1);
 			ctx.strokeStyle = fgcolor;
 		}
+
+		ctx.beginPath();
+		ctx.rect(0,no_title ? 0 : -title_height, size[0]+1, no_title ? size[1] : size[1] + title_height);
+		ctx.fill();
+		ctx.shadowColor = "transparent";
 	}
 	else if (node.shape == "round")
 	{
-		ctx.beginPath();
-		ctx.roundRect(0,no_title ? 0 : -title_height,size[0], no_title ? size[1] : size[1] + title_height, 10);
-		ctx.fill();
-		ctx.shadowColor = "transparent";
-
 		if(selected)
 		{
 			ctx.strokeStyle = "#CCC";
@@ -4327,6 +4324,11 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 			ctx.stroke();
 			ctx.strokeStyle = fgcolor;
 		}
+
+		ctx.beginPath();
+		ctx.roundRect(0,no_title ? 0 : -title_height,size[0], no_title ? size[1] : size[1] + title_height, 10);
+		ctx.fill();
+		ctx.shadowColor = "transparent";
 	}
 	else if (node.shape == "circle")
 	{
