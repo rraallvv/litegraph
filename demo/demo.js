@@ -16,12 +16,12 @@ function JSONGraph()
 						   {type:"math/operation",pos:[400,200]},
 						   {type:"basic/watch",pos:[700,200]},
 						   {type:"basic/watch",pos:[700,300]}],
-					links:[[0,0,2],
-						   [1,0,2],
-						   [4,0,6],
-						   [5,0,6,1],
-						   [6,0,7],
-						   [6,0,8]]
+					links:[{origin_id:0,origin_slot:0,target_id:2},
+						   {origin_id:1,origin_slot:0,target_id:2},
+						   {origin_id:4,origin_slot:0,target_id:6},
+						   {origin_id:5,origin_slot:0,target_id:6,target_slot:1},
+						   {origin_id:6,origin_slot:0,target_id:7},
+						   {origin_id:6,origin_slot:0,target_id:8}]
 	});
 }
 
