@@ -135,7 +135,7 @@ var LiteGraph = {
 
 		title = title || base_class.title || type;
 
-		var node = new base_class( name );
+		var node = new base_class( title );
 
 		node.type = type;
 		if(!node.title) node.title = title;
