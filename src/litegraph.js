@@ -4686,6 +4686,13 @@ LGraphCanvas.prototype.switchLiveMode = function(transition)
 	},1);
 }
 
+LGraphCanvas.prototype.onNodeDblClicked = function(node)
+{
+	var subgraph = node.subgraph;
+	if(subgraph)
+		this.openSubgraph(subgraph);
+}
+
 LGraphCanvas.prototype.onNodeSelectionChange = function(node)
 {
 	return; //disabled
