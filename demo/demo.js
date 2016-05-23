@@ -16,9 +16,9 @@ function JSONGraph()
 						   {type:"math/operation",pos:[400,200]},
 						   {type:"basic/watch",pos:[700,200]},
 						   {type:"graph/subgraph",pos:[700,300],subgraph:{
-						   nodes:[{type:"graph/input",pos:[200,200]},
+						   nodes:[{type:"graph/input",title:"Input",pos:[200,200]},
 								  {type:"basic/watch",pos:[400,200]},
-								  {type:"graph/output",pos:[600,200]}],
+								  {type:"graph/output",title:"Output",pos:[600,200]}],
 						   links:[{origin_id:0,origin_slot:0,target_id:1},
 								  {origin_id:1,origin_slot:0,target_id:2}]
 						   }},
