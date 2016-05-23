@@ -111,6 +111,7 @@ Editor.prototype.onLoadButton = function()
 
 Editor.prototype.onSaveButton = function()
 {
+	console.log(this.graph.serialize());
 }
 
 Editor.prototype.onPlayButton = function()
