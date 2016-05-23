@@ -1189,8 +1189,8 @@ LGraph.prototype.configure = function(data, keep_old)
 	for(var i = 0, l = links.length; i < l; ++i)
 	{
 		var l_info = links[i]; //stored info
-		
-		var node_a = this.getNodeById(l_info[0]);
+				
+		var node_a = this.getNodeById(l_info.origin_id);
 		if(!node_a)
 		{
 			if(LiteGraph.debug)
@@ -1199,7 +1199,7 @@ LGraph.prototype.configure = function(data, keep_old)
 			continue;
 		}
 		
-		var node_b = this.getNodeById(l_info[2]);
+		var node_b = this.getNodeById(l_info.target_id);
 		if(!node_b)
 		{
 			if(LiteGraph.debug)
@@ -1208,8 +1208,8 @@ LGraph.prototype.configure = function(data, keep_old)
 			continue;
 		}
 		
-		var slot_a = l_info[1];
-		var slot_b = l_info[3];
+		var slot_a = l_info.origin_slot;
+		var slot_b = l_info.target_slot;
 		
 		node_a.connect(slot_a, node_b, slot_b);
 	}
