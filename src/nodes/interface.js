@@ -423,6 +423,7 @@
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
 			ctx.shadowBlur = this.properties["shadowSize"];
+			ctx.beginPath();
 			ctx.roundRect(0,0,this.size[0],this.size[1],this.properties["shadowSize"]);
 			ctx.fill();
 			ctx.shadowColor = "rgba(0,0,0,0)";
@@ -517,6 +518,7 @@
 				ctx.fillStyle = "#FFF";
 
 			ctx.strokeStyle = "#AAA";
+			ctx.beginPath();
 			ctx.roundRect(5,5,this.size[0] - 10,this.size[1] - 10,4);
 			ctx.stroke();
 
@@ -547,6 +549,7 @@
 				ctx.fillStyle = "#444";
 
 			ctx.strokeStyle = "#FFF";
+			ctx.beginPath();
 			ctx.roundRect(5,5,this.size[0] - 10,this.size[1] - 10,4);
 			ctx.fill();
 			ctx.shadowColor = "rgba(0,0,0,0)";
@@ -761,6 +764,7 @@
 		else
 			ctx.shadowColor = "transparent";
 
+		ctx.beginPath();
 		ctx.roundRect(0,0,this.size[0]-1,this.size[1]-1,this.properties["shadowSize"]);
 		ctx.fill();
 		ctx.shadowColor = "transparent";

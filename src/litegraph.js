@@ -4156,6 +4156,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 		}
 		else if (shape == "round")
 		{
+			ctx.beginPath();
 			ctx.roundRect(0,0,size[0], size[1],10);
 		}
 		else if (shape == "circle")
@@ -4313,6 +4314,7 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 	}
 	else if (node.shape == "round")
 	{
+		ctx.beginPath();
 		ctx.roundRect(0,no_title ? 0 : -title_height,size[0], no_title ? size[1] : size[1] + title_height, 10);
 		ctx.fill();
 		ctx.shadowColor = "transparent";
@@ -4320,6 +4322,7 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		if(selected)
 		{
 			ctx.strokeStyle = "#CCC";
+			ctx.beginPath();
 			ctx.roundRect(-0.5,no_title ? -0.5 : -title_height + -0.5, size[0]+1, no_title ? (size[1]+2) : (size[1] + title_height+2) - 1, 10);
 			ctx.stroke();
 			ctx.strokeStyle = fgcolor;
@@ -4362,6 +4365,7 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		else if (shape == "round")
 		{
 			var bottom_radius = node.flags.collapsed ? 10 : 0;
+			ctx.beginPath();
 			ctx.roundRect(0,-title_height,size[0], title_height,10,bottom_radius);
 			//ctx.fillRect(0,8,size[0],NODE_TITLE_HEIGHT - 12);
 			ctx.fill();
@@ -5212,7 +5216,6 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
   if(radius_low === undefined)
 	 radius_low  = radius;
 
-  this.beginPath();
   this.moveTo(x + radius, y);
   this.lineTo(x + width - radius, y);
   this.quadraticCurveTo(x + width, y, x + width, y + radius);
