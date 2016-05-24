@@ -3116,6 +3116,9 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 	}
 	else if (e.which == 3) //right button
 	{
+		if(n && !this.selected_nodes[n.id])
+			this.processNodeSelected(n,e);
+
 		this.processContextualMenu(n,e);
 	}
 
