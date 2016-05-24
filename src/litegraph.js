@@ -4305,12 +4305,12 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		if(selected)
 		{
 			ctx.strokeStyle = "#CCC";
-			ctx.strokeRect(-0.5,no_title ? -0.5 : -title_height + -0.5, size[0]+2, no_title ? (size[1]+2) : (size[1] + title_height+2) - 1);
+			ctx.strokeRect(0,no_title ? 0 : -title_height, size[0], no_title ? size[1] : size[1] + title_height);
 			ctx.strokeStyle = fgcolor;
 		}
 
 		ctx.beginPath();
-		ctx.rect(0,no_title ? 0 : -title_height, size[0]+1, no_title ? size[1] : size[1] + title_height);
+		ctx.rect(0,no_title ? 0 : -title_height, size[0], no_title ? size[1] : size[1] + title_height);
 		ctx.fill();
 	}
 	else if (node.shape == "round")
@@ -4319,7 +4319,7 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		{
 			ctx.strokeStyle = "#CCC";
 			ctx.beginPath();
-			ctx.roundRect(-0.5,no_title ? -0.5 : -title_height + -0.5, size[0]+1, no_title ? (size[1]+2) : (size[1] + title_height+2) - 1, 10);
+			ctx.roundRect(0,no_title ? 0 : -title_height, size[0], no_title ? size[1] : size[1] + title_height, 10);
 			ctx.stroke();
 			ctx.strokeStyle = fgcolor;
 		}
@@ -4358,7 +4358,7 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		if(shape == "box")
 		{
 			ctx.beginPath();
-			ctx.rect(0, -title_height, size[0]+1, title_height);
+			ctx.rect(0, -title_height, size[0], title_height);
 			ctx.fill()
 			//ctx.stroke();
 		}
