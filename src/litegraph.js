@@ -2643,6 +2643,7 @@ LGraphCanvas.prototype.closeSubgraph = function()
 {
 	if(!this._graph_stack || this._graph_stack.length == 0)
 		return;
+	this.deselectAllNodes();
 	var graph = this._graph_stack.pop();
 	graph.attachCanvas(this);
 	this.setDirty(true,true);
