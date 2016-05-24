@@ -2970,19 +2970,11 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 
 	if(e.which == 1) //left button mouse
 	{
-		if(!e.shiftKey) //REFACTOR: integrate with function
+		if(!e.shiftKey)
 		{
             //no node or another node selected
-            if (!n || !this.selected_nodes[n.id]) {
-
-                var todeselect = [];
-                for (var i in this.selected_nodes)
-                    if (this.selected_nodes[i] != n)
-                        todeselect.push(this.selected_nodes[i]);
-                //two passes to avoid problems modifying the container
-                for (var i in todeselect)
-                    this.processNodeDeselected(todeselect[i]);
-            }
+            if (!n || !this.selected_nodes[n.id])
+				this.deselectAllNodes();
 		}
 		var clicking_canvas_bg = false;
 
@@ -3661,15 +3653,15 @@ LGraphCanvas.prototype.selectAllNodes = function()
 
 LGraphCanvas.prototype.deselectAllNodes = function()
 {
-	for(var i in this.selected_nodes)
-	{
-		var n = this.selected_nodes;
-		if(n.onDeselected)
-			n.onDeselected();
-		n.selected = false;
-	}
-	this.selected_nodes = {};
-	this.setDirty(true);
+	var todeselect = [];
+	for (var i in this.selected_nodes)
+		//if (this.selected_nodes[i] != n)
+		todeselect.push(this.selected_nodes[i]);
+	//two passes to avoid problems modifying the container
+	for (var i in todeselect)
+		this.processNodeDeselected(todeselect[i]);
+	//this.selected_nodes = {};
+	//this.setDirty(true);
 }
 
 LGraphCanvas.prototype.deleteSelectedNodes = function()
