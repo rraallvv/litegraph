@@ -43,7 +43,7 @@ var LiteGraph = {
 	CANVAS_GRID_SIZE: 10,
 	NODE_TITLE_COLOR: "#222",
 	NODE_DEFAULT_COLOR: "#999",
-	NODE_DEFAULT_BGCOLOR: "#444",
+	NODE_DEFAULT_BGCOLOR: "rgba(68,68,68,0.8)",
 	NODE_DEFAULT_BOXCOLOR: "#AEF",
 	NODE_DEFAULT_SHAPE: "box",
 	MAX_NUMBER_OF_NODES: 1000, //avoid infinite loops
@@ -2520,7 +2520,7 @@ function LGraphCanvas( canvas, graph, options )
 	this.render_connection_flow = true;
 
 	this.connections_width = 2;
-	this.selection_outline_width = 10;
+	this.selection_outline_width = 6;
 
 	this.target_interval = 1 / 60;
 
