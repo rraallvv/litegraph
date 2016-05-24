@@ -4312,7 +4312,6 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		ctx.beginPath();
 		ctx.rect(0,no_title ? 0 : -title_height, size[0]+1, no_title ? size[1] : size[1] + title_height);
 		ctx.fill();
-		ctx.shadowColor = "transparent";
 	}
 	else if (node.shape == "round")
 	{
@@ -4328,7 +4327,6 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		ctx.beginPath();
 		ctx.roundRect(0,no_title ? 0 : -title_height,size[0], no_title ? size[1] : size[1] + title_height, 10);
 		ctx.fill();
-		ctx.shadowColor = "transparent";
 	}
 	else if (node.shape == "circle")
 	{
