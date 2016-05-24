@@ -2620,6 +2620,8 @@ LGraphCanvas.prototype.openSubgraph = function(graph)
 	if(this.graph == graph)
 		throw("graph cannot be the same");
 
+	this.deselectAllNodes();
+
 	this.clear();
 
 	if(this.graph)
