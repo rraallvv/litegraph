@@ -361,7 +361,7 @@ Console.desc = "Show value inside the console";
 
 Console.prototype.onExecute = function()
 {
-	var msg = this.getInputData(0);
+	var msg = this.getInputData(1);
 	if(msg !== undefined)
 		this.properties.msg = msg;
 	else
