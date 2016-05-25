@@ -36,7 +36,7 @@ var LiteGraph = {
 
 	NODE_TITLE_HEIGHT: 16,
 	NODE_SLOT_HEIGHT: 15,
-	NODE_WIDTH: 140,
+	//NODE_WIDTH: 140,
 	NODE_MIN_WIDTH: 50,
 	NODE_COLLAPSED_RADIUS: 10,
 	NODE_COLLAPSED_WIDTH: 80,
@@ -1304,7 +1304,7 @@ function LGraphNode(title)
 LGraphNode.prototype._ctor = function( title )
 {
 	this.title = title || "Unnamed";
-	this.size = [LiteGraph.NODE_WIDTH,60];
+	this.size = [LiteGraph.NODE_MIN_WIDTH,60];
 	this.graph = null;
 
 	this._pos = new Float32Array(10,10);
@@ -1897,7 +1897,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 		}
 
 	size[0] = Math.max( input_width + output_width + 10, title_width );
-	size[0] = Math.max( size[0], LiteGraph.NODE_WIDTH );
+	size[0] = Math.max( size[0], LiteGraph.NODE_MIN_WIDTH );
 
 	function compute_text_size( text )
 	{
