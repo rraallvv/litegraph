@@ -1546,7 +1546,7 @@ LGraphNode.prototype.getInputData = function( slot, force_update )
 	var link_id = input.links[0]; //only one data port is allowed to be connected at a time
 	var link = this.graph.links[ link_id ];
 
-	if(!force_update)
+	if(!force_update && link.data != undefined)
 		return link.data;
 
 	var node = this.graph.getNodeById( link.origin_id );
