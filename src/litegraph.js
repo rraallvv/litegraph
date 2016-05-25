@@ -1872,7 +1872,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 	size[1] = rows * 14 + 6;
 
 	var font_size = 14;
-	var title_width = compute_text_size( this.title );
+	var title_width = compute_text_size( this.title, LGraphCanvas.title_text_font );
 	var input_width = 0;
 	var output_width = 0;
 
@@ -1881,7 +1881,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 		{
 			var input = this.inputs[i];
 			var text = input.label || input.name || "";
-			var text_width = compute_text_size( text );
+			var text_width = compute_text_size( text, LGraphCanvas.inner_text_font );
 			if(input_width < text_width)
 				input_width = text_width;
 		}
@@ -1891,7 +1891,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 		{
 			var output = this.outputs[i];
 			var text = output.label || output.name || "";
-			var text_width = compute_text_size( text );
+			var text_width = compute_text_size( text, LGraphCanvas.inner_text_font );
 			if(output_width < text_width)
 				output_width = text_width;
 		}
@@ -1899,11 +1899,14 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 	size[0] = Math.max( input_width + 10 + output_width + 10 + 10, title_width + 20);
 	size[0] = Math.max( size[0], LiteGraph.NODE_MIN_WIDTH );
 
-	function compute_text_size( text )
+	function compute_text_size( text, font )
 	{
 		if(!text)
 			return 0;
-		return font_size * text.length * 0.6;
+		var canvas = compute_text_size.canvas || (compute_text_size.canvas = document.createElement("canvas"));
+		var ctx = canvas.getContext("2d");
+		ctx.font = font;
+		return  ctx.measureText(text).width;
 	}
 
 	return size;
@@ -2496,8 +2499,6 @@ function LGraphCanvas( canvas, graph, options )
 	this.max_zoom = 1;
 	this.min_zoom = 0.1;
 
-	this.title_text_font = "bold 14px Arial";
-	this.inner_text_font = "normal 12px Arial";
 	this.default_link_color = "#AAC";
 
 	this.highquality_render = true;
@@ -2538,6 +2539,8 @@ function LGraphCanvas( canvas, graph, options )
 }
 
 LGraphCanvas.link_type_colors = {"-1":"#F85",'number':"#AAC","node":"#DCA"};
+LGraphCanvas.title_text_font = "bold 14px Arial";
+LGraphCanvas.inner_text_font = "normal 12px Arial";
 
 
 /**
@@ -4172,7 +4175,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 
 	//connection slots
 	ctx.textAlign = "left";
-	ctx.font = this.inner_text_font;
+	ctx.font = LGraphCanvas.inner_text_font;
 
 	var render_text = this.scale > 0.6;
 
@@ -4389,7 +4392,7 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		ctx.globalAlpha = old_alpha;
 
 		//title text
-		ctx.font = this.title_text_font;
+		ctx.font = LGraphCanvas.title_text_font;
 		var title = node.getTitle();
 		if(title && this.scale > 0.5)
 		{
