@@ -142,7 +142,7 @@ var LiteGraph = {
 		if(!node.properties) node.properties = {};
 		if(!node.properties_info) node.properties_info = [];
 		if(!node.flags) node.flags = {};
-		if(!node.size) node.size = node.computeSize();
+		/*if(!node.size)*/ node.size = node.computeSize();
 		if(!node.pos) node.pos = LiteGraph.DEFAULT_POSITION.concat();
 		if(!node.mode) node.mode = LiteGraph.ALWAYS;
 
