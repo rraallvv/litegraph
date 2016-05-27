@@ -56,10 +56,6 @@ var LiteGraph = {
 
 	EXECUTE: -1,
 
-	ALWAYS: 0,
-	ON_EXECUTE: 1,
-	NEVER: 2,
-
 	proxy: null, //used to redirect calls
 
 	debug: false,
@@ -144,7 +140,7 @@ var LiteGraph = {
 		if(!node.flags) node.flags = {};
 		/*if(!node.size)*/ node.size = node.computeSize();
 		if(!node.pos) node.pos = LiteGraph.DEFAULT_POSITION.concat();
-		if(!node.mode) node.mode = LiteGraph.ALWAYS;
+		if(!node.enabled) node.enabled = true;
 
 		node.shape = type === "graph/subgraph" ? "box" : "round";
 
@@ -469,7 +465,7 @@ LGraph.prototype.runStep = function(num)
 			for( var j = 0, l = nodes.length; j < l; ++j )
 			{
 				var node = nodes[j];
-				if( node.mode == LiteGraph.ALWAYS && node.onExecute )
+				if( node.enabled && node.onExecute )
 					node.onExecute();
 			}
 
@@ -639,9 +635,9 @@ LGraph.prototype.getElapsedTime = function()
 * @param {Array} params parameters in array format
 */
 
-LGraph.prototype.sendEventToAllNodes = function( eventname, params, mode )
+LGraph.prototype.sendEventToAllNodes = function( eventname, params, enabled )
 {
-	mode = mode || LiteGraph.ALWAYS;
+	enabled = enabled || true;
 
 	var nodes = this._nodes_in_order ? this._nodes_in_order : this._nodes;
 	if(!nodes)
@@ -650,7 +646,7 @@ LGraph.prototype.sendEventToAllNodes = function( eventname, params, mode )
 	for( var j = 0, l = nodes.length; j < l; ++j )
 	{
 		var node = nodes[j];
-		if(node[eventname] && node.mode == mode )
+		if(node[eventname] && node.enabled == enabled )
 		{
 			if(params === undefined)
 				node[eventname]();
@@ -1427,7 +1423,7 @@ LGraphNode.prototype.serialize = function()
 		flags: LiteGraph.cloneObject(this.flags),
 		inputs: this.inputs,
 		outputs: this.outputs,
-		mode: this.mode
+		enabled: this.enabled
 	};
 
 	if(this.properties)
@@ -1675,7 +1671,7 @@ LGraphNode.prototype.trigger = function( action, param )
 
 				var target_connection = node.inputs[ link_info.target_slot ];
 
-				if(node.mode === LiteGraph.ON_EXECUTE)
+				if(node.enabled)
 				{
 					if(node.onExecute)
 						node.onExecute( target_connection.name, param );
@@ -4991,7 +4987,7 @@ LGraphCanvas.onMenuNodePin = function(node)
 
 LGraphCanvas.onMenuNodeMode = function(node, e, prev_menu)
 {
-	LiteGraph.createContextualMenu(["Always","On Execute","Never"], {event: e, callback: inner_clicked, from: prev_menu});
+	LiteGraph.createContextualMenu(["Enabled","Disabled"], {event: e, callback: inner_clicked, from: prev_menu});
 
 	function inner_clicked(v)
 	{
@@ -4999,11 +4995,10 @@ LGraphCanvas.onMenuNodeMode = function(node, e, prev_menu)
 			return;
 		switch(v)
 		{
-			case "On Execute": node.mode = LiteGraph.ON_EXECUTE; break;
-			case "Never": node.mode = LiteGraph.NEVER; break;
-			case "Always":
+			case "Disabled": node.enabled = false; break;
+			case "Enabled":
 			default:
-				node.mode = LiteGraph.ALWAYS; break;
+				node.enabled = true; break;
 		}
 	}
 
