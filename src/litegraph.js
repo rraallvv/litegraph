@@ -1675,12 +1675,10 @@ LGraphNode.prototype.trigger = function( action, param )
 
 				var target_connection = node.inputs[ link_info.target_slot ];
 
-				if(node.onAction)
-					node.onAction( target_connection.name, param );
-				else if(node.mode === LiteGraph.ON_EXECUTE)
+				if(node.mode === LiteGraph.ON_EXECUTE)
 				{
 					if(node.onExecute)
-						node.onExecute(param);
+						node.onExecute( target_connection.name, param );
 				}
 			}
 	}

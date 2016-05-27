@@ -93,10 +93,10 @@ MIDIEvent.computeCommandFromString = function( str )
 		case "NOTEON": return MIDIEvent.NOTEON; break;
 		case "NOTE OFF":
 		case "NOTEOFF": return MIDIEvent.NOTEON; break;
-		case "KEY PRESSURE": 
+		case "KEY PRESSURE":
 		case "KEYPRESSURE": return MIDIEvent.KEYPRESSURE; break;
-		case "CONTROLLER CHANGE": 
-		case "CONTROLLERCHANGE": 
+		case "CONTROLLER CHANGE":
+		case "CONTROLLERCHANGE":
 		case "CC": return MIDIEvent.CONTROLLERCHANGE; break;
 		case "PROGRAM CHANGE":
 		case "PROGRAMCHANGE":
@@ -268,9 +268,9 @@ MIDIInterface.prototype.sendMIDI = function( port, midi_data )
 		return;
 
 	if( midi_data.constructor === MIDIEvent)
-		output_port.send( midi_data.data ); 
+		output_port.send( midi_data.data );
 	else
-		output_port.send( midi_data ); 
+		output_port.send( midi_data );
 }
 
 
@@ -369,7 +369,7 @@ LGMIDIOut.prototype.onStart = function()
 	});
 }
 
-LGMIDIOut.prototype.onAction = function(event, midi_event )
+LGMIDIOut.prototype.onExecute = function(event, midi_event )
 {
 	console.log(midi_event);
 	if(!this._midi)
@@ -400,7 +400,7 @@ function LGMIDIShow()
 LGMIDIShow.title = "MIDI Show";
 LGMIDIShow.desc = "Shows MIDI in the graph";
 
-LGMIDIShow.prototype.onAction = function(event, midi_event )
+LGMIDIShow.prototype.onExecute = function(event, midi_event )
 {
 	if(!midi_event)
 		return;
@@ -447,7 +447,7 @@ function LGMIDIFilter()
 LGMIDIFilter.title = "MIDI Filter";
 LGMIDIFilter.desc = "Filters MIDI messages";
 
-LGMIDIFilter.prototype.onAction = function(event, midi_event )
+LGMIDIFilter.prototype.onExecute = function(event, midi_event )
 {
 	if(!midi_event || midi_event.constructor !== MIDIEvent)
 		return;
@@ -483,7 +483,7 @@ function LGMIDIEvent()
 LGMIDIEvent.title = "MIDIEvent";
 LGMIDIEvent.desc = "Create a MIDI Event";
 
-LGMIDIEvent.prototype.onAction = function( event, midi_event )
+LGMIDIEvent.prototype.onExecute = function( event, midi_event )
 {
 	if(event == "assign")
 	{
@@ -491,49 +491,48 @@ LGMIDIEvent.prototype.onAction = function( event, midi_event )
 		this.properties.cmd = midi_event.cmd;
 		this.properties.value1 = midi_event.data[1];
 		this.properties.value2 = midi_event.data[2];
-		return;
 	}
-
-	//send
-	var midi_event = new MIDIEvent();
-	midi_event.channel = this.properties.channel;
-	if(this.properties.cmd && this.properties.cmd.constructor === String)
-		midi_event.setCommandFromString( this.properties.cmd );
-	else
-		midi_event.cmd = this.properties.cmd;
-	midi_event.data[0] = midi_event.cmd | midi_event.channel;
-	midi_event.data[1] = Number(this.properties.value1);
-	midi_event.data[2] = Number(this.properties.value2);
-	this.trigger("on_midi",midi_event);
-}
-
-LGMIDIEvent.prototype.onExecute = function()
-{
-	var props = this.properties;
-
-	if(this.outputs)
+	else if(event == "send")
 	{
-		for(var i = 0; i < this.outputs.length; ++i)
+		var midi_event = new MIDIEvent();
+		midi_event.channel = this.properties.channel;
+		if(this.properties.cmd && this.properties.cmd.constructor === String)
+			midi_event.setCommandFromString( this.properties.cmd );
+		else
+			midi_event.cmd = this.properties.cmd;
+		midi_event.data[0] = midi_event.cmd | midi_event.channel;
+		midi_event.data[1] = Number(this.properties.value1);
+		midi_event.data[2] = Number(this.properties.value2);
+		this.trigger("on_midi",midi_event);
+	}
+	else
+	{
+		var props = this.properties;
+
+		if(this.outputs)
 		{
-			var output = this.outputs[i];
-			var v = null;
-			switch (output.name)
+			for(var i = 0; i < this.outputs.length; ++i)
 			{
-				case "midi": 
-					v = new MIDIEvent(); 
-					v.setup([ props.cmd, props.value1, props.value2 ]);
-					v.channel = props.channel;
-					break;
-				case "command": v = props.cmd; break;
-				case "note": v = (props.cmd == MIDIEvent.NOTEON || props.cmd == MIDIEvent.NOTEOFF) ? props.value1 : NULL; break;
-				case "velocity": v = props.cmd == MIDIEvent.NOTEON ? props.value2 : NULL; break;
-				case "pitch": v = props.cmd == MIDIEvent.NOTEON ? MIDIEvent.computePitch( props.value1 ) : null; break;
-				case "pitchbend": v = props.cmd == MIDIEvent.PITCHBEND ? MIDIEvent.computePitchBend( props.value1, props.value2 ) : null; break;
-				default:
-					continue;
+				var output = this.outputs[i];
+				var v = null;
+				switch (output.name)
+				{
+					case "midi":
+						v = new MIDIEvent();
+						v.setup([ props.cmd, props.value1, props.value2 ]);
+						v.channel = props.channel;
+						break;
+					case "command": v = props.cmd; break;
+					case "note": v = (props.cmd == MIDIEvent.NOTEON || props.cmd == MIDIEvent.NOTEOFF) ? props.value1 : NULL; break;
+					case "velocity": v = props.cmd == MIDIEvent.NOTEON ? props.value2 : NULL; break;
+					case "pitch": v = props.cmd == MIDIEvent.NOTEON ? MIDIEvent.computePitch( props.value1 ) : null; break;
+					case "pitchbend": v = props.cmd == MIDIEvent.PITCHBEND ? MIDIEvent.computePitchBend( props.value1, props.value2 ) : null; break;
+					default:
+						continue;
+				}
+				if(v !== null)
+					this.setOutputData( i, v );
 			}
-			if(v !== null)
-				this.setOutputData( i, v );
 		}
 	}
 }
