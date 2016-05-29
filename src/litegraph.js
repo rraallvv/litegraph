@@ -4899,7 +4899,7 @@ LGraphCanvas.onShowMenuNodeProperties = function(node,e, prev_menu)
 
 	var entries = [];
 		for (var i in node.properties)
-			entries.push({content: "<span class='property_name'>" + i + "</span>" + "<span class='property_value'>" + (node.properties[i] || " ") + "</span>", value: i});
+			entries.push({content: "<span class='property_name'>" + i + "</span>" + "<span class='property_value'>" + node.properties[i] + "</span>", value: i});
 	if(!entries.length)
 		return;
 
@@ -4927,7 +4927,7 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 	dialog.className = "graphdialog";
 	dialog.innerHTML = "<span class='name'>" + property + "</span><input autofocus type='text' class='value'/><button>OK</button>";
 	var input = dialog.querySelector("input");
-	input.value = node.properties[ property ] || "";
+	input.value = node.properties[ property ];
 	input.addEventListener("keydown", function(e){
 		if(e.keyCode != 13)
 			return;
@@ -4965,8 +4965,11 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 	function inner()
 	{
 		var value = input.value;
-		if(typeof( node.properties[ property ] ) == "number")
+		var type = typeof( node.properties[ property ] );
+		if(type == "number")
 			node.properties[ property ] = Number(value);
+		else if(type == "boolean")
+			node.properties[ property ] = value === "true";
 		else
 			node.properties[ property ] = value;
 		dialog.parentNode.removeChild( dialog );
