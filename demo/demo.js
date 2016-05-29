@@ -11,8 +11,8 @@ function JSONGraph()
 						   {type:"basic/branch",pos:[1200,200]},
 						   {type:"basic/console",pos:[1400,200]},
 						   {type:"basic/console",pos:[1400,300]},
-						   {type:"basic/const",pos:[200,200]},
-						   {type:"basic/const",pos:[200,300]},
+						   {type:"basic/number",pos:[200,200]},
+						   {type:"basic/number",pos:[200,300]},
 						   {type:"math/operation",pos:[400,200]},
 						   {type:"basic/watch",pos:[700,200]},
 						   {type:"graph/subgraph",pos:[700,300],subgraph:{

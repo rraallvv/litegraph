@@ -269,43 +269,43 @@ LiteGraph.registerNodeType("graph/output", GlobalOutput);
 
 
 
-//Constant
-function Constant()
+//Number constant
+function BasicNumber()
 {
 	this.addOutput("value","number");
 	this.addProperty( "value", 1.0 );
 	this.editable = { property:"value", type:"number" };
 }
 
-Constant.title = "Const";
-Constant.desc = "Constant value";
+BasicNumber.title = "Number";
+BasicNumber.desc = "Number value";
 
 
-Constant.prototype.setValue = function(v)
+BasicNumber.prototype.setValue = function(v)
 {
 	if( typeof(v) == "string") v = parseFloat(v);
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 };
 
-Constant.prototype.onExecute = function()
+BasicNumber.prototype.onExecute = function()
 {
 	this.setOutputData(0, parseFloat( this.properties["value"] ) );
 }
 
-Constant.prototype.onDrawBackground = function(ctx)
+BasicNumber.prototype.onDrawBackground = function(ctx)
 {
 	//show the current value
 	this.outputs[0].label = this.properties["value"].toFixed(3);
 }
 
-Constant.prototype.onWidget = function(e,widget)
+BasicNumber.prototype.onWidget = function(e,widget)
 {
 	if(widget.name == "value")
 		this.setValue(widget.value);
 }
 
-LiteGraph.registerNodeType("basic/const", Constant);
+LiteGraph.registerNodeType("basic/number", BasicNumber);
 
 
 //Watch a value in the editor
