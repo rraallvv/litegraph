@@ -3903,7 +3903,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 			if( this.connecting_output.type === LiteGraph.EXECUTE )
 				ctx.executablePort( (this.connecting_pos[0] - 4) + 0.5, (this.connecting_pos[1] - 4) + 0.5,8,8);
 			else
-				ctx.arc( this.connecting_pos[0], this.connecting_pos[1],4,0,Math.PI*2);
+				ctx.dataPort( this.connecting_pos[0], this.connecting_pos[1]);
 
 			/*
 			if( this.connecting_output.round)
@@ -3921,7 +3921,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 				if (this.connecting_output.type === LiteGraph.EXECUTE)
 					ctx.executablePort((this._highlight_input[0] - 4) + 0.5,(this._highlight_input[1] - 4) + 0.5,8,8);
 				else
-					ctx.arc( this._highlight_input[0],this._highlight_input[1],4,0, Math.PI*2 );
+					ctx.dataPort( this._highlight_input[0], this._highlight_input[1]);
 				ctx.fill();
 			}
 		}
@@ -4200,7 +4200,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				if (slot.type === LiteGraph.EXECUTE)
 					ctx.executablePort((pos[0] - 4) + 0.5, (pos[1] - 4) + 0.5,8,8);
 				else
-					ctx.arc(pos[0],pos[1],4,0,Math.PI*2);
+					ctx.dataPort(pos[0], pos[1]);
 
 				ctx.fill();
 
@@ -4240,7 +4240,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				if (slot.type === LiteGraph.EXECUTE)
 					ctx.executablePort((pos[0] - 4) + 0.5,(pos[1] - 4) + 0.5,8,8);
 				else
-					ctx.arc( pos[0],pos[1],4,0, Math.PI*2 );
+					ctx.dataPort( pos[0],pos[1] );
 
 				//trigger
 				//if(slot.node_id != null && slot.slot == -1)
@@ -5306,6 +5306,14 @@ CanvasRenderingContext2D.prototype.executablePort = function (x, y, width, heigh
 	this.lineTo(x, y + height);
 	this.lineTo(x, y);
 }
+
+CanvasRenderingContext2D.prototype.dataPort = function (x, y, radius)
+{
+	if ( radius == undefined ) radius = 4;
+
+	this.arc( x, y, radius, 0, Math.PI*2);
+}
+
 
 //Convert a hex value to its decimal value - the inputted hex must be in the
 //	format of a hex triplet - the kind we use for HTML colours. The function
