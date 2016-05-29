@@ -394,6 +394,7 @@ LiteGraph.registerNodeType("midi/output", LGMIDIOut);
 function LGMIDIShow()
 {
 	this.addInput( "on_midi", LiteGraph.EXECUTE );
+	this.addInput( "midi", "midi" );
 	this._str = "";
 	this.size = [200,40]
 }
@@ -401,8 +402,9 @@ function LGMIDIShow()
 LGMIDIShow.title = "MIDI Show";
 LGMIDIShow.desc = "Shows MIDI in the graph";
 
-LGMIDIShow.prototype.onExecute = function(event, midi_event )
+LGMIDIShow.prototype.onExecute = function(event)
 {
+	var midi_event = this.getInputData(1);
 	if(!midi_event)
 		return;
 	if(midi_event.constructor === MIDIEvent)
