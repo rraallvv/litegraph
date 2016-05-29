@@ -1639,9 +1639,8 @@ LGraphNode.prototype.getOutputNodes = function(slot)
 * Triggers an event in this node, this will trigger any output with the same name
 * @method trigger
 * @param {String} event name ( "on_play", ... )
-* @param {*} param
 */
-LGraphNode.prototype.trigger = function( action, param )
+LGraphNode.prototype.trigger = function( action )
 {
 	if( !this.outputs || !this.outputs.length )
 		return;
@@ -1674,7 +1673,7 @@ LGraphNode.prototype.trigger = function( action, param )
 				if(node.enabled)
 				{
 					if(node.onExecute)
-						node.onExecute( target_connection.name, param );
+						node.onExecute( target_connection.name );
 				}
 			}
 	}
