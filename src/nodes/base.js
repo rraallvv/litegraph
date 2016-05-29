@@ -376,4 +376,34 @@ Console.prototype.onGetInputs = function()
 LiteGraph.registerNodeType("basic/console", Console );
 
 
+//Branch the execution branch depending on a condition value
+function Branch()
+{
+	this.size = [60,20];
+	this.addInput("if", LiteGraph.EXECUTE);
+	this.addProperty("condition", false, "boolean");
+	this.addInput("condition","boolean");
+	this.addOutput("then", LiteGraph.EXECUTE);
+	this.addOutput("else", LiteGraph.EXECUTE);
+}
+
+Branch.title = "Branch";
+Branch.desc = "Choose a diferent execution brach depending on the value in condition";
+
+Branch.prototype.onExecute = function()
+{
+	var condition = this.getInputData(1);
+	if(condition !== undefined)
+		this.properties.condition = condition;
+	else
+		condition = this.properties.condition;
+	if(condition)
+		this.trigger("then");
+	else
+		this.trigger("else");
+}
+
+LiteGraph.registerNodeType("basic/branch", Branch );
+
+
 })();
