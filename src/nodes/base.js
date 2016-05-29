@@ -406,4 +406,60 @@ Branch.prototype.onExecute = function()
 LiteGraph.registerNodeType("basic/branch", Branch );
 
 
+//String constant
+function BasicString()
+{
+	this.addOutput("value","string");
+	this.addProperty( "value", "" );
+	this.editable = { property:"value", type:"string" };
+}
+
+BasicString.title = "String";
+BasicString.desc = "String value";
+
+BasicString.prototype.setValue = function(v)
+{
+	if( typeof(v) != "string") v = v.toString();
+	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+};
+
+BasicString.prototype.onExecute = function()
+{
+	this.setOutputData(0, this.properties["value"] );
+}
+
+BasicString.prototype.onDrawBackground = function(ctx)
+{
+	var text = this.properties["value"];
+
+	ctx.font = LGraphCanvas.inner_text_font;
+
+	var width = ctx.measureText(text).width;
+
+	if(width > this.size[0] - 20)
+		for(var i = 1; i < text.length; i++)
+		{
+			var short_text = text.slice(0, -i) + "...";
+			width = ctx.measureText(short_text).width;
+			if(width <= this.size[0] - 20)
+			{
+				text = short_text;
+				break;
+			}
+		}
+
+	//show the current value
+	this.outputs[0].label = text;
+}
+
+BasicString.prototype.onWidget = function(e,widget)
+{
+	if(widget.name == "value")
+	this.setValue(widget.value);
+}
+
+LiteGraph.registerNodeType("basic/string", BasicString);
+
+
 })();
