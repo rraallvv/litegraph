@@ -3901,7 +3901,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 			ctx.beginPath();
 
 			if( this.connecting_output.type === LiteGraph.EXECUTE )
-				ctx.executablePort( (this.connecting_pos[0] - 4) + 0.5, (this.connecting_pos[1] - 4) + 0.5,8,8);
+				ctx.executablePort( this.connecting_pos[0], this.connecting_pos[1]);
 			else
 				ctx.dataPort( this.connecting_pos[0], this.connecting_pos[1]);
 
@@ -3919,7 +3919,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 				ctx.beginPath();
 				//ctx.arc( this._highlight_input[0], this._highlight_input[1],6,0,Math.PI*2);
 				if (this.connecting_output.type === LiteGraph.EXECUTE)
-					ctx.executablePort((this._highlight_input[0] - 4) + 0.5,(this._highlight_input[1] - 4) + 0.5,8,8);
+					ctx.executablePort( this._highlight_input[0], this._highlight_input[1]);
 				else
 					ctx.dataPort( this._highlight_input[0], this._highlight_input[1]);
 				ctx.fill();
@@ -4198,7 +4198,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				ctx.beginPath();
 
 				if (slot.type === LiteGraph.EXECUTE)
-					ctx.executablePort((pos[0] - 4) + 0.5, (pos[1] - 4) + 0.5,8,8);
+					ctx.executablePort(pos[0], pos[1]);
 				else
 					ctx.dataPort(pos[0], pos[1]);
 
@@ -4238,7 +4238,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				//ctx.rect( node.size[0] - 14,i*14,10,10);
 
 				if (slot.type === LiteGraph.EXECUTE)
-					ctx.executablePort((pos[0] - 4) + 0.5,(pos[1] - 4) + 0.5,8,8);
+					ctx.executablePort( pos[0], pos[1] );
 				else
 					ctx.dataPort( pos[0],pos[1] );
 
@@ -5294,17 +5294,23 @@ function overlapBounding(a,b)
 	return true;
 }
 
-CanvasRenderingContext2D.prototype.executablePort = function (x, y, width, height, arrow) {
-	if ( arrow === undefined ) {
-		arrow = width / 2;
-	}
+CanvasRenderingContext2D.prototype.executablePort = function (x, y, width, height, arrow)
+{
+	if ( width === undefined ) width = 8;
 
-	this.moveTo(x, y);
-	this.lineTo(x + width - arrow, y);
-	this.lineTo(x + width, y + height / 2);
-	this.lineTo(x + width - arrow, y + height);
-	this.lineTo(x, y + height);
-	this.lineTo(x, y);
+	if ( height === undefined ) height = 10;
+
+	if ( arrow === undefined ) arrow = width / 2;
+
+	var left = x - 4 + 0.5;
+	var bottom = y - 5 + 0.5;
+
+	this.moveTo(left, bottom);
+	this.lineTo(left + width - arrow, bottom);
+	this.lineTo(left + width, bottom + height / 2);
+	this.lineTo(left + width - arrow, bottom + height);
+	this.lineTo(left, bottom + height);
+	this.lineTo(left, bottom);
 }
 
 CanvasRenderingContext2D.prototype.dataPort = function (x, y, radius)
