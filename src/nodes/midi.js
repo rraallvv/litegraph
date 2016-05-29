@@ -302,17 +302,17 @@ LGMIDIIn.prototype.onMIDIEvent = function( data, midi_event )
 {
 	this._last_midi_event = midi_event;
 
-	this.trigger( "on_midi", midi_event );
+	this.trigger( "on_midi" );
 	if(midi_event.cmd == MIDIEvent.NOTEON)
-		this.trigger( "on_noteon", midi_event );
+		this.trigger( "on_noteon" );
 	else if(midi_event.cmd == MIDIEvent.NOTEOFF)
-		this.trigger( "on_noteoff", midi_event );
+		this.trigger( "on_noteoff" );
 	else if(midi_event.cmd == MIDIEvent.CONTROLLERCHANGE)
-		this.trigger( "on_cc", midi_event );
+		this.trigger( "on_cc" );
 	else if(midi_event.cmd == MIDIEvent.PROGRAMCHANGE)
-		this.trigger( "on_pc", midi_event );
+		this.trigger( "on_pc" );
 	else if(midi_event.cmd == MIDIEvent.PITCHBEND)
-		this.trigger( "on_pitchbend", midi_event );
+		this.trigger( "on_pitchbend" );
 }
 
 LGMIDIIn.prototype.onExecute = function()
