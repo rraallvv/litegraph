@@ -5,10 +5,7 @@
 
 	function WidgetButton()
 	{
-		this.addOutput( "clicked", LiteGraph.EXECUTE );
-		this.addProperty( "text","" );
-		this.addProperty( "font","40px Arial" );
-		this.addProperty( "message", "" );
+		this.addOutput( "clicked", LiteGraph.EXECUTE, {label:""} );
 		this.size = [64,64];
 	}
 
@@ -28,16 +25,6 @@
 		ctx.fillRect(6,6,this.size[0] - 13, this.size[1] - 13);
 		ctx.fillStyle = this.clicked ? "white" : (this.mouseOver ? "#668" : "#334");
 		ctx.fillRect(7,7,this.size[0] - 14, this.size[1] - 14);
-
-		if( this.properties.text || this.properties.text === 0 )
-		{
-			ctx.textAlign = "center";
-			ctx.fillStyle = this.clicked ? "black" : "white";
-			if( this.properties.font )
-				ctx.font = this.properties.font;
-			ctx.fillText(this.properties.text, this.size[0] * 0.5, this.size[1] * 0.85 );
-			ctx.textAlign = "left";
-		}
 	}
 
 	WidgetButton.prototype.onMouseDown = function(e, local_pos)
@@ -45,7 +32,7 @@
 		if(local_pos[0] > 1 && local_pos[1] > 1 && local_pos[0] < (this.size[0] - 2) && local_pos[1] < (this.size[1] - 2) )
 		{
 			this.clicked = true;
-			this.trigger( "clicked", this.properties.message );
+			this.trigger( "clicked" );
 			return true;
 		}
 	}
