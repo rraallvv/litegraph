@@ -3901,7 +3901,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 			ctx.beginPath();
 
 			if( this.connecting_output.type === LiteGraph.EXECUTE )
-				ctx.rect( (this.connecting_pos[0] - 6) + 0.5, (this.connecting_pos[1] - 5) + 0.5,14,10);
+				ctx.executablePort( (this.connecting_pos[0] - 4) + 0.5, (this.connecting_pos[1] - 4) + 0.5,8,8);
 			else
 				ctx.arc( this.connecting_pos[0], this.connecting_pos[1],4,0,Math.PI*2);
 
@@ -3919,7 +3919,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 				ctx.beginPath();
 				//ctx.arc( this._highlight_input[0], this._highlight_input[1],6,0,Math.PI*2);
 				if (this.connecting_output.type === LiteGraph.EXECUTE)
-					ctx.rect((this._highlight_input[0] - 6) + 0.5,(this._highlight_input[1] - 5) + 0.5,14,10);
+					ctx.executablePort((this._highlight_input[0] - 4) + 0.5,(this._highlight_input[1] - 4) + 0.5,8,8);
 				else
 					ctx.arc( this._highlight_input[0],this._highlight_input[1],4,0, Math.PI*2 );
 				ctx.fill();
@@ -4198,7 +4198,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				ctx.beginPath();
 
 				if (slot.type === LiteGraph.EXECUTE)
-					ctx.rect((pos[0] - 6) + 0.5, (pos[1] - 5) + 0.5,14,10);
+					ctx.executablePort((pos[0] - 4) + 0.5, (pos[1] - 4) + 0.5,8,8);
 				else
 					ctx.arc(pos[0],pos[1],4,0,Math.PI*2);
 
@@ -4238,7 +4238,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 				//ctx.rect( node.size[0] - 14,i*14,10,10);
 
 				if (slot.type === LiteGraph.EXECUTE)
-					ctx.rect((pos[0] - 6) + 0.5,(pos[1] - 5) + 0.5,14,10);
+					ctx.executablePort((pos[0] - 4) + 0.5,(pos[1] - 4) + 0.5,8,8);
 				else
 					ctx.arc( pos[0],pos[1],4,0, Math.PI*2 );
 
@@ -5292,6 +5292,19 @@ function overlapBounding(a,b)
 		a[3] < b[1])
 		return false;
 	return true;
+}
+
+CanvasRenderingContext2D.prototype.executablePort = function (x, y, width, height, arrow) {
+	if ( arrow === undefined ) {
+		arrow = width / 2;
+	}
+
+	this.moveTo(x, y);
+	this.lineTo(x + width - arrow, y);
+	this.lineTo(x + width, y + height / 2);
+	this.lineTo(x + width - arrow, y + height);
+	this.lineTo(x, y + height);
+	this.lineTo(x, y);
 }
 
 //Convert a hex value to its decimal value - the inputted hex must be in the
