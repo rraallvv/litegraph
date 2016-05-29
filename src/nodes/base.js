@@ -383,8 +383,8 @@ function Branch()
 	this.addInput("if", LiteGraph.EXECUTE);
 	this.addProperty("condition", false, "boolean");
 	this.addInput("condition","boolean");
-	this.addOutput("then", LiteGraph.EXECUTE);
-	this.addOutput("else", LiteGraph.EXECUTE);
+	this.addOutput("true", LiteGraph.EXECUTE);
+	this.addOutput("false", LiteGraph.EXECUTE);
 }
 
 Branch.title = "Branch";
@@ -398,9 +398,9 @@ Branch.prototype.onExecute = function()
 	else
 		condition = this.properties.condition;
 	if(condition)
-		this.trigger("then");
+		this.trigger("true");
 	else
-		this.trigger("else");
+		this.trigger("false");
 }
 
 LiteGraph.registerNodeType("basic/branch", Branch );
