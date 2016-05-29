@@ -4005,7 +4005,8 @@ LGraphCanvas.prototype.drawBackCanvas = function()
 				this._bg_img.src = this.background_image;
 				var that = this;
 				this._bg_img.onload = function() {
-					that.draw(true,true);
+					//that.draw(true,true);
+					that.graph.setDirtyCanvas(false,true);
 				}
 			}
 
