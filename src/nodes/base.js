@@ -52,13 +52,11 @@ Subgraph.prototype.onSubgraphTypeChangeGlobalInput = function(name, type)
 	info.type = type;
 }
 
-
 Subgraph.prototype.onSubgraphNewGlobalOutput = function(name, type)
 {
 	//add output to the node
 	this.addOutput(name, type);
 }
-
 
 Subgraph.prototype.onSubgraphRenamedGlobalOutput = function(oldname, name)
 {
@@ -77,7 +75,6 @@ Subgraph.prototype.onSubgraphTypeChangeGlobalOutput = function(name, type)
 	var info = this.getOutputInfo(slot);
 	info.type = type;
 }
-
 
 Subgraph.prototype.getExtraMenuOptions = function(graphcanvas)
 {
@@ -136,7 +133,6 @@ Subgraph.prototype.clone = function()
 	node.configure(data);
 	return node;
 }
-
 
 LiteGraph.registerNodeType("graph/subgraph", Subgraph );
 
@@ -208,7 +204,6 @@ GlobalInput.prototype.onExecute = function()
 LiteGraph.registerNodeType("graph/input", GlobalInput);
 
 
-
 //Output for a subgraph
 function GlobalOutput( title )
 {
@@ -268,7 +263,6 @@ GlobalOutput.prototype.onExecute = function()
 LiteGraph.registerNodeType("graph/output", GlobalOutput);
 
 
-
 //Number constant
 function BasicNumber()
 {
@@ -279,7 +273,6 @@ function BasicNumber()
 
 BasicNumber.title = "Number";
 BasicNumber.desc = "Number value";
-
 
 BasicNumber.prototype.setValue = function(v)
 {
@@ -460,6 +453,44 @@ BasicString.prototype.onWidget = function(e,widget)
 }
 
 LiteGraph.registerNodeType("basic/string", BasicString);
+
+
+//Boolean constant
+function BasicBoolean()
+{
+	this.addOutput("value","boolean");
+	this.addProperty( "value", true );
+	this.editable = { property:"value", type:"boolean" };
+}
+
+BasicBoolean.title = "boolean";
+BasicBoolean.desc = "Boolean value";
+
+BasicBoolean.prototype.setValue = function(v)
+{
+	if( typeof(v) != "boolean") v = v === true;
+	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+};
+
+BasicBoolean.prototype.onExecute = function()
+{
+	this.setOutputData(0, this.properties["value"] );
+}
+
+BasicBoolean.prototype.onDrawBackground = function(ctx)
+{
+	//show the current value
+	this.outputs[0].label = this.properties["value"].toString();
+}
+
+BasicBoolean.prototype.onWidget = function(e,widget)
+{
+	if(widget.name == "value")
+		this.setValue(widget.value);
+}
+
+LiteGraph.registerNodeType("basic/boolean", BasicBoolean);
 
 
 })();
