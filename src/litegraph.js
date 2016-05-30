@@ -2463,6 +2463,29 @@ LGraphNode.prototype.localToScreen = function(x,y, graphcanvas)
 		(y + this.pos[1]) * graphcanvas.scale + graphcanvas.offset[1]];
 }
 
+LGraphNode.prototype.invalidateOutputData = function(slot)
+{
+	var that = this;
+
+	if(slot !== undefined)
+		invalidate_output_slot(slot);
+	else
+		for(var i = 0, l = this.outputs.length; i < l; i++)
+			invalidate_output_slot(i);
+
+	function invalidate_output_slot(slot)
+	{
+		var output = that.outputs[slot];
+		if(output.type != LiteGraph.EXECUTE)
+			if(output.links)
+				for(var j = 0, m = output.links.length; j < m; j++)
+				{
+					var link_id = output.links[j];
+					var link = that.graph.links[ link_id ];
+					delete link.data;
+				}
+	}
+}
 
 
 //*********************************************************************************
@@ -4972,6 +4995,7 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 			node.properties[ property ] = value === "true";
 		else
 			node.properties[ property ] = value;
+		node.invalidateOutputData();
 		dialog.parentNode.removeChild( dialog );
 		node.setDirtyCanvas(true,true);
 	}
