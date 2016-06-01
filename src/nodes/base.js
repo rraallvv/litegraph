@@ -449,7 +449,7 @@ BasicString.prototype.onDrawBackground = function(ctx)
 BasicString.prototype.onWidget = function(e,widget)
 {
 	if(widget.name == "value")
-	this.setValue(widget.value);
+		this.setValue(widget.value);
 }
 
 LiteGraph.registerNodeType("basic/string", BasicString);
@@ -463,7 +463,7 @@ function BasicBoolean()
 	this.editable = { property:"value", type:"boolean" };
 }
 
-BasicBoolean.title = "boolean";
+BasicBoolean.title = "Boolean";
 BasicBoolean.desc = "Boolean value";
 
 BasicBoolean.prototype.setValue = function(v)
