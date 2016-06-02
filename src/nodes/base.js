@@ -134,6 +134,11 @@ Subgraph.prototype.clone = function()
 	return node;
 }
 
+Subgraph.prototype.invalidateConnectedLinks = function(slot)
+{
+	LGraphNode.prototype.invalidateConnectedLinks.call(this, slot);
+}
+
 LiteGraph.registerNodeType("graph/subgraph", Subgraph );
 
 
