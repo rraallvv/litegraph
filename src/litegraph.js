@@ -2458,7 +2458,7 @@ LGraphNode.prototype.localToScreen = function(x,y, graphcanvas)
 		(y + this.pos[1]) * graphcanvas.scale + graphcanvas.offset[1]];
 }
 
-LGraphNode.prototype.invalidateOutputData = function(slot)
+LGraphNode.prototype.invalidateConnectedLinks = function(slot)
 {
 	var that = this;
 
@@ -5002,8 +5002,8 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 			node.properties[ property ] = value === "true";
 		else
 			node.properties[ property ] = value;
-		if(node.invalidateOutputData)
-			node.invalidateOutputData();
+		if(node.invalidateConnectedLinks)
+			node.invalidateConnectedLinks();
 		dialog.parentNode.removeChild( dialog );
 		node.setDirtyCanvas(true,true);
 	}
