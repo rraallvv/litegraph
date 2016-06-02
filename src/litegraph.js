@@ -1243,6 +1243,13 @@ LGraph.prototype.onNodeTrace = function(node, msg, color)
 	//TODO
 }
 
+LGraph.prototype.invalidateConnectedLinks = function(slot)
+{
+	var node = this._subgraph_node;
+	if(node && node.invalidateConnectedLinks)
+		node.invalidateConnectedLinks(slot);
+}
+
 // *************************************************************
 //   Node CLASS                                          *******
 // *************************************************************
