@@ -28,6 +28,12 @@ function Subgraph()
 Subgraph.title = "Subgraph";
 Subgraph.desc = "Graph inside a node";
 
+Subgraph.prototype.configure = function(o)
+{
+	LGraphNode.prototype.configure.call(this, o);
+	//this.subgraph.configure(o.graph);
+}
+
 Subgraph.prototype.onSubgraphNewGlobalInput = function(name, type)
 {
 	//add input to the node
@@ -108,12 +114,6 @@ Subgraph.prototype.onExecute = function()
 			var value = this.subgraph.getGlobalOutputData( output.name );
 			this.setOutputData(i, value);
 		}
-}
-
-Subgraph.prototype.configure = function(o)
-{
-	LGraphNode.prototype.configure.call(this, o);
-	//this.subgraph.configure(o.graph);
 }
 
 Subgraph.prototype.serialize = function()

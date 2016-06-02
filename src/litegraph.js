@@ -311,6 +311,79 @@ LGraph.STATUS_STOPPED = 1;
 LGraph.STATUS_RUNNING = 2;
 
 /**
+* Configure a graph from a JSON string
+* @method configure
+* @param {String} str configure a graph from a JSON string
+*/
+LGraph.prototype.configure = function(data, keep_old)
+{
+	if(!keep_old)
+		this.clear();
+
+	var nodes = data.nodes;
+
+	//copy all stored fields
+	for (var i in data)
+		this[i] = data[i];
+
+	var error = false;
+
+	//create nodes
+	this._nodes = [];
+	for(var i = 0, l = nodes.length; i < l; ++i)
+	{
+		var n_info = nodes[i]; //stored info
+		var node = LiteGraph.createNode( n_info.type, n_info.title );
+		if(!node)
+		{
+			if(LiteGraph.debug)
+				console.log("Node not found: " + n_info.type);
+			error = true;
+			continue;
+		}
+
+		node.id = n_info.id; //id it or it will create a new id
+		this.add(node, true); //add before configure, otherwise configure cannot create links
+		node.configure(n_info);
+	}
+
+	//create links
+	var links = data.links;
+	if(links)
+		for(var i = 0, l = links.length; i < l; ++i)
+		{
+			var l_info = links[i]; //stored info
+
+			var node_a = this.getNodeById(l_info.origin_id);
+			if(!node_a)
+			{
+				if(LiteGraph.debug)
+					console.log("Node A in link not found: " + l_info.type);
+				error = true;
+				continue;
+			}
+
+			var node_b = this.getNodeById(l_info.target_id);
+			if(!node_b)
+			{
+				if(LiteGraph.debug)
+					console.log("Node B in link not found: " + l_info.type);
+				error = true;
+				continue;
+			}
+
+			var slot_a = l_info.origin_slot;
+			var slot_b = l_info.target_slot;
+
+			node_a.connect(slot_a, node_b, slot_b);
+		}
+
+	this.updateExecutionOrder();
+	this.setDirtyCanvas(true,true);
+	return error;
+}
+
+/**
 * Removes all nodes from this graph
 * @method clear
 */
@@ -1165,80 +1238,6 @@ LGraph.prototype.serialize = function()
 	return data;
 }
 
-
-/**
-* Configure a graph from a JSON string
-* @method configure
-* @param {String} str configure a graph from a JSON string
-*/
-LGraph.prototype.configure = function(data, keep_old)
-{
-	if(!keep_old)
-		this.clear();
-
-	var nodes = data.nodes;
-
-	//copy all stored fields
-	for (var i in data)
-		this[i] = data[i];
-
-	var error = false;
-
-	//create nodes
-	this._nodes = [];
-	for(var i = 0, l = nodes.length; i < l; ++i)
-	{
-		var n_info = nodes[i]; //stored info
-		var node = LiteGraph.createNode( n_info.type, n_info.title );
-		if(!node)
-		{
-			if(LiteGraph.debug)
-				console.log("Node not found: " + n_info.type);
-			error = true;
-			continue;
-		}
-
-		node.id = n_info.id; //id it or it will create a new id
-		this.add(node, true); //add before configure, otherwise configure cannot create links
-		node.configure(n_info);
-	}
-
-	//create links
-	var links = data.links;
-	if(links)
-		for(var i = 0, l = links.length; i < l; ++i)
-		{
-			var l_info = links[i]; //stored info
-
-			var node_a = this.getNodeById(l_info.origin_id);
-			if(!node_a)
-			{
-				if(LiteGraph.debug)
-					console.log("Node A in link not found: " + l_info.type);
-				error = true;
-				continue;
-			}
-
-			var node_b = this.getNodeById(l_info.target_id);
-			if(!node_b)
-			{
-				if(LiteGraph.debug)
-					console.log("Node B in link not found: " + l_info.type);
-				error = true;
-				continue;
-			}
-
-			var slot_a = l_info.origin_slot;
-			var slot_b = l_info.target_slot;
-
-			node_a.connect(slot_a, node_b, slot_b);
-		}
-
-	this.updateExecutionOrder();
-	this.setDirtyCanvas(true,true);
-	return error;
-}
-
 LGraph.prototype.onNodeTrace = function(node, msg, color)
 {
 	//TODO
@@ -1294,11 +1293,6 @@ LGraph.prototype.onNodeTrace = function(node, msg, color)
 */
 
 function LGraphNode(title)
-{
-	this._ctor();
-}
-
-LGraphNode.prototype._ctor = function( title )
 {
 	this.title = title || "Unnamed";
 	this.size = [LiteGraph.NODE_MIN_WIDTH,60];
