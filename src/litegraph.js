@@ -2553,7 +2553,6 @@ LGraphCanvas.link_type_colors = {"-1":"#F85",'number':"#AAC","node":"#DCA"};
 LGraphCanvas.title_text_font = "bold 14px Arial";
 LGraphCanvas.inner_text_font = "normal 12px Arial";
 
-
 /**
 * clears all the data inside
 *
@@ -4536,11 +4535,13 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 		return;
 	}
 
-	var dist = distance(a,b);
+	//var dist = distance(a,b);
+	var dist = Math.abs(a[0] - b[0]);
 
 	//adjust the distance for connections that go backwards
 	const threshold = 200;
 	const slop = 4;
+	const control = 0.5;
 	if(a[0] > b[0] && dist > threshold)
 		dist = (dist + threshold * (slop - 1)) / slop;
 
@@ -4552,8 +4553,8 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	if(this.render_curved_connections) //splines
 	{
 		ctx.moveTo(a[0],a[1]);
-		ctx.bezierCurveTo(a[0] + dist*0.25, a[1],
-							b[0] - dist*0.25 , b[1],
+		ctx.bezierCurveTo(a[0] + dist*control, a[1],
+							b[0] - dist*control , b[1],
 							b[0] ,b[1] );
 	}
 	else //lines
@@ -4577,8 +4578,8 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	//render arrow
 	if(this.render_connection_arrows && this.scale > 0.6)
 	{
-		var pos = this.computeConnectionPoint(a,b,0.5);
-		var pos2 = this.computeConnectionPoint(a,b,0.51);
+		var pos = compute_connection_point(a,b,0.5,dist);
+		var pos2 = compute_connection_point(a,b,0.51,dist);
 
 		//get two points in the bezier curve
 		var angle = 0;
@@ -4607,30 +4608,29 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 		for(var i = 0; i < dotsCount; ++i)
 		{
 			var f = (LiteGraph.getTime() * dotsSpeed + (i * 1/dotsCount)) % 1;
-			var pos = this.computeConnectionPoint(a,b,f);
+			var pos = compute_connection_point(a,b,f,dist);
 			ctx.beginPath();
 			ctx.arc(pos[0],pos[1],2*this.connections_width,0,2*Math.PI);
 			ctx.fill();
 		}
 	}
-}
 
-LGraphCanvas.prototype.computeConnectionPoint = function(a,b,t)
-{
-	var dist = distance(a,b);
-	var p0 = a;
-	var p1 = [ a[0] + dist*0.25, a[1] ];
-	var p2 = [ b[0] - dist*0.25, b[1] ];
-	var p3 = b;
+	function compute_connection_point(a,b,t,d)
+	{
+		var p0 = a;
+		var p1 = [ a[0] + d*control, a[1] ];
+		var p2 = [ b[0] - d*control, b[1] ];
+		var p3 = b;
 
-	var c1 = (1-t)*(1-t)*(1-t);
-	var c2 = 3*((1-t)*(1-t))*t;
-	var c3 = 3*(1-t)*(t*t);
-	var c4 = t*t*t;
+		var c1 = (1-t)*(1-t)*(1-t);
+		var c2 = 3*((1-t)*(1-t))*t;
+		var c3 = 3*(1-t)*(t*t);
+		var c4 = t*t*t;
 
-	var x = c1*p0[0] + c2*p1[0] + c3*p2[0] + c4*p3[0];
-	var y = c1*p0[1] + c2*p1[1] + c3*p2[1] + c4*p3[1];
-	return [x,y];
+		var x = c1*p0[0] + c2*p1[0] + c3*p2[0] + c4*p3[0];
+		var y = c1*p0[1] + c2*p1[1] + c3*p2[1] + c4*p3[1];
+		return [x,y];
+	}
 }
 
 /*
