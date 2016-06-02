@@ -4536,7 +4536,7 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	}
 
 	//var dist = distance(a,b);
-	var dist = Math.abs(a[0] - b[0]);
+	var hdist = Math.abs(a[0] - b[0]);
 
 	//adjust the distance for connections that go backwards
 	const control = 0.5;
@@ -4545,10 +4545,10 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	const t2 = 100;
 	const s2 = 4;
 	const threshold = (t2-t2/s2-t1+t1/s1)/(1/s1-1/s2);
-	if(a[0] > b[0] && dist > threshold)
-		dist = t1 + (dist - t1) / s1;
+	if(a[0] > b[0] && hdist > threshold)
+		hdist = t1 + (hdist - t1) / s1;
 	else
-		dist = t2 + (dist - t2) / s2;
+		hdist = t2 + (hdist - t2) / s2;
 
 	if(this.render_connections_border && this.scale > 0.6)
 		ctx.lineWidth = this.connections_width + 4;
@@ -4558,8 +4558,8 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	if(this.render_curved_connections) //splines
 	{
 		ctx.moveTo(a[0],a[1]);
-		ctx.bezierCurveTo(a[0] + dist*control, a[1],
-							b[0] - dist*control , b[1],
+		ctx.bezierCurveTo(a[0] + hdist*control, a[1],
+							b[0] - hdist*control , b[1],
 							b[0] ,b[1] );
 	}
 	else //lines
@@ -4583,8 +4583,8 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	//render arrow
 	if(this.render_connection_arrows && this.scale > 0.6)
 	{
-		var pos = compute_connection_point(a,b,0.5,dist);
-		var pos2 = compute_connection_point(a,b,0.51,dist);
+		var pos = compute_connection_point(a,b,0.5,hdist);
+		var pos2 = compute_connection_point(a,b,0.51,hdist);
 
 		//get two points in the bezier curve
 		var angle = 0;
@@ -4607,13 +4607,14 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	//render flow
 	if(flow && this.render_connection_flow && this.scale > 0.6)
 	{
+		var dist = distance(a,b);
 		var dotsCount = Math.round(dist/47);
 		var dotsSpeed = 0.235/dist;
 
 		for(var i = 0; i < dotsCount; ++i)
 		{
 			var f = (LiteGraph.getTime() * dotsSpeed + (i * 1/dotsCount)) % 1;
-			var pos = compute_connection_point(a,b,f,dist);
+			var pos = compute_connection_point(a,b,f,hdist);
 			ctx.beginPath();
 			ctx.arc(pos[0],pos[1],2*this.connections_width,0,2*Math.PI);
 			ctx.fill();
