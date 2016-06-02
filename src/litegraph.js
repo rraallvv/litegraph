@@ -142,14 +142,15 @@ var LiteGraph = {
 		if(!node.pos) node.pos = LiteGraph.DEFAULT_POSITION.concat();
 		if(!node.enabled) node.enabled = true;
 
-		node.shape = type === "graph/subgraph" ? "box" : "round";
-
 		//extra options
 		if(options)
 		{
 			for(var i in options)
 				node[i] = options[i];
 		}
+
+		if(!node.shape)
+			node.shape = node.subgraph ? "box" : "round";
 
 		return node;
 	},
