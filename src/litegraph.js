@@ -4996,7 +4996,8 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 			node.properties[ property ] = value === "true";
 		else
 			node.properties[ property ] = value;
-		node.invalidateOutputData();
+		if(node.invalidateOutputData)
+			node.invalidateOutputData();
 		dialog.parentNode.removeChild( dialog );
 		node.setDirtyCanvas(true,true);
 	}
