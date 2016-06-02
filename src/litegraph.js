@@ -4539,11 +4539,16 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	var dist = Math.abs(a[0] - b[0]);
 
 	//adjust the distance for connections that go backwards
-	const threshold = 200;
-	const slop = 4;
 	const control = 0.5;
+	const t1 = 150;
+	const s1 = 8;
+	const t2 = 100;
+	const s2 = 4;
+	const threshold = (t2-t2/s2-t1+t1/s1)/(1/s1-1/s2);
 	if(a[0] > b[0] && dist > threshold)
-		dist = (dist + threshold * (slop - 1)) / slop;
+		dist = t1 + (dist - t1) / s1;
+	else
+		dist = t2 + (dist - t2) / s2;
 
 	if(this.render_connections_border && this.scale > 0.6)
 		ctx.lineWidth = this.connections_width + 4;
