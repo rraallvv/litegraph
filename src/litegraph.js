@@ -5112,7 +5112,9 @@ LGraphCanvas.prototype.getCanvasMenuOptions = function()
 	else
 	{
 		options = [
-			{content:"Add Node", is_menu: true, callback: LGraphCanvas.onMenuAdd }
+			{content:"Add Node", is_menu: true, callback: LGraphCanvas.onMenuAdd },
+			null,
+			{content:"Properties", is_menu: true, callback: LGraphCanvas.onShowMenuNodeProperties }
 			//{content:"Collapse All", callback: LGraphCanvas.onMenuCollapseAll }
 		];
 
