@@ -1243,6 +1243,16 @@ LGraph.prototype.onNodeTrace = function(node, msg, color)
 	//TODO
 }
 
+LGraph.prototype.updatePropety = function(property)
+{
+	for(var i = 0, l = this._nodes.length; i < l; i++)
+	{
+		var node = this._nodes[i];
+		if(node.type == "basic/getProperty" && node.title == property)
+			node.invalidateConnectedLinks();
+	}
+}
+
 LGraph.prototype.invalidateConnectedLinks = function(slot)
 {
 	var node = this._subgraph_node;
@@ -5009,6 +5019,8 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 			node.properties[ property ] = value === "true";
 		else
 			node.properties[ property ] = value;
+		if(node.updatePropety)
+			node.updatePropety(property);
 		if(node.invalidateConnectedLinks)
 			node.invalidateConnectedLinks();
 		dialog.parentNode.removeChild( dialog );
