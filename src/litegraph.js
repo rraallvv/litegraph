@@ -1463,7 +1463,7 @@ LGraphNode.prototype.serialize = function()
 /* Creates a clone of this node */
 LGraphNode.prototype.clone = function()
 {
-	var node = LiteGraph.createNode(this.type);
+	var node = LiteGraph.createNode(this.type, this.title);
 
 	//we clone it because serialize returns shared containers
 	var data = LiteGraph.cloneObject( this.serialize() );
