@@ -7,10 +7,10 @@ function demo()
 function JSONGraph()
 {
 	graph.configure({
-					nodes:[{type:"widget/button",pos:[1000,200]},
-						   {type:"basic/branch",pos:[1200,200]},
-						   {type:"basic/console",pos:[1400,200]},
-						   {type:"basic/console",pos:[1400,300]},
+					nodes:[{type:"widget/button",pos:[950,200]},
+						   {type:"basic/branch",pos:[1150,200]},
+						   {type:"basic/console",pos:[1350,200]},
+						   {type:"basic/console",pos:[1350,300]},
 						   {type:"basic/number",pos:[100,200],properties:{value:2}},
 						   {type:"basic/number",pos:[100,300]},
 						   {type:"math/operation",pos:[300,200]},
@@ -24,11 +24,12 @@ function JSONGraph()
 						   properties:{anumber:1, aboolean:true}
 						   }},
 						   {type:"basic/watch",pos:[700,300]},
-						   {type:"graph/getProperty",pos:[1200,300],properties:{name:"astring"}},
-						   {type:"widget/button",pos:[1000,300]},
-						   {type:"basic/string",pos:[1000,400],properties:{value:"!!!"}},
-						   {type:"graph/setProperty",pos:[1200,350],properties:{name:"astring"}},
-						   {type:"graph/comment",pos:[950,150],size:[600,300]},],
+						   {type:"graph/getProperty",pos:[1150,300],properties:{name:"astring"}},
+						   {type:"widget/button",pos:[950,300]},
+						   {type:"basic/string",pos:[950,400],properties:{value:"!!!"}},
+						   {type:"graph/setProperty",pos:[1150,350],properties:{name:"astring"}},
+						   {type:"graph/comment",pos:[900,150],size:[600,300]},
+						   {type:"graph/comment",pos:[50,150],size:[800,300]},],
 					links:[{origin_id:0,origin_slot:0,target_id:1},
 						   {origin_id:1,origin_slot:0,target_id:2},
 						   {origin_id:1,origin_slot:1,target_id:3},
