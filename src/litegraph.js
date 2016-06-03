@@ -2477,6 +2477,9 @@ LGraphNode.prototype.localToScreen = function(x,y, graphcanvas)
 
 LGraphNode.prototype.invalidateConnectedLinks = function(slot)
 {
+	if(!this.outputs)
+		return;
+
 	var that = this;
 
 	if(slot !== undefined)
