@@ -4328,7 +4328,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 
 				//if(slot.links != null && slot.links.length)
 				ctx.fill();
-				ctx.stroke();
+				//ctx.stroke();
 
 				//render output name
 				if(render_text)
@@ -5429,8 +5429,8 @@ CanvasRenderingContext2D.prototype.executablePort = function (x, y, width, heigh
 
 	if ( arrow === undefined ) arrow = width / 2;
 
-	var left = x - 4 + 0.5;
-	var bottom = y - 5 + 0.5;
+	var left = x - 4;
+	var bottom = y - 5;
 
 	this.moveTo(left, bottom);
 	this.lineTo(left + width - arrow, bottom);
