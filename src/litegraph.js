@@ -2497,7 +2497,13 @@ LGraphNode.prototype.invalidateConnectedLinks = function(slot)
 				{
 					var link_id = output.links[j];
 					var link = that.graph.links[ link_id ];
-					delete link.data;
+					if(link.data)
+					{
+						delete link.data;
+						var node = that.graph.getNodeById(link.target_id);
+						if(node && node.invalidateConnectedLinks)
+							node.invalidateConnectedLinks()
+					}
 				}
 	}
 }
