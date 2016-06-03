@@ -3921,6 +3921,9 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 		{
 			var node = visible_nodes[i];
 
+			if(node.flags.pinned)
+				continue;
+
 			//transform coords system
 			ctx.save();
 			ctx.translate( node.pos[0], node.pos[1] );
@@ -3934,9 +3937,9 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 		}
 
 		//connections ontop?
-		if(this.graph.config.links_ontop)
-			if(!this.live_mode)
-				this.drawConnections(ctx);
+		//if(this.graph.config.links_ontop)
+		//	if(!this.live_mode)
+		//		this.drawConnections(ctx);
 
 		//current connection
 		if(this.connecting_pos != null)
@@ -4093,6 +4096,30 @@ LGraphCanvas.prototype.drawBackCanvas = function()
 		//bg
 		ctx.strokeStyle = "#235";
 		ctx.strokeRect(0,0,canvas.width,canvas.height);
+
+		//draw nodes
+		var drawn_nodes = 0;
+		var visible_nodes = this.computeVisibleNodes();
+		this.visible_nodes = visible_nodes;
+
+		for (var i = 0; i < visible_nodes.length; ++i)
+		{
+			var node = visible_nodes[i];
+
+			if(!node.flags.pinned)
+				continue;
+
+			//transform coords system
+			ctx.save();
+			ctx.translate( node.pos[0], node.pos[1] );
+
+			//Draw
+			this.drawNode(node, ctx );
+			drawn_nodes += 1;
+
+			//Restore
+			ctx.restore();
+		}
 
 		if(this.render_connections_shadows)
 		{
