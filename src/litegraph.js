@@ -4491,15 +4491,22 @@ LGraphCanvas.prototype.drawNodeComment = function(node, ctx)
 		return;
 
 	var comment = node.properties.comment;
+	var title = node.getTitle();
+
+	if(comment == title && this.scale == 1)
+		return;
+
 	var title_height = LiteGraph.NODE_TITLE_HEIGHT;
 	var comment_height = parseInt(ctx.font);
 	var padding = 3;
 	var separation = 8;
 	var node_border_radius = 10;
 
+	var scale = 1/this.scale;
+
 	ctx.save();
 	ctx.translate(0,-title_height);
-	ctx.scale(1/this.scale,1/this.scale);
+	ctx.scale(scale,scale);
 
 	var old_alpha = ctx.globalAlpha;
 	ctx.globalAlpha = 0.5 * old_alpha;
