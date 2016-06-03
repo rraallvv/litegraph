@@ -399,32 +399,32 @@ Comment.prototype.onMouseDown = function(e)
 	var bounding = this.getBounding();
 
 	this.is_dragging = true;
-	this.last_p = [e.canvasX,e.canvasY];
 
 	for(var i = 0, l = this.graph._nodes.length; i < l; i++)
 	{
 		var node = this.graph._nodes[i];
 		if(!Object.is(this,node) && containsBounding(bounding, node.getBounding()))
-			this.overlapping_nodes.push(node);
+		{
+			var delta = [node.pos[0] - this.pos[0], node.pos[1] - this.pos[1]];
+			this.overlapping_nodes.push({node: node, delta: delta});
+		}
 	}
 }
 
-Comment.prototype.onMouseMove = function(e,delta)
+Comment.prototype.onMouseMove = function(e)
 {
 	if(this.is_dragging && this.overlapping_nodes)
-	{
 		for(var i = 0, l = this.overlapping_nodes.length; i < l; i++)
 		{
-			var node = this.overlapping_nodes[i];
-			node.pos = [node.pos[0] + delta[0], node.pos[1] + delta[1]];
+			var node = this.overlapping_nodes[i].node;
+			var delta = this.overlapping_nodes[i].delta;
+			node.pos = [this.pos[0] + delta[0], this.pos[1] + delta[1]];
 		}
-	}
-
-	this.last_p = [e.canvasX,e.canvasY];
 }
 
 Comment.prototype.onMouseUp = function(e)
 {
+	this.onMouseMove(e);
 	this.overlapping_nodes = [];
 	this.is_dragging = false;
 }
