@@ -534,7 +534,7 @@ function GetProperty( title )
 	});
 }
 
-GetProperty.title = "Property";
+GetProperty.title = "Get Property";
 GetProperty.desc = "Property getter";
 
 GetProperty.prototype.onExecute = function()
@@ -550,6 +550,56 @@ GetProperty.prototype.onExecute = function()
 }
 
 LiteGraph.registerNodeType("graph/getProperty", GetProperty);
+
+
+//Property setter
+function SetProperty( title )
+{
+	this.title = title;
+
+	this.addInput("set", LiteGraph.EXECUTE, {label:""});
+	this.addInput("value", null, {label:""});
+
+	this.properties = {name: this.title, type: null };
+
+	var that = this;
+
+	Object.defineProperty(this.properties, "name", {
+		get: function() {
+			return that.title;
+		},
+		set: function(v) {
+			if(v == "")
+				return;
+			if(that.graph.properties[v] === undefined)
+				return;
+
+			var info = that.getInputInfo(1);
+			if(info.name == v)
+				return;
+			info.name = v;
+			that.title = v;
+		},
+		enumerable: true
+	});
+
+	Object.defineProperty(this.properties, "type", {
+		get: function() { return that.inputs[1].type; },
+		enumerable: true
+	});
+}
+
+SetProperty.title = "Set Property";
+SetProperty.desc = "Property setter";
+
+SetProperty.prototype.onExecute = function()
+{
+	var name = this.properties.name;
+	this.graph.properties[name] = this.getInputData(1);
+	this.graph.updatePropety(name);
+}
+
+LiteGraph.registerNodeType("graph/setProperty", SetProperty);
 
 
 })();
