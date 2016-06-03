@@ -381,6 +381,8 @@ function Comment( title )
 	this.flags = {
 		pinned:true
 	};
+	this.overlapping_nodes = [];
+	this.is_dragging = false;
 	this.bgcolor = "rgba(128,128,128,0.1)";
 }
 
@@ -390,6 +392,41 @@ Comment.desc = "Comment enclosing other nodes";
 Comment.prototype.onAdded = function()
 {
 	this.graph.sendActionToCanvas("sendToBack",[this]);
+}
+
+Comment.prototype.onMouseDown = function(e)
+{
+	var bounding = this.getBounding();
+
+	this.is_dragging = true;
+	this.last_p = [e.canvasX,e.canvasY];
+
+	for(var i = 0, l = this.graph._nodes.length; i < l; i++)
+	{
+		var node = this.graph._nodes[i];
+		if(!Object.is(this,node) && containsBounding(bounding, node.getBounding()))
+			this.overlapping_nodes.push(node);
+	}
+}
+
+Comment.prototype.onMouseMove = function(e,delta)
+{
+	if(this.is_dragging && this.overlapping_nodes)
+	{
+		for(var i = 0, l = this.overlapping_nodes.length; i < l; i++)
+		{
+			var node = this.overlapping_nodes[i];
+			node.pos = [node.pos[0] + delta[0], node.pos[1] + delta[1]];
+		}
+	}
+
+	this.last_p = [e.canvasX,e.canvasY];
+}
+
+Comment.prototype.onMouseUp = function(e)
+{
+	this.overlapping_nodes = [];
+	this.is_dragging = false;
 }
 
 LiteGraph.registerNodeType("graph/comment", Comment);
