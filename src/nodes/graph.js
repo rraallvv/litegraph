@@ -374,4 +374,25 @@ SetProperty.prototype.onExecute = function()
 LiteGraph.registerNodeType("graph/setProperty", SetProperty);
 
 
+//Comment: a node that encloses other nodes and have a comment message for title
+function Comment( title )
+{
+	this.title = title;
+	this.flags = {
+		pinned:true
+	};
+	this.bgcolor = "rgba(128,128,128,0.1)";
+}
+
+Comment.title = "Comment";
+Comment.desc = "Comment enclosing other nodes";
+
+Comment.prototype.onAdded = function()
+{
+	this.graph.sendActionToCanvas("sendToBack",[this]);
+}
+
+LiteGraph.registerNodeType("graph/comment", Comment);
+
+
 })();

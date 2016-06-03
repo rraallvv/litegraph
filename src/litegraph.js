@@ -272,6 +272,8 @@ var LiteGraph = {
 	}
 };
 
+//LiteGraph.debug = true;
+
 if(typeof(performance) != "undefined")
   LiteGraph.getTime = function getTime() { return performance.now(); }
 else
