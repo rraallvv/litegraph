@@ -2464,16 +2464,16 @@ LGraphNode.prototype.collapse = function()
 }
 
 /**
-* Forces the node to do not move or realign on Z
-* @method pin
+* Forces the node to be rendered in the back canvas on top of the background
+* @method background
 **/
 
-LGraphNode.prototype.pin = function(v)
+LGraphNode.prototype.background = function(v)
 {
 	if(v === undefined)
-		this.flags.pinned = !this.flags.pinned;
+		this.flags.background = !this.flags.background;
 	else
-		this.flags.pinned = v;
+		this.flags.background = v;
 }
 
 LGraphNode.prototype.localToScreen = function(x,y, graphcanvas)
@@ -3032,7 +3032,7 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 		//and it is not interactive
 		if(n)
 		{
-			if(!this.live_mode && !n.flags.pinned)
+			if(!this.live_mode && !n.flags.background)
 				this.bringToFront(n); //if it wasnt selected?
 			var skip_action = false;
 
@@ -3921,7 +3921,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 		{
 			var node = visible_nodes[i];
 
-			if(node.flags.pinned)
+			if(node.flags.background)
 				continue;
 
 			//transform coords system
@@ -4106,7 +4106,7 @@ LGraphCanvas.prototype.drawBackCanvas = function()
 		{
 			var node = visible_nodes[i];
 
-			if(!node.flags.pinned)
+			if(!node.flags.background)
 				continue;
 
 			//transform coords system
@@ -5103,11 +5103,6 @@ LGraphCanvas.onMenuNodeCollapse = function(node)
 	node.setDirtyCanvas(true,true);
 }
 
-LGraphCanvas.onMenuNodePin = function(node)
-{
-	node.pin();
-}
-
 LGraphCanvas.onMenuNodeMode = function(node, e, prev_menu)
 {
 	LiteGraph.createContextualMenu(["Enabled","Disabled"], {event: e, callback: inner_clicked, from: prev_menu});
@@ -5239,7 +5234,6 @@ LGraphCanvas.prototype.getNodeMenuOptions = function(node)
 			null,
 			{content:"Mode", is_menu: true, callback: LGraphCanvas.onMenuNodeMode },
 			{content:collapseText, callback: LGraphCanvas.onMenuNodeCollapse },
-			{content:"Pin", callback: LGraphCanvas.onMenuNodePin },
 			{content:"Colors", is_menu: true, callback: LGraphCanvas.onMenuNodeColors },
 			{content:"Shapes", is_menu: true, callback: LGraphCanvas.onMenuNodeShapes },
 			null
