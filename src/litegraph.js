@@ -4544,6 +4544,23 @@ LGraphCanvas.prototype.drawConnections = function(ctx)
 						var color = "rgba(255,255,255, " + f.toFixed(2) + ")";
 						this.renderLink( ctx, start_node_slotpos, node.getConnectionPos(true,i) , color, true, f );
 					}
+
+					if(LiteGraph.debug && link.data)
+					{
+						var a = start_node_slotpos;
+						var b = node.getConnectionPos(true,i);
+						var x = (a[0] + b[0]) / 2;
+						var y = (a[1] + b[1]) / 2;
+						var w = ctx.measureText(link.data).width;
+						var h = parseInt(ctx.font);
+						var m = 2;
+						ctx.fillStyle = "#000";
+						ctx.beginPath();
+						ctx.roundRect(x-m-w/2,y-h-m+h/2,w+2*m,h+2*m, m);
+						ctx.fill();
+						ctx.fillStyle = this.default_link_color;
+						ctx.fillText(link.data, x-w/2, y+h/2);
+					}
 				}
 			}
 	}
