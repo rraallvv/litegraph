@@ -384,6 +384,34 @@ function Comment( title )
 	this.overlapping_nodes = [];
 	this.is_dragging = false;
 	this.bgcolor = "rgba(128,128,128,0.1)";
+
+	this.properties = { comment: this.title, color: this.bgcolor };
+
+	var that = this;
+
+	Object.defineProperty( this.properties, "comment", {
+		get: function() {
+			return that.title;
+		},
+		set: function(v) {
+			if(v == "")
+				return;
+			that.title = v;
+		},
+		enumerable: true
+	});
+
+	Object.defineProperty( this.properties, "color", {
+		get: function() {
+			return that.bgcolor;
+		},
+		set: function(v) {
+			if(v == "")
+				return;
+			that.bgcolor = v;
+		},
+		enumerable: true
+	});
 }
 
 Comment.title = "Comment";
