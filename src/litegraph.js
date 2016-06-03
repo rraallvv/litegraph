@@ -3166,6 +3166,13 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 	}
 	else if (e.which == 3) //right button
 	{
+		if(!e.shiftKey)
+		{
+            //no node or another node selected
+            if (!n || !this.selected_nodes[n.id])
+				this.deselectAllNodes();
+		}
+
 		if(n && !this.selected_nodes[n.id])
 			this.processNodeSelected(n,e);
 
