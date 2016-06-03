@@ -2100,6 +2100,9 @@ LGraphNode.prototype.connect = function( slot, node, target_slot )
 
 	if( LiteGraph.isValidConnection( output.type, input.type) )
 	{
+		if(node.invalidateConnectedLinks)
+			node.invalidateConnectedLinks();
+
 		var link = {
 			id: this.graph.last_link_id++,
 			origin_id: this.id,
@@ -2302,6 +2305,8 @@ LGraphNode.prototype.disconnectInput = function(slot)
 
 	if(disconnected)
 	{
+		if(this.invalidateConnectedLinks)
+			this.invalidateConnectedLinks();
 		this.setDirtyCanvas(false,true);
 		this.graph.connectionChange( this );
 	}
