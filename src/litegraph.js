@@ -4245,6 +4245,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 
 	//draw shape
 	this.drawNodeShape(node, ctx, size, color, node.bgcolor, !render_title, node.selected );
+	this.drawNodeComment(node, ctx);
 	ctx.shadowColor = "transparent";
 
 	//connection slots
@@ -4474,6 +4475,44 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 			ctx.fillText( title, 16, 13 - title_height );
 		}
 	}
+}
+
+/* Renders the node comment */
+LGraphCanvas.prototype.drawNodeComment = function(node, ctx)
+{
+	if(!node.properties.comment)
+		return;
+
+	var comment = node.properties.comment;
+	var title_height = LiteGraph.NODE_TITLE_HEIGHT;
+	var comment_height = parseInt(ctx.font);
+	var padding = 3;
+	var separation = 8;
+	var node_border_radius = 10;
+
+	ctx.save();
+	ctx.translate(0,-title_height);
+	ctx.scale(1/this.scale,1/this.scale);
+
+	var old_alpha = ctx.globalAlpha;
+	ctx.globalAlpha = 0.5 * old_alpha;
+
+	//comment box
+	ctx.fillStyle = "#fff";
+	ctx.beginPath();
+	ctx.roundRect(0,-separation-comment_height-2*padding,ctx.measureText(comment).width+2*padding,comment_height+2*padding,3);
+	ctx.moveTo(node_border_radius,-separation);
+	ctx.lineTo(node_border_radius+separation,-separation);
+	ctx.lineTo(node_border_radius+separation/2,separation-separation);
+	ctx.fill();
+	ctx.globalAlpha = old_alpha;
+
+	//comment text
+	ctx.font = LGraphCanvas.title_text_font;
+	ctx.fillStyle = "#000";
+	ctx.fillText( comment, padding, -separation-padding);
+
+	ctx.restore();
 }
 
 /* Renders the node when collapsed */
