@@ -559,6 +559,7 @@ function SetProperty( title )
 
 	this.addInput("set", LiteGraph.EXECUTE, {label:""});
 	this.addInput("value", null, {label:""});
+	this.addOutput("completed", LiteGraph.EXECUTE, {label:""});
 
 	this.properties = {name: this.title, type: null };
 
@@ -597,6 +598,7 @@ SetProperty.prototype.onExecute = function()
 	var name = this.properties.name;
 	this.graph.properties[name] = this.getInputData(1);
 	this.graph.updatePropety(name);
+	this.trigger("completed");
 }
 
 LiteGraph.registerNodeType("graph/setProperty", SetProperty);
