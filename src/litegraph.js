@@ -4938,7 +4938,13 @@ LGraphCanvas.showMenuNodeOutputs = function(node, e, prev_menu)
 
 LGraphCanvas.onShowMenuNodeProperties = function(node,e, prev_menu)
 {
-	if(!node || !node.properties)
+	if(!node)
+		node = this.graph;
+
+	if(node.subgraph)
+		node = node.subgraph;
+
+	if(!node.properties)
 		return;
 
 	var that = this;
