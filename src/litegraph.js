@@ -1926,7 +1926,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 */
 LGraphNode.prototype.getBounding = function()
 {
-	return new Float32Array([this.pos[0] - 4, this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT, this.pos[0] + this.size[0] + 4, this.pos[1] + this.size[1] + LGraph.NODE_TITLE_HEIGHT]);
+	return new Float32Array([this.pos[0] - 4, this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT, this.pos[0] + this.size[0] + 4, this.pos[1] + this.size[1] + LiteGraph.NODE_TITLE_HEIGHT]);
 }
 
 /**
@@ -3256,7 +3256,7 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 				if(n.onMouseEnter) n.onMouseEnter(e);
 			}
 
-			if(n.onMouseMove) n.onMouseMove(e);
+			if(n.onMouseMove) n.onMouseMove(e, delta);
 
 			//on top of input
 			if(this.connecting_node)
@@ -3295,7 +3295,7 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 
 		if(this.node_capturing_input && this.node_capturing_input != n && this.node_capturing_input.onMouseMove)
 		{
-			this.node_capturing_input.onMouseMove(e);
+			this.node_capturing_input.onMouseMove(e, delta);
 		}
 
 
@@ -3424,6 +3424,8 @@ LGraphCanvas.prototype.processMouseUp = function(e)
 			this.node_dragged.pos[1] = Math.round(this.node_dragged.pos[1]);
 			if(this.graph.config.align_to_grid)
 				this.node_dragged.alignToGrid();
+			if(this.node_dragged.onMouseUp )
+				this.node_dragged.onMouseUp(e, [e.canvasX - this.node_dragged.pos[0], e.canvasY - this.node_dragged.pos[1]] );
 			this.node_dragged = null;
 		}
 		else //no node being dragged
@@ -5385,6 +5387,17 @@ function overlapBounding(a,b)
 		a[3] < b[1])
 		return false;
 	return true;
+}
+
+//boundings overlap, format: [start,end]
+function containsBounding(a,b)
+{
+	if ( a[0] < b[0] &&
+		a[1] < b[1] &&
+		a[2] > b[2] &&
+		a[3] > b[3])
+		return true;
+	return false;
 }
 
 CanvasRenderingContext2D.prototype.executablePort = function (x, y, width, height, arrow)
