@@ -23,7 +23,8 @@ function JSONGraph()
 								  {origin_id:1,origin_slot:0,target_id:2}],
 						   properties:{anumber:1, aboolean:true}
 						   }},
-						   {type:"basic/watch",pos:[900,300]}],
+						   {type:"basic/watch",pos:[900,300]},
+						   {type:"graph/getProperty",pos:[1200,300],title:"astring"}],
 					links:[{origin_id:0,origin_slot:0,target_id:1},
 						   {origin_id:1,origin_slot:0,target_id:2},
 						   {origin_id:1,origin_slot:1,target_id:3},
@@ -31,7 +32,8 @@ function JSONGraph()
 						   {origin_id:5,origin_slot:0,target_id:6,target_slot:1},
 						   {origin_id:6,origin_slot:0,target_id:7},
 						   {origin_id:6,origin_slot:0,target_id:8},
-						   {origin_id:8,origin_slot:0,target_id:9}],
+						   {origin_id:8,origin_slot:0,target_id:9},
+						   {origin_id:10,origin_slot:0,target_id:3,target_slot:1}],
 					properties:{astring:"the string", aboolean:true}
 	});
 }

@@ -498,4 +498,58 @@ BasicBoolean.prototype.onWidget = function(e,widget)
 LiteGraph.registerNodeType("basic/boolean", BasicBoolean);
 
 
+//Property getter
+function GetProperty( title )
+{
+	this.title = title;
+
+	this.addOutput("value", null, {label:""});
+
+	this.properties = { name: this.title, type: null };
+
+	var that = this;
+
+	Object.defineProperty( this.properties, "name", {
+		get: function() {
+			return that.title;
+		},
+		set: function(v) {
+			if(v == "")
+				return;
+			if(that.graph.properties[v] === undefined)
+				return;
+
+			var info = that.getOutputInfo(0);
+			if(info.name == v)
+				return;
+			info.name = v;
+			that.title = v;
+		},
+		enumerable: true
+	});
+
+	Object.defineProperty( this.properties, "type", {
+		get: function() { return that.outputs[0].type; },
+		enumerable: true
+	});
+}
+
+GetProperty.title = "Property";
+GetProperty.desc = "Property getter";
+
+GetProperty.prototype.onExecute = function()
+{
+	var name = this.properties.name;
+
+	//read from graph properties
+	var	value = this.graph.properties[name];
+	if(value === undefined) return;
+
+	//put through output
+	this.setOutputData(0,value);
+}
+
+LiteGraph.registerNodeType("graph/getProperty", GetProperty);
+
+
 })();

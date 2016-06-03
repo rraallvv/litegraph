@@ -1248,7 +1248,7 @@ LGraph.prototype.updatePropety = function(property)
 	for(var i = 0, l = this._nodes.length; i < l; i++)
 	{
 		var node = this._nodes[i];
-		if(node.type == "basic/getProperty" && node.title == property)
+		if(node.type == "graph/getProperty" && node.title == property)
 			node.invalidateConnectedLinks();
 	}
 }
