@@ -379,7 +379,7 @@ function Comment( title )
 {
 	this.title = title;
 	this.flags = {
-		pinned:true
+		background: true
 	};
 	this.overlapping_nodes = [];
 	this.is_dragging = false;
