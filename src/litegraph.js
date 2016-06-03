@@ -2539,7 +2539,8 @@ function LGraphCanvas( canvas, graph, options )
 		canvas = document.querySelector( canvas );
 
 	this.max_zoom = 1;
-	this.min_zoom = 0.1;
+	this.min_zoom = 0.15;
+	this.zoom_sensitivity = 0.05;
 
 	this.default_link_color = "#AAC";
 
@@ -3472,9 +3473,9 @@ LGraphCanvas.prototype.processMouseWheel = function(e)
 	var zoom = this.scale;
 
 	if (delta > 0)
-		zoom *= 1.1;
+		zoom *= 1+this.zoom_sensitivity;
 	else if (delta < 0)
-		zoom *= 1/(1.1);
+		zoom /= 1+this.zoom_sensitivity;
 
 	this.setZoom( zoom, [ e.localX, e.localY ] );
 
