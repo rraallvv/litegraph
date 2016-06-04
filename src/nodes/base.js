@@ -235,13 +235,16 @@ LiteGraph.registerNodeType("basic/boolean", BasicBoolean);
 //Function wrapper
 function Wrapper()
 {
-	var function_name = "functionName";
+	var function_name = undefined;
 	var function_arguments = undefined;
 	var function_return = undefined;
 
-	this.properties = { name: function_name, arguments: function_arguments, return: function_return };
+	this.addInput("call", LiteGraph.EXECUTE);
+	this.addOutput("completed", LiteGraph.EXECUTE);
 
 	var that = this;
+
+	this.properties = {};
 
 	Object.defineProperty( this.properties, "name", {
 		get: function() {
@@ -250,6 +253,9 @@ function Wrapper()
 		set: function(v) {
 			if(v == "")
 				return;
+			if(function_name == v)
+				return;
+			that.title = v;
 			function_name = v;
 		},
 		enumerable: true
@@ -262,6 +268,22 @@ function Wrapper()
 		set: function(v) {
 			if(v == "")
 				return;
+			if(function_arguments == v)
+				return;
+
+			for(var i = 1, l = that.inputs.length; i < l; i++)
+				that.removeInput(i);
+
+			if(v != undefined)
+			{
+				var strings = v.split(",");
+				if(typeof(strings) === "string")
+					that.addInput(strings);
+				else
+					for(var i = 0, l = strings.length; i < l; i++)
+						that.addInput(strings[i]);
+			}
+
 			function_arguments = v;
 		},
 		enumerable: true
@@ -275,10 +297,23 @@ function Wrapper()
 		set: function(v) {
 			if(v == "")
 				return;
+			if(function_return == v)
+				return;
+
+			if(that.outputs.length == 2)
+				that.removeOutput(1);
+
+			if(v != undefined)
+				that.addOutput(v);
+
 			function_return = v;
 		},
 		enumerable: true
 	});
+
+	this.properties.name = "console.log";
+	this.properties.arguments = "msg";
+	this.properties.return = undefined;
 }
 
 Wrapper.title = "Wrapper";
@@ -286,6 +321,20 @@ Wrapper.desc = "Function wrapper";
 
 Wrapper.prototype.onExecute = function()
 {
+	var arguments = [];
+	for(var i = 1, l = this.inputs.length; i < l; i++)
+		arguments.push(this.getInputData(i));
+	var path = this.properties.name.split(".");
+	var function_object = window[path.shift()];
+	while(path.length > 0)
+		function_object = function_object[path.shift()];
+	if(function_object)
+	{
+		var result = function_object.apply(function_object, arguments);
+		if(this.outputs.length == 2)
+			this.setOutputData(result);
+	}
+	this.trigger("completed");
 }
 
 LiteGraph.registerNodeType("basic/wrapper", Wrapper);
