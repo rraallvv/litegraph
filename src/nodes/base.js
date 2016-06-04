@@ -256,6 +256,14 @@ function Wrapper()
 			if(function_name == v)
 				return;
 			that.title = v;
+
+			//find a function with the given name
+			var path = v.split(".");
+			var function_object = window[path.shift()];
+			while(path.length > 0)
+				function_object = function_object[path.shift()];
+			that._function_object = function_object;
+
 			function_name = v;
 		},
 		enumerable: true
@@ -321,19 +329,21 @@ Wrapper.desc = "Function wrapper";
 
 Wrapper.prototype.onExecute = function()
 {
-	var arguments = [];
+	//collect the arguments
+	var function_arguments = [];
 	for(var i = 1, l = this.inputs.length; i < l; i++)
-		arguments.push(this.getInputData(i));
-	var path = this.properties.name.split(".");
-	var function_object = window[path.shift()];
-	while(path.length > 0)
-		function_object = function_object[path.shift()];
+		function_arguments.push(this.getInputData(i));
+
+	//call the wrapped function
+	var function_object = this._function_object;
 	if(function_object)
 	{
-		var result = function_object.apply(function_object, arguments);
-		if(this.outputs.length == 2)
+		var result = function_object.apply(function_object, function_arguments);
+		if(this.outputs.length == 2) //set output to the result
 			this.setOutputData(1, result);
 	}
+
+	//continue with the control flow
 	this.trigger("completed");
 }
 
