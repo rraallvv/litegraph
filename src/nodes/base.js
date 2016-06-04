@@ -232,4 +232,63 @@ BasicBoolean.prototype.onWidget = function(e,widget)
 LiteGraph.registerNodeType("basic/boolean", BasicBoolean);
 
 
+//Function wrapper
+function Wrapper()
+{
+	var function_name = "functionName";
+	var function_arguments = undefined;
+	var function_return = undefined;
+
+	this.properties = { name: function_name, arguments: function_arguments, return: function_return };
+
+	var that = this;
+
+	Object.defineProperty( this.properties, "name", {
+		get: function() {
+			return function_name;
+		},
+		set: function(v) {
+			if(v == "")
+				return;
+			function_name = v;
+		},
+		enumerable: true
+	});
+
+	Object.defineProperty( this.properties, "arguments", {
+		get: function() {
+			return function_arguments;
+		},
+		set: function(v) {
+			if(v == "")
+				return;
+			function_arguments = v;
+		},
+		enumerable: true
+	});
+
+
+	Object.defineProperty( this.properties, "return", {
+		get: function() {
+			return function_return;
+		},
+		set: function(v) {
+			if(v == "")
+				return;
+			function_return = v;
+		},
+		enumerable: true
+	});
+}
+
+Wrapper.title = "Wrapper";
+Wrapper.desc = "Function wrapper";
+
+Wrapper.prototype.onExecute = function()
+{
+}
+
+LiteGraph.registerNodeType("basic/wrapper", Wrapper);
+
+
 })();
