@@ -332,7 +332,7 @@ Wrapper.prototype.onExecute = function()
 	{
 		var result = function_object.apply(function_object, arguments);
 		if(this.outputs.length == 2)
-			this.setOutputData(result);
+			this.setOutputData(1, result);
 	}
 	this.trigger("completed");
 }
