@@ -2267,43 +2267,45 @@ LGraphNode.prototype.disconnectInput = function(slot)
 
 	var disconnected = false;
 
-	for(var i = 0, l = input.links.length; i < l; i++)
+	if(input.links)
 	{
-		var link_id = input.links[i]
-
-		//remove other side
-		var link_info = this.graph.links[ link_id ];
-		if( link_info )
+		for(var i = 0, l = input.links.length; i < l; i++)
 		{
-			var node = this.graph.getNodeById( link_info.origin_id );
-			if(!node)
-				continue;
+			var link_id = input.links[i]
 
-			var output = node.outputs[ link_info.origin_slot ];
-			if(!output || !output.links)
-				continue;
-
-			//check outputs
-			for(var j = 0, m = output.links.length; j < m; j++)
+			//remove other side
+			var link_info = this.graph.links[ link_id ];
+			if( link_info )
 			{
-				var link_info = this.graph.links[ output.links[j] ];
-				if( link_info.target_id == this.id )
+				var node = this.graph.getNodeById( link_info.origin_id );
+				if(!node)
+					continue;
+
+				var output = node.outputs[ link_info.origin_slot ];
+				if(!output || !output.links)
+					continue;
+
+				//check outputs
+				for(var j = 0, m = output.links.length; j < m; j++)
 				{
-					output.links.splice(j,1);
-					if(output.links.length == 0) output.links = null;
-					disconnected = true;
-					break;
+					var link_info = this.graph.links[ output.links[j] ];
+					if( link_info.target_id == this.id )
+					{
+						output.links.splice(j,1);
+						if(output.links.length == 0) output.links = null;
+						disconnected = true;
+						break;
+					}
 				}
+
+				if(this.onConnectionsChange)
+					this.onConnectionsChange( LiteGraph.OUTPUT );
+				if(node.onConnectionsChange)
+					node.onConnectionsChange( LiteGraph.INPUT);
 			}
-
-			if(this.onConnectionsChange)
-				this.onConnectionsChange( LiteGraph.OUTPUT );
-			if(node.onConnectionsChange)
-				node.onConnectionsChange( LiteGraph.INPUT);
 		}
+		input.links = null;
 	}
-
-	input.links = null;
 
 	if(disconnected)
 	{
