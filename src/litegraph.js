@@ -4687,17 +4687,22 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 		return;
 	}
 
-	//var dist = distance(a,b);
-	var hdist = Math.abs(a[0] - b[0]);
+	var hdist = distance(a,b);
+	//var hdist = Math.abs(a[0] - b[0]);
 
-	//adjust the distance for connections that go backwards
-	const control = 0.5;
-	const t1 = 150;
-	const s1 = 8;
-	const t2 = 100;
-	const s2 = 4;
-	const threshold = (t2-t2/s2-t1+t1/s1)/(1/s1-1/s2);
-	if(a[0] > b[0] && hdist > threshold)
+	//adjust the connction distance
+
+	//forward
+	const t1 = 100;
+	const s1 = 2;
+	//backwards
+	const t2 = 300;
+	const s2 = 8;
+
+	const control = 0.25;//0.5;
+	const threshold = -(t1-t1/s1-t2+t2/s2)/(1/s1-1/s2);
+
+	if(a[0] < b[0] || hdist < threshold)
 		hdist = t1 + (hdist - t1) / s1;
 	else
 		hdist = t2 + (hdist - t2) / s2;
