@@ -1168,25 +1168,6 @@ LGraph.prototype.connectionChange = function( node )
 	this.sendActionToCanvas("onConnectionChange");
 }
 
-/**
-* returns if the graph is in live mode
-* @method isLive
-*/
-
-LGraph.prototype.isLive = function()
-{
-	if(!this.list_of_graphcanvas)
-		return false;
-
-	for(var i = 0; i < this.list_of_graphcanvas.length; ++i)
-	{
-		var c = this.list_of_graphcanvas[i];
-		if(c.live_mode)
-			return true;
-	}
-	return false;
-}
-
 /* Called when something visually changed */
 LGraph.prototype.change = function()
 {
@@ -1940,7 +1921,7 @@ LGraphNode.prototype.isPointInsideNode = function(x,y, margin)
 {
 	margin = margin || 0;
 
-	var margin_top = this.graph && this.graph.isLive() ? 0 : 20;
+	var margin_top = 20;
 	if(this.flags.collapsed)
 	{
 		//if ( distance([x,y], [this.pos[0] + this.size[0]*0.5, this.pos[1] + this.size[1]*0.5]) < LiteGraph.NODE_COLLAPSED_RADIUS)
@@ -2555,7 +2536,6 @@ function LGraphCanvas( canvas, graph, options )
 	this.clear_background = true;
 
 	this.render_only_selected = true;
-	this.live_mode = false;
 	this.show_info = true;
 	this.allow_dragcanvas = true;
 	this.allow_dragnodes = true;
@@ -3034,12 +3014,12 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 		//and it is not interactive
 		if(n)
 		{
-			if(!this.live_mode && !n.flags.background)
+			if(!n.flags.background)
 				this.bringToFront(n); //if it wasnt selected?
 			var skip_action = false;
 
 			//not dragging mouse to connect two slots
-			if(!this.connecting_node && !n.flags.collapsed && !this.live_mode)
+			if(!this.connecting_node && !n.flags.collapsed)
 			{
 				//search for outputs
 				if(n.outputs)
@@ -3136,11 +3116,6 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 
 				if( n.onMouseDown && n.onMouseDown(e, [e.canvasX - n.pos[0], e.canvasY - n.pos[1]] ) )
 					block_drag_node = true;
-				else if(this.live_mode)
-				{
-					clicking_canvas_bg = true;
-					block_drag_node = true;
-				}
 
 				if(!block_drag_node)
 				{
@@ -3308,7 +3283,7 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 		}
 
 
-		if(this.node_dragged && !this.live_mode)
+		if(this.node_dragged)
 		{
 			/*
 			this.node_dragged.pos[0] += delta[0] / this.scale;
@@ -3331,7 +3306,7 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 			this.dirty_bgcanvas = true;
 		}
 
-		if(this.resizing_node && !this.live_mode)
+		if(this.resizing_node)
 		{
 			this.resizing_node.size[0] += delta[0] / this.scale;
 			this.resizing_node.size[1] += delta[1] / this.scale;
@@ -3829,10 +3804,6 @@ LGraphCanvas.prototype.computeVisibleNodes = function()
 	{
 		var n = this.graph._nodes[i];
 
-		//skip rendering nodes in live mode
-		if(this.live_mode && !n.onDrawBackground && !n.onDrawForeground)
-			continue;
-
 		if(!overlapBounding(this.visible_area, n.getBounding() ))
 			continue; //out of the visible area
 
@@ -3947,8 +3918,7 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 
 		//connections ontop?
 		//if(this.graph.config.links_ontop)
-		//	if(!this.live_mode)
-		//		this.drawConnections(ctx);
+		//    this.drawConnections(ctx);
 
 		//current connection
 		if(this.connecting_pos != null)
@@ -4161,8 +4131,7 @@ LGraphCanvas.prototype.drawBackCanvas = function()
 			ctx.shadowColor = "rgba(0,0,0,0)";
 
 		//draw connections
-		if(!this.live_mode)
-			this.drawConnections(ctx);
+		this.drawConnections(ctx);
 
 		ctx.shadowColor = "rgba(0,0,0,0)";
 
@@ -4186,7 +4155,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 	//if (this.selected) color = "#88F";
 
 	var render_title = true;
-	if(node.flags.skip_title_render || node.graph.isLive())
+	if(node.flags.skip_title_render)
 		render_title = false;
 	if(node.mouseOver)
 		render_title = true;
@@ -4212,21 +4181,6 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 	}
 	else
 		ctx.shadowColor = "transparent";
-
-	//only render if it forces it to do it
-	if(this.live_mode)
-	{
-		if(!node.flags.collapsed)
-		{
-			ctx.shadowColor = "transparent";
-			//if(node.onDrawBackground)
-			//	node.onDrawBackground(ctx);
-			if(node.onDrawForeground)
-				node.onDrawForeground(ctx);
-		}
-
-		return;
-	}
 
 	//draw in collapsed form
 	/*
@@ -4826,44 +4780,6 @@ LGraphCanvas.prototype.resize = function(width, height)
 	this.bgcanvas.width = this.canvas.width;
 	this.bgcanvas.height = this.canvas.height;
 	this.setDirty(true,true);
-}
-
-
-LGraphCanvas.prototype.switchLiveMode = function(transition)
-{
-	if(!transition)
-	{
-		this.live_mode = !this.live_mode;
-		this.dirty_canvas = true;
-		this.dirty_bgcanvas = true;
-		return;
-	}
-
-	var self = this;
-	var delta = this.live_mode ? 1.1 : 0.9;
-	if(this.live_mode)
-	{
-		this.live_mode = false;
-		this.editor_alpha = 0.1;
-	}
-
-	var t = setInterval(function() {
-		self.editor_alpha *= delta;
-		self.dirty_canvas = true;
-		self.dirty_bgcanvas = true;
-
-		if(delta < 1  && self.editor_alpha < 0.01)
-		{
-			clearInterval(t);
-			if(delta < 1)
-				self.live_mode = true;
-		}
-		if(delta > 1 && self.editor_alpha > 0.99)
-		{
-			clearInterval(t);
-			self.editor_alpha = 1;
-		}
-	},1);
 }
 
 LGraphCanvas.prototype.onNodeDblClicked = function(node)

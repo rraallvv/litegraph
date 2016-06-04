@@ -27,7 +27,6 @@ function Editor(container_id, options)
 	this.addToolsButton("playnode_button","Play","imgs/icon-play.png", this.onPlayButton.bind(this), ".tools-right" );
 	this.addToolsButton("playstepnode_button","Step","imgs/icon-playstep.png", this.onPlayStepButton.bind(this), ".tools-right" );
 	
-	this.addToolsButton("livemode_button","Live","imgs/icon-record.png", this.onLiveButton.bind(this), ".tools-right" );
 	this.addToolsButton("maximize_button","","imgs/icon-maximize.png", this.onFullscreenButton.bind(this), ".tools-right" );
 
 	//this.addMiniWindow(300,200);
@@ -136,16 +135,6 @@ Editor.prototype.onPlayStepButton = function()
 	var graph = this.graph;
 	graph.runStep(1);
 	this.graphcanvas.draw(true,true);
-}
-
-Editor.prototype.onLiveButton = function()
-{
-	var is_live_mode = !this.graphcanvas.live_mode;
-	this.graphcanvas.switchLiveMode(true);
-	this.graphcanvas.draw();
-	var url = this.graphcanvas.live_mode ? "imgs/gauss_bg_medium.jpg" : "imgs/gauss_bg.jpg";
-	var button = this.root.querySelector("#livemode_button");
-	button.innerHTML = !is_live_mode ? "<img src='imgs/icon-record.png'/> Live" : "<img src='imgs/icon-gear.png'/> Edit" ;
 }
 
 Editor.prototype.goFullscreen = function()
