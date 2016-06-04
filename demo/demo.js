@@ -28,8 +28,11 @@ function JSONGraph()
 						   {type:"widget/button",pos:[950,300]},
 						   {type:"basic/string",pos:[950,400],properties:{value:"!!!"}},
 						   {type:"graph/setProperty",pos:[1150,350],properties:{name:"astring"}},
-						   {type:"graph/comment",pos:[50,150],size:[800,300],properties:{comment:"Comment on network 1", color:"rgba(0,128,0,0.1)"}},
-						   {type:"graph/comment",pos:[900,150],size:[600,300],properties:{comment:"Comment on network 2"}},],
+						   {type:"graph/comment",pos:[50,150],size:[800,200],properties:{comment:"Comment on network 1", color:"rgba(0,128,0,0.1)"}},
+						   {type:"graph/comment",pos:[900,150],size:[600,300],properties:{comment:"Comment on network 2"}},
+						   {type:"widget/button",pos:[100,400]},
+						   {type:"basic/wrapper",pos:[300,450],properties:{name:"console.log",arguments:"msg"}},
+						   {type:"basic/string",pos:[100,500],properties:{value:"the message"}}],
 					links:[{origin_id:0,origin_slot:0,target_id:1},
 						   {origin_id:1,origin_slot:0,target_id:2},
 						   {origin_id:1,origin_slot:1,target_id:3},
@@ -40,7 +43,9 @@ function JSONGraph()
 						   {origin_id:8,origin_slot:0,target_id:9},
 						   {origin_id:10,origin_slot:0,target_id:3,target_slot:1},
 						   {origin_id:11,origin_slot:0,target_id:13},
-						   {origin_id:12,origin_slot:0,target_id:13,target_slot:1}],
+						   {origin_id:12,origin_slot:0,target_id:13,target_slot:1},
+						   {origin_id:16,origin_slot:0,target_id:17},
+						   {origin_id:18,origin_slot:0,target_id:17,target_slot:1}],
 					properties:{astring:"the string", aboolean:true}
 	});
 }
