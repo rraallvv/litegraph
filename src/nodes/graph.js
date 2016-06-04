@@ -275,13 +275,13 @@ function GetProperty( title )
 
 	this.addOutput("value", null);
 
-	this.properties = { name: this.title, type: null };
-
+	var property_name = title;
+	this.properties = { name: property_name, type: null };
 	var that = this;
 
 	Object.defineProperty( this.properties, "name", {
 		get: function() {
-			return that.properties[name];
+			return property_name;
 		},
 		set: function(v) {
 			if(v == "")
@@ -293,7 +293,7 @@ function GetProperty( title )
 			if(info.name == v)
 				return;
 			info.name = v;
-			that.properties[name] = v;
+			property_name = v;
 		},
 		enumerable: true
 	});
@@ -331,13 +331,13 @@ function SetProperty( title )
 	this.addInput("value", null);
 	this.addOutput("completed", LiteGraph.EXECUTE, {label:""});
 
-	this.properties = {name: this.title, type: null };
-
+	var property_name = title;
+	this.properties = {name: property_name, type: null };
 	var that = this;
 
 	Object.defineProperty(this.properties, "name", {
 		get: function() {
-			return that.properties[name];
+			return property_name;
 		},
 		set: function(v) {
 			if(v == "")
@@ -349,7 +349,7 @@ function SetProperty( title )
 			if(info.name == v)
 				return;
 			info.name = v;
-			that.properties[name] = v;
+			property_name = v;
 		},
 		enumerable: true
 	});
