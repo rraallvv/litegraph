@@ -36,7 +36,7 @@ function JSONGraph()
 						   {type:"widget/button",pos:[400,450]},
 						   {type:"basic/wrapper",pos:[550,500],properties:{name:"Math.sin", arguments:"number", return:"sin"}},
 						   {type:"basic/number",pos:[400,550],properties:{value:Math.PI/4}},
-						   {type:"basic/wrapper",pos:[700,500],properties:{name:"console.log", arguments:"msg"}},
+						   {type:"basic/wrapper",pos:[700,510],properties:{name:"console.log", arguments:"msg"}},
 						   {type:"graph/comment",pos:[50,400],size:[800,200],properties:{comment:"Examples with the Wrapper node", color:"rgba(128,0,0,0.1)"}}],
 					links:[{origin_id:0,origin_slot:0,target_id:1},
 						   {origin_id:1,origin_slot:0,target_id:2},
