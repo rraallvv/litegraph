@@ -3990,6 +3990,26 @@ LGraphCanvas.prototype.drawFrontCanvas = function()
 				ctx.fill();
 			}
 		}
+
+		//draw the comments
+		for (var i = 0; i < visible_nodes.length; ++i)
+		{
+			var node = visible_nodes[i];
+
+			if(!node.properties.comment)
+				continue;
+
+			//transform coords system
+			ctx.save();
+			ctx.translate( node.pos[0], node.pos[1] );
+
+			//Draw
+			this.drawNodeComment(node, ctx );
+
+			//Restore
+			ctx.restore();
+		}
+
 		ctx.restore();
 	}
 
@@ -4254,7 +4274,6 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 
 	//draw shape
 	this.drawNodeShape(node, ctx, size, color, node.bgcolor, !render_title, node.selected );
-	this.drawNodeComment(node, ctx);
 	ctx.shadowColor = "transparent";
 
 	//connection slots
@@ -4489,9 +4508,6 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 /* Renders the node comment */
 LGraphCanvas.prototype.drawNodeComment = function(node, ctx)
 {
-	if(!node.properties.comment)
-		return;
-
 	var comment = node.properties.comment;
 	var title = node.getTitle();
 
@@ -4513,6 +4529,8 @@ LGraphCanvas.prototype.drawNodeComment = function(node, ctx)
 	var old_alpha = ctx.globalAlpha;
 	ctx.globalAlpha = 0.5 * old_alpha;
 
+	ctx.font = LGraphCanvas.title_text_font;
+
 	//comment box
 	ctx.fillStyle = "#fff";
 	ctx.beginPath();
@@ -4524,7 +4542,6 @@ LGraphCanvas.prototype.drawNodeComment = function(node, ctx)
 	ctx.globalAlpha = old_alpha;
 
 	//comment text
-	ctx.font = LGraphCanvas.title_text_font;
 	ctx.fillStyle = "#000";
 	ctx.fillText( comment, padding, -separation-padding);
 
