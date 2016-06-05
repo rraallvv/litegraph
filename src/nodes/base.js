@@ -108,7 +108,7 @@ Console.prototype.onGetInputs = function()
 LiteGraph.registerNodeType("basic/console", Console );
 
 
-//Branch the execution branch depending on a condition value
+//Branch the execution path depending on the condition value
 function Branch()
 {
 	this.size = [60,20];
@@ -348,6 +348,37 @@ Wrapper.prototype.onExecute = function()
 }
 
 LiteGraph.registerNodeType("basic/wrapper", Wrapper);
+
+
+//For loop
+function ForLoop()
+{
+	this.addInput("for", LiteGraph.EXECUTE);
+	this.addInput("first index", "number");
+	this.addInput("last index", "number");
+	this.addOutput("loop body", LiteGraph.EXECUTE);
+	this.addOutput("index", "number");
+	this.addOutput("completed", LiteGraph.EXECUTE);
+}
+
+ForLoop.title = "For loop";
+ForLoop.desc = "Loop from the first to the last index";
+
+ForLoop.prototype.onExecute = function()
+{
+	var first_index = this.getInputData(1);
+	var last_index = this.getInputData(2);
+
+	for(var i = first_index; i <= last_index; i++)
+	{
+		this.setOutputData(1, i);
+		this.trigger("loop body");
+	}
+
+	this.trigger("completed");
+}
+
+LiteGraph.registerNodeType("basic/forLoop", ForLoop );
 
 
 })();
