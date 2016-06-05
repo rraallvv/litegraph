@@ -517,6 +517,103 @@ MathCondition.prototype.onDrawBackground = function(ctx)
 LiteGraph.registerNodeType("math/condition", MathCondition);
 
 
+function MathLogicCompare()
+{
+	this.addInput("A","boolean");
+	this.addInput("B","boolean");
+	this.addOutput("out","boolean");
+	this.addProperty( "A", true );
+	this.addProperty( "B", true );
+	this.addProperty( "OP", "&&", "string", { values: MathLogicCompare.values } );
+
+	this.size = [60,40];
+}
+
+MathLogicCompare.values = ["&&","||"];
+MathLogicCompare["@OP"] = { type:"enum", title: "operation", values: MathLogicCompare.values };
+
+MathLogicCompare.title = "Logic compare";
+MathLogicCompare.desc = "evaluates logical opertion between A and B";
+
+MathLogicCompare.prototype.onExecute = function()
+{
+	var A = this.getInputData(0);
+	if(A === undefined)
+		A = this.properties.A;
+	else
+		this.properties.A = A;
+
+	var B = this.getInputData(1);
+	if(B === undefined)
+		B = this.properties.B;
+	else
+		this.properties.B = B;
+		
+	var result = true;
+	switch(this.properties.OP)
+	{
+		case "&&": result = A&&B; break;
+		case "||": result = A||B; break;
+	}
+
+	this.setOutputData(0, result );
+}
+
+MathLogicCompare.prototype.onDrawBackground = function(ctx)
+{
+	if(this.flags.collapsed)
+		return;
+
+	ctx.font = "40px Arial";
+	ctx.fillStyle = "black";
+	ctx.textAlign = "center";
+	ctx.fillText(this.properties.OP, this.size[0] * 0.5, this.size[1] * 0.5 + LiteGraph.NODE_TITLE_HEIGHT );
+	ctx.textAlign = "left";
+}
+
+LiteGraph.registerNodeType("math/logicCompare", MathLogicCompare);
+
+
+function MathLogicNot()
+{
+	this.addInput("in","boolean");
+	this.addOutput("out","boolean");
+	this.addProperty( "in", true );
+}
+
+MathLogicNot.title = "Logic negation";
+MathLogicNot.desc = "evaluates logical negation opertion";
+
+MathLogicNot.prototype.onExecute = function()
+{
+	var input = this.getInputData(0);
+	if(input === undefined)
+		input = this.properties.input;
+	else
+		this.properties.input = input;
+
+	var result = true;
+	if(input)
+		result = !input;
+
+	this.setOutputData(0, result );
+}
+
+MathLogicNot.prototype.onDrawBackground = function(ctx)
+{
+	if(this.flags.collapsed)
+		return;
+
+	ctx.font = "40px Arial";
+	ctx.fillStyle = "black";
+	ctx.textAlign = "center";
+	ctx.fillText("NOT", this.size[0] * 0.5, this.size[1] * 0.5 + LiteGraph.NODE_TITLE_HEIGHT );
+	ctx.textAlign = "left";
+}
+
+LiteGraph.registerNodeType("math/logicNot", MathLogicNot);
+
+
 function MathAccumulate()
 {
 	this.addInput("inc","number");
