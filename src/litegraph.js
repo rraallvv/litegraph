@@ -1503,10 +1503,15 @@ LGraphNode.prototype.setOutputData = function(slot,data)
 
 	if(slot > -1 && slot < this.outputs.length && this.outputs[slot] && this.outputs[slot].links != null)
 	{
-		for(var i = 0; i < this.outputs[slot].links.length; i++)
+		var output = this.outputs[slot];
+		for(var i = 0, l = output.links.length; i < l; i++)
 		{
-			var link_id = this.outputs[slot].links[i];
-			this.graph.links[ link_id ].data = data;
+			var link_id = output.links[i];
+			var link = this.graph.links[ link_id ];
+			link.data = data;
+			var node = this.graph.getNodeById(link.target_id);
+			if(node)
+				node.invalidateConnectedLinks();
 		}
 	}
 }
