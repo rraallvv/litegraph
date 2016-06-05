@@ -1858,8 +1858,10 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 	rows = Math.max(rows, 1);
 	size[1] = rows * 14 + 6;
 
-	var font_size = 14;
 	var title_width = compute_text_size( this.title, LGraphCanvas.title_text_font );
+	var title_height = LiteGraph.NODE_TITLE_HEIGHT;
+	var input_to_output_separation = 10;
+
 	var input_width = 0;
 	var output_width = 0;
 
@@ -1867,7 +1869,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 		for(var i = 0, l = this.inputs.length; i < l; ++i)
 		{
 			var input = this.inputs[i];
-			var text = input.label || input.name || "";
+			var text = input.label != null ? input.label : input.name || "";
 			var text_width = compute_text_size( text, LGraphCanvas.inner_text_font );
 			if(input_width < text_width)
 				input_width = text_width;
@@ -1877,13 +1879,13 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 		for(var i = 0, l = this.outputs.length; i < l; ++i)
 		{
 			var output = this.outputs[i];
-			var text = output.label || output.name || "";
+			var text = output.label != null ? output.label : output.name || "";
 			var text_width = compute_text_size( text, LGraphCanvas.inner_text_font );
 			if(output_width < text_width)
 				output_width = text_width;
 		}
 
-	size[0] = Math.max( input_width + 10 + output_width + 10 + 10, title_width + 20);
+	size[0] = Math.max( input_width + 10 + output_width + 10 + input_to_output_separation, title_width + title_height);
 	size[0] = Math.max( size[0], LiteGraph.NODE_MIN_WIDTH );
 
 	function compute_text_size( text, font )
