@@ -350,6 +350,8 @@ function SetProperty( title )
 				return;
 			info.name = v;
 			property_name = v;
+
+			that.computeSize();
 		},
 		enumerable: true
 	});
