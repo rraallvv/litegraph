@@ -396,8 +396,16 @@ function ForLoopWithBreak()
 ForLoopWithBreak.title = "For loop with break";
 ForLoopWithBreak.desc = "Loop from the first to the last index, interrupted if break is triggered";
 
-ForLoopWithBreak.prototype.onExecute = function()
+ForLoopWithBreak.prototype.onExecute = function(action)
 {
+	if(action == "break" && this.looping)
+	{
+		this.looping = false;
+		return;
+	}
+
+	this.looping = true;
+
 	var first_index = this.getInputData(1);
 	var last_index = this.getInputData(2);
 
@@ -405,7 +413,7 @@ ForLoopWithBreak.prototype.onExecute = function()
 	{
 		this.setOutputData(1, i);
 		this.trigger("loop body");
-		if(this.getInputData(3)) return;
+		if(!this.looping) return;
 	}
 
 	this.trigger("completed");
