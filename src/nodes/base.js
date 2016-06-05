@@ -381,4 +381,38 @@ ForLoop.prototype.onExecute = function()
 LiteGraph.registerNodeType("basic/forLoop", ForLoop );
 
 
+//For loop with break
+function ForLoopWithBreak()
+{
+	this.addInput("for", LiteGraph.EXECUTE);
+	this.addInput("first index", "number");
+	this.addInput("last index", "number");
+	this.addInput("break", LiteGraph.EXECUTE);
+	this.addOutput("loop body", LiteGraph.EXECUTE);
+	this.addOutput("index", "number");
+	this.addOutput("completed", LiteGraph.EXECUTE);
+}
+
+ForLoopWithBreak.title = "For loop with break";
+ForLoopWithBreak.desc = "Loop from the first to the last index, interrupted if break is triggered";
+
+ForLoopWithBreak.prototype.onExecute = function()
+{
+	var first_index = this.getInputData(1);
+	var last_index = this.getInputData(2);
+
+	for(var i = first_index; i <= last_index; i++)
+	{
+		this.setOutputData(1, i);
+		this.trigger("loop body");
+		if(this.getInputData(3)) return;
+	}
+
+	this.trigger("completed");
+}
+
+LiteGraph.registerNodeType("basic/forLoopWithBreak", ForLoopWithBreak );
+
+
+
 })();
