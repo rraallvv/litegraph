@@ -502,6 +502,18 @@ MathCondition.prototype.onExecute = function()
 	this.setOutputData(0, result );
 }
 
+MathCondition.prototype.onDrawBackground = function(ctx)
+{
+	if(this.flags.collapsed)
+		return;
+
+	ctx.font = "40px Arial";
+	ctx.fillStyle = "black";
+	ctx.textAlign = "center";
+	ctx.fillText(this.properties.OP, this.size[0] * 0.5, this.size[1] * 0.5 + LiteGraph.NODE_TITLE_HEIGHT );
+	ctx.textAlign = "left";
+}
+
 LiteGraph.registerNodeType("math/condition", MathCondition);
 
 
