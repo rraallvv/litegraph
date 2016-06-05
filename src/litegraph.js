@@ -3089,7 +3089,8 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 			}
 
 			//Search for corner
-			if( !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0], n.pos[1] - LiteGraph.NODE_TITLE_HEIGHT ,LiteGraph.NODE_TITLE_HEIGHT, LiteGraph.NODE_TITLE_HEIGHT ))
+			var title_heiht = LiteGraph.NODE_TITLE_HEIGHT;
+			if( !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - title_heiht, n.pos[1] - title_heiht ,title_heiht, title_heiht ))
 			{
 				n.collapse();
 				skip_action = true;
@@ -4434,15 +4435,15 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		ctx.beginPath();
 		if(node.flags.collapsed)
 		{
-			ctx.moveTo(11,8-title_height);
-			ctx.lineTo(5,13-title_height);
-			ctx.lineTo(5,3-title_height);
+			ctx.moveTo(size[0]-11,8-title_height);
+			ctx.lineTo(size[0]-5,13-title_height);
+			ctx.lineTo(size[0]-5,3-title_height);
 		}
 		else
 		{
-			ctx.moveTo(8,12-title_height);
-			ctx.lineTo(13,6-title_height);
-			ctx.lineTo(3,6-title_height);
+			ctx.moveTo(size[0]-8,12-title_height);
+			ctx.lineTo(size[0]-13,6-title_height);
+			ctx.lineTo(size[0]-3,6-title_height);
 		}
 		ctx.fill();
 		ctx.globalAlpha = old_alpha;
@@ -4453,7 +4454,7 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		if(title && this.scale > 0.5)
 		{
 			ctx.fillStyle = LiteGraph.NODE_TITLE_COLOR;
-			ctx.fillText( title, 16, 13 - title_height );
+			ctx.fillText( title, 4, 13 - title_height );
 		}
 	}
 }
