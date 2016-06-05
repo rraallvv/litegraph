@@ -39,7 +39,6 @@ var LiteGraph = {
 	//NODE_WIDTH: 140,
 	NODE_MIN_WIDTH: 105,
 	NODE_COLLAPSED_RADIUS: 10,
-	NODE_COLLAPSED_WIDTH: 80,
 	CANVAS_GRID_SIZE: 10,
 	NODE_TITLE_COLOR: "#222",
 	NODE_DEFAULT_COLOR: "#999",
@@ -941,7 +940,7 @@ LGraph.prototype.getNodeOnPos = function(x,y, nodes_list)
 	for (var i = nodes_list.length - 1; i >= 0; i--)
 	{
 		var n = nodes_list[i];
-		if(n.isPointInsideNode( x, y, 2 ))
+		if(n.isPointInsideNode( x, y, 6 ))
 			return n;
 	}
 	return null;
@@ -1921,26 +1920,16 @@ LGraphNode.prototype.isPointInsideNode = function(x,y, margin)
 {
 	margin = margin || 0;
 
-	var margin_top = 20;
-	if(this.flags.collapsed)
-	{
-		var left = this.pos[0] - margin;
-		var top = this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT - margin;
-		var width = LiteGraph.NODE_COLLAPSED_WIDTH + 2 * margin;
-		var height = LiteGraph.NODE_TITLE_HEIGHT + 2 * margin;
-		//if ( distance([x,y], [this.pos[0] + this.size[0]*0.5, this.pos[1] + this.size[1]*0.5]) < LiteGraph.NODE_COLLAPSED_RADIUS)
-		if( isInsideRectangle( x, y, left, top, width, height ) )
-			return true;
-	}
-	else
-	{
-		var left = this.pos[0] - 4 - margin;
-		var top = this.pos[1] - margin_top - margin;
-		var width = this.size[0] + 8 + 2 * margin;
-		var height = this.size[1] + margin_top + 2 * margin;
-		if( isInsideRectangle( x, y, left, top, width, height ) )
-			return true;
-	}
+	var title_heiht = LiteGraph.NODE_TITLE_HEIGHT;
+	var left = this.pos[0] - margin;
+	var top = this.pos[1] - title_heiht - margin;
+	var width = this.size[0] + 2 * margin;
+	var height = (this.flags.collapsed ? 0 : this.size[1]) + title_heiht + 2 * margin;
+
+	//if ( distance([x,y], [this.pos[0] + this.size[0]*0.5, this.pos[1] + this.size[1]*0.5]) < LiteGraph.NODE_COLLAPSED_RADIUS)
+	if( isInsideRectangle( x, y, left, top, width, height ) )
+		return true;
+
 	return false;
 }
 
@@ -2323,7 +2312,7 @@ LGraphNode.prototype.getConnectionPos = function(is_input, slot_number)
 		if(is_input)
 			return [this.pos[0], this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT * 0.5];
 		else
-			return [this.pos[0] + LiteGraph.NODE_COLLAPSED_WIDTH, this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT * 0.5];
+			return [this.pos[0] + this.size[0], this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT * 0.5];
 		//return [this.pos[0] + this.size[0] * 0.5, this.pos[1] + this.size[1] * 0.5];
 	}
 
@@ -4210,7 +4199,7 @@ LGraphCanvas.prototype.drawNode = function(node, ctx )
 	var size = new Float32Array(node.size);
 	if(node.flags.collapsed)
 	{
-		size[0] = LiteGraph.NODE_COLLAPSED_WIDTH;
+		size[0] = node.size[0];
 		size[1] = 0;
 	}
 
