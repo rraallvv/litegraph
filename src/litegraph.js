@@ -1924,13 +1924,23 @@ LGraphNode.prototype.isPointInsideNode = function(x,y, margin)
 	var margin_top = 20;
 	if(this.flags.collapsed)
 	{
+		var left = this.pos[0] - margin;
+		var top = this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT - margin;
+		var width = LiteGraph.NODE_COLLAPSED_WIDTH + 2 * margin;
+		var height = LiteGraph.NODE_TITLE_HEIGHT + 2 * margin;
 		//if ( distance([x,y], [this.pos[0] + this.size[0]*0.5, this.pos[1] + this.size[1]*0.5]) < LiteGraph.NODE_COLLAPSED_RADIUS)
-		if( isInsideRectangle( x, y, this.pos[0] - margin, this.pos[1] - LiteGraph.NODE_TITLE_HEIGHT - margin, LiteGraph.NODE_COLLAPSED_WIDTH + 2 * margin, LiteGraph.NODE_TITLE_HEIGHT + 2 * margin ) )
+		if( isInsideRectangle( x, y, left, top, width, height ) )
 			return true;
 	}
-	else if ( (this.pos[0] - 4 - margin) < x && (this.pos[0] + this.size[0] + 4 + margin) > x
-		&& (this.pos[1] - margin_top - margin) < y && (this.pos[1] + this.size[1] + margin) > y)
-		return true;
+	else
+	{
+		var left = this.pos[0] - 4 - margin;
+		var top = this.pos[1] - margin_top - margin;
+		var width = this.size[0] + 8 + 2 * margin;
+		var height = this.size[1] + margin_top + 2 * margin;
+		if( isInsideRectangle( x, y, left, top, width, height ) )
+			return true;
+	}
 	return false;
 }
 
