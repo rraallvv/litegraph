@@ -4643,25 +4643,11 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 		return;
 	}
 
-	var hdist = distance(a,b);
-	//var hdist = Math.abs(a[0] - b[0]);
-
-	//adjust the connction distance
-
-	//forward
-	const t1 = 100;
-	const s1 = 2;
-	//backwards
-	const t2 = 300;
-	const s2 = 8;
-
+	//control points
 	const control = 0.25;//0.5;
-	const threshold = -(t1-t1/s1-t2+t2/s2)/(1/s1-1/s2);
 
-	if(a[0] < b[0] || hdist < threshold)
-		hdist = t1 + (hdist - t1) / s1;
-	else
-		hdist = t2 + (hdist - t2) / s2;
+	var cdist = compute_connection_distance(a,b);
+	//var cdist = b[0] - a[0];
 
 	if(this.render_connections_border && this.scale > 0.6)
 		ctx.lineWidth = this.connections_width + 4;
@@ -4671,8 +4657,8 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	if(this.render_curved_connections) //splines
 	{
 		ctx.moveTo(a[0],a[1]);
-		ctx.bezierCurveTo(a[0] + hdist*control, a[1],
-							b[0] - hdist*control , b[1],
+		ctx.bezierCurveTo(a[0] + cdist*control, a[1],
+							b[0] - cdist*control , b[1],
 							b[0] ,b[1] );
 	}
 	else //lines
@@ -4696,8 +4682,8 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 	//render arrow
 	if(this.render_connection_arrows && this.scale > 0.6)
 	{
-		var pos = compute_connection_point(a,b,0.5,hdist);
-		var pos2 = compute_connection_point(a,b,0.51,hdist);
+		var pos = compute_connection_point(a,b,0.5,cdist);
+		var pos2 = compute_connection_point(a,b,0.51,cdist);
 
 		//get two points in the bezier curve
 		var angle = 0;
@@ -4727,11 +4713,42 @@ LGraphCanvas.prototype.renderLink = function(ctx,a,b,color, skip_border, flow )
 		for(var i = 0; i < dotsCount; ++i)
 		{
 			var f = (LiteGraph.getTime() * dotsSpeed + (i * 1/dotsCount)) % 1;
-			var pos = compute_connection_point(a,b,f,hdist);
+			var pos = compute_connection_point(a,b,f,cdist);
 			ctx.beginPath();
 			ctx.arc(pos[0],pos[1],2*this.connections_width,0,2*Math.PI);
 			ctx.fill();
 		}
+	}
+
+	function compute_connection_distance(a, b)
+	{
+		//connection going forward
+		var df = 100;
+		const sf = 2;
+		//connection going backwards
+		var db = 600;
+		const sb = 4;
+		//transition threshold
+		const th = 300;
+
+		var d = distance(a,b);
+		//var d = b[0] - a[0];
+
+		//fix distance
+		df = df + (d - df) / sf;
+		db = db + (d - db) / sb;
+
+		if(a[0] < b[0]) //forward
+			d = df;
+		else if (a[0] > b[0] + th) //backwards
+			d = db;
+		else //transition
+		{
+			var t = (a[0] - b[0]) / th;
+			d = (1 - t) * df + t * db;
+		}
+
+		return d;
 	}
 
 	function compute_connection_point(a,b,t,d)
