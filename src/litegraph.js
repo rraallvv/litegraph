@@ -1192,17 +1192,43 @@ LGraph.prototype.setDirtyCanvas = function(fg,bg)
 */
 LGraph.prototype.serialize = function()
 {
+	//store the nodes to serialize
 	var nodes_info = [];
 	for(var i = 0, l = this._nodes.length; i < l; ++i)
 		nodes_info.push( this._nodes[i].serialize() );
 
-	//remove data from links, we dont want to store it
-	for(var i in this.links) //links is an OBJECT
+	//sort nodes to serialize by id
+	nodes_info.sort(compare);
+
+	//remove id from nodes
+	for(var i in nodes_info)
+		delete nodes_info[i].id;
+
+	//store the links to serialize
+	var links_info = [];
+	for(var i = 0, l = this.links.length; i < l; ++i)
 	{
 		var link = this.links[i];
-		link.data = null;
-		delete link._last_time;
+		links_info.push({
+			id: link.id,
+			origin_id: link.origin_id,
+			origin_slot: link.origin_slot,
+			target_id: link.target_id,
+			target_slot: link.target_slot
+		});
 	}
+
+	//sort links to serialize by id
+	links_info.sort(compare);
+
+	//remove id from links
+	for(var i in links_info)
+		delete links_info[i].id;
+
+	//store the properties to serialize
+	var properties_info = {};
+	for(var i in this.properties)
+		properties_info[i] = this.properties[i];
 
 	var data = {
 //		graph: this.graph,
@@ -1211,11 +1237,22 @@ LGraph.prototype.serialize = function()
 		frame: this.frame,
 		last_node_id: this.last_node_id,
 		last_link_id: this.last_link_id,
-		links: LiteGraph.cloneObject( this.links ),
+		links: links_info,
+		properties: properties_info,
 
 		config: this.config,
 		nodes: nodes_info
 	};
+
+	function compare(a,b)
+	{
+		if (a.id < b.id)
+			return -1;
+		else if (a.id > b.id)
+			return 1;
+		else
+			return 0;
+	}
 
 	return data;
 }
