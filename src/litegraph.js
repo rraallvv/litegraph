@@ -3140,7 +3140,7 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 					}
 
 				//Search for corner
-				if( !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 5, n.pos[1] + n.size[1] - 5 ,5,5 ))
+				if( n.resizable && !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 10, n.pos[1] + n.size[1] - 10, 10, 10))
 				{
 					this.resizing_node = n;
 					this.canvas.style.cursor = "se-resize";
@@ -3326,7 +3326,7 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 			}
 
 			//Search for corner
-			if( isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 5, n.pos[1] + n.size[1] - 5 ,5,5 ))
+			if( n.resizable && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 10, n.pos[1] + n.size[1] - 10, 10, 10))
 				this.canvas.style.cursor = "se-resize";
 			else
 				this.canvas.style.cursor = null;
