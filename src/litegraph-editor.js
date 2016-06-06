@@ -110,7 +110,46 @@ Editor.prototype.onLoadButton = function()
 
 Editor.prototype.onSaveButton = function()
 {
-	console.log(this.graph.serialize());
+	var object = this.graph.serialize();
+	var string = JSON.stringify(object, null, "\t");
+/*
+	var formatted = "";
+	var level = 0;
+	for(var i = 0, l = string.length; i < l; i++)
+	{
+		var c = string[i];
+		if(c == "{" || c == "[" || c == "(")
+		{
+			formatted += c;
+			level++;
+			if(level < 2)
+			{
+				formatted += "\n";
+				for(var j = 0; j < level; j++)
+					formatted += "\t";
+			}
+		}
+		else if(c == "}" || c == "]" || c == ")")
+		{
+			level--;
+			formatted += c;
+		}
+		else if(c == ",")
+		{
+			formatted += c;
+			if(level == 2)
+			{
+				formatted += "\n";
+				for(var j = 0; j < level; j++)
+					formatted += "\t";
+			}
+		}
+		else
+			formatted += c;
+	}
+*/
+	var dataURI = "data:text/json;charset=utf-8," + encodeURIComponent(string);
+	window.open(dataURI);
 }
 
 Editor.prototype.onPlayButton = function()
