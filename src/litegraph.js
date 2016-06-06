@@ -1233,15 +1233,15 @@ LGraph.prototype.serialize = function()
 	var data = {
 //		graph: this.graph,
 
-		iteration: this.iteration,
-		frame: this.frame,
-		last_node_id: this.last_node_id,
-		last_link_id: this.last_link_id,
+//		iteration: this.iteration,
+//		frame: this.frame,
+//		last_node_id: this.last_node_id,
+//		last_link_id: this.last_link_id,
+		nodes: nodes_info,
 		links: links_info,
 		properties: properties_info,
 
-		config: this.config,
-		nodes: nodes_info
+//		config: this.config,
 	};
 
 	function compare(a,b)
