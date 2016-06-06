@@ -20,7 +20,6 @@ function Subgraph()
 	this.subgraph.onGlobalOutputRenamed = this.onSubgraphRenamedGlobalOutput.bind(this);
 	this.subgraph.onGlobalOutputTypeChanged = this.onSubgraphTypeChangeGlobalOutput.bind(this);
 
-
 	this.bgcolor = "#940";
 }
 
@@ -375,6 +374,7 @@ function Comment( title )
 	this.overlapping_nodes = [];
 	this.is_dragging = false;
 	this.bgcolor = "rgba(128,128,128,0.1)";
+	this.resizable = true;
 
 	this.properties = { comment: this.title, color: this.bgcolor };
 
