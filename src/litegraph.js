@@ -1454,33 +1454,35 @@ LGraphNode.prototype.configure = function(info)
 
 LGraphNode.prototype.serialize = function()
 {
-	var o = {
-		id: this.id,
-		title: this.title,
-		type: this.type,
-		pos: this.pos,
-		size: this.size,
-		data: this.data,
-		flags: LiteGraph.cloneObject(this.flags),
-		inputs: this.inputs,
-		outputs: this.outputs,
-		enabled: this.enabled
-	};
+	var o = {};
+	o.id = this.id;
+//		title: this.title,
+	o.type = this.type;
+	o.pos = this.pos;
+	o.size = this.size;
+	if(this.data && this.data.length)
+		o.data = this.data;
+	if(this.flags && this.flags.length)
+		o.flags = LiteGraph.cloneObject(this.flags);
+//		inputs: this.inputs,
+//		outputs: this.outputs,
+	if(this.enabled === false)
+		o.enabled = this.enabled;
 
-	if(this.properties)
+	if(this.properties && this.properties.length)
 		o.properties = LiteGraph.cloneObject(this.properties);
 
 	if(!o.type)
 		o.type = this.constructor.type;
 
-	if(this.color)
-		o.color = this.color;
-	if(this.bgcolor)
-		o.bgcolor = this.bgcolor;
-	if(this.boxcolor)
-		o.boxcolor = this.boxcolor;
-	if(this.shape)
-		o.shape = this.shape;
+//	if(this.color)
+//		o.color = this.color;
+//	if(this.bgcolor)
+//		o.bgcolor = this.bgcolor;
+//	if(this.boxcolor)
+//		o.boxcolor = this.boxcolor;
+//	if(this.shape)
+//		o.shape = this.shape;
 
 	if(this.onSerialize)
 		this.onSerialize(o);
@@ -1906,7 +1908,7 @@ LGraphNode.prototype.addConnection = function(name,type,pos,direction)
 LGraphNode.prototype.computeSize = function( minHeight, out )
 {
 	var rows = Math.max( this.inputs ? this.inputs.length : 1, this.outputs ? this.outputs.length : 1);
-	var size = out || new Float32Array([0,0]);
+	var size = out || [0,0];
 	rows = Math.max(rows, 1);
 	size[1] = rows * 14 + 6;
 
