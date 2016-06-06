@@ -275,7 +275,7 @@ function GetProperty( title )
 	this.addOutput("value", null);
 
 	var property_name = title;
-	this.properties = { name: property_name, type: null };
+	this.properties = { name: property_name };
 	var that = this;
 
 	Object.defineProperty( this.properties, "name", {
@@ -294,11 +294,6 @@ function GetProperty( title )
 			info.name = v;
 			property_name = v;
 		},
-		enumerable: true
-	});
-
-	Object.defineProperty( this.properties, "type", {
-		get: function() { return that.outputs[0].type; },
 		enumerable: true
 	});
 }
@@ -331,7 +326,7 @@ function SetProperty( title )
 	this.addOutput("completed", LiteGraph.EXECUTE, {label:""});
 
 	var property_name = title;
-	this.properties = {name: property_name, type: null };
+	this.properties = {name: property_name};
 	var that = this;
 
 	Object.defineProperty(this.properties, "name", {
@@ -352,11 +347,6 @@ function SetProperty( title )
 
 			that.computeSize();
 		},
-		enumerable: true
-	});
-
-	Object.defineProperty(this.properties, "type", {
-		get: function() { return that.inputs[1].type; },
 		enumerable: true
 	});
 }
