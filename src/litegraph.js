@@ -1390,9 +1390,6 @@ LGraphNode.prototype.configure = function(info)
 		if(j == "console")
 			continue;
 
-		if(j == "size")
-			this.resizable = true;
-
 		if(j == "properties")
 		{
 			//i dont want to clone properties, I want to reuse the old container
