@@ -355,7 +355,10 @@ LGraph.prototype.configure = function(data, keep_old)
 		{
 			var l_info = links[i]; //stored info
 
-			var node_a = this.getNodeById(l_info.origin_id);
+			var origin_info = String(l_info[0]).split(".");
+			var target_info = String(l_info[1]).split(".");
+
+			var node_a = this.getNodeById(origin_info[0] | 0);
 			if(!node_a)
 			{
 				if(LiteGraph.debug)
@@ -364,7 +367,7 @@ LGraph.prototype.configure = function(data, keep_old)
 				continue;
 			}
 
-			var node_b = this.getNodeById(l_info.target_id);
+			var node_b = this.getNodeById(target_info[0] | 0);
 			if(!node_b)
 			{
 				if(LiteGraph.debug)
@@ -373,8 +376,8 @@ LGraph.prototype.configure = function(data, keep_old)
 				continue;
 			}
 
-			var slot_a = l_info.origin_slot;
-			var slot_b = l_info.target_slot;
+			var slot_a = origin_info[1] | 0;
+			var slot_b = target_info[1] | 0;
 
 			node_a.connect(slot_a, node_b, slot_b);
 		}
@@ -1205,11 +1208,11 @@ LGraph.prototype.serialize = function()
 		delete nodes_info[i].id;
 
 	//store the links to serialize
-	var links_info = [];
+	var links = [];
 	for(var i = 0, l = this.links.length; i < l; ++i)
 	{
 		var link = this.links[i];
-		links_info.push({
+		links.push({
 			id: link.id,
 			origin_id: link.origin_id,
 			origin_slot: link.origin_slot,
@@ -1219,11 +1222,18 @@ LGraph.prototype.serialize = function()
 	}
 
 	//sort links to serialize by id
-	links_info.sort(compare);
+	links.sort(compare);
 
-	//remove id from links
-	for(var i in links_info)
-		delete links_info[i].id;
+	//parse links
+	links_info = [];
+	for(var i = 0, l = links.length; i < l; i++)
+	{
+		var link_info = links[i];
+		links_info.push([
+			parseFloat(link_info.origin_id+"."+link_info.origin_slot),
+			parseFloat(link_info.target_id+"."+link_info.target_slot)
+		]);
+	}
 
 	//store the properties to serialize
 	var properties_info = {};
