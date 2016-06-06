@@ -6,7 +6,6 @@
 	function WidgetButton()
 	{
 		this.addOutput( "clicked", LiteGraph.EXECUTE, {label:""} );
-		this.size = [64,64];
 	}
 
 	WidgetButton.title = "Button";

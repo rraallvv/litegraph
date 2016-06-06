@@ -43,7 +43,6 @@ LiteGraph.registerNodeType("basic/number", BasicNumber);
 //Watch a value in the editor
 function Watch()
 {
-	this.size = [60,20];
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
 	this.addProperty( "value", "" );
@@ -81,7 +80,6 @@ LiteGraph.registerNodeType("basic/watch", Watch);
 //Show value inside the debug console
 function Console()
 {
-	this.size = [60,20];
 	this.addProperty( "msg", "" );
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
@@ -111,7 +109,6 @@ LiteGraph.registerNodeType("basic/console", Console );
 //Branch the execution path depending on the condition value
 function Branch()
 {
-	this.size = [60,20];
 	this.addInput("if", LiteGraph.EXECUTE);
 	this.addProperty("condition", false, "boolean");
 	this.addInput("condition","boolean");

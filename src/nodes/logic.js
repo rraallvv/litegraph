@@ -3,7 +3,6 @@ function Selector()
 	this.addInput("sel","boolean");
 	this.addOutput("value","number");
 	this.properties = { A:0, B:1 };
-	this.size = [60,20];
 }
 
 Selector.title = "Selector";

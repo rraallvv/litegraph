@@ -6,7 +6,6 @@
 function Subgraph()
 {
 	var that = this;
-	this.size = [120,60];
 
 	//create inner graph
 	this.subgraph = new LGraph();
