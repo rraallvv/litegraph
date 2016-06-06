@@ -462,7 +462,7 @@ Comment.prototype.onDrawBackground = function(ctx)
 	if(!this.handlePattern)
 		this.handlePattern = ctx.createPattern(this.handleImage,"repeat")
 
-	var s = 12;
+	var s = 13;
 	var r = 10;
 	var c = s - r;
 	var t = [this.size[0] - s, this.size[1] - s];
