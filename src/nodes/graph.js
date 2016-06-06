@@ -390,6 +390,15 @@ function Comment( title )
 
 	var that = this;
 
+	var handleImage = "imgs/resize-handle.png";
+	this.handleImage = new Image();
+	this.handleImage.name = handleImage;
+	this.handleImage.src = handleImage;
+
+	this.handleImage.onload = function() {
+		that.graph.setDirtyCanvas(false,true);
+	}
+
 	Object.defineProperty( this.properties, "comment", {
 		get: function() {
 			return that.title;
@@ -456,6 +465,32 @@ Comment.prototype.onMouseUp = function(e)
 	this.onMouseMove(e);
 	this.overlapping_nodes = [];
 	this.is_dragging = false;
+}
+
+Comment.prototype.onDrawBackground = function(ctx)
+{
+	if(!this.handlePattern)
+		this.handlePattern = ctx.createPattern(this.handleImage,"repeat")
+
+	var s = 12;
+	var r = 10;
+	var c = s - r;
+	var t = [this.size[0] - s, this.size[1] - s];
+
+	ctx.fillStyle = this.handlePattern;
+
+	ctx.translate(t[0], t[1]);
+
+	ctx.beginPath();
+	ctx.moveTo(c, s);
+	ctx.lineTo(0, s);
+	ctx.lineTo(s, 0);
+	ctx.lineTo(s, c);
+	ctx.arc(c, c, r, 0, Math.PI / 2);
+	ctx.closePath();
+	ctx.fill();
+
+	ctx.translate(-t[0], -t[1]);
 }
 
 LiteGraph.registerNodeType("graph/comment", Comment);

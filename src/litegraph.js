@@ -3143,7 +3143,7 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 				if( n.resizable && !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 10, n.pos[1] + n.size[1] - 10, 10, 10))
 				{
 					this.resizing_node = n;
-					this.canvas.style.cursor = "se-resize";
+					this.canvas.style.cursor = "nwse-resize";
 					skip_action = true;
 				}
 			}
@@ -3327,7 +3327,7 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 
 			//Search for corner
 			if( n.resizable && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 10, n.pos[1] + n.size[1] - 10, 10, 10))
-				this.canvas.style.cursor = "se-resize";
+				this.canvas.style.cursor = "nwse-resize";
 			else
 				this.canvas.style.cursor = null;
 		}
@@ -3376,7 +3376,7 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 			if(this.resizing_node.size[0] < LiteGraph.NODE_MIN_WIDTH)
 				this.resizing_node.size[0] = LiteGraph.NODE_MIN_WIDTH;
 
-			this.canvas.style.cursor = "se-resize";
+			this.canvas.style.cursor = "nwse-resize";
 			this.dirty_canvas = true;
 			this.dirty_bgcanvas = true;
 		}
