@@ -1235,11 +1235,6 @@ LGraph.prototype.serialize = function()
 		]);
 	}
 
-	//store the properties to serialize
-	var properties_info = {};
-	for(var i in this.properties)
-		properties_info[i] = this.properties[i];
-
 	var data = {
 //		graph: this.graph,
 
@@ -1249,10 +1244,14 @@ LGraph.prototype.serialize = function()
 //		last_link_id: this.last_link_id,
 		nodes: nodes_info,
 		links: links_info,
-		properties: properties_info,
+//		properties: properties_info,
 
 //		config: this.config,
 	};
+
+	//store the properties to serialize
+	if(!isEmpty(this.properties))
+		data.properties = LiteGraph.cloneObject(this.properties);
 
 	function compare(a,b)
 	{
@@ -1473,7 +1472,7 @@ LGraphNode.prototype.serialize = function()
 	if(this.enabled === false)
 		o.enabled = this.enabled;
 
-	if(this.properties && this.properties.length)
+	if(!isEmpty(this.properties))
 		o.properties = LiteGraph.cloneObject(this.properties);
 
 	if(!o.type)
@@ -5549,6 +5548,11 @@ function num2hex(triplet) {
 		hex += hex_alphabets.charAt(int1) + hex_alphabets.charAt(int2);
 	}
 	return(hex);
+}
+
+function isEmpty(object)
+{
+	return Object.keys(object).length === 0 && object.constructor === Object;
 }
 
 /* LiteGraph GUI elements *************************************/
