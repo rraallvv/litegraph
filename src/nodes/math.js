@@ -4,7 +4,6 @@
 function Converter()
 {
 	this.addInput("in","*");
-	this.size = [60,20];
 }
 
 Converter.title = "Converter";
@@ -65,7 +64,6 @@ function Bypass()
 {
 	this.addInput("in");
 	this.addOutput("out");
-	this.size = [60,20];
 }
 
 Bypass.title = "Bypass";
@@ -143,7 +141,6 @@ function MathRand()
 	this.addOutput("value","number");
 	this.addProperty( "min", 0 );
 	this.addProperty( "max", 1 );
-	this.size = [60,20];
 }
 
 MathRand.title = "Rand";
@@ -187,7 +184,6 @@ function MathClamp()
 {
 	this.addInput("in","number");
 	this.addOutput("out","number");
-	this.size = [60,20];
 	this.addProperty( "min", 0 );
 	this.addProperty( "max", 1 );
 }
@@ -221,7 +217,6 @@ function MathAbs()
 {
 	this.addInput("in","number");
 	this.addOutput("out","number");
-	this.size = [60,20];
 }
 
 MathAbs.title = "Abs";
@@ -242,7 +237,6 @@ function MathFloor()
 {
 	this.addInput("in","number");
 	this.addOutput("out","number");
-	this.size = [60,20];
 }
 
 MathFloor.title = "Floor";
@@ -263,7 +257,6 @@ function MathFrac()
 {
 	this.addInput("in","number");
 	this.addOutput("out","number");
-	this.size = [60,20];
 }
 
 MathFrac.title = "Frac";
@@ -285,7 +278,6 @@ function MathSmoothStep()
 {
 	this.addInput("in","number");
 	this.addOutput("out","number");
-	this.size = [60,20];
 	this.properties = { A: 0, B: 1 };
 }
 
@@ -316,7 +308,6 @@ function MathScale()
 {
 	this.addInput("in","number",{label:""});
 	this.addOutput("out","number",{label:""});
-	this.size = [60,20];
 	this.addProperty( "factor", 1 );
 }
 
@@ -464,8 +455,6 @@ function MathCondition()
 	this.addProperty( "A", 1 );
 	this.addProperty( "B", 1 );
 	this.addProperty( "OP", ">", "string", { values: MathCondition.values } );
-
-	this.size = [60,40];
 }
 
 MathCondition.values = [">","<","==","!=","<=",">="];
@@ -525,8 +514,6 @@ function MathLogicCompare()
 	this.addProperty( "A", true );
 	this.addProperty( "B", true );
 	this.addProperty( "OP", "&&", "string", { values: MathLogicCompare.values } );
-
-	this.size = [60,40];
 }
 
 MathLogicCompare.values = ["&&","||"];
