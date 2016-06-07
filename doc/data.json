@@ -22,12 +22,12 @@
             "classitems": [],
             "plugins": [],
             "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
+            "pluginFor": [],
+            "extensionFor": [],
             "file": "../src/litegraph.js",
             "line": 6,
             "description": "The Global Scope. It contains all the registered node classes.",
-            "is_constructor": 1
+            "isConstructor": 1
         },
         "LGraph": {
             "name": "LGraph",
@@ -35,12 +35,12 @@
             "classitems": [],
             "plugins": [],
             "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
+            "pluginFor": [],
+            "extensionFor": [],
             "file": "../src/litegraph.js",
             "line": 234,
             "description": "LGraph is the class that contain a full graph. We instantiate one and add nodes to it, and then we can run the execution loop.",
-            "is_constructor": 1
+            "isConstructor": 1
         },
         "LGraphNode": {
             "name": "LGraphNode",
@@ -48,8 +48,8 @@
             "classitems": [],
             "plugins": [],
             "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
+            "pluginFor": [],
+            "extensionFor": [],
             "file": "../src/litegraph.js",
             "line": 1166,
             "description": "Base Class for all the node type classes",
@@ -67,12 +67,12 @@
             "classitems": [],
             "plugins": [],
             "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
+            "pluginFor": [],
+            "extensionFor": [],
             "file": "../src/litegraph.js",
             "line": 2551,
             "description": "marks as dirty the canvas, this way it will be rendered again",
-            "is_constructor": 1,
+            "isConstructor": 1,
             "params": [
                 {
                     "name": "canvas",
@@ -102,7 +102,7 @@
                     "type": "String"
                 },
                 {
-                    "name": "base_class",
+                    "name": "baseClass",
                     "description": "class containing the structure of a node",
                     "type": "Class"
                 }
@@ -200,7 +200,7 @@
             "name": "attachCanvas",
             "params": [
                 {
-                    "name": "graph_canvas",
+                    "name": "graphCanvas",
                     "description": "",
                     "type": "GraphCanvas"
                 }
@@ -215,7 +215,7 @@
             "name": "detachCanvas",
             "params": [
                 {
-                    "name": "graph_canvas",
+                    "name": "graphCanvas",
                     "description": "",
                     "type": "GraphCanvas"
                 }
@@ -283,7 +283,7 @@
         {
             "file": "../src/litegraph.js",
             "line": 538,
-            "description": "Returns the amount of time accumulated using the fixedtime_lapse var. This is used in context where the time increments should be constant",
+            "description": "Returns the amount of time accumulated using the fixedtimeLapse var. This is used in context where the time increments should be constant",
             "itemtype": "method",
             "name": "getFixedTime",
             "return": {
@@ -444,7 +444,7 @@
                     "type": "Number"
                 },
                 {
-                    "name": "nodes_list",
+                    "name": "nodesList",
                     "description": "a list with all the nodes to search from, by default is all the nodes in the graph",
                     "type": "Array"
                 }
@@ -713,7 +713,7 @@
                     "type": "String"
                 },
                 {
-                    "name": "extra_info",
+                    "name": "extraInfo",
                     "description": "this can be used to have special properties of an output (label, special color, position, etc)",
                     "type": "Object"
                 }
@@ -729,7 +729,7 @@
             "params": [
                 {
                     "name": "array",
-                    "description": "of triplets like [[name,type,extra_info],[...]]",
+                    "description": "of triplets like [[name,type,extraInfo],[...]]",
                     "type": "Array"
                 }
             ],
@@ -768,7 +768,7 @@
                     "type": "String"
                 },
                 {
-                    "name": "extra_info",
+                    "name": "extraInfo",
                     "description": "this can be used to have special properties of an input (label, color, position, etc)",
                     "type": "Object"
                 }
@@ -784,7 +784,7 @@
             "params": [
                 {
                     "name": "array",
-                    "description": "of triplets like [[name,type,extra_info],[...]]",
+                    "description": "of triplets like [[name,type,extraInfo],[...]]",
                     "type": "Array"
                 }
             ],
@@ -909,7 +909,7 @@
                 }
             ],
             "return": {
-                "description": "if found the object contains { input|output: slot object, slot: number, link_pos: [x,y] }",
+                "description": "if found the object contains { input|output: slot object, slot: number, linkPos: [x,y] }",
                 "type": "Object"
             },
             "class": "LGraphNode"
@@ -962,7 +962,7 @@
                 {
                     "name": "slot",
                     "description": "(could be the number of the slot or the string with the name of the slot)",
-                    "type": "Number_or_string"
+                    "type": "NumberOrString"
                 },
                 {
                     "name": "node",
@@ -970,9 +970,9 @@
                     "type": "LGraphNode"
                 },
                 {
-                    "name": "target_slot",
+                    "name": "targetSlot",
                     "description": "the input slot of the target node (could be the number of the slot or the string with the name of the slot)",
-                    "type": "Number_or_string"
+                    "type": "NumberOrString"
                 }
             ],
             "return": {
@@ -991,11 +991,11 @@
                 {
                     "name": "slot",
                     "description": "(could be the number of the slot or the string with the name of the slot)",
-                    "type": "Number_or_string"
+                    "type": "NumberOrString"
                 },
                 {
-                    "name": "target_node",
-                    "description": "the target node to which this slot is connected [Optional, if not target_node is specified all nodes will be disconnected]",
+                    "name": "targetNode",
+                    "description": "the target node to which this slot is connected [Optional, if not targetNode is specified all nodes will be disconnected]",
                     "type": "LGraphNode"
                 }
             ],
@@ -1015,7 +1015,7 @@
                 {
                     "name": "slot",
                     "description": "(could be the number of the slot or the string with the name of the slot)",
-                    "type": "Number_or_string"
+                    "type": "NumberOrString"
                 }
             ],
             "return": {
@@ -1032,14 +1032,14 @@
             "name": "getConnectionPos",
             "params": [
                 {
-                    "name": "is_input",
+                    "name": "isInput",
                     "description": "true if if a input slot, false if it is an output",
                     "type": "Boolean"
                 },
                 {
                     "name": "slot",
                     "description": "(could be the number of the slot or the string with the name of the slot)",
-                    "type": "Number_or_string"
+                    "type": "NumberOrString"
                 }
             ],
             "return": {

@@ -5,10 +5,10 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 
 		inputs: [["x","number"],["y","number"],["c","color"]],
 		outputs: [["","image"]],
-		widgets: [{name:"clear_alpha",text:"Clear Alpha",type:"minibutton"},{name:"clear_color",text:"Clear color",type:"minibutton"}],
+		widgets: [{name:"clearAlpha",text:"Clear Alpha",type:"minibutton"},{name:"clearColor",text:"Clear color",type:"minibutton"}],
 		properties: {size:256,bgcolor:"#000",lineWidth:1},
 		bgcolor: "#000",
-		flags: {allow_fastrender:true},
+		flags: {allowFastrender:true},
 		onLoad: function()
 		{
 			this.createCanvas();
@@ -82,11 +82,11 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 		
 		onWidget: function(e,widget)
 		{
-			if(widget.name == "clear_color")
+			if(widget.name == "clearColor")
 			{
 				this.clearCanvas(false);
 			}
-			else if(widget.name == "clear_alpha")
+			else if(widget.name == "clearAlpha")
 			{
 				this.clearCanvas(true);
 			}

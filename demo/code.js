@@ -1,5 +1,5 @@
 
-LiteGraph.node_images_path = "../nodes_data/";
+LiteGraph.nodeImagesPath = "../nodesData/";
 var editor = new LiteGraph.Editor("main");
 window.graphcanvas = editor.graphcanvas;
 window.graph = editor.graph;

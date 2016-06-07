@@ -52,18 +52,18 @@ var canvas = new LGraphCanvas("#mycanvas");</pre>
 
 			<p>Add some nodes to the graph</p>
 			<pre>
-var node_const = LiteGraph.createNode("basic/const");
-node_const.pos = [200,200];
-graph.add(node_const);
-node_const.setValue(4.5);
+var nodeConst = LiteGraph.createNode("basic/const");
+nodeConst.pos = [200,200];
+graph.add(nodeConst);
+nodeConst.setValue(4.5);
 
-var node_watch = LiteGraph.createNode("basic/watch");
-node_watch.pos = [700,200];
-graph.add(node_watch);</pre>
+var nodeWatch = LiteGraph.createNode("basic/watch");
+nodeWatch.pos = [700,200];
+graph.add(nodeWatch);</pre>
 
 			<p>Connect them</p>
 			<pre>
-node_const.connect(0, node_watch, 0 );</pre>
+nodeConst.connect(0, nodeWatch, 0 );</pre>
 
 			<p>Run the graph</p>
 			<pre>

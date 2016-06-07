@@ -26,9 +26,9 @@
 		ctx.fillRect(7,7,this.size[0] - 14, this.size[1] - 14);
 	}
 
-	WidgetButton.prototype.onMouseDown = function(e, local_pos)
+	WidgetButton.prototype.onMouseDown = function(e, localPos)
 	{
-		if(local_pos[0] > 1 && local_pos[1] > 1 && local_pos[0] < (this.size[0] - 2) && local_pos[1] < (this.size[1] - 2) )
+		if(localPos[0] > 1 && localPos[1] > 1 && localPos[0] < (this.size[0] - 2) && localPos[1] < (this.size[1] - 2) )
 		{
 			this.clicked = true;
 			this.trigger( "clicked" );
@@ -346,7 +346,7 @@
 		return true;
 	}
 
-	LiteGraph.registerNodeType("widget/hslider", WidgetHSlider );
+	LiteGraph.registerNodeType("widget/hSlider", WidgetHSlider );
 
 
 	function WidgetProgress()
@@ -610,7 +610,7 @@
 
 	WidgetText.title = "Text";
 	WidgetText.desc = "Shows the input value";
-	WidgetText.widgets = [{name:"resize",text:"Resize box",type:"button"},{name:"led_text",text:"LED",type:"minibutton"},{name:"normal_text",text:"Normal",type:"minibutton"}];
+	WidgetText.widgets = [{name:"resize",text:"Resize box",type:"button"},{name:"ledText",text:"LED",type:"minibutton"},{name:"normalText",text:"Normal",type:"minibutton"}];
 
 	WidgetText.prototype.onDrawForeground = function(ctx)
 	{
@@ -643,7 +643,7 @@
 		}
 
 		ctx.shadowColor = "transparent";
-		this.last_ctx = ctx;
+		this.lastCtx = ctx;
 		ctx.textAlign = "left";
 	}
 
@@ -659,14 +659,14 @@
 
 	WidgetText.prototype.resize = function()
 	{
-		if(!this.last_ctx) return;
+		if(!this.lastCtx) return;
 
 		var lines = this.str.split("\\n");
-		this.last_ctx.font = this.properties["fontsize"] + "px " + this.properties["font"];
+		this.lastCtx.font = this.properties["fontsize"] + "px " + this.properties["font"];
 		var max = 0;
 		for(var i in lines)
 		{
-			var w = this.last_ctx.measureText(lines[i]).width;
+			var w = this.lastCtx.measureText(lines[i]).width;
 			if(max < w) max = w;
 		}
 		this.size[0] = max + 20;
@@ -679,13 +679,13 @@
 	{
 		if(widget.name == "resize")
 			this.resize();
-		else if (widget.name == "led_text")
+		else if (widget.name == "ledText")
 		{
 			this.properties["font"] = "Digital";
 			this.properties["glowSize"] = 4;
 			this.setDirtyCanvas(true);
 		}
-		else if (widget.name == "normal_text")
+		else if (widget.name == "normalText")
 		{
 			this.properties["font"] = "Arial";
 			this.setDirtyCanvas(true);

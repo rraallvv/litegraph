@@ -9,8 +9,8 @@ function Subgraph()
 
 	//create inner graph
 	this.subgraph = new LGraph();
-	this.subgraph._subgraph_node = this;
-	this.subgraph._is_subgraph = true;
+	this.subgraph._subgraphNode = this;
+	this.subgraph._isSubgraph = true;
 
 	this.subgraph.onGlobalInputAdded = this.onSubgraphNewGlobalInput.bind(this);
 	this.subgraph.onGlobalInputRenamed = this.onSubgraphRenamedGlobalInput.bind(this);
@@ -144,17 +144,17 @@ LiteGraph.registerNodeType("graph/subgraph", Subgraph );
 function GlobalInput( title )
 {
 	//random name to avoid problems with other outputs when added
-	var input_name = title || "input_" + (Math.random()*1000).toFixed();
+	var inputName = title || "input_" + (Math.random()*1000).toFixed();
 
-	this.addOutput(input_name, null, {label:""});
+	this.addOutput(inputName, null, {label:""});
 
-	this.properties = { name: input_name, type: null };
+	this.properties = { name: inputName, type: null };
 
 	var that = this;
 
 	Object.defineProperty( this.properties, "name", {
 		get: function() {
-			return input_name;
+			return inputName;
 		},
 		set: function(v) {
 			if(v == "")
@@ -166,8 +166,8 @@ function GlobalInput( title )
 			info.name = v;
 			that.title = v;
 			if(that.graph)
-				that.graph.renameGlobalInput(input_name, v);
-			input_name = v;
+				that.graph.renameGlobalInput(inputName, v);
+			inputName = v;
 		},
 		enumerable: true
 	});
@@ -177,7 +177,7 @@ function GlobalInput( title )
 		set: function(v) {
 			that.outputs[0].type = v;
 			if(that.graph)
-				that.graph.changeGlobalInputType(input_name, that.outputs[0].type);
+				that.graph.changeGlobalInputType(inputName, that.outputs[0].type);
 		},
 		enumerable: true
 	});
@@ -197,7 +197,7 @@ GlobalInput.prototype.onExecute = function()
 	var name = this.properties.name;
 
 	//read from global input
-	var	data = this.graph.global_inputs[name];
+	var	data = this.graph.globalInputs[name];
 	if(!data) return;
 
 	//put through output
@@ -211,17 +211,17 @@ LiteGraph.registerNodeType("graph/input", GlobalInput);
 function GlobalOutput( title )
 {
 	//random name to avoid problems with other outputs when added
-	var output_name = title || "output_" + (Math.random()*1000).toFixed();
+	var outputName = title || "output_" + (Math.random()*1000).toFixed();
 
-	this.addInput(output_name, null, {label:""});
+	this.addInput(outputName, null, {label:""});
 
-	this.properties = {name: output_name, type: null };
+	this.properties = {name: outputName, type: null };
 
 	var that = this;
 
 	Object.defineProperty(this.properties, "name", {
 		get: function() {
-			return output_name;
+			return outputName;
 		},
 		set: function(v) {
 			if(v == "")
@@ -233,8 +233,8 @@ function GlobalOutput( title )
 			info.name = v;
 			that.title = v;
 			if(that.graph)
-				that.graph.renameGlobalOutput(output_name, v);
-			output_name = v;
+				that.graph.renameGlobalOutput(outputName, v);
+			outputName = v;
 		},
 		enumerable: true
 	});
@@ -244,7 +244,7 @@ function GlobalOutput( title )
 		set: function(v) {
 			that.inputs[0].type = v;
 			if(that.graph)
-				that.graph.changeGlobalInputType( output_name, that.inputs[0].type );
+				that.graph.changeGlobalInputType( outputName, that.inputs[0].type );
 		},
 		enumerable: true
 	});
@@ -273,13 +273,13 @@ function GetProperty( title )
 
 	this.addOutput("value", null);
 
-	var property_name = title;
-	this.properties = { name: property_name };
+	var propertyName = title;
+	this.properties = { name: propertyName };
 	var that = this;
 
 	Object.defineProperty( this.properties, "name", {
 		get: function() {
-			return property_name;
+			return propertyName;
 		},
 		set: function(v) {
 			if(v == "")
@@ -291,7 +291,7 @@ function GetProperty( title )
 			if(info.name == v)
 				return;
 			info.name = v;
-			property_name = v;
+			propertyName = v;
 		},
 		enumerable: true
 	});
@@ -324,13 +324,13 @@ function SetProperty( title )
 	this.addInput("value", null);
 	this.addOutput("completed", LiteGraph.EXECUTE, {label:""});
 
-	var property_name = title;
-	this.properties = {name: property_name};
+	var propertyName = title;
+	this.properties = {name: propertyName};
 	var that = this;
 
 	Object.defineProperty(this.properties, "name", {
 		get: function() {
-			return property_name;
+			return propertyName;
 		},
 		set: function(v) {
 			if(v == "")
@@ -342,7 +342,7 @@ function SetProperty( title )
 			if(info.name == v)
 				return;
 			info.name = v;
-			property_name = v;
+			propertyName = v;
 
 			that.computeSize();
 		},
@@ -371,8 +371,8 @@ function Comment( title )
 	this.flags = {
 		background: true
 	};
-	this.overlapping_nodes = [];
-	this.is_dragging = false;
+	this.overlappingNodes = [];
+	this.isDragging = false;
 	this.bgcolor = "rgba(128,128,128,0.1)";
 	this.resizable = true;
 	this.collapsible = false;
@@ -427,7 +427,7 @@ Comment.prototype.onMouseDown = function(e)
 {
 	var bounding = this.getBounding();
 
-	this.is_dragging = true;
+	this.isDragging = true;
 
 	for(var i = 0, l = this.graph._nodes.length; i < l; i++)
 	{
@@ -435,18 +435,18 @@ Comment.prototype.onMouseDown = function(e)
 		if(!Object.is(this,node) && containsBounding(bounding, node.getBounding()))
 		{
 			var delta = [node.pos[0] - this.pos[0], node.pos[1] - this.pos[1]];
-			this.overlapping_nodes.push({node: node, delta: delta});
+			this.overlappingNodes.push({node: node, delta: delta});
 		}
 	}
 }
 
 Comment.prototype.onMouseMove = function(e)
 {
-	if(this.is_dragging && this.overlapping_nodes)
-		for(var i = 0, l = this.overlapping_nodes.length; i < l; i++)
+	if(this.isDragging && this.overlappingNodes)
+		for(var i = 0, l = this.overlappingNodes.length; i < l; i++)
 		{
-			var node = this.overlapping_nodes[i].node;
-			var delta = this.overlapping_nodes[i].delta;
+			var node = this.overlappingNodes[i].node;
+			var delta = this.overlappingNodes[i].delta;
 			node.pos = [this.pos[0] + delta[0], this.pos[1] + delta[1]];
 		}
 }
@@ -454,8 +454,8 @@ Comment.prototype.onMouseMove = function(e)
 Comment.prototype.onMouseUp = function(e)
 {
 	this.onMouseMove(e);
-	this.overlapping_nodes = [];
-	this.is_dragging = false;
+	this.overlappingNodes = [];
+	this.isDragging = false;
 }
 
 Comment.prototype.onDrawBackground = function(ctx)

@@ -9,12 +9,12 @@ $(window).load(function() {
 	else if (self.document.location.hash)
 		id = parseInt( self.document.location.hash.substr(1) );
 
-	$("#settings_button").click( function() { $("#settings-panel").toggle(); });
-	$("#addnode_button").click( function() { onShowNodes() });
-	$("#deletenode_button").click( function() { onDeleteNode() });
-	$("#clonenode_button").click( function() { onCloneNode() });
+	$("#settingsButton").click( function() { $("#settings-panel").toggle(); });
+	$("#addnodeButton").click( function() { onShowNodes() });
+	$("#deletenodeButton").click( function() { onDeleteNode() });
+	$("#clonenodeButton").click( function() { onCloneNode() });
 
-	$("#playnode_button").click( function() {
+	$("#playnodeButton").click( function() {
 		if(graph.status == LGraph.STATUS_STOPPED)
 		{
 			$(this).html("<img src='imgs/icon-stop.png'/> Stop");
@@ -27,41 +27,41 @@ $(window).load(function() {
 		}
 	});
 	
-	$("#playstepnode_button").click( function() {
+	$("#playstepnodeButton").click( function() {
 		graph.runStep(1);
 		graphcanvas.draw(true,true);
 	});
 	
-	$("#playfastnode_button").click( function() {
+	$("#playfastnodeButton").click( function() {
 		graph.runStep(5000);
 		graphcanvas.draw(true,true);
 	});
 	
-	$("#collapsenode_button").click( function() { 
+	$("#collapsenodeButton").click( function() { 
 		/*
-		for(var i in graphcanvas.nodes_selected)
-			graphcanvas.nodes_selected[i].collapse();
+		for(var i in graphcanvas.nodesSelected)
+			graphcanvas.nodesSelected[i].collapse();
 		*/
-		if(	graphcanvas.node_in_panel )
-			graphcanvas.node_in_panel.collapse();
+		if(	graphcanvas.nodeInPanel )
+			graphcanvas.nodeInPanel.collapse();
 
 		graphcanvas.draw();
 	});
 
-	$("#pinnode_button").click( function() { 
-		if(	graphcanvas.node_in_panel )
-			graphcanvas.node_in_panel.pin();
+	$("#pinnodeButton").click( function() { 
+		if(	graphcanvas.nodeInPanel )
+			graphcanvas.nodeInPanel.pin();
 	});
 	
-	$("#sendtobacknode_button").click( function() { 
-		if(	graphcanvas.node_in_panel )
-			graphcanvas.sendToBack( graphcanvas.node_in_panel );
+	$("#sendtobacknodeButton").click( function() { 
+		if(	graphcanvas.nodeInPanel )
+			graphcanvas.sendToBack( graphcanvas.nodeInPanel );
 		graphcanvas.draw(true);
 	});
 
 
 
-	$("#confirm-createnode_button").click(function() {
+	$("#confirm-createnodeButton").click(function() {
 		var element = $(".node-type.selected")[0];
 		var name = element.data;
 		var n = LiteGraph.createNode(name);
@@ -72,21 +72,21 @@ $(window).load(function() {
 		$("#nodes-browser").hide();
 	});
 
-	$("#cancel-createnode_button").click(function() {
+	$("#cancel-createnodeButton").click(function() {
 		$("#modal-blocking-box").hide();
 		$("#nodes-browser").hide();
 	});
 
-	$("#close-area_button").click(function() {
+	$("#close-areaButton").click(function() {
 		$("#modal-blocking-box").hide();
 		$("#data-visor").hide();
 	});
 	
-	$("#confirm-loadsession_button").click(function() {
+	$("#confirm-loadsessionButton").click(function() {
 		var element = $(".session-item.selected")[0];
 		var info = element.data;
 
-		var str = localStorage.getItem("graph_session_" + info.id );
+		var str = localStorage.getItem("graphSession_" + info.id );
 		graph.stop();
 		graph.unserialize(str);
 	
@@ -95,41 +95,41 @@ $(window).load(function() {
 		$("#sessions-browser").hide();
 	});
 
-	$("#cancel-loadsession_button").click(function() {
+	$("#cancel-loadsessionButton").click(function() {
 		$("#modal-blocking-box").hide();
 		$("#sessions-browser").hide();
 	});
 
-	$("#livemode_button").click( function() { 
+	$("#livemodeButton").click( function() { 
 		graphcanvas.switchLiveMode(true);
 		graphcanvas.draw();
-		var url = graphcanvas.live_mode ? "imgs/gauss_bg_medium.jpg" : "imgs/gauss_bg.jpg";
-		$("#livemode_button").html(!graphcanvas.live_mode ? "<img src='imgs/icon-record.png'/> Live" : "<img src='imgs/icon-gear.png'/> Edit" );
+		var url = graphcanvas.liveMode ? "imgs/gaussBgMedium.jpg" : "imgs/gaussBg.jpg";
+		$("#livemodeButton").html(!graphcanvas.liveMode ? "<img src='imgs/icon-record.png'/> Live" : "<img src='imgs/icon-gear.png'/> Edit" );
 		//$("canvas").css("background-image","url('"+url+"')");
 	});
 
-	$("#newsession_button").click( function() { 
+	$("#newsessionButton").click( function() { 
 		$("#main-area").hide();
 		graph.clear();
 		graphcanvas.draw();
 		$("#main-area").show();
 	});
 
-	$("#savesession_button").click( function() { 
+	$("#savesessionButton").click( function() { 
 		onSaveSession();
 	});
 
-	$("#loadsession_button").click( function() { 
+	$("#loadsessionButton").click( function() { 
 		onLoadSession();
 	});
 
-	$("#cancelsession-dialog_button").click(function()
+	$("#cancelsession-dialogButton").click(function()
 	{
 		$("#modal-blocking-box").hide();
 		$("#savesession-dialog").hide();
 	});
 
-	$("#savesession-dialog_button").click(function()
+	$("#savesession-dialogButton").click(function()
 	{
 		var name = $("#session-name-input").val();
 		var desc = $("#session-description-input").val();
@@ -141,12 +141,12 @@ $(window).load(function() {
 
 	});
 
-	$("#closepanel_button").click(function()
+	$("#closepanelButton").click(function()
 	{
 		graphcanvas.showNodePanel(null);
 	});
 
-	$("#maximize_button").click(function()
+	$("#maximizeButton").click(function()
 	{
 		if($("#main").width() != window.innerWidth)
 		{
@@ -162,24 +162,24 @@ $(window).load(function() {
 		}
 	});
 
-	$("#resetscale_button").click(function()
+	$("#resetscaleButton").click(function()
 	{
-		graph.config.canvas_scale = 1.0;
+		graph.config.canvasScale = 1.0;
 		graphcanvas.draw(true,true);
 	});
 
-	$("#resetpos_button").click(function()
+	$("#resetposButton").click(function()
 	{
-		graph.config.canvas_offset = [0,0];
+		graph.config.canvasOffset = [0,0];
 		graphcanvas.draw(true,true);
 	});
 
 	$(".nodecolorbutton").click(function()
 	{
-		if(	graphcanvas.node_in_panel )
+		if(	graphcanvas.nodeInPanel )
 		{
-			graphcanvas.node_in_panel.color = this.getAttribute("data-color");
-			graphcanvas.node_in_panel.bgcolor = this.getAttribute("data-bgcolor");
+			graphcanvas.nodeInPanel.color = this.getAttribute("data-color");
+			graphcanvas.nodeInPanel.bgcolor = this.getAttribute("data-bgcolor");
 		}
 		graphcanvas.draw(true,true);
 	});
@@ -194,33 +194,33 @@ $(window).load(function() {
 		}
 	}
 
-	LiteGraph.node_images_path = "../nodes_data/";
+	LiteGraph.nodeImagesPath = "../nodesData/";
 	graph = new LGraph();
 	graphcanvas = new LGraphCanvas("graphcanvas",graph);
-	graphcanvas.background_image = "imgs/grid.png";
+	graphcanvas.backgroundImage = "imgs/grid.png";
 
 	graph.onAfterExecute = function() { graphcanvas.draw(true) };
 	demo();
 
 	graph.onPlayEvent = function()
 	{
-		$("#playnode_button").addClass("playing");
-		$("#playnode_button").removeClass("stopped");
+		$("#playnodeButton").addClass("playing");
+		$("#playnodeButton").removeClass("stopped");
 	}
 
 	graph.onStopEvent = function()
 	{
-		$("#playnode_button").addClass("stopped");
-		$("#playnode_button").removeClass("playing");
+		$("#playnodeButton").addClass("stopped");
+		$("#playnodeButton").removeClass("playing");
 	}
 
 	graphcanvas.draw();
 
 	//update load counter
 	setInterval(function() {
-		$("#cpuload .fgload").width( (2*graph.elapsed_time) * 90);
+		$("#cpuload .fgload").width( (2*graph.elapsedTime) * 90);
 		if(graph.status == LGraph.STATUS_RUNNING)
-			$("#gpuload .fgload").width( (graphcanvas.render_time*10) * 90);
+			$("#gpuload .fgload").width( (graphcanvas.renderTime*10) * 90);
 		else
 			$("#gpuload .fgload").width( 4 );
 	},200);
@@ -233,9 +233,9 @@ function onShowNodes()
 {
 	$("#nodes-list").empty();
 
-	for (var i in LiteGraph.registered_node_types)
+	for (var i in LiteGraph.registeredNodeTypes)
 	{
-		var node = LiteGraph.registered_node_types[i];
+		var node = LiteGraph.registeredNodeTypes[i];
 		var categories = node.category.split("/");
 
 		//create categories and find the propper one
@@ -281,14 +281,14 @@ function onShowNodes()
 	$(".node-type").click( function() { 
 		$(".node-type.selected").removeClass("selected");
 		$(this).addClass("selected");
-		$("#confirm-createnode_button").attr("disabled",false);
+		$("#confirm-createnodeButton").attr("disabled",false);
 	});
 
 	$(".node-type").dblclick( function() { 
-		$("#confirm-createnode_button").click();
+		$("#confirm-createnodeButton").click();
 	});
 
-	$("#confirm-createnode_button").attr("disabled",true);
+	$("#confirm-createnodeButton").attr("disabled",true);
 
 	$("#modal-blocking-box").show();
 	$("#nodes-browser").show();
@@ -296,19 +296,19 @@ function onShowNodes()
 
 function onDeleteNode()
 {
-	if(!graphcanvas.node_in_panel) return;
+	if(!graphcanvas.nodeInPanel) return;
 
-	graph.remove( graphcanvas.node_in_panel );	
+	graph.remove( graphcanvas.nodeInPanel );	
 	graphcanvas.draw();
 	$("#node-panel").hide();
-	graphcanvas.node_in_panel = null;
+	graphcanvas.nodeInPanel = null;
 }
 
 function onCloneNode()
 {
-	if(!graphcanvas.node_in_panel) return;
+	if(!graphcanvas.nodeInPanel) return;
 
-	var n = graphcanvas.node_in_panel.clone();	
+	var n = graphcanvas.nodeInPanel.clone();	
 	n.pos[0] += 10;
 	n.pos[1] += 10;
 
@@ -327,7 +327,7 @@ function onSaveSession()
 	$("#modal-blocking-box").show();
 	$("#savesession-dialog").show();
 	//var str = LiteGraph.serialize();
-	//localStorage.setItem("graph_session",str);
+	//localStorage.setItem("graphSession",str);
 }
 
 function saveSession(name,desc)
@@ -340,13 +340,13 @@ function saveSession(name,desc)
 		graph.session["id"] = new Date().getTime();
 
 	var str = graph.serializeSession();
-	localStorage.setItem("graph_session_" + graph.session["id"],str);
+	localStorage.setItem("graphSession_" + graph.session["id"],str);
 
-	var sessions_str = localStorage.getItem("node_sessions");
+	var sessionsStr = localStorage.getItem("nodeSessions");
 	var sessions = [];
 
-	if(sessions_str)
-		sessions = JSON.parse(sessions_str);
+	if(sessionsStr)
+		sessions = JSON.parse(sessionsStr);
 
 	var pos = -1;
 	for(var i = 0; i < sessions.length; i++)
@@ -362,9 +362,9 @@ function saveSession(name,desc)
 	}
 	else
 	{
-		var current_session = {name:name, desc:desc, id:graph.session["id"]};
-		sessions.unshift(current_session);
-		localStorage.setItem("graph_sessions", JSON.stringify(sessions));
+		var currentSession = {name:name, desc:desc, id:graph.session["id"]};
+		sessions.unshift(currentSession);
+		localStorage.setItem("graphSessions", JSON.stringify(sessions));
 	}
 }
 
@@ -375,39 +375,39 @@ function onLoadSession()
 	$("#modal-blocking-box").show();
 	$("#sessions-browser").show();
 
-	var sessions_str = localStorage.getItem("graph_sessions");
+	var sessionsStr = localStorage.getItem("graphSessions");
 	var sessions = [];
 
-	if(sessions_str)
-		sessions = JSON.parse(sessions_str);
+	if(sessionsStr)
+		sessions = JSON.parse(sessionsStr);
 
 	for(var i in sessions)
 	{
 		var element = document.createElement("div");
 		element.className = "session-item";
 		element.data = sessions[i];
-		$(element).html("<strong>"+sessions[i].name+"</strong><span>"+sessions[i].desc+"</span><span class='delete_session'>x</span>");
+		$(element).html("<strong>"+sessions[i].name+"</strong><span>"+sessions[i].desc+"</span><span class='deleteSession'>x</span>");
 		$("#sessions-browser-list").append(element);
 	}
 
 	$(".session-item").click( function() { 
 		$(".session-item.selected").removeClass("selected");
 		$(this).addClass("selected");
-		$("#confirm-loadsession_button").attr("disabled",false);
+		$("#confirm-loadsessionButton").attr("disabled",false);
 	});
 
 	$(".session-item").dblclick( function() { 
-		$("#confirm-loadsession_button").click();
+		$("#confirm-loadsessionButton").click();
 	});
 
-	$(".delete_session").click(function(e) {
+	$(".deleteSession").click(function(e) {
 		var root =  $(this).parent();
 		var info = root[0].data;
 
-		var sessions_str = localStorage.getItem("graph_sessions");
+		var sessionsStr = localStorage.getItem("graphSessions");
 		var sessions = [];
-		if(sessions_str)
-			sessions = JSON.parse(sessions_str);
+		if(sessionsStr)
+			sessions = JSON.parse(sessionsStr);
 		var pos = -1;
 		for(var i = 0; i < sessions.length; i++)
 			if( sessions[i].id == info.id )
@@ -419,17 +419,17 @@ function onLoadSession()
 		if(pos != -1)
 		{
 			sessions.splice(pos,1);
-			localStorage.setItem("graph_sessions", JSON.stringify(sessions));
+			localStorage.setItem("graphSessions", JSON.stringify(sessions));
 		}
 
 		root.remove();
 	});
 
-	$("#confirm-loadsession_button").attr("disabled",true);
+	$("#confirm-loadsessionButton").attr("disabled",true);
 
 	/*
 	LiteGraph.stop();
-	var str = localStorage.getItem("graph_session");
+	var str = localStorage.getItem("graphSession");
 	LiteGraph.unserialize(str);
 	LiteGraph.draw();
 	*/
@@ -504,7 +504,7 @@ function myrand(Min, Max){
 function myrandom() { return myrand(0,100000) / 100000; }
 
 // @format (hex|rgb|null) : Format to return, default is integer
-function random_color(format)
+function randomColor(format)
 {
  var rint = Math.round(0xffffff * myrandom());
  switch(format)

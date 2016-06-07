@@ -85,10 +85,10 @@ function MathRange()
 	this.addOutput("out","number",{locked:true});
 
 	this.addProperty( "in", 0 );
-	this.addProperty( "in_min", 0 );
-	this.addProperty( "in_max", 1 );
-	this.addProperty( "out_min", 0 );
-	this.addProperty( "out_max", 1 );
+	this.addProperty( "inMin", 0 );
+	this.addProperty( "inMax", 1 );
+	this.addProperty( "outMin", 0 );
+	this.addProperty( "outMax", 1 );
 }
 
 MathRange.title = "Range";
@@ -110,26 +110,26 @@ MathRange.prototype.onExecute = function()
 	if(v === undefined || v === null || v.constructor !== Number)
 		v = 0;
 
-	var in_min = this.properties.in_min;
-	var in_max = this.properties.in_max;
-	var out_min = this.properties.out_min;
-	var out_max = this.properties.out_max;
+	var inMin = this.properties.inMin;
+	var inMax = this.properties.inMax;
+	var outMin = this.properties.outMin;
+	var outMax = this.properties.outMax;
 
-	this._last_v = ((v - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min;
-	this.setOutputData(0, this._last_v );
+	this._lastV = ((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
+	this.setOutputData(0, this._lastV );
 }
 
 MathRange.prototype.onDrawBackground = function(ctx)
 {
 	//show the current value
-	if(this._last_v)
-		this.outputs[0].label = this._last_v.toFixed(3);
+	if(this._lastV)
+		this.outputs[0].label = this._lastV.toFixed(3);
 	else
 		this.outputs[0].label = "?";
 }
 
 MathRange.prototype.onGetInputs = function() {
-	return [["in_min","number"],["in_max","number"],["out_min","number"],["out_max","number"]];
+	return [["inMin","number"],["inMax","number"],["outMin","number"],["outMax","number"]];
 }
 
 LiteGraph.registerNodeType("math/range", MathRange);
@@ -160,15 +160,15 @@ MathRand.prototype.onExecute = function()
 
 	var min = this.properties.min;
 	var max = this.properties.max;
-	this._last_v = Math.random() * (max-min) + min;
-	this.setOutputData(0, this._last_v );
+	this._lastV = Math.random() * (max-min) + min;
+	this.setOutputData(0, this._lastV );
 }
 
 MathRand.prototype.onDrawBackground = function(ctx)
 {
 	//show the current value
-	if(this._last_v)
-		this.outputs[0].label = this._last_v.toFixed(3);
+	if(this._lastV)
+		this.outputs[0].label = this._lastV.toFixed(3);
 	else
 		this.outputs[0].label = "?";
 }
@@ -301,7 +301,7 @@ MathSmoothStep.prototype.onExecute = function()
 	this.setOutputData(0, v );
 }
 
-LiteGraph.registerNodeType("math/smoothstep", MathSmoothStep );
+LiteGraph.registerNodeType("math/smoothStep", MathSmoothStep );
 
 //Math scale
 function MathScale()
@@ -953,7 +953,7 @@ if(window.glMatrix)
 			this.setOutputData( 0, vec3.transformQuat( vec3.create(), vec, quat ) );
 	}
 
-	LiteGraph.registerNodeType("math3d/rotate_vec3", Math3DRotateVec3);
+	LiteGraph.registerNodeType("math3d/rotateVec3", Math3DRotateVec3);
 
 
 
