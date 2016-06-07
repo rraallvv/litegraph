@@ -5479,10 +5479,10 @@ CanvasRenderingContext2D.prototype.measureText = function(text, metrics)
 }
 
 /*
- * http://stackoverflow.com/posts/13730758/revisions
+ * https://github.com/pomax/fontmetrics.js
  *
- * @method measureFontHeight
- * @param font {String}
+ * @method measureFont
+ * @param metrics {TextMetrics}
  */
 CanvasRenderingContext2D.prototype.measureFont = function(metrics)
 {
@@ -5496,44 +5496,38 @@ CanvasRenderingContext2D.prototype.measureFont = function(metrics)
 	if(!result)
 	{
 		var canvas = document.createElement("canvas");
+		var w = canvas.width;
+        var h = canvas.height;
+        var baseline = h/2;
+
 		var ctx = canvas.getContext("2d");
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(0, 0, w, h);
 		ctx.textBaseline = "alphabetic";
 		ctx.fillStyle = "white";
 		ctx.font = font;
-		ctx.fillText("Hg", 0, canvas.height / 2);
-		var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-		var top = -1;
-		var bottom = -1;
-		for(var r = 0; r < canvas.height; r++)
-		{
-			for(var c = 0; c < canvas.width; c++)
-			{
-				var index = (r * canvas.width + c) * 4;
-				if(pixels[index] === 0)
-				{
-					if(c === canvas.width - 1 && top !== -1)
-					{
-						bottom = r;
-						r = canvas.height;
-						break;
-					}
-					continue;
-				}
-				else
-				{
-					if(top === -1)
-						top = r;
-					break;
-				}
-			}
-		}
-		var height = bottom - top;
+		ctx.fillText("Hg", 0, baseline);
+		var pixels = ctx.getImageData(0, 0, w, h).data;
+		var i = 0;
+        var w4 = w * 4;
+        var l = pixels.length;
+
+		while (i < l && pixels[i] === 0)
+			i += 4;
+		var ascent = baseline - i/w4;
+
+		i = l - 4;
+		while (i > 0 && pixels[i] === 0)
+			i -= 4;
+		var descent = i/w4 - baseline;
+
+		w = metrics.width;
+		h = ascent + descent;
+
 		result = {
-			"height": height,
-			"ascent": canvas.height / 2 - top,
-			"descent": bottom - canvas.height / 2,
-			"size": [metrics.width, height]
+			"height": h,
+			"ascent": ascent,
+			"descent": descent,
+			"size": [w, h]
 		};
 		CanvasRenderingContext2D.fontHeightCache[font] = result;
 	}
