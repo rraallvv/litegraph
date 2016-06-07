@@ -380,7 +380,7 @@ function Comment( title )
 	this.properties = { comment: this.title, color: this.bgcolor };
 
 	var that = this;
-/*
+
 	var handleImage = "imgs/resize-handle.png";
 	this.handleImage = new Image();
 	this.handleImage.name = handleImage;
@@ -389,7 +389,7 @@ function Comment( title )
 	this.handleImage.onload = function() {
 		that.graph.setDirtyCanvas(false,true);
 	}
-*/
+
 	Object.defineProperty( this.properties, "comment", {
 		get: function() {
 			return that.title;
@@ -460,14 +460,14 @@ Comment.prototype.onMouseUp = function(e)
 
 Comment.prototype.onDrawBackground = function(ctx)
 {
-/*
 	if(!this.handlePattern)
 		this.handlePattern = ctx.createPattern(this.handleImage,"repeat")
 
 	var s = 13;
-	var r = 10;
+	var r = 5;
 	var c = s - r;
-	var t = [this.size[0] - s, this.size[1] - s];
+	var p = 2;
+	var t = [this.size[0] - s - p, this.size[1] - s - p];
 
 	ctx.fillStyle = this.handlePattern;
 
@@ -483,7 +483,6 @@ Comment.prototype.onDrawBackground = function(ctx)
 	ctx.fill();
 
 	ctx.translate(-t[0], -t[1]);
-*/
 }
 
 LiteGraph.registerNodeType("graph/comment", Comment);
