@@ -5469,15 +5469,12 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
   this.quadraticCurveTo(x, y, x + radius, y);
 }
 
-var measureText = CanvasRenderingContext2D.prototype.measureText;
-CanvasRenderingContext2D.prototype.measureText = function(text, size)
+CanvasRenderingContext2D.prototype.measureTextWidth = CanvasRenderingContext2D.prototype.measureText;
+CanvasRenderingContext2D.prototype.measureText = function(text, metrics)
 {
-	var result = measureText.call(this, text);
-	if(size)
-	{
-		result.height = this.measureFontHeight()
-		result.size = [result.width, result.height];
-	}
+	var result = this.measureTextWidth(text);
+	if(metrics)
+		this.measureFont(result);
 	return result;
 }
 
@@ -5487,27 +5484,24 @@ CanvasRenderingContext2D.prototype.measureText = function(text, size)
  * @method measureFontHeight
  * @param font {String}
  */
-CanvasRenderingContext2D.prototype.measureFontHeight = function(font)
+CanvasRenderingContext2D.prototype.measureFont = function(metrics)
 {
-	if(!font)
-		font = this.font;
+	var font = this.font;
 
 	if(!CanvasRenderingContext2D.fontHeightCache)
 		CanvasRenderingContext2D.fontHeightCache = {};
 
-	var height = CanvasRenderingContext2D.fontHeightCache[font];
+	var result = CanvasRenderingContext2D.fontHeightCache[font];
 
-	if(!height)
+	if(!result)
 	{
 		var canvas = document.createElement("canvas");
-		canvas.width = 100;
-		canvas.height = 100;
 		var ctx = canvas.getContext("2d");
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		ctx.textBaseline = "top";
+		ctx.textBaseline = "alphabetic";
 		ctx.fillStyle = "white";
 		ctx.font = font;
-		ctx.fillText("Mg", 0, 0);
+		ctx.fillText("Hg", 0, canvas.height / 2);
 		var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 		var top = -1;
 		var bottom = -1;
@@ -5534,11 +5528,20 @@ CanvasRenderingContext2D.prototype.measureFontHeight = function(font)
 				}
 			}
 		}
-		height = bottom - top;
-		CanvasRenderingContext2D.fontHeightCache[font] = height;
+		var height = bottom - top;
+		result = {
+			"height": height,
+			"ascent": canvas.height / 2 - top,
+			"descent": bottom - canvas.height / 2,
+			"size": [metrics.width, height]
+		};
+		CanvasRenderingContext2D.fontHeightCache[font] = result;
 	}
 
-	return height;
+	for(var i in result)
+		metrics[i] = result[i];
+
+	return metrics;
 }
 
 function compareObjects(a,b)
