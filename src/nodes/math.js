@@ -499,10 +499,8 @@ MathCondition.prototype.onDrawBackground = function(ctx)
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
 	ctx.textAlign = "center";
-	ctx.textBaseline = "top";
-	ctx.fillText(this.properties.OP, this.size[0] * 0.5, 0);
+	ctx.fillText(this.properties.OP, this.size[0] * 0.5, ctx.measureText(this.properties.OP, true).ascent);
 	ctx.textAlign = "left";
-	ctx.textBaseline = "alphabetic";
 }
 
 MathCondition.prototype.onComputeMinSize = function(ctx)
@@ -510,7 +508,8 @@ MathCondition.prototype.onComputeMinSize = function(ctx)
 	if(!this.properties || !this.properties.OP)
 		return;
 	ctx.font = "40px Arial";
-	return ctx.measureText(this.properties.OP, true).size;
+	var size = ctx.measureText(this.properties.OP, true).size;
+	return [size[0], size[1]];
 }
 
 LiteGraph.registerNodeType("math/condition", MathCondition);
@@ -564,10 +563,8 @@ MathLogicCompare.prototype.onDrawBackground = function(ctx)
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
 	ctx.textAlign = "center";
-	ctx.textBaseline = "top";
-	ctx.fillText(this.properties.OP, this.size[0] * 0.5, 0);
+	ctx.fillText(this.properties.OP, this.size[0] * 0.5, ctx.measureText(this.properties.OP, true).ascent);
 	ctx.textAlign = "left";
-	ctx.textBaseline = "alphabetic";
 }
 
 MathLogicCompare.prototype.onComputeMinSize = function(ctx)
@@ -575,7 +572,8 @@ MathLogicCompare.prototype.onComputeMinSize = function(ctx)
 	if(!this.properties || !this.properties.OP)
 		return;
 	ctx.font = "40px Arial";
-	return ctx.measureText(this.properties.OP, true).size;
+	var size = ctx.measureText(this.properties.OP, true).size;
+	return [size[0], size[1]];
 }
 
 LiteGraph.registerNodeType("math/logicCompare", MathLogicCompare);
@@ -614,16 +612,15 @@ MathLogicNot.prototype.onDrawBackground = function(ctx)
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
 	ctx.textAlign = "center";
-	ctx.textBaseline = "top";
-	ctx.fillText("NOT", this.size[0] * 0.5, 0);
+	ctx.fillText("NOT", this.size[0] * 0.5, ctx.measureText("NOT", true).ascent);
 	ctx.textAlign = "left";
-	ctx.textBaseline = "alphabetic";
 }
 
 MathLogicNot.prototype.onComputeMinSize = function(ctx)
 {
 	ctx.font = "40px Arial";
-	return ctx.measureText("NOT", true).size;
+	var size = ctx.measureText("NOT", true).size;
+	return [size[0], size[1]];
 }
 
 LiteGraph.registerNodeType("math/logicNot", MathLogicNot);
