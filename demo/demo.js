@@ -114,50 +114,50 @@ function multiConnection()
 {
 
 
-	var node_button = LiteGraph.createNode("widget/button");
-	node_button.pos = [1000,200];
-	graph.add(node_button);
+	var nodeButton = LiteGraph.createNode("widget/button");
+	nodeButton.pos = [1000,200];
+	graph.add(nodeButton);
 
-	var node_button2 = LiteGraph.createNode("widget/button");
-	node_button2.pos = [1000,300];
-	graph.add(node_button2);
+	var nodeButton2 = LiteGraph.createNode("widget/button");
+	nodeButton2.pos = [1000,300];
+	graph.add(nodeButton2);
 	
-	var node_console = LiteGraph.createNode("basic/console");
-	node_console.pos = [1200,200];
-	graph.add(node_console);
+	var nodeConsole = LiteGraph.createNode("basic/console");
+	nodeConsole.pos = [1200,200];
+	graph.add(nodeConsole);
 	
-	var node_console2 = LiteGraph.createNode("basic/console");
-	node_console2.pos = [1200,300];
-	graph.add(node_console2);
+	var nodeConsole2 = LiteGraph.createNode("basic/console");
+	nodeConsole2.pos = [1200,300];
+	graph.add(nodeConsole2);
 	
-	var node_const_A = LiteGraph.createNode("basic/const");
-	node_const_A.pos = [200,200];
-	graph.add(node_const_A);
-	node_const_A.setValue(4.5);
+	var nodeConstA = LiteGraph.createNode("basic/const");
+	nodeConstA.pos = [200,200];
+	graph.add(nodeConstA);
+	nodeConstA.setValue(4.5);
 
-	var node_const_B = LiteGraph.createNode("basic/const");
-	node_const_B.pos = [200,300];
-	graph.add(node_const_B);
-	node_const_B.setValue(10);
+	var nodeConstB = LiteGraph.createNode("basic/const");
+	nodeConstB.pos = [200,300];
+	graph.add(nodeConstB);
+	nodeConstB.setValue(10);
 
-	var node_math = LiteGraph.createNode("math/operation");
-	node_math.pos = [400,200];
-	graph.add(node_math);
+	var nodeMath = LiteGraph.createNode("math/operation");
+	nodeMath.pos = [400,200];
+	graph.add(nodeMath);
 
-	var node_watch = LiteGraph.createNode("basic/watch");
-	node_watch.pos = [700,200];
-	graph.add(node_watch);
+	var nodeWatch = LiteGraph.createNode("basic/watch");
+	nodeWatch.pos = [700,200];
+	graph.add(nodeWatch);
 
-	var node_watch2 = LiteGraph.createNode("basic/watch");
-	node_watch2.pos = [700,300];
-	graph.add(node_watch2);
+	var nodeWatch2 = LiteGraph.createNode("basic/watch");
+	nodeWatch2.pos = [700,300];
+	graph.add(nodeWatch2);
 
-	node_button.connect(0, node_console );
-	node_button2.connect(0, node_console );
-	node_const_A.connect(0,node_math,0 );
-	node_const_B.connect(0,node_math,1 );
-	node_math.connect(0,node_watch,0 );
-	node_math.connect(0,node_watch2,0 );
+	nodeButton.connect(0, nodeConsole );
+	nodeButton2.connect(0, nodeConsole );
+	nodeConstA.connect(0,nodeMath,0 );
+	nodeConstB.connect(0,nodeMath,1 );
+	nodeMath.connect(0,nodeWatch,0 );
+	nodeMath.connect(0,nodeWatch2,0 );
 }
 
 function sortTest()
@@ -181,9 +181,9 @@ function sortTest()
 
 function benchmark()
 {
-	var num_nodes = 500;
+	var numNodes = 500;
 	var consts = [];
-	for(var i = 0; i < num_nodes; i++)
+	for(var i = 0; i < numNodes; i++)
 	{
 		var n = LiteGraph.createNode("math/rand",null, {pos: [(2000 * Math.random())|0, (2000 * Math.random())|0] });
 		graph.add(n);
@@ -191,13 +191,13 @@ function benchmark()
 	}
 
 	var watches = [];
-	for(var i = 0; i < num_nodes; i++)
+	for(var i = 0; i < numNodes; i++)
 	{
 		var n = LiteGraph.createNode("basic/watch",null, {pos: [(2000 * Math.random())|0, (2000 * Math.random())|0] });
 		graph.add(n);
 		watches.push(n);
 	}
 
-	for(var i = 0; i < num_nodes; i++)
+	for(var i = 0; i < numNodes; i++)
 		consts[ (Math.random() * consts.length)|0 ].connect(0, watches[ (Math.random() * watches.length)|0 ], 0 );
 }

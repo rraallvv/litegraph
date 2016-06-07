@@ -2,8 +2,8 @@
 
 function GamepadInput()
 {
-	this.addOutput("left_x_axis","number");
-	this.addOutput("left_y_axis","number");
+	this.addOutput("leftX_axis","number");
+	this.addOutput("leftY_axis","number");
 	this.properties = {};
 }
 
@@ -26,24 +26,24 @@ GamepadInput.prototype.onExecute = function()
 			{
 				switch( output.name )
 				{
-					case "left_axis": v = [ gamepad.xbox.axes["lx"], gamepad.xbox.axes["ly"]]; break;
-					case "right_axis": v = [ gamepad.xbox.axes["rx"], gamepad.xbox.axes["ry"]]; break;
-					case "left_x_axis": v = gamepad.xbox.axes["lx"]; break;
-					case "left_y_axis": v = gamepad.xbox.axes["ly"]; break;
-					case "right_x_axis": v = gamepad.xbox.axes["rx"]; break;
-					case "right_y_axis": v = gamepad.xbox.axes["ry"]; break;
-					case "trigger_left": v = gamepad.xbox.axes["ltrigger"]; break;
-					case "trigger_right": v = gamepad.xbox.axes["rtrigger"]; break;
-					case "a_button": v = gamepad.xbox.buttons["a"] ? 1 : 0; break;
-					case "b_button": v = gamepad.xbox.buttons["b"] ? 1 : 0; break;
-					case "x_button": v = gamepad.xbox.buttons["x"] ? 1 : 0; break;
-					case "y_button": v = gamepad.xbox.buttons["y"] ? 1 : 0; break;
-					case "lb_button": v = gamepad.xbox.buttons["lb"] ? 1 : 0; break;
-					case "rb_button": v = gamepad.xbox.buttons["rb"] ? 1 : 0; break;
-					case "ls_button": v = gamepad.xbox.buttons["ls"] ? 1 : 0; break;
-					case "rs_button": v = gamepad.xbox.buttons["rs"] ? 1 : 0; break;
-					case "start_button": v = gamepad.xbox.buttons["start"] ? 1 : 0; break;
-					case "back_button": v = gamepad.xbox.buttons["back"] ? 1 : 0; break;
+					case "leftAxis": v = [ gamepad.xbox.axes["lx"], gamepad.xbox.axes["ly"]]; break;
+					case "rightAxis": v = [ gamepad.xbox.axes["rx"], gamepad.xbox.axes["ry"]]; break;
+					case "leftX_axis": v = gamepad.xbox.axes["lx"]; break;
+					case "leftY_axis": v = gamepad.xbox.axes["ly"]; break;
+					case "rightX_axis": v = gamepad.xbox.axes["rx"]; break;
+					case "rightY_axis": v = gamepad.xbox.axes["ry"]; break;
+					case "triggerLeft": v = gamepad.xbox.axes["ltrigger"]; break;
+					case "triggerRight": v = gamepad.xbox.axes["rtrigger"]; break;
+					case "aButton": v = gamepad.xbox.buttons["a"] ? 1 : 0; break;
+					case "bButton": v = gamepad.xbox.buttons["b"] ? 1 : 0; break;
+					case "xButton": v = gamepad.xbox.buttons["x"] ? 1 : 0; break;
+					case "yButton": v = gamepad.xbox.buttons["y"] ? 1 : 0; break;
+					case "lbButton": v = gamepad.xbox.buttons["lb"] ? 1 : 0; break;
+					case "rbButton": v = gamepad.xbox.buttons["rb"] ? 1 : 0; break;
+					case "lsButton": v = gamepad.xbox.buttons["ls"] ? 1 : 0; break;
+					case "rsButton": v = gamepad.xbox.buttons["rs"] ? 1 : 0; break;
+					case "startButton": v = gamepad.xbox.buttons["start"] ? 1 : 0; break;
+					case "backButton": v = gamepad.xbox.buttons["back"] ? 1 : 0; break;
 					default: break;
 				}
 			}
@@ -52,8 +52,8 @@ GamepadInput.prototype.onExecute = function()
 				//if no gamepad is connected, output 0
 				switch( output.name )
 				{
-					case "left_axis":
-					case "right_axis":
+					case "leftAxis":
+					case "rightAxis":
 						v = [0,0];
 						break;
 					default:
@@ -80,9 +80,9 @@ GamepadInput.prototype.getGamepad = function()
 			gamepad = gamepads[i];
 
 			//xbox controller mapping
-			var xbox = this.xbox_mapping;
+			var xbox = this.xboxMapping;
 			if(!xbox)
-				xbox = this.xbox_mapping = { axes:[], buttons:{}, hat: ""};
+				xbox = this.xboxMapping = { axes:[], buttons:{}, hat: ""};
 
 			xbox.axes["lx"] = gamepad.axes[0];
 			xbox.axes["ly"] = gamepad.axes[1];
@@ -129,22 +129,22 @@ GamepadInput.prototype.onDrawBackground = function(ctx)
 
 GamepadInput.prototype.onGetOutputs = function() {
 	return [
-		["left_axis","vec2"],
-		["right_axis","vec2"],
-		["left_x_axis","number"],
-		["left_y_axis","number"],
-		["right_x_axis","number"],
-		["right_y_axis","number"],
-		["trigger_left","number"],
-		["trigger_right","number"],
-		["a_button","number"],
-		["b_button","number"],
-		["x_button","number"],
-		["y_button","number"],
-		["lb_button","number"],
-		["rb_button","number"],
-		["ls_button","number"],
-		["rs_button","number"],
+		["leftAxis","vec2"],
+		["rightAxis","vec2"],
+		["leftX_axis","number"],
+		["leftY_axis","number"],
+		["rightX_axis","number"],
+		["rightY_axis","number"],
+		["triggerLeft","number"],
+		["triggerRight","number"],
+		["aButton","number"],
+		["bButton","number"],
+		["xButton","number"],
+		["yButton","number"],
+		["lbButton","number"],
+		["rbButton","number"],
+		["lsButton","number"],
+		["rsButton","number"],
 		["start","number"],
 		["back","number"]
 	];

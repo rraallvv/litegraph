@@ -1,6 +1,6 @@
 //NOT FINISHED
 
-function Editor(container_id, options)
+function Editor(containerId, options)
 {
 	//fill container
 	var html = "<div class='header'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
@@ -17,22 +17,22 @@ function Editor(container_id, options)
 	//create graph
 	var graph = this.graph = new LGraph();
 	var graphcanvas = this.graphcanvas = new LGraphCanvas(canvas,graph);
-	graphcanvas.background_image = "imgs/grid.png";
+	graphcanvas.backgroundImage = "imgs/grid.png";
 	graph.onAfterExecute = function() { graphcanvas.draw(true) };
 
 	//add stuff
-	this.addToolsButton("loadsession_button","Load","imgs/icon-load.png", this.onLoadButton.bind(this), ".tools-left" );
-	this.addToolsButton("savesession_button","Save","imgs/icon-save.png", this.onSaveButton.bind(this), ".tools-left" );
+	this.addToolsButton("loadsessionButton","Load","imgs/icon-load.png", this.onLoadButton.bind(this), ".tools-left" );
+	this.addToolsButton("savesessionButton","Save","imgs/icon-save.png", this.onSaveButton.bind(this), ".tools-left" );
 	this.addLoadCounter();
-	this.addToolsButton("playnode_button","Play","imgs/icon-play.png", this.onPlayButton.bind(this), ".tools-right" );
-	this.addToolsButton("playstepnode_button","Step","imgs/icon-playstep.png", this.onPlayStepButton.bind(this), ".tools-right" );
+	this.addToolsButton("playnodeButton","Play","imgs/icon-play.png", this.onPlayButton.bind(this), ".tools-right" );
+	this.addToolsButton("playstepnodeButton","Step","imgs/icon-playstep.png", this.onPlayStepButton.bind(this), ".tools-right" );
 	
-	this.addToolsButton("maximize_button","","imgs/icon-maximize.png", this.onFullscreenButton.bind(this), ".tools-right" );
+	this.addToolsButton("maximizeButton","","imgs/icon-maximize.png", this.onFullscreenButton.bind(this), ".tools-right" );
 
 	//this.addMiniWindow(300,200);
 
 	//append to DOM
-	var	parent = document.getElementById(container_id);
+	var	parent = document.getElementById(containerId);
 	if(parent)
 		parent.appendChild(root);
 
@@ -53,19 +53,19 @@ Editor.prototype.addLoadCounter = function()
 	var self = this;
 
 	setInterval(function() {
-		meter.querySelector(".cpuload .fgload").style.width = ((2*self.graph.elapsed_time) * 90) + "px";
+		meter.querySelector(".cpuload .fgload").style.width = ((2*self.graph.elapsedTime) * 90) + "px";
 		if(self.graph.status == LGraph.STATUS_RUNNING)
-			meter.querySelector(".gpuload .fgload").style.width = ((self.graphcanvas.render_time*10) * 90) + "px";
+			meter.querySelector(".gpuload .fgload").style.width = ((self.graphcanvas.renderTime*10) * 90) + "px";
 		else
 			meter.querySelector(".gpuload .fgload").style.width = 4 + "px";
 	},200);
 }
 
-Editor.prototype.addToolsButton = function(id,name,icon_url, callback, container)
+Editor.prototype.addToolsButton = function(id,name,iconUrl, callback, container)
 {
 	if(!container) container = ".tools";
 
-	var button = this.createButton(name, icon_url);
+	var button = this.createButton(name, iconUrl);
 	button.id = id;
 	button.addEventListener("click", callback);
 
@@ -87,11 +87,11 @@ Editor.prototype.createPanel = function(title, options)
 	return root;
 }
 
-Editor.prototype.createButton = function(name, icon_url)
+Editor.prototype.createButton = function(name, iconUrl)
 {
 	var button = document.createElement("button");
-	if(icon_url)
-		button.innerHTML = "<img src='"+icon_url+"'/> ";
+	if(iconUrl)
+		button.innerHTML = "<img src='"+iconUrl+"'/> ";
 	button.innerHTML += name;
 	return button;
 }
@@ -155,7 +155,7 @@ Editor.prototype.onSaveButton = function()
 Editor.prototype.onPlayButton = function()
 {
 	var graph = this.graph;
-	var button = this.root.querySelector("#playnode_button");
+	var button = this.root.querySelector("#playnodeButton");
 
 	if(graph.status == LGraph.STATUS_STOPPED)
 	{
@@ -211,21 +211,21 @@ Editor.prototype.addMiniWindow = function(w,h)
 	var canvas = miniwindow.querySelector("canvas");
 
 	var graphcanvas = new LGraphCanvas(canvas, this.graph);
-	graphcanvas.background_image = "imgs/grid.png";
+	graphcanvas.backgroundImage = "imgs/grid.png";
 	graphcanvas.scale = 0.5;
 
 	miniwindow.style.position = "absolute";
 	miniwindow.style.top = "4px";
 	miniwindow.style.right = "4px";
 
-	var close_button = document.createElement("div");
-	close_button.className = "corner-button";
-	close_button.innerHTML = "X";
-	close_button.addEventListener("click",function(e) {
+	var closeButton = document.createElement("div");
+	closeButton.className = "corner-button";
+	closeButton.innerHTML = "X";
+	closeButton.addEventListener("click",function(e) {
 		graphcanvas.setGraph(null);
 		miniwindow.parentNode.removeChild(miniwindow);
 	});
-	miniwindow.appendChild(close_button);
+	miniwindow.appendChild(closeButton);
 
 
 	this.root.querySelector(".content").appendChild(miniwindow);

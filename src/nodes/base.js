@@ -162,18 +162,18 @@ BasicString.prototype.onDrawBackground = function(ctx)
 {
 	var text = this.properties["value"];
 
-	ctx.font = LGraphCanvas.inner_text_font;
+	ctx.font = LGraphCanvas.innerTextFont;
 
 	var width = ctx.measureText(text).width;
 
 	if(width > this.size[0] - 20)
 		for(var i = 1; i < text.length; i++)
 		{
-			var short_text = text.slice(0, -i) + "...";
-			width = ctx.measureText(short_text).width;
+			var shortText = text.slice(0, -i) + "...";
+			width = ctx.measureText(shortText).width;
 			if(width <= this.size[0] - 20)
 			{
-				text = short_text;
+				text = shortText;
 				break;
 			}
 		}
@@ -232,9 +232,9 @@ LiteGraph.registerNodeType("basic/boolean", BasicBoolean);
 //Function wrapper
 function Wrapper()
 {
-	var function_name = undefined;
-	var function_arguments = undefined;
-	var function_return = undefined;
+	var functionName = undefined;
+	var functionArguments = undefined;
+	var functionReturn = undefined;
 
 	this.addInput("call", LiteGraph.EXECUTE);
 	this.addOutput("completed", LiteGraph.EXECUTE);
@@ -245,35 +245,35 @@ function Wrapper()
 
 	Object.defineProperty( this.properties, "name", {
 		get: function() {
-			return function_name;
+			return functionName;
 		},
 		set: function(v) {
 			if(v == "")
 				return;
-			if(function_name == v)
+			if(functionName == v)
 				return;
 			that.title = v;
 
 			//find a function with the given name
 			var path = v.split(".");
-			var function_object = window[path.shift()];
+			var functionObject = window[path.shift()];
 			while(path.length > 0)
-				function_object = function_object[path.shift()];
-			that._function_object = function_object;
+				functionObject = functionObject[path.shift()];
+			that._functionObject = functionObject;
 
-			function_name = v;
+			functionName = v;
 		},
 		enumerable: true
 	});
 
 	Object.defineProperty( this.properties, "arguments", {
 		get: function() {
-			return function_arguments;
+			return functionArguments;
 		},
 		set: function(v) {
 			if(v == "")
 				return;
-			if(function_arguments == v)
+			if(functionArguments == v)
 				return;
 
 			for(var i = 1, l = that.inputs.length; i < l; i++)
@@ -289,7 +289,7 @@ function Wrapper()
 						that.addInput(strings[i]);
 			}
 
-			function_arguments = v;
+			functionArguments = v;
 		},
 		enumerable: true
 	});
@@ -297,12 +297,12 @@ function Wrapper()
 
 	Object.defineProperty( this.properties, "return", {
 		get: function() {
-			return function_return;
+			return functionReturn;
 		},
 		set: function(v) {
 			if(v == "")
 				return;
-			if(function_return == v)
+			if(functionReturn == v)
 				return;
 
 			if(that.outputs.length == 2)
@@ -311,7 +311,7 @@ function Wrapper()
 			if(v != undefined)
 				that.addOutput(v);
 
-			function_return = v;
+			functionReturn = v;
 		},
 		enumerable: true
 	});
@@ -327,15 +327,15 @@ Wrapper.desc = "Function wrapper";
 Wrapper.prototype.onExecute = function()
 {
 	//collect the arguments
-	var function_arguments = [];
+	var functionArguments = [];
 	for(var i = 1, l = this.inputs.length; i < l; i++)
-		function_arguments.push(this.getInputData(i));
+		functionArguments.push(this.getInputData(i));
 
 	//call the wrapped function
-	var function_object = this._function_object;
-	if(function_object)
+	var functionObject = this._functionObject;
+	if(functionObject)
 	{
-		var result = function_object.apply(function_object, function_arguments);
+		var result = functionObject.apply(functionObject, functionArguments);
 		if(this.outputs.length == 2) //set output to the result
 			this.setOutputData(1, result);
 	}
@@ -363,10 +363,10 @@ ForLoop.desc = "Loop from the first to the last index";
 
 ForLoop.prototype.onExecute = function()
 {
-	var first_index = this.getInputData(1);
-	var last_index = this.getInputData(2);
+	var firstIndex = this.getInputData(1);
+	var lastIndex = this.getInputData(2);
 
-	for(var i = first_index; i <= last_index; i++)
+	for(var i = firstIndex; i <= lastIndex; i++)
 	{
 		this.setOutputData(1, i);
 		this.trigger("loop body");
@@ -403,10 +403,10 @@ ForLoopWithBreak.prototype.onExecute = function(action)
 
 	this.looping = true;
 
-	var first_index = this.getInputData(1);
-	var last_index = this.getInputData(2);
+	var firstIndex = this.getInputData(1);
+	var lastIndex = this.getInputData(2);
 
-	for(var i = first_index; i <= last_index; i++)
+	for(var i = firstIndex; i <= lastIndex; i++)
 	{
 		this.setOutputData(1, i);
 		this.trigger("loop body");

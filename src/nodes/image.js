@@ -358,7 +358,7 @@ ImageFade.prototype.onExecute = function()
 	this.setDirtyCanvas(true);
 }
 
-LiteGraph.registerNodeType("graphics/imagefade", ImageFade);
+LiteGraph.registerNodeType("graphics/imageFade", ImageFade);
 
 
 
@@ -441,7 +441,7 @@ ImageVideo.prototype.onExecute = function()
 	if(!this.properties.url)
 		return;
 
-	if(this.properties.url != this._video_url)
+	if(this.properties.url != this._videoUrl)
 		this.loadVideo(this.properties.url);
 
 	if(!this._video || this._video.width == 0)
@@ -473,7 +473,7 @@ ImageVideo.prototype.onStop = function()
 
 ImageVideo.prototype.loadVideo = function(url)
 {
-	this._video_url = url;
+	this._videoUrl = url;
 
 	this._video = document.createElement("video");
 	this._video.src = url;
@@ -614,7 +614,7 @@ ImageWebcam.prototype.openStream = function()
 	  return;
 	}
 
-	this._waiting_confirmation = true;
+	this._waitingConfirmation = true;
 
 	// Not showing vendor prefixes.
 	navigator.getUserMedia({video: true}, this.streamReady.bind(this), onFailSoHard);
@@ -622,25 +622,25 @@ ImageWebcam.prototype.openStream = function()
 	var that = this;
 	function onFailSoHard(e) {
 		console.log('Webcam rejected', e);
-		that._webcam_stream = false;
-		that.box_color = "red";
+		that._webcamStream = false;
+		that.boxColor = "red";
 	};
 }
 
 ImageWebcam.prototype.onRemoved = function()
 {
-	if(this._webcam_stream)
+	if(this._webcamStream)
 	{
-		this._webcam_stream.stop();
-		this._webcam_stream = null;
+		this._webcamStream.stop();
+		this._webcamStream = null;
 		this._video = null;
 	}
 }
 
 ImageWebcam.prototype.streamReady = function(localMediaStream)
 {
-	this._webcam_stream = localMediaStream;
-	//this._waiting_confirmation = false;
+	this._webcamStream = localMediaStream;
+	//this._waitingConfirmation = false;
 
 	var video = this._video;
 	if(!video)
@@ -660,7 +660,7 @@ ImageWebcam.prototype.streamReady = function(localMediaStream)
 
 ImageWebcam.prototype.onExecute = function()
 {
-	if(this._webcam_stream == null && !this._waiting_confirmation)
+	if(this._webcamStream == null && !this._waitingConfirmation)
 		this.openStream();
 
 	if(!this._video || !this._video.videoWidth) return;
