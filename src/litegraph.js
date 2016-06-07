@@ -1907,6 +1907,9 @@ LGraphNode.prototype.addConnection = function(name,type,pos,direction)
 */
 LGraphNode.prototype.computeSize = function( minHeight, out )
 {
+	var canvas = computeTextSize.canvas || (computeTextSize.canvas = document.createElement("canvas"));
+	var ctx = canvas.getContext("2d");
+
 	var rows = Math.max( this.inputs ? this.inputs.length : 1, this.outputs ? this.outputs.length : 1);
 	var size = out || [0,0];
 	rows = Math.max(rows, 1);
@@ -1942,12 +1945,20 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 	size[0] = Math.max( inputWidth + 10 + outputWidth + 10 + inputToOutputSeparation, 4 + titleWidth + titleHeight);
 	size[0] = Math.max( size[0], LiteGraph.NODE_MIN_WIDTH );
 
+	if(this.onComputeMinSize)
+	{
+		var minSize = this.onComputeMinSize(ctx);
+		if(minSize)
+		{
+			size[0] = Math.max(size[0], minSize[0]);
+			size[1] = Math.max(size[1], minSize[1]);
+		}
+	}
+
 	function computeTextSize( text, font )
 	{
 		if(!text)
 			return 0;
-		var canvas = computeTextSize.canvas || (computeTextSize.canvas = document.createElement("canvas"));
-		var ctx = canvas.getContext("2d");
 		ctx.font = font;
 		return  ctx.measureText(text).width;
 	}
@@ -5456,6 +5467,78 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
   this.quadraticCurveTo(x, y + height, x, y + height - radiusLow);
   this.lineTo(x, y + radius);
   this.quadraticCurveTo(x, y, x + radius, y);
+}
+
+var measureText = CanvasRenderingContext2D.prototype.measureText;
+CanvasRenderingContext2D.prototype.measureText = function(text, size)
+{
+	var result = measureText.call(this, text);
+	if(size)
+	{
+		result.height = this.measureFontHeight()
+		result.size = [result.width, result.height];
+	}
+	return result;
+}
+
+/*
+ * http://stackoverflow.com/posts/13730758/revisions
+ *
+ * @method measureFontHeight
+ * @param font {String}
+ */
+CanvasRenderingContext2D.prototype.measureFontHeight = function(font)
+{
+	if(!font)
+		font = this.font;
+
+	if(!CanvasRenderingContext2D.fontHeightCache)
+		CanvasRenderingContext2D.fontHeightCache = {};
+
+	var height = CanvasRenderingContext2D.fontHeightCache[font];
+
+	if(!height)
+	{
+		var canvas = document.createElement("canvas");
+		canvas.width = 100;
+		canvas.height = 100;
+		var ctx = canvas.getContext("2d");
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.textBaseline = "top";
+		ctx.fillStyle = "white";
+		ctx.font = font;
+		ctx.fillText("Mg", 0, 0);
+		var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+		var top = -1;
+		var bottom = -1;
+		for(var r = 0; r < canvas.height; r++)
+		{
+			for(var c = 0; c < canvas.width; c++)
+			{
+				var index = (r * canvas.width + c) * 4;
+				if(pixels[index] === 0)
+				{
+					if(c === canvas.width - 1 && top !== -1)
+					{
+						bottom = r;
+						r = canvas.height;
+						break;
+					}
+					continue;
+				}
+				else
+				{
+					if(top === -1)
+						top = r;
+					break;
+				}
+			}
+		}
+		height = bottom - top;
+		CanvasRenderingContext2D.fontHeightCache[font] = height;
+	}
+
+	return height;
 }
 
 function compareObjects(a,b)
