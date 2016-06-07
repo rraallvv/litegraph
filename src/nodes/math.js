@@ -499,8 +499,18 @@ MathCondition.prototype.onDrawBackground = function(ctx)
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
 	ctx.textAlign = "center";
-	ctx.fillText(this.properties.OP, this.size[0] * 0.5, this.size[1] * 0.5 + LiteGraph.NODE_TITLE_HEIGHT );
+	ctx.textBaseline = "top";
+	ctx.fillText(this.properties.OP, this.size[0] * 0.5, 0);
 	ctx.textAlign = "left";
+	ctx.textBaseline = "alphabetic";
+}
+
+MathCondition.prototype.onComputeMinSize = function(ctx)
+{
+	if(!this.properties || !this.properties.OP)
+		return;
+	ctx.font = "40px Arial";
+	return ctx.measureText(this.properties.OP, true).size;
 }
 
 LiteGraph.registerNodeType("math/condition", MathCondition);
@@ -554,8 +564,18 @@ MathLogicCompare.prototype.onDrawBackground = function(ctx)
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
 	ctx.textAlign = "center";
-	ctx.fillText(this.properties.OP, this.size[0] * 0.5, this.size[1] * 0.5 + LiteGraph.NODE_TITLE_HEIGHT );
+	ctx.textBaseline = "top";
+	ctx.fillText(this.properties.OP, this.size[0] * 0.5, 0);
 	ctx.textAlign = "left";
+	ctx.textBaseline = "alphabetic";
+}
+
+MathLogicCompare.prototype.onComputeMinSize = function(ctx)
+{
+	if(!this.properties || !this.properties.OP)
+		return;
+	ctx.font = "40px Arial";
+	return ctx.measureText(this.properties.OP, true).size;
 }
 
 LiteGraph.registerNodeType("math/logicCompare", MathLogicCompare);
@@ -594,8 +614,16 @@ MathLogicNot.prototype.onDrawBackground = function(ctx)
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
 	ctx.textAlign = "center";
-	ctx.fillText("NOT", this.size[0] * 0.5, this.size[1] * 0.5 + LiteGraph.NODE_TITLE_HEIGHT );
+	ctx.textBaseline = "top";
+	ctx.fillText("NOT", this.size[0] * 0.5, 0);
 	ctx.textAlign = "left";
+	ctx.textBaseline = "alphabetic";
+}
+
+MathLogicNot.prototype.onComputeMinSize = function(ctx)
+{
+	ctx.font = "40px Arial";
+	return ctx.measureText("NOT", true).size;
 }
 
 LiteGraph.registerNodeType("math/logicNot", MathLogicNot);
