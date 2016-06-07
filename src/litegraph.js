@@ -1976,11 +1976,11 @@ LGraphNode.prototype.isPointInsideNode = function(x,y, margin)
 {
 	margin = margin || 0;
 
-	var title_heiht = LiteGraph.NODE_TITLE_HEIGHT;
+	var title_height = LiteGraph.NODE_TITLE_HEIGHT;
 	var left = this.pos[0] - margin;
-	var top = this.pos[1] - title_heiht - margin;
+	var top = this.pos[1] - title_height - margin;
 	var width = this.size[0] + 2 * margin;
-	var height = (this.flags.collapsed ? 0 : this.size[1]) + title_heiht + 2 * margin;
+	var height = (this.flags.collapsed ? 0 : this.size[1]) + title_height + 2 * margin;
 
 	//if ( distance([x,y], [this.pos[0] + this.size[0]*0.5, this.pos[1] + this.size[1]*0.5]) < LiteGraph.NODE_COLLAPSED_RADIUS)
 	if( isInsideRectangle( x, y, left, top, width, height ) )
@@ -3073,6 +3073,8 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 				this.bringToFront(n); //if it wasnt selected?
 			var skip_action = false;
 
+			var title_height = LiteGraph.NODE_TITLE_HEIGHT;
+
 			//not dragging mouse to connect two slots
 			if(!this.connecting_node && !n.flags.collapsed)
 			{
@@ -3136,17 +3138,21 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 					}
 
 				//Search for corner
-				if( n.resizable && !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 10, n.pos[1] + n.size[1] - 10, 10, 10))
+				var corner = detectCorner(e.canvasX, e.canvasY, n.pos[0], n.pos[1] - title_height, n.size[0], n.size[1] + title_height, 10, 10);
+				if( n.resizable && !skip_action && corner != 0)
 				{
 					this.resizing_node = n;
-					this.canvas.style.cursor = "nwse-resize";
+					this.resizing_corner = corner;
+					if(this.resizing_corner == 1 || this.resizing_corner == 3)
+						this.canvas.style.cursor = "nwse-resize";
+					else if(this.resizing_corner == 2 || this.resizing_corner == 4)
+						this.canvas.style.cursor = "nesw-resize";
 					skip_action = true;
 				}
 			}
 
 			//Search for corner
-			var title_heiht = LiteGraph.NODE_TITLE_HEIGHT;
-			if( !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - title_heiht, n.pos[1] - title_heiht ,title_heiht, title_heiht ))
+			if( !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - title_height, n.pos[1] - title_height, title_height, title_height))
 			{
 				n.collapse();
 				skip_action = true;
@@ -3322,8 +3328,15 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 			}
 
 			//Search for corner
-			if( n.resizable && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - 10, n.pos[1] + n.size[1] - 10, 10, 10))
-				this.canvas.style.cursor = "nwse-resize";
+			var title_height = LiteGraph.NODE_TITLE_HEIGHT;
+			var corner = detectCorner(e.canvasX, e.canvasY, n.pos[0], n.pos[1] - title_height, n.size[0], n.size[1] + title_height, 10, 10);
+			if( n.resizable && corner != 0)
+			{
+				if(corner == 1 || corner == 3)
+					this.canvas.style.cursor = "nwse-resize";
+				else if(corner == 2 || corner == 4)
+					this.canvas.style.cursor = "nesw-resize";
+			}
 			else
 				this.canvas.style.cursor = null;
 		}
@@ -3364,15 +3377,41 @@ LGraphCanvas.prototype.processMouseMove = function(e)
 
 		if(this.resizing_node)
 		{
-			this.resizing_node.size[0] += delta[0] / this.scale;
-			this.resizing_node.size[1] += delta[1] / this.scale;
+			switch(this.resizing_corner)
+			{
+				case 1:
+					this.resizing_node.pos[0] += delta[0] / this.scale;
+					this.resizing_node.pos[1] += delta[1] / this.scale;
+					this.resizing_node.size[0] -= delta[0] / this.scale;
+					this.resizing_node.size[1] -= delta[1] / this.scale;
+					break;
+				case 2:
+					this.resizing_node.pos[1] += delta[1] / this.scale;
+					this.resizing_node.size[0] += delta[0] / this.scale;
+					this.resizing_node.size[1] -= delta[1] / this.scale;
+					break;
+				case 3:
+					this.resizing_node.size[0] += delta[0] / this.scale;
+					this.resizing_node.size[1] += delta[1] / this.scale;
+					break;
+				case 4:
+					this.resizing_node.pos[0] += delta[0] / this.scale;
+					this.resizing_node.size[0] -= delta[0] / this.scale;
+					this.resizing_node.size[1] += delta[1] / this.scale;
+					break;
+			}
+
 			var max_slots = Math.max( this.resizing_node.inputs ? this.resizing_node.inputs.length : 0, this.resizing_node.outputs ? this.resizing_node.outputs.length : 0);
 			if(this.resizing_node.size[1] < max_slots * LiteGraph.NODE_SLOT_HEIGHT + 4)
 				this.resizing_node.size[1] = max_slots * LiteGraph.NODE_SLOT_HEIGHT + 4;
 			if(this.resizing_node.size[0] < LiteGraph.NODE_MIN_WIDTH)
 				this.resizing_node.size[0] = LiteGraph.NODE_MIN_WIDTH;
 
-			this.canvas.style.cursor = "nwse-resize";
+			if(this.resizing_corner == 1 || this.resizing_corner == 3)
+				this.canvas.style.cursor = "nwse-resize";
+			else if(this.resizing_corner == 2 || this.resizing_corner == 4)
+				this.canvas.style.cursor = "nesw-resize";
+
 			this.dirty_canvas = true;
 			this.dirty_bgcanvas = true;
 		}
@@ -3455,6 +3494,7 @@ LGraphCanvas.prototype.processMouseUp = function(e)
 			this.dirty_canvas = true;
 			this.dirty_bgcanvas = true;
 			this.resizing_node = null;
+			this.resizing_corner = 0;
 		}
 		else if(this.node_dragged) //node being dragged?
 		{
@@ -5438,6 +5478,19 @@ function isInsideRectangle(x,y, left, top, width, height)
 		top < y && (top + height) > y)
 		return true;
 	return false;
+}
+
+function detectCorner(x, y, left, top, width, height, size)
+{
+	if(isInsideRectangle(x, y, left, top, size, size))
+		return 1;
+	else if(isInsideRectangle(x, y, left + width - size, top, size, size))
+		return 2;
+	else if(isInsideRectangle(x, y, left + width - size, top + height - size, size, size))
+		return 3;
+	else if(isInsideRectangle(x, y, left, top + height - size, size, size))
+		return 4;
+	return 0;
 }
 
 //[minx,miny,maxx,maxy]
