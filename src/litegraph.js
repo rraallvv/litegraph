@@ -3152,7 +3152,7 @@ LGraphCanvas.prototype.processMouseDown = function(e)
 			}
 
 			//Search for corner
-			if( !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - title_height, n.pos[1] - title_height, title_height, title_height))
+			if(n.collapsible !== false && !skip_action && isInsideRectangle(e.canvasX, e.canvasY, n.pos[0] + n.size[0] - title_height, n.pos[1] - title_height, title_height, title_height))
 			{
 				n.collapse();
 				skip_action = true;
@@ -4527,21 +4527,25 @@ LGraphCanvas.prototype.drawNodeShape = function(node, ctx, size, fgcolor, bgcolo
 		}
 
 		//title box
-		ctx.fillStyle = node.boxcolor || LiteGraph.NODE_DEFAULT_BOXCOLOR;
-		ctx.beginPath();
-		if(node.flags.collapsed)
+		if(node.collapsible !== false)
 		{
-			ctx.moveTo(size[0]-11,8-title_height);
-			ctx.lineTo(size[0]-5,13-title_height);
-			ctx.lineTo(size[0]-5,3-title_height);
+			ctx.fillStyle = node.boxcolor || LiteGraph.NODE_DEFAULT_BOXCOLOR;
+			ctx.beginPath();
+			if(node.flags.collapsed)
+			{
+				ctx.moveTo(size[0]-11,8-title_height);
+				ctx.lineTo(size[0]-5,13-title_height);
+				ctx.lineTo(size[0]-5,3-title_height);
+			}
+			else
+			{
+				ctx.moveTo(size[0]-8,12-title_height);
+				ctx.lineTo(size[0]-13,6-title_height);
+				ctx.lineTo(size[0]-3,6-title_height);
+			}
+			ctx.fill();
 		}
-		else
-		{
-			ctx.moveTo(size[0]-8,12-title_height);
-			ctx.lineTo(size[0]-13,6-title_height);
-			ctx.lineTo(size[0]-3,6-title_height);
-		}
-		ctx.fill();
+
 		ctx.globalAlpha = old_alpha;
 
 		//title text

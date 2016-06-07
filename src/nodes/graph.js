@@ -375,6 +375,7 @@ function Comment( title )
 	this.is_dragging = false;
 	this.bgcolor = "rgba(128,128,128,0.1)";
 	this.resizable = true;
+	this.collapsible = false;
 
 	this.properties = { comment: this.title, color: this.bgcolor };
 
