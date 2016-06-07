@@ -1939,7 +1939,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out )
 				outputWidth = textWidth;
 		}
 
-	size[0] = Math.max( inputWidth + 10 + outputWidth + 10 + inputToOutputSeparation, titleWidth + titleHeight);
+	size[0] = Math.max( inputWidth + 10 + outputWidth + 10 + inputToOutputSeparation, 4 + titleWidth + titleHeight);
 	size[0] = Math.max( size[0], LiteGraph.NODE_MIN_WIDTH );
 
 	function computeTextSize( text, font )
