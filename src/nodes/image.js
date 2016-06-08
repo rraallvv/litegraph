@@ -15,25 +15,25 @@ GraphicsImage.widgets = [{name:"load",text:"Load",type:"button"}];
 
 
 GraphicsImage.prototype.onAdded = function() {
-	if(this.properties["url"] != "" && this.img == null) {
+	if (this.properties["url"] != "" && this.img == null) {
 		this.loadImage(this.properties["url"]);
 	}
 }
 
 GraphicsImage.prototype.onDrawBackground = function(ctx) {
-	if(this.img && this.size[0] > 5 && this.size[1] > 5)
+	if (this.img && this.size[0] > 5 && this.size[1] > 5)
 		ctx.drawImage(this.img, 0,0,this.size[0],this.size[1]);
 }
 
 
 GraphicsImage.prototype.onExecute = function() {
-	if(!this.img)
+	if (!this.img)
 		this.boxcolor = "#000";
-	if(this.img && this.img.width)
+	if (this.img && this.img.width)
 		this.setOutputData(0,this.img);
 	else
 		this.setOutputData(0,null);
-	if(this.img && this.img.dirty)
+	if (this.img && this.img.dirty)
 		this.img.dirty = false;
 }
 
@@ -52,7 +52,7 @@ GraphicsImage.prototype.onDropFile = function(file, filename) {
 }
 
 GraphicsImage.prototype.loadImage = function(url) {
-	if(url == "") {
+	if (url == "") {
 		this.img = null;
 		return;
 	}
@@ -60,8 +60,8 @@ GraphicsImage.prototype.loadImage = function(url) {
 	this.img = document.createElement("img");
 
 	var url = name;
-	if(url.substr(0,7) == "http://") {
-		if(LiteGraph.proxy) //proxy external files
+	if (url.substr(0,7) == "http://") {
+		if (LiteGraph.proxy) //proxy external files
 			url = LiteGraph.proxy + url.substr(7);
 	}
 
@@ -77,7 +77,7 @@ GraphicsImage.prototype.loadImage = function(url) {
 }
 
 GraphicsImage.prototype.onWidget = function(e,widget) {
-	if(widget.name == "load") {
+	if (widget.name == "load") {
 		this.loadImage(this.properties["url"]);
 	}
 }
@@ -109,19 +109,19 @@ ColorPalette.prototype.onExecute = function() {
 		c.push( hex2num( this.properties.colorD ) );
 
 	var f = this.getInputData(0);
-	if(f == null) f = 0.5;
+	if (f == null) f = 0.5;
 	if (f > 1.0)
 		f = 1.0;
 	else if (f < 0.0)
 		f = 0.0;
 
-	if(c.length == 0)
+	if (c.length == 0)
 		return;
 
 	var result = [0,0,0];
-	if(f == 0)
+	if (f == 0)
 		result = c[0];
-	else if(f == 1)
+	else if (f == 1)
 		result = c[ c.length - 1];
 	else
 	{
@@ -140,7 +140,7 @@ ColorPalette.prototype.onExecute = function() {
 	c[2] = Math.abs( Math.sin( 0.01 * reModular.getTime() * Math.PI) );
 	*/
 
-	for(var i in result)
+	for (var i in result)
 		result[i] /= 255;
 
 	this.boxcolor = colorToString(result);
@@ -162,7 +162,7 @@ ImageFrame.widgets = [{name:"resize",text:"Resize box",type:"button"},{name:"vie
 
 
 ImageFrame.prototype.onDrawBackground = function(ctx) {
-	if(this.frame)
+	if (this.frame)
 		ctx.drawImage(this.frame, 0,0,this.size[0],this.size[1]);
 }
 
@@ -172,26 +172,26 @@ ImageFrame.prototype.onExecute = function() {
 }
 
 ImageFrame.prototype.onWidget = function(e,widget) {
-	if(widget.name == "resize" && this.frame) {
+	if (widget.name == "resize" && this.frame) {
 		var width = this.frame.width;
 		var height = this.frame.height;
 
-		if(!width && this.frame.videoWidth != null ) {
+		if (!width && this.frame.videoWidth != null ) {
 			width = this.frame.videoWidth;
 			height = this.frame.videoHeight;
 		}
 
-		if(width && height)
+		if (width && height)
 			this.size = [width, height];
 		this.setDirtyCanvas(true,true);
 	}
-	else if(widget.name == "view")
+	else if (widget.name == "view")
 		this.show();
 }
 
 ImageFrame.prototype.show = function() {
 	//var str = this.canvas.toDataURL("image/png");
-	if(showElement && this.frame)
+	if (showElement && this.frame)
 		showElement(this.frame);
 }
 
@@ -210,32 +210,32 @@ LiteGraph.registerNodeType("visualization/graph", {
 		onDrawBackground: function(ctx) {
 			var colors = ["#FFF","#FAA","#AFA","#AAF"];
 
-			if(this.properties.bgColor != null && this.properties.bgColor != "") {
+			if (this.properties.bgColor != null && this.properties.bgColor != "") {
 				ctx.fillStyle="#000";
 				ctx.fillRect(2,2,this.size[0] - 4, this.size[1]-4);
 			}
 
-			if(this.data) {
+			if (this.data) {
 				var min = this.properties["min"];
 				var max = this.properties["max"];
 
-				for(var i in this.data) {
+				for (var i in this.data) {
 					var data = this.data[i];
-					if(!data) continue;
+					if (!data) continue;
 
-					if(this.getInputInfo(i) == null) continue;
+					if (this.getInputInfo(i) == null) continue;
 
 					ctx.strokeStyle = colors[i];
 					ctx.beginPath();
 
 					var d = data.length / this.size[0];
-					for(var j = 0; j < data.length; j += d) {
+					for (var j = 0; j < data.length; j += d) {
 						var value = data[ Math.floor(j) ];
 						value = (value - min) / (max - min);
 						if (value > 1.0) value = 1.0;
-						else if(value < 0) value = 0;
+						else if (value < 0) value = 0;
 
-						if(j == 0)
+						if (j == 0)
 							ctx.moveTo( j / d, (this.size[1] - 5) - (this.size[1] - 10) * value);
 						else
 							ctx.lineTo( j / d, (this.size[1] - 5) - (this.size[1] - 10) * value);
@@ -249,25 +249,25 @@ LiteGraph.registerNodeType("visualization/graph", {
 		},
 
 		onExecute: function() {
-			if(!this.data) this.data = [];
+			if (!this.data) this.data = [];
 
-			for(var i in this.inputs) {
+			for (var i in this.inputs) {
 				var value = this.getInputData(i);
 
-				if(typeof(value) == "number") {
+				if (typeof(value) == "number") {
 					value = value ? value : 0;
-					if(!this.data[i])
+					if (!this.data[i])
 						this.data[i] = [];
 					this.data[i].push(value);
 
-					if(this.data[i].length > (this.size[1] - 4))
+					if (this.data[i].length > (this.size[1] - 4))
 						this.data[i] = this.data[i].slice(1,this.data[i].length);
 				}
 				else
 					this.data[i] = value;
 			}
 
-			if(this.data.length)
+			if (this.data.length)
 				this.setDirtyCanvas(true);
 		}
 	});
@@ -306,7 +306,7 @@ ImageFade.prototype.onExecute = function() {
 	}
 
 	var fade = this.getInputData(2);
-	if(fade == null)
+	if (fade == null)
 		fade = this.properties["fade"];
 	else
 		this.properties["fade"] = fade;
@@ -348,9 +348,9 @@ ImageCrop.prototype.createCanvas = function() {
 
 ImageCrop.prototype.onExecute = function() {
 	var input = this.getInputData(0);
-	if(!input) return;
+	if (!input) return;
 
-	if(input.width) {
+	if (input.width) {
 		var ctx = this.canvas.getContext("2d");
 
 		ctx.drawImage(input, -this.properties["x"],-this.properties["y"], input.width * this.properties["scale"], input.height * this.properties["scale"]);
@@ -363,9 +363,9 @@ ImageCrop.prototype.onExecute = function() {
 ImageCrop.prototype.onPropertyChange = function(name,value) {
 	this.properties[name] = value;
 
-	if(name == "scale") {
+	if (name == "scale") {
 		this.properties[name] = parseFloat(value);
-		if(this.properties[name] == 0) {
+		if (this.properties[name] == 0) {
 			this.trace("Error in scale");
 			this.properties[name] = 1.0;
 		}
@@ -392,17 +392,17 @@ ImageVideo.desc = "Video playback";
 ImageVideo.widgets = [{name:"play",text:"PLAY",type:"minibutton"},{name:"stop",text:"STOP",type:"minibutton"},{name:"demo",text:"Demo video",type:"button"},{name:"mute",text:"Mute video",type:"button"}];
 
 ImageVideo.prototype.onExecute = function() {
-	if(!this.properties.url)
+	if (!this.properties.url)
 		return;
 
-	if(this.properties.url != this._videoUrl)
+	if (this.properties.url != this._videoUrl)
 		this.loadVideo(this.properties.url);
 
-	if(!this._video || this._video.width == 0)
+	if (!this._video || this._video.width == 0)
 		return;
 
 	var t = this.getInputData(0);
-	if(t && t >= 0 && t <= 1.0) {
+	if (t && t >= 0 && t <= 1.0) {
 		this._video.currentTime = t * this._video.duration;
 		this._video.pause();
 	}
@@ -483,28 +483,28 @@ ImageVideo.prototype.onPropertyChange = function(name,value) {
 }
 
 ImageVideo.prototype.play = function() {
-	if(this._video)
+	if (this._video)
 		this._video.play();
 }
 
 ImageVideo.prototype.playPause = function() {
-	if(!this._video)
+	if (!this._video)
 		return;
-	if(this._video.paused)
+	if (this._video.paused)
 		this.play();
 	else
 		this.pause();
 }
 
 ImageVideo.prototype.stop = function() {
-	if(!this._video)
+	if (!this._video)
 		return;
 	this._video.pause();
 	this._video.currentTime = 0;
 }
 
 ImageVideo.prototype.pause = function() {
-	if(!this._video)
+	if (!this._video)
 		return;
 	this.trace("Video paused");
 	this._video.pause();
@@ -512,18 +512,18 @@ ImageVideo.prototype.pause = function() {
 
 ImageVideo.prototype.onWidget = function(e,widget) {
 	/*
-	if(widget.name == "demo") {
+	if (widget.name == "demo") {
 		this.loadVideo();
 	}
-	else if(widget.name == "play") {
-		if(this._video)
+	else if (widget.name == "play") {
+		if (this._video)
 			this.playPause();
 	}
-	if(widget.name == "stop") {
+	if (widget.name == "stop") {
 		this.stop();
 	}
-	else if(widget.name == "mute") {
-		if(this._video)
+	else if (widget.name == "mute") {
+		if (this._video)
 			this._video.muted = !this._video.muted;
 	}
 	*/
@@ -566,7 +566,7 @@ ImageWebcam.prototype.openStream = function() {
 }
 
 ImageWebcam.prototype.onRemoved = function() {
-	if(this._webcamStream) {
+	if (this._webcamStream) {
 		this._webcamStream.stop();
 		this._webcamStream = null;
 		this._video = null;
@@ -578,7 +578,7 @@ ImageWebcam.prototype.streamReady = function(localMediaStream) {
 	//this._waitingConfirmation = false;
 
 	var video = this._video;
-	if(!video) {
+	if (!video) {
 		video = document.createElement("video");
 		video.autoplay = true;
 		video.src = window.URL.createObjectURL(localMediaStream);
@@ -593,10 +593,10 @@ ImageWebcam.prototype.streamReady = function(localMediaStream) {
 },
 
 ImageWebcam.prototype.onExecute = function() {
-	if(this._webcamStream == null && !this._waitingConfirmation)
+	if (this._webcamStream == null && !this._waitingConfirmation)
 		this.openStream();
 
-	if(!this._video || !this._video.videoWidth) return;
+	if (!this._video || !this._video.videoWidth) return;
 
 	this._video.width = this._video.videoWidth;
 	this._video.height = this._video.videoHeight;
@@ -614,10 +614,10 @@ ImageWebcam.prototype.getExtraMenuOptions = function(graphcanvas) {
 }
 
 ImageWebcam.prototype.onDrawBackground = function(ctx) {
-	if(this.flags.collapsed || this.size[1] <= 20 || !this.properties.show)
+	if (this.flags.collapsed || this.size[1] <= 20 || !this.properties.show)
 		return;
 
-	if(!this._video)
+	if (!this._video)
 		return;
 
 	//render to graph canvas
