@@ -1,0 +1,12 @@
+{
+	"name": "LiteGraph.js",
+	"description": "A graph node editor for Node.js applications.",
+	"author": "Rhody Lugo and Javi Agenjo",
+	"version": "0.0.4",
+	"devDependencies": {
+		"jshint": "^2.9.2"
+	},
+	"scripts": {
+		"test": "./node_modules/jshint/bin/jshint --reporter=utils/XCodeReporter.js src/*.js src/nodes/*.js demo/*.js"
+	}
+}
