@@ -5165,7 +5165,7 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 	dialog.innerHTML = "<span class='name'>" + property + "</span><input autofocus type='text' class='value'/><button>OK</button>";
 	var input = dialog.querySelector("input");
 	input.value = node.properties[ property ];
-	input.addEventListener("keydown", function(e){
+	input.addEventListener("keydown", function(e) {
 		if (e.keyCode != 13)
 			return;
 		inner();
@@ -5915,7 +5915,7 @@ if ( !window["requestAnimationFrame"] )
 {
 	window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
 		  window.mozRequestAnimationFrame    ||
-		  (function( callback ){
+		  (function( callback ) {
 			window.setTimeout(callback, 1000 / 60);
 		  });
 }

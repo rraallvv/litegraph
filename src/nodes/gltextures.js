@@ -1070,7 +1070,7 @@ if (typeof(LiteGraph) != "undefined")
 			this._tempTexture = new GL.Texture( 1, 1, { type: type, format: gl.RGBA, filter: gl.NEAREST });
 
 		var shader = LGraphTextureAverage._shader;
-		this._tempTexture.drawTo(function(){
+		this._tempTexture.drawTo(function() {
 			tex.toViewport(shader,{uTexture:0});
 		});
 

@@ -1,5 +1,5 @@
 //basic nodes
-(function(){
+(function() {
 
 
 //Number constant
