@@ -1,5 +1,5 @@
 //graph nodes
-(function(){
+(function() {
 
 
 //Subgraph: a node that contains a graph

@@ -1,5 +1,5 @@
 //widgets
-(function(){
+(function() {
 
 	/* Button ****************/
 

@@ -292,7 +292,7 @@ LGMIDIIn.desc = "Reads MIDI from a input port";
 LGMIDIIn.prototype.onStart = function()
 {
 	var that = this;
-	this._midi = new MIDIInterface( function( midi ){
+	this._midi = new MIDIInterface( function( midi ) {
 		//open
 		midi.openInputPort( that.properties.port, that.onMIDIEvent.bind(that) );
 	});
@@ -365,7 +365,7 @@ LGMIDIOut.desc = "Sends MIDI to output channel";
 LGMIDIOut.prototype.onStart = function()
 {
 	var that = this;
-	this._midi = new MIDIInterface( function( midi ){
+	this._midi = new MIDIInterface( function( midi ) {
 		//ready
 	});
 }
