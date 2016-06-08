@@ -3,8 +3,7 @@
 
 
 
-function GraphicsImage()
-{
+function GraphicsImage() {
 	this.inputs = [];
 	this.addOutput("frame","image");
 	this.properties = {"url":""};
@@ -15,23 +14,19 @@ GraphicsImage.desc = "Image loader";
 GraphicsImage.widgets = [{name:"load",text:"Load",type:"button"}];
 
 
-GraphicsImage.prototype.onAdded = function()
-{
-	if(this.properties["url"] != "" && this.img == null)
-	{
+GraphicsImage.prototype.onAdded = function() {
+	if(this.properties["url"] != "" && this.img == null) {
 		this.loadImage(this.properties["url"]);
 	}
 }
 
-GraphicsImage.prototype.onDrawBackground = function(ctx)
-{
+GraphicsImage.prototype.onDrawBackground = function(ctx) {
 	if(this.img && this.size[0] > 5 && this.size[1] > 5)
 		ctx.drawImage(this.img, 0,0,this.size[0],this.size[1]);
 }
 
 
-GraphicsImage.prototype.onExecute = function()
-{
+GraphicsImage.prototype.onExecute = function() {
 	if(!this.img)
 		this.boxcolor = "#000";
 	if(this.img && this.img.width)
@@ -42,8 +37,7 @@ GraphicsImage.prototype.onExecute = function()
 		this.img.dirty = false;
 }
 
-GraphicsImage.prototype.onPropertyChange = function(name,value)
-{
+GraphicsImage.prototype.onPropertyChange = function(name,value) {
 	this.properties[name] = value;
 	if (name == "url" && value != "")
 		this.loadImage(value);
@@ -51,17 +45,14 @@ GraphicsImage.prototype.onPropertyChange = function(name,value)
 	return true;
 }
 
-GraphicsImage.prototype.onDropFile = function(file, filename)
-{
+GraphicsImage.prototype.onDropFile = function(file, filename) {
 	var img = new Image();
 	img.src = file;
 	this.img = img;
 }
 
-GraphicsImage.prototype.loadImage = function(url)
-{
-	if(url == "")
-	{
+GraphicsImage.prototype.loadImage = function(url) {
+	if(url == "") {
 		this.img = null;
 		return;
 	}
@@ -69,8 +60,7 @@ GraphicsImage.prototype.loadImage = function(url)
 	this.img = document.createElement("img");
 
 	var url = name;
-	if(url.substr(0,7) == "http://")
-	{
+	if(url.substr(0,7) == "http://") {
 		if(LiteGraph.proxy) //proxy external files
 			url = LiteGraph.proxy + url.substr(7);
 	}
@@ -78,8 +68,7 @@ GraphicsImage.prototype.loadImage = function(url)
 	this.img.src = url;
 	this.boxcolor = "#F95";
 	var that = this;
-	this.img.onload = function()
-	{
+	this.img.onload = function() {
 		that.trace("Image loaded, size: " + that.img.width + "x" + that.img.height );
 		this.dirty = true;
 		that.boxcolor = "#9F9";
@@ -87,10 +76,8 @@ GraphicsImage.prototype.loadImage = function(url)
 	}
 }
 
-GraphicsImage.prototype.onWidget = function(e,widget)
-{
-	if(widget.name == "load")
-	{
+GraphicsImage.prototype.onWidget = function(e,widget) {
+	if(widget.name == "load") {
 		this.loadImage(this.properties["url"]);
 	}
 }
@@ -99,8 +86,7 @@ LiteGraph.registerNodeType("graphics/image", GraphicsImage);
 
 
 
-function ColorPalette()
-{
+function ColorPalette() {
 	this.addInput("f","number");
 	this.addOutput("Color","color");
 	this.properties = {colorA:"#444444",colorB:"#44AAFF",colorC:"#44FFAA",colorD:"#FFFFFF"};
@@ -110,8 +96,7 @@ function ColorPalette()
 ColorPalette.title = "Palette";
 ColorPalette.desc = "Generates a color";
 
-ColorPalette.prototype.onExecute = function()
-{
+ColorPalette.prototype.onExecute = function() {
 	var c = [];
 
 	if (this.properties.colorA != null)
@@ -166,8 +151,7 @@ ColorPalette.prototype.onExecute = function()
 LiteGraph.registerNodeType("color/palette", ColorPalette );
 
 
-function ImageFrame()
-{
+function ImageFrame() {
 	this.addInput("","image");
 	this.size = [200,200];
 }
@@ -177,27 +161,22 @@ ImageFrame.desc = "Frame viewerew";
 ImageFrame.widgets = [{name:"resize",text:"Resize box",type:"button"},{name:"view",text:"View Image",type:"button"}];
 
 
-ImageFrame.prototype.onDrawBackground = function(ctx)
-{
+ImageFrame.prototype.onDrawBackground = function(ctx) {
 	if(this.frame)
 		ctx.drawImage(this.frame, 0,0,this.size[0],this.size[1]);
 }
 
-ImageFrame.prototype.onExecute = function()
-{
+ImageFrame.prototype.onExecute = function() {
 	this.frame = this.getInputData(0);
 	this.setDirtyCanvas(true);
 }
 
-ImageFrame.prototype.onWidget = function(e,widget)
-{
-	if(widget.name == "resize" && this.frame)
-	{
+ImageFrame.prototype.onWidget = function(e,widget) {
+	if(widget.name == "resize" && this.frame) {
 		var width = this.frame.width;
 		var height = this.frame.height;
 
-		if(!width && this.frame.videoWidth != null )
-		{
+		if(!width && this.frame.videoWidth != null ) {
 			width = this.frame.videoWidth;
 			height = this.frame.videoHeight;
 		}
@@ -210,8 +189,7 @@ ImageFrame.prototype.onWidget = function(e,widget)
 		this.show();
 }
 
-ImageFrame.prototype.show = function()
-{
+ImageFrame.prototype.show = function() {
 	//var str = this.canvas.toDataURL("image/png");
 	if(showElement && this.frame)
 		showElement(this.frame);
@@ -229,23 +207,19 @@ LiteGraph.registerNodeType("visualization/graph", {
 		inputs: [["",0],["",0],["",0],["",0]],
 		size: [200,200],
 		properties: {min:-1,max:1,bgColor:"#000"},
-		onDrawBackground: function(ctx)
-		{
+		onDrawBackground: function(ctx) {
 			var colors = ["#FFF","#FAA","#AFA","#AAF"];
 
-			if(this.properties.bgColor != null && this.properties.bgColor != "")
-			{
+			if(this.properties.bgColor != null && this.properties.bgColor != "") {
 				ctx.fillStyle="#000";
 				ctx.fillRect(2,2,this.size[0] - 4, this.size[1]-4);
 			}
 
-			if(this.data)
-			{
+			if(this.data) {
 				var min = this.properties["min"];
 				var max = this.properties["max"];
 
-				for(var i in this.data)
-				{
+				for(var i in this.data) {
 					var data = this.data[i];
 					if(!data) continue;
 
@@ -255,8 +229,7 @@ LiteGraph.registerNodeType("visualization/graph", {
 					ctx.beginPath();
 
 					var d = data.length / this.size[0];
-					for(var j = 0; j < data.length; j += d)
-					{
+					for(var j = 0; j < data.length; j += d) {
 						var value = data[ Math.floor(j) ];
 						value = (value - min) / (max - min);
 						if (value > 1.0) value = 1.0;
@@ -275,16 +248,13 @@ LiteGraph.registerNodeType("visualization/graph", {
 			//ctx.restore();
 		},
 
-		onExecute: function()
-		{
+		onExecute: function() {
 			if(!this.data) this.data = [];
 
-			for(var i in this.inputs)
-			{
+			for(var i in this.inputs) {
 				var value = this.getInputData(i);
 
-				if(typeof(value) == "number")
-				{
+				if(typeof(value) == "number") {
 					value = value ? value : 0;
 					if(!this.data[i])
 						this.data[i] = [];
@@ -303,8 +273,7 @@ LiteGraph.registerNodeType("visualization/graph", {
 	});
 */
 
-function ImageFade()
-{
+function ImageFade() {
 	this.addInputs([["img1","image"],["img2","image"],["fade","number"]]);
 	this.addInput("","image");
 	this.properties = {fade:0.5,width:512,height:512};
@@ -314,29 +283,25 @@ ImageFade.title = "Image fade";
 ImageFade.desc = "Fades between images";
 ImageFade.widgets = [{name:"resizeA",text:"Resize to A",type:"button"},{name:"resizeB",text:"Resize to B",type:"button"}];
 
-ImageFade.prototype.onAdded = function()
-{
+ImageFade.prototype.onAdded = function() {
 	this.createCanvas();
 	var ctx = this.canvas.getContext("2d");
 	ctx.fillStyle = "#000";
 	ctx.fillRect(0,0,this.properties["width"],this.properties["height"]);
 }
 
-ImageFade.prototype.createCanvas = function()
-{
+ImageFade.prototype.createCanvas = function() {
 	this.canvas = document.createElement("canvas");
 	this.canvas.width = this.properties["width"];
 	this.canvas.height = this.properties["height"];
 }
 
-ImageFade.prototype.onExecute = function()
-{
+ImageFade.prototype.onExecute = function() {
 	var ctx = this.canvas.getContext("2d");
 	this.canvas.width = this.canvas.width;
 
 	var A = this.getInputData(0);
-	if (A != null)
-	{
+	if (A != null) {
 		ctx.drawImage(A,0,0,this.canvas.width, this.canvas.height);
 	}
 
@@ -348,8 +313,7 @@ ImageFade.prototype.onExecute = function()
 
 	ctx.globalAlpha = fade;
 	var B = this.getInputData(1);
-	if (B != null)
-	{
+	if (B != null) {
 		ctx.drawImage(B,0,0,this.canvas.width, this.canvas.height);
 	}
 	ctx.globalAlpha = 1.0;
@@ -362,8 +326,7 @@ LiteGraph.registerNodeType("graphics/imageFade", ImageFade);
 
 
 
-function ImageCrop()
-{
+function ImageCrop() {
 	this.addInput("","image");
 	this.addOutputs("","image");
 	this.properties = {width:256,height:256,x:0,y:0,scale:1.0 };
@@ -373,25 +336,21 @@ function ImageCrop()
 ImageCrop.title = "Crop";
 ImageCrop.desc = "Crop Image";
 
-ImageCrop.prototype.onAdded = function()
-{
+ImageCrop.prototype.onAdded = function() {
 	this.createCanvas();
 }
 
-ImageCrop.prototype.createCanvas = function()
-{
+ImageCrop.prototype.createCanvas = function() {
 	this.canvas = document.createElement("canvas");
 	this.canvas.width = this.properties["width"];
 	this.canvas.height = this.properties["height"];
 }
 
-ImageCrop.prototype.onExecute = function()
-{
+ImageCrop.prototype.onExecute = function() {
 	var input = this.getInputData(0);
 	if(!input) return;
 
-	if(input.width)
-	{
+	if(input.width) {
 		var ctx = this.canvas.getContext("2d");
 
 		ctx.drawImage(input, -this.properties["x"],-this.properties["y"], input.width * this.properties["scale"], input.height * this.properties["scale"]);
@@ -401,15 +360,12 @@ ImageCrop.prototype.onExecute = function()
 		this.setOutputData(0,null);
 }
 
-ImageCrop.prototype.onPropertyChange = function(name,value)
-{
+ImageCrop.prototype.onPropertyChange = function(name,value) {
 	this.properties[name] = value;
 
-	if(name == "scale")
-	{
+	if(name == "scale") {
 		this.properties[name] = parseFloat(value);
-		if(this.properties[name] == 0)
-		{
+		if(this.properties[name] == 0) {
 			this.trace("Error in scale");
 			this.properties[name] = 1.0;
 		}
@@ -425,8 +381,7 @@ ImageCrop.prototype.onPropertyChange = function(name,value)
 LiteGraph.registerNodeType("graphics/cropImage", ImageFade );
 
 
-function ImageVideo()
-{
+function ImageVideo() {
 	this.addInput("t","number");
 	this.addOutputs([["frame","image"],["t","number"],["d","number"]]);
 	this.properties = {"url":""};
@@ -436,8 +391,7 @@ ImageVideo.title = "Video";
 ImageVideo.desc = "Video playback";
 ImageVideo.widgets = [{name:"play",text:"PLAY",type:"minibutton"},{name:"stop",text:"STOP",type:"minibutton"},{name:"demo",text:"Demo video",type:"button"},{name:"mute",text:"Mute video",type:"button"}];
 
-ImageVideo.prototype.onExecute = function()
-{
+ImageVideo.prototype.onExecute = function() {
 	if(!this.properties.url)
 		return;
 
@@ -448,8 +402,7 @@ ImageVideo.prototype.onExecute = function()
 		return;
 
 	var t = this.getInputData(0);
-	if(t && t >= 0 && t <= 1.0)
-	{
+	if(t && t >= 0 && t <= 1.0) {
 		this._video.currentTime = t * this._video.duration;
 		this._video.pause();
 	}
@@ -461,18 +414,15 @@ ImageVideo.prototype.onExecute = function()
 	this.setDirtyCanvas(true);
 }
 
-ImageVideo.prototype.onStart = function()
-{
+ImageVideo.prototype.onStart = function() {
 	this.play();
 }
 
-ImageVideo.prototype.onStop = function()
-{
+ImageVideo.prototype.onStop = function() {
 	this.stop();
 }
 
-ImageVideo.prototype.loadVideo = function(url)
-{
+ImageVideo.prototype.loadVideo = function(url) {
 	this._videoUrl = url;
 
 	this._video = document.createElement("video");
@@ -524,8 +474,7 @@ ImageVideo.prototype.loadVideo = function(url)
 	//document.body.appendChild(this.video);
 }
 
-ImageVideo.prototype.onPropertyChange = function(name,value)
-{
+ImageVideo.prototype.onPropertyChange = function(name,value) {
 	this.properties[name] = value;
 	if (name == "url" && value != "")
 		this.loadVideo(value);
@@ -533,14 +482,12 @@ ImageVideo.prototype.onPropertyChange = function(name,value)
 	return true;
 }
 
-ImageVideo.prototype.play = function()
-{
+ImageVideo.prototype.play = function() {
 	if(this._video)
 		this._video.play();
 }
 
-ImageVideo.prototype.playPause = function()
-{
+ImageVideo.prototype.playPause = function() {
 	if(!this._video)
 		return;
 	if(this._video.paused)
@@ -549,40 +496,33 @@ ImageVideo.prototype.playPause = function()
 		this.pause();
 }
 
-ImageVideo.prototype.stop = function()
-{
+ImageVideo.prototype.stop = function() {
 	if(!this._video)
 		return;
 	this._video.pause();
 	this._video.currentTime = 0;
 }
 
-ImageVideo.prototype.pause = function()
-{
+ImageVideo.prototype.pause = function() {
 	if(!this._video)
 		return;
 	this.trace("Video paused");
 	this._video.pause();
 }
 
-ImageVideo.prototype.onWidget = function(e,widget)
-{
+ImageVideo.prototype.onWidget = function(e,widget) {
 	/*
-	if(widget.name == "demo")
-	{
+	if(widget.name == "demo") {
 		this.loadVideo();
 	}
-	else if(widget.name == "play")
-	{
+	else if(widget.name == "play") {
 		if(this._video)
 			this.playPause();
 	}
-	if(widget.name == "stop")
-	{
+	if(widget.name == "stop") {
 		this.stop();
 	}
-	else if(widget.name == "mute")
-	{
+	else if(widget.name == "mute") {
 		if(this._video)
 			this._video.muted = !this._video.muted;
 	}
@@ -593,8 +533,7 @@ LiteGraph.registerNodeType("graphics/video", ImageVideo );
 
 
 // Texture Webcam *****************************************
-function ImageWebcam()
-{
+function ImageWebcam() {
 	this.addOutput("Webcam","image");
 	this.properties = {};
 }
@@ -603,8 +542,7 @@ ImageWebcam.title = "Webcam";
 ImageWebcam.desc = "Webcam image";
 
 
-ImageWebcam.prototype.openStream = function()
-{
+ImageWebcam.prototype.openStream = function() {
 	//Vendor prefixes hell
 	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 	window.URL = window.URL || window.webkitURL;
@@ -627,24 +565,20 @@ ImageWebcam.prototype.openStream = function()
 	};
 }
 
-ImageWebcam.prototype.onRemoved = function()
-{
-	if(this._webcamStream)
-	{
+ImageWebcam.prototype.onRemoved = function() {
+	if(this._webcamStream) {
 		this._webcamStream.stop();
 		this._webcamStream = null;
 		this._video = null;
 	}
 }
 
-ImageWebcam.prototype.streamReady = function(localMediaStream)
-{
+ImageWebcam.prototype.streamReady = function(localMediaStream) {
 	this._webcamStream = localMediaStream;
 	//this._waitingConfirmation = false;
 
 	var video = this._video;
-	if(!video)
-	{
+	if(!video) {
 		video = document.createElement("video");
 		video.autoplay = true;
 		video.src = window.URL.createObjectURL(localMediaStream);
@@ -658,8 +592,7 @@ ImageWebcam.prototype.streamReady = function(localMediaStream)
 	}
 },
 
-ImageWebcam.prototype.onExecute = function()
-{
+ImageWebcam.prototype.onExecute = function() {
 	if(this._webcamStream == null && !this._waitingConfirmation)
 		this.openStream();
 
@@ -670,8 +603,7 @@ ImageWebcam.prototype.onExecute = function()
 	this.setOutputData(0, this._video);
 }
 
-ImageWebcam.prototype.getExtraMenuOptions = function(graphcanvas)
-{
+ImageWebcam.prototype.getExtraMenuOptions = function(graphcanvas) {
 	var that = this;
 	var txt = !that.properties.show ? "Show Frame" : "Hide Frame";
 	return [ {content: txt, callback:
@@ -681,8 +613,7 @@ ImageWebcam.prototype.getExtraMenuOptions = function(graphcanvas)
 	}];
 }
 
-ImageWebcam.prototype.onDrawBackground = function(ctx)
-{
+ImageWebcam.prototype.onDrawBackground = function(ctx) {
 	if(this.flags.collapsed || this.size[1] <= 20 || !this.properties.show)
 		return;
 

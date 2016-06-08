@@ -3,8 +3,7 @@
 
 
 //Number constant
-function BasicNumber()
-{
+function BasicNumber() {
 	this.addOutput("value","number");
 	this.addProperty( "value", 1.0 );
 	this.editable = { property:"value", type:"number" };
@@ -13,26 +12,22 @@ function BasicNumber()
 BasicNumber.title = "Number";
 BasicNumber.desc = "Number value";
 
-BasicNumber.prototype.setValue = function(v)
-{
+BasicNumber.prototype.setValue = function(v) {
 	if( typeof(v) == "string") v = parseFloat(v);
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 };
 
-BasicNumber.prototype.onExecute = function()
-{
+BasicNumber.prototype.onExecute = function() {
 	this.setOutputData(0, parseFloat( this.properties["value"] ) );
 }
 
-BasicNumber.prototype.onDrawBackground = function(ctx)
-{
+BasicNumber.prototype.onDrawBackground = function(ctx) {
 	//show the current value
 	this.outputs[0].label = this.properties["value"].toFixed(3);
 }
 
-BasicNumber.prototype.onWidget = function(e,widget)
-{
+BasicNumber.prototype.onWidget = function(e,widget) {
 	if(widget.name == "value")
 		this.setValue(widget.value);
 }
@@ -41,8 +36,7 @@ LiteGraph.registerNodeType("basic/number", BasicNumber);
 
 
 //Watch a value in the editor
-function Watch()
-{
+function Watch() {
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
 	this.addProperty( "value", "" );
@@ -51,17 +45,14 @@ function Watch()
 Watch.title = "Watch";
 Watch.desc = "Show value of input";
 
-Watch.prototype.onExecute = function()
-{
+Watch.prototype.onExecute = function() {
 	this.properties.value = this.getInputData(0);
 	this.setOutputData(0, this.properties.value);
 }
 
-Watch.prototype.onDrawBackground = function(ctx)
-{
+Watch.prototype.onDrawBackground = function(ctx) {
 	//show the current value
-	if(this.inputs[0] && this.properties["value"] != null)
-	{
+	if(this.inputs[0] && this.properties["value"] != null) {
 		if (this.properties["value"].constructor === Number )
 			this.inputs[0].label = this.properties["value"].toFixed(3);
 		else
@@ -78,8 +69,7 @@ LiteGraph.registerNodeType("basic/watch", Watch);
 
 
 //Show value inside the debug console
-function Console()
-{
+function Console() {
 	this.addProperty( "msg", "" );
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
@@ -88,8 +78,7 @@ function Console()
 Console.title = "Console";
 Console.desc = "Show value inside the console";
 
-Console.prototype.onExecute = function()
-{
+Console.prototype.onExecute = function() {
 	var msg = this.getInputData(1);
 	if(msg !== undefined)
 		this.properties.msg = msg;
@@ -98,8 +87,7 @@ Console.prototype.onExecute = function()
 	console.log(msg);
 }
 
-Console.prototype.onGetInputs = function()
-{
+Console.prototype.onGetInputs = function() {
 	return [["log",LiteGraph.EXECUTE],["warn",LiteGraph.EXECUTE],["error",LiteGraph.EXECUTE]];
 }
 
@@ -107,8 +95,7 @@ LiteGraph.registerNodeType("basic/console", Console );
 
 
 //Branch the execution path depending on the condition value
-function Branch()
-{
+function Branch() {
 	this.addInput("if", LiteGraph.EXECUTE);
 	this.addProperty("condition", false, "boolean");
 	this.addInput("condition","boolean");
@@ -119,8 +106,7 @@ function Branch()
 Branch.title = "Branch";
 Branch.desc = "Choose a diferent execution brach depending on the value in condition";
 
-Branch.prototype.onExecute = function()
-{
+Branch.prototype.onExecute = function() {
 	var condition = this.getInputData(1);
 	if(condition !== undefined)
 		this.properties.condition = condition;
@@ -136,8 +122,7 @@ LiteGraph.registerNodeType("basic/branch", Branch );
 
 
 //String constant
-function BasicString()
-{
+function BasicString() {
 	this.addOutput("value","string");
 	this.addProperty( "value", "" );
 	this.editable = { property:"value", type:"string" };
@@ -146,20 +131,17 @@ function BasicString()
 BasicString.title = "String";
 BasicString.desc = "String value";
 
-BasicString.prototype.setValue = function(v)
-{
+BasicString.prototype.setValue = function(v) {
 	if( typeof(v) != "string") v = v.toString();
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 };
 
-BasicString.prototype.onExecute = function()
-{
+BasicString.prototype.onExecute = function() {
 	this.setOutputData(0, this.properties["value"] );
 }
 
-BasicString.prototype.onDrawBackground = function(ctx)
-{
+BasicString.prototype.onDrawBackground = function(ctx) {
 	var text = this.properties["value"];
 
 	ctx.font = LGraphCanvas.innerTextFont;
@@ -167,12 +149,10 @@ BasicString.prototype.onDrawBackground = function(ctx)
 	var width = ctx.measureText(text).width;
 
 	if(width > this.size[0] - 20)
-		for(var i = 1; i < text.length; i++)
-		{
+		for(var i = 1; i < text.length; i++) {
 			var shortText = text.slice(0, -i) + "...";
 			width = ctx.measureText(shortText).width;
-			if(width <= this.size[0] - 20)
-			{
+			if(width <= this.size[0] - 20) {
 				text = shortText;
 				break;
 			}
@@ -182,8 +162,7 @@ BasicString.prototype.onDrawBackground = function(ctx)
 	this.outputs[0].label = text;
 }
 
-BasicString.prototype.onWidget = function(e,widget)
-{
+BasicString.prototype.onWidget = function(e,widget) {
 	if(widget.name == "value")
 		this.setValue(widget.value);
 }
@@ -192,8 +171,7 @@ LiteGraph.registerNodeType("basic/string", BasicString);
 
 
 //Boolean constant
-function BasicBoolean()
-{
+function BasicBoolean() {
 	this.addOutput("value","boolean");
 	this.addProperty( "value", true );
 	this.editable = { property:"value", type:"boolean" };
@@ -202,26 +180,22 @@ function BasicBoolean()
 BasicBoolean.title = "Boolean";
 BasicBoolean.desc = "Boolean value";
 
-BasicBoolean.prototype.setValue = function(v)
-{
+BasicBoolean.prototype.setValue = function(v) {
 	if( typeof(v) != "boolean") v = v === true;
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 };
 
-BasicBoolean.prototype.onExecute = function()
-{
+BasicBoolean.prototype.onExecute = function() {
 	this.setOutputData(0, this.properties["value"] );
 }
 
-BasicBoolean.prototype.onDrawBackground = function(ctx)
-{
+BasicBoolean.prototype.onDrawBackground = function(ctx) {
 	//show the current value
 	this.outputs[0].label = this.properties["value"].toString();
 }
 
-BasicBoolean.prototype.onWidget = function(e,widget)
-{
+BasicBoolean.prototype.onWidget = function(e,widget) {
 	if(widget.name == "value")
 		this.setValue(widget.value);
 }
@@ -230,8 +204,7 @@ LiteGraph.registerNodeType("basic/boolean", BasicBoolean);
 
 
 //Function wrapper
-function Wrapper()
-{
+function Wrapper() {
 	var functionName = undefined;
 	var functionArguments = undefined;
 	var functionReturn = undefined;
@@ -279,8 +252,7 @@ function Wrapper()
 			for(var i = 1, l = that.inputs.length; i < l; i++)
 				that.removeInput(i);
 
-			if(v != undefined)
-			{
+			if(v != undefined) {
 				var strings = v.split(",");
 				if(typeof(strings) === "string")
 					that.addInput(strings);
@@ -324,8 +296,7 @@ function Wrapper()
 Wrapper.title = "Wrapper";
 Wrapper.desc = "Function wrapper";
 
-Wrapper.prototype.onExecute = function()
-{
+Wrapper.prototype.onExecute = function() {
 	//collect the arguments
 	var functionArguments = [];
 	for(var i = 1, l = this.inputs.length; i < l; i++)
@@ -333,8 +304,7 @@ Wrapper.prototype.onExecute = function()
 
 	//call the wrapped function
 	var functionObject = this._functionObject;
-	if(functionObject)
-	{
+	if(functionObject) {
 		var result = functionObject.apply(functionObject, functionArguments);
 		if(this.outputs.length == 2) //set output to the result
 			this.setOutputData(1, result);
@@ -348,8 +318,7 @@ LiteGraph.registerNodeType("basic/wrapper", Wrapper);
 
 
 //For loop
-function ForLoop()
-{
+function ForLoop() {
 	this.addInput("for", LiteGraph.EXECUTE);
 	this.addInput("first index", "number");
 	this.addInput("last index", "number");
@@ -361,13 +330,11 @@ function ForLoop()
 ForLoop.title = "For loop";
 ForLoop.desc = "Loop from the first to the last index";
 
-ForLoop.prototype.onExecute = function()
-{
+ForLoop.prototype.onExecute = function() {
 	var firstIndex = this.getInputData(1);
 	var lastIndex = this.getInputData(2);
 
-	for(var i = firstIndex; i <= lastIndex; i++)
-	{
+	for(var i = firstIndex; i <= lastIndex; i++) {
 		this.setOutputData(1, i);
 		this.trigger("loop body");
 	}
@@ -379,8 +346,7 @@ LiteGraph.registerNodeType("basic/forLoop", ForLoop );
 
 
 //For loop with break
-function ForLoopWithBreak()
-{
+function ForLoopWithBreak() {
 	this.addInput("for", LiteGraph.EXECUTE);
 	this.addInput("first index", "number");
 	this.addInput("last index", "number");
@@ -393,10 +359,8 @@ function ForLoopWithBreak()
 ForLoopWithBreak.title = "For loop with break";
 ForLoopWithBreak.desc = "Loop from the first to the last index, interrupted if break is triggered";
 
-ForLoopWithBreak.prototype.onExecute = function(action)
-{
-	if(action == "break" && this.looping)
-	{
+ForLoopWithBreak.prototype.onExecute = function(action) {
+	if(action == "break" && this.looping) {
 		this.looping = false;
 		return;
 	}
@@ -406,8 +370,7 @@ ForLoopWithBreak.prototype.onExecute = function(action)
 	var firstIndex = this.getInputData(1);
 	var lastIndex = this.getInputData(2);
 
-	for(var i = firstIndex; i <= lastIndex; i++)
-	{
+	for(var i = firstIndex; i <= lastIndex; i++) {
 		this.setOutputData(1, i);
 		this.trigger("loop body");
 		if(!this.looping) return;

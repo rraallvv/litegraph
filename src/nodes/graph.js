@@ -3,8 +3,7 @@
 
 
 //Subgraph: a node that contains a graph
-function Subgraph()
-{
+function Subgraph() {
 	var that = this;
 
 	//create inner graph
@@ -26,20 +25,17 @@ function Subgraph()
 Subgraph.title = "Subgraph";
 Subgraph.desc = "Graph inside a node";
 
-Subgraph.prototype.configure = function(o)
-{
+Subgraph.prototype.configure = function(o) {
 	LGraphNode.prototype.configure.call(this, o);
 	//this.subgraph.configure(o.graph);
 }
 
-Subgraph.prototype.onSubgraphNewGlobalInput = function(name, type)
-{
+Subgraph.prototype.onSubgraphNewGlobalInput = function(name, type) {
 	//add input to the node
 	this.addInput(name, type);
 }
 
-Subgraph.prototype.onSubgraphRenamedGlobalInput = function(oldname, name)
-{
+Subgraph.prototype.onSubgraphRenamedGlobalInput = function(oldname, name) {
 	var slot = this.findInputSlot( oldname );
 	if(slot == -1)
 		return;
@@ -47,8 +43,7 @@ Subgraph.prototype.onSubgraphRenamedGlobalInput = function(oldname, name)
 	info.name = name;
 }
 
-Subgraph.prototype.onSubgraphTypeChangeGlobalInput = function(name, type)
-{
+Subgraph.prototype.onSubgraphTypeChangeGlobalInput = function(name, type) {
 	var slot = this.findInputSlot( name );
 	if(slot == -1)
 		return;
@@ -56,14 +51,12 @@ Subgraph.prototype.onSubgraphTypeChangeGlobalInput = function(name, type)
 	info.type = type;
 }
 
-Subgraph.prototype.onSubgraphNewGlobalOutput = function(name, type)
-{
+Subgraph.prototype.onSubgraphNewGlobalOutput = function(name, type) {
 	//add output to the node
 	this.addOutput(name, type);
 }
 
-Subgraph.prototype.onSubgraphRenamedGlobalOutput = function(oldname, name)
-{
+Subgraph.prototype.onSubgraphRenamedGlobalOutput = function(oldname, name) {
 	var slot = this.findOutputSlot( oldname );
 	if(slot == -1)
 		return;
@@ -71,8 +64,7 @@ Subgraph.prototype.onSubgraphRenamedGlobalOutput = function(oldname, name)
 	info.name = name;
 }
 
-Subgraph.prototype.onSubgraphTypeChangeGlobalOutput = function(name, type)
-{
+Subgraph.prototype.onSubgraphTypeChangeGlobalOutput = function(name, type) {
 	var slot = this.findOutputSlot( name );
 	if(slot == -1)
 		return;
@@ -80,8 +72,7 @@ Subgraph.prototype.onSubgraphTypeChangeGlobalOutput = function(name, type)
 	info.type = type;
 }
 
-Subgraph.prototype.getExtraMenuOptions = function(graphcanvas)
-{
+Subgraph.prototype.getExtraMenuOptions = function(graphcanvas) {
 	var that = this;
 	return [ {content:"Open", callback:
 		function() {
@@ -90,12 +81,10 @@ Subgraph.prototype.getExtraMenuOptions = function(graphcanvas)
 	}];
 }
 
-Subgraph.prototype.onExecute = function()
-{
+Subgraph.prototype.onExecute = function() {
 	//send inputs to subgraph global inputs
 	if(this.inputs)
-		for(var i = 0; i < this.inputs.length; i++)
-		{
+		for(var i = 0; i < this.inputs.length; i++) {
 			var input = this.inputs[i];
 			var value = this.getInputData(i);
 			this.subgraph.setGlobalInputData( input.name, value );
@@ -106,23 +95,20 @@ Subgraph.prototype.onExecute = function()
 
 	//send subgraph global outputs to outputs
 	if(this.outputs)
-		for(var i = 0; i < this.outputs.length; i++)
-		{
+		for(var i = 0; i < this.outputs.length; i++) {
 			var output = this.outputs[i];
 			var value = this.subgraph.getGlobalOutputData( output.name );
 			this.setOutputData(i, value);
 		}
 }
 
-Subgraph.prototype.serialize = function()
-{
+Subgraph.prototype.serialize = function() {
 	var data = LGraphNode.prototype.serialize.call(this);
 	data.subgraph = this.subgraph.serialize();
 	return data;
 }
 
-Subgraph.prototype.clone = function()
-{
+Subgraph.prototype.clone = function() {
 	var node = LiteGraph.createNode(this.type, this.title);
 	var data = this.serialize();
 	delete data["id"];
@@ -132,8 +118,7 @@ Subgraph.prototype.clone = function()
 	return node;
 }
 
-Subgraph.prototype.invalidateConnectedLinks = function(slot)
-{
+Subgraph.prototype.invalidateConnectedLinks = function(slot) {
 	LGraphNode.prototype.invalidateConnectedLinks.call(this, slot);
 }
 
@@ -141,8 +126,7 @@ LiteGraph.registerNodeType("graph/subgraph", Subgraph );
 
 
 //Input for a subgraph
-function GlobalInput( title )
-{
+function GlobalInput( title ) {
 	//random name to avoid problems with other outputs when added
 	var inputName = title || "input_" + (Math.random()*1000).toFixed();
 
@@ -187,13 +171,11 @@ GlobalInput.title = "Input";
 GlobalInput.desc = "Input of the graph";
 
 //When added to graph tell the graph this is a new global input
-GlobalInput.prototype.onAdded = function()
-{
+GlobalInput.prototype.onAdded = function() {
 	this.graph.addGlobalInput( this.properties.name, this.properties.type );
 }
 
-GlobalInput.prototype.onExecute = function()
-{
+GlobalInput.prototype.onExecute = function() {
 	var name = this.properties.name;
 
 	//read from global input
@@ -208,8 +190,7 @@ LiteGraph.registerNodeType("graph/input", GlobalInput);
 
 
 //Output for a subgraph
-function GlobalOutput( title )
-{
+function GlobalOutput( title ) {
 	//random name to avoid problems with other outputs when added
 	var outputName = title || "output_" + (Math.random()*1000).toFixed();
 
@@ -253,13 +234,11 @@ function GlobalOutput( title )
 GlobalOutput.title = "Ouput";
 GlobalOutput.desc = "Output of the graph";
 
-GlobalOutput.prototype.onAdded = function()
-{
+GlobalOutput.prototype.onAdded = function() {
 	var name = this.graph.addGlobalOutput( this.properties.name, this.properties.type );
 }
 
-GlobalOutput.prototype.onExecute = function()
-{
+GlobalOutput.prototype.onExecute = function() {
 	this.graph.setGlobalOutputData( this.properties.name, this.getInputData(0) );
 }
 
@@ -267,8 +246,7 @@ LiteGraph.registerNodeType("graph/output", GlobalOutput);
 
 
 //Property getter
-function GetProperty( title )
-{
+function GetProperty( title ) {
 	this.title = title;
 
 	this.addOutput("value", null);
@@ -300,8 +278,7 @@ function GetProperty( title )
 GetProperty.title = "Get Property";
 GetProperty.desc = "Property getter";
 
-GetProperty.prototype.onExecute = function()
-{
+GetProperty.prototype.onExecute = function() {
 	var name = this.properties.name;
 
 	//read from graph properties
@@ -316,8 +293,7 @@ LiteGraph.registerNodeType("graph/getProperty", GetProperty);
 
 
 //Property setter
-function SetProperty( title )
-{
+function SetProperty( title ) {
 	this.title = title;
 
 	this.addInput("set", LiteGraph.EXECUTE, {label:""});
@@ -353,8 +329,7 @@ function SetProperty( title )
 SetProperty.title = "Set Property";
 SetProperty.desc = "Property setter";
 
-SetProperty.prototype.onExecute = function()
-{
+SetProperty.prototype.onExecute = function() {
 	var name = this.properties.name;
 	this.graph.properties[name] = this.getInputData(1);
 	this.graph.updatePropety(name);
@@ -365,8 +340,7 @@ LiteGraph.registerNodeType("graph/setProperty", SetProperty);
 
 
 //Comment: a node that encloses other nodes and have a comment message for title
-function Comment( title )
-{
+function Comment( title ) {
 	this.title = title;
 	this.flags = {
 		background: true
@@ -418,48 +392,40 @@ function Comment( title )
 Comment.title = "Comment";
 Comment.desc = "Comment enclosing other nodes";
 
-Comment.prototype.onAdded = function()
-{
+Comment.prototype.onAdded = function() {
 	this.graph.sendActionToCanvas("sendToBack",[this]);
 }
 
-Comment.prototype.onMouseDown = function(e)
-{
+Comment.prototype.onMouseDown = function(e) {
 	var bounding = this.getBounding();
 
 	this.isDragging = true;
 
-	for(var i = 0, l = this.graph._nodes.length; i < l; i++)
-	{
+	for(var i = 0, l = this.graph._nodes.length; i < l; i++) {
 		var node = this.graph._nodes[i];
-		if(!Object.is(this,node) && containsBounding(bounding, node.getBounding()))
-		{
+		if(!Object.is(this,node) && containsBounding(bounding, node.getBounding())) {
 			var delta = [node.pos[0] - this.pos[0], node.pos[1] - this.pos[1]];
 			this.overlappingNodes.push({node: node, delta: delta});
 		}
 	}
 }
 
-Comment.prototype.onMouseMove = function(e)
-{
+Comment.prototype.onMouseMove = function(e) {
 	if(this.isDragging && this.overlappingNodes)
-		for(var i = 0, l = this.overlappingNodes.length; i < l; i++)
-		{
+		for(var i = 0, l = this.overlappingNodes.length; i < l; i++) {
 			var node = this.overlappingNodes[i].node;
 			var delta = this.overlappingNodes[i].delta;
 			node.pos = [this.pos[0] + delta[0], this.pos[1] + delta[1]];
 		}
 }
 
-Comment.prototype.onMouseUp = function(e)
-{
+Comment.prototype.onMouseUp = function(e) {
 	this.onMouseMove(e);
 	this.overlappingNodes = [];
 	this.isDragging = false;
 }
 
-Comment.prototype.onDrawBackground = function(ctx)
-{
+Comment.prototype.onDrawBackground = function(ctx) {
 	if(!this.handlePattern)
 		this.handlePattern = ctx.createPattern(this.handleImage,"repeat")
 
