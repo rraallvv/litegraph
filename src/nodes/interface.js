@@ -3,16 +3,14 @@
 
 	/* Button ****************/
 
-	function WidgetButton()
-	{
+	function WidgetButton() {
 		this.addOutput( "clicked", LiteGraph.EXECUTE, {label:""} );
 	}
 
 	WidgetButton.title = "Button";
 	WidgetButton.desc = "Triggers an event";
 
-	WidgetButton.prototype.onDrawForeground = function(ctx)
-	{
+	WidgetButton.prototype.onDrawForeground = function(ctx) {
 		if(this.flags.collapsed)
 			return;
 
@@ -26,18 +24,15 @@
 		ctx.fillRect(7,7,this.size[0] - 14, this.size[1] - 14);
 	}
 
-	WidgetButton.prototype.onMouseDown = function(e, localPos)
-	{
-		if(localPos[0] > 1 && localPos[1] > 1 && localPos[0] < (this.size[0] - 2) && localPos[1] < (this.size[1] - 2) )
-		{
+	WidgetButton.prototype.onMouseDown = function(e, localPos) {
+		if(localPos[0] > 1 && localPos[1] > 1 && localPos[0] < (this.size[0] - 2) && localPos[1] < (this.size[1] - 2) ) {
 			this.clicked = true;
 			this.trigger( "clicked" );
 			return true;
 		}
 	}
 
-	WidgetButton.prototype.onMouseUp = function(e)
-	{
+	WidgetButton.prototype.onMouseUp = function(e) {
 		this.clicked = false;
 	}
 
@@ -46,8 +41,7 @@
 
 	/* Knob ****************/
 
-	function WidgetKnob()
-	{
+	function WidgetKnob() {
 		this.addOutput("",'number');
 		this.size = [64,84];
 		this.properties = {min:0,max:1,value:0.5,wcolor:"#7AF",size:50};
@@ -58,16 +52,14 @@
 	WidgetKnob.widgets = [{name:"increase",text:"+",type:"minibutton"},{name:"decrease",text:"-",type:"minibutton"}];
 
 
-	WidgetKnob.prototype.onAdded = function()
-	{
+	WidgetKnob.prototype.onAdded = function() {
 		this.value = (this.properties["value"] - this.properties["min"]) / (this.properties["max"] - this.properties["min"]);
 
 		this.imgbg = this.loadImage("imgs/knob_bg.png");
 		this.imgfg = this.loadImage("imgs/knob_fg.png");
 	}
 
-	WidgetKnob.prototype.onDrawImageKnob = function(ctx)
-	{
+	WidgetKnob.prototype.onDrawImageKnob = function(ctx) {
 		if(!this.imgfg || !this.imgfg.width) return;
 
 		var d = this.imgbg.width*0.5;
@@ -87,8 +79,7 @@
 
 		ctx.restore();
 
-		if(this.title)
-		{
+		if(this.title) {
 			ctx.font = "bold 16px Criticized,Tahoma";
 			ctx.fillStyle="rgba(100,100,100,0.8)";
 			ctx.textAlign = "center";
@@ -97,8 +88,7 @@
 		}
 	}
 
-	WidgetKnob.prototype.onDrawVectorKnob = function(ctx)
-	{
+	WidgetKnob.prototype.onDrawVectorKnob = function(ctx) {
 		if(!this.imgfg || !this.imgfg.width) return;
 
 		//circle around
@@ -109,8 +99,7 @@
 		ctx.arc(this.size[0] * 0.5,this.size[1] * 0.5 + 10,this.properties.size * 0.5,0,Math.PI*2,true);
 		ctx.stroke();
 
-		if(this.value > 0)
-		{
+		if(this.value > 0) {
 			ctx.strokeStyle=this.properties["wcolor"];
 			ctx.lineWidth = (this.properties.size * 0.2);
 			ctx.beginPath();
@@ -131,20 +120,17 @@
 		ctx.textAlign = "left";
 	}
 
-	WidgetKnob.prototype.onDrawForeground = function(ctx)
-	{
+	WidgetKnob.prototype.onDrawForeground = function(ctx) {
 		this.onDrawImageKnob(ctx);
 	}
 
-	WidgetKnob.prototype.onExecute = function()
-	{
+	WidgetKnob.prototype.onExecute = function() {
 		this.setOutputData(0, this.properties["value"] );
 
 		this.boxcolor = colorToString([this.value,this.value,this.value]);
 	}
 
-	WidgetKnob.prototype.onMouseDown = function(e)
-	{
+	WidgetKnob.prototype.onMouseDown = function(e) {
 		if(!this.imgfg || !this.imgfg.width) return;
 
 		//this.center = [this.imgbg.width * 0.5, this.imgbg.height * 0.5 + 20];
@@ -164,8 +150,7 @@
 		return true;
 	}
 
-	WidgetKnob.prototype.onMouseMove = function(e)
-	{
+	WidgetKnob.prototype.onMouseMove = function(e) {
 		if(!this.oldmouse) return;
 
 		var m = [ e.canvasX - this.pos[0], e.canvasY - this.pos[1] ];
@@ -182,41 +167,34 @@
 		this.setDirtyCanvas(true);
 	}
 
-	WidgetKnob.prototype.onMouseUp = function(e)
-	{
-		if(this.oldmouse)
-		{
+	WidgetKnob.prototype.onMouseUp = function(e) {
+		if(this.oldmouse) {
 			this.oldmouse = null;
 			this.captureInput(false);
 		}
 	}
 
-	WidgetKnob.prototype.onMouseLeave = function(e)
-	{
+	WidgetKnob.prototype.onMouseLeave = function(e) {
 		//this.oldmouse = null;
 	}
 
-	WidgetKnob.prototype.onWidget = function(e,widget)
-	{
+	WidgetKnob.prototype.onWidget = function(e,widget) {
 		if(widget.name=="increase")
 			this.onPropertyChange("size", this.properties.size + 10);
 		else if(widget.name=="decrease")
 			this.onPropertyChange("size", this.properties.size - 10);
 	}
 
-	WidgetKnob.prototype.onPropertyChange = function(name,value)
-	{
+	WidgetKnob.prototype.onPropertyChange = function(name,value) {
 		if(name=="wcolor")
 			this.properties[name] = value;
-		else if(name=="size")
-		{
+		else if(name=="size") {
 			value = parseInt(value);
 			this.properties[name] = value;
 			this.size = [value+4,value+24];
 			this.setDirtyCanvas(true,true);
 		}
-		else if(name=="min" || name=="max" || name=="value")
-		{
+		else if(name=="min" || name=="max" || name=="value") {
 			this.properties[name] = parseFloat(value);
 		}
 		else
@@ -227,8 +205,7 @@
 	LiteGraph.registerNodeType("widget/knob", WidgetKnob);
 
 	//Widget H SLIDER
-	function WidgetHSlider()
-	{
+	function WidgetHSlider() {
 		this.size = [160,26];
 		this.addOutput("",'number');
 		this.properties = {wcolor:"#7AF",min:0,max:1,value:0.5};
@@ -237,14 +214,12 @@
 	WidgetHSlider.title = "H.Slider";
 	WidgetHSlider.desc = "Linear slider controller";
 
-	WidgetHSlider.prototype.onInit = function()
-	{
+	WidgetHSlider.prototype.onInit = function() {
 		this.value = 0.5;
 		this.imgfg = this.loadImage("imgs/slider_fg.png");
 	}
 
-	WidgetHSlider.prototype.onDrawVectorial = function(ctx)
-	{
+	WidgetHSlider.prototype.onDrawVectorial = function(ctx) {
 		if(!this.imgfg || !this.imgfg.width) return;
 
 		//border
@@ -261,8 +236,7 @@
 		ctx.fill();
 	}
 
-	WidgetHSlider.prototype.onDrawImage = function(ctx)
-	{
+	WidgetHSlider.prototype.onDrawImage = function(ctx) {
 		if(!this.imgfg || !this.imgfg.width)
 			return;
 
@@ -286,20 +260,17 @@
 		ctx.drawImage(this.imgfg, 2+(this.size[0]-4)*this.value - this.imgfg.width*0.5,-this.imgfg.height*0.5 + 10);
 	},
 
-	WidgetHSlider.prototype.onDrawForeground = function(ctx)
-	{
+	WidgetHSlider.prototype.onDrawForeground = function(ctx) {
 		this.onDrawImage(ctx);
 	}
 
-	WidgetHSlider.prototype.onExecute = function()
-	{
+	WidgetHSlider.prototype.onExecute = function() {
 		this.properties["value"] = this.properties["min"] + (this.properties["max"] - this.properties["min"]) * this.value;
 		this.setOutputData(0, this.properties["value"] );
 		this.boxcolor = colorToString([this.value,this.value,this.value]);
 	}
 
-	WidgetHSlider.prototype.onMouseDown = function(e)
-	{
+	WidgetHSlider.prototype.onMouseDown = function(e) {
 		if(e.canvasY - this.pos[1] < 0)
 			return false;
 
@@ -308,8 +279,7 @@
 		return true;
 	}
 
-	WidgetHSlider.prototype.onMouseMove = function(e)
-	{
+	WidgetHSlider.prototype.onMouseMove = function(e) {
 		if(!this.oldmouse) return;
 
 		var m = [ e.canvasX - this.pos[0], e.canvasY - this.pos[1] ];
@@ -326,19 +296,16 @@
 		this.setDirtyCanvas(true);
 	}
 
-	WidgetHSlider.prototype.onMouseUp = function(e)
-	{
+	WidgetHSlider.prototype.onMouseUp = function(e) {
 		this.oldmouse = null;
 		this.captureInput(false);
 	}
 
-	WidgetHSlider.prototype.onMouseLeave = function(e)
-	{
+	WidgetHSlider.prototype.onMouseLeave = function(e) {
 		//this.oldmouse = null;
 	}
 
-	WidgetHSlider.prototype.onPropertyChange = function(name,value)
-	{
+	WidgetHSlider.prototype.onPropertyChange = function(name,value) {
 		if(name=="wcolor")
 			this.properties[name] = value;
 		else
@@ -349,8 +316,7 @@
 	LiteGraph.registerNodeType("widget/hSlider", WidgetHSlider );
 
 
-	function WidgetProgress()
-	{
+	function WidgetProgress() {
 		this.size = [160,26];
 		this.addInput("",'number');
 		this.properties = {min:0,max:1,value:0,wcolor:"#AAF"};
@@ -359,15 +325,13 @@
 	WidgetProgress.title = "Progress";
 	WidgetProgress.desc = "Shows data in linear progress";
 
-	WidgetProgress.prototype.onExecute = function()
-	{
+	WidgetProgress.prototype.onExecute = function() {
 		var v = this.getInputData(0);
 		if( v != undefined )
 			this.properties["value"] = v;
 	}
 
-	WidgetProgress.prototype.onDrawForeground = function(ctx)
-	{
+	WidgetProgress.prototype.onDrawForeground = function(ctx) {
 		//border
 		ctx.lineWidth = 1;
 		ctx.fillStyle=this.properties.wcolor;
@@ -388,15 +352,13 @@
 		outputs: [["x",'number'],["y",'number']],
 		properties:{x:0,y:0,borderColor:"#333",bgcolorTop:"#444",bgcolorBottom:"#000",shadowSize:1, borderRadius:2},
 
-		createGradient: function(ctx)
-		{
+		createGradient: function(ctx) {
 			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);
 			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);
 			this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
 		},
 
-		onDrawBackground: function(ctx)
-		{
+		onDrawBackground: function(ctx) {
 			if(!this.lineargradient)
 				this.createGradient(ctx);
 
@@ -419,23 +381,19 @@
 			ctx.fillRect(this.size[0] * this.properties["x"] - 5, this.size[1] * this.properties["y"] - 5,10,10);
 		},
 
-		onWidget: function(e,widget)
-		{
-			if(widget.name == "update")
-			{
+		onWidget: function(e,widget) {
+			if(widget.name == "update") {
 				this.lineargradient = null;
 				this.setDirtyCanvas(true);
 			}
 		},
 
-		onExecute: function()
-		{
+		onExecute: function() {
 			this.setOutputData(0, this.properties["x"] );
 			this.setOutputData(1, this.properties["y"] );
 		},
 
-		onMouseDown: function(e)
-		{
+		onMouseDown: function(e) {
 			if(e.canvasY - this.pos[1] < 0)
 				return false;
 
@@ -444,8 +402,7 @@
 			return true;
 		},
 
-		onMouseMove: function(e)
-		{
+		onMouseMove: function(e) {
 			if(!this.oldmouse) return;
 
 			var m = [ e.canvasX - this.pos[0], e.canvasY - this.pos[1] ];
@@ -463,17 +420,14 @@
 			this.setDirtyCanvas(true);
 		},
 
-		onMouseUp: function(e)
-		{
-			if(this.oldmouse)
-			{
+		onMouseUp: function(e) {
+			if(this.oldmouse) {
 				this.oldmouse = null;
 				this.captureInput(false);
 			}
 		},
 
-		onMouseLeave: function(e)
-		{
+		onMouseLeave: function(e) {
 			//this.oldmouse = null;
 		}
 	});
@@ -489,15 +443,13 @@
 		properties:{text:"clickme",command:"",color:"#7AF",bgcolorTop:"#f0f0f0",bgcolorBottom:"#e0e0e0",fontsize:"16"},
 		outputs:[["M","module"]],
 
-		createGradient: function(ctx)
-		{
+		createGradient: function(ctx) {
 			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);
 			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);
 			this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
 		},
 
-		drawVectorShape: function(ctx)
-		{
+		drawVectorShape: function(ctx) {
 			ctx.fillStyle = this.mouseOver ? this.properties["color"] : "#AAA";
 
 			if(this.clicking)
@@ -520,8 +472,7 @@
 			ctx.textAlign = "left";
 		},
 
-		drawBevelShape: function(ctx)
-		{
+		drawBevelShape: function(ctx) {
 			ctx.shadowColor = "#000";
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
@@ -548,27 +499,22 @@
 			ctx.textAlign = "left";
 		},
 
-		onDrawForeground: function(ctx)
-		{
+		onDrawForeground: function(ctx) {
 			this.drawBevelShape(ctx);
 		},
 
-		clickButton: function()
-		{
+		clickButton: function() {
 			var module = this.getOutputModule(0);
-			if(this.properties["command"] && this.properties["command"] != "")
-			{
+			if(this.properties["command"] && this.properties["command"] != "") {
 				if (! module.executeAction(this.properties["command"]) )
 					this.trace("Error executing action in other module");
 			}
-			else if(module && module.onTrigger)
-			{
+			else if(module && module.onTrigger) {
 				module.onTrigger();
 			}
 		},
 
-		onMouseDown: function(e)
-		{
+		onMouseDown: function(e) {
 			if(e.canvasY - this.pos[1] < 2)
 				return false;
 			this.clickButton();
@@ -576,25 +522,20 @@
 			return true;
 		},
 
-		onMouseUp: function(e)
-		{
+		onMouseUp: function(e) {
 			this.clicking = false;
 		},
 
-		onExecute: function()
-		{
+		onExecute: function() {
 		},
 
-		onWidget: function(e,widget)
-		{
-			if(widget.name == "test")
-			{
+		onWidget: function(e,widget) {
+			if(widget.name == "test") {
 				this.clickButton();
 			}
 		},
 
-		onPropertyChange: function(name,value)
-		{
+		onPropertyChange: function(name,value) {
 			this.properties[name] = value;
 			return true;
 		}
@@ -602,8 +543,7 @@
 	*/
 
 
-	function WidgetText()
-	{
+	function WidgetText() {
 		this.addInputs("",0);
 		this.properties = { value:"...",font:"Arial", fontsize:18, color:"#AAA", align:"left", glowSize:0, decimals:1 };
 	}
@@ -612,15 +552,13 @@
 	WidgetText.desc = "Shows the input value";
 	WidgetText.widgets = [{name:"resize",text:"Resize box",type:"button"},{name:"ledText",text:"LED",type:"minibutton"},{name:"normalText",text:"Normal",type:"minibutton"}];
 
-	WidgetText.prototype.onDrawForeground = function(ctx)
-	{
+	WidgetText.prototype.onDrawForeground = function(ctx) {
 		//ctx.fillStyle="#000";
 		//ctx.fillRect(0,0,100,60);
 		ctx.fillStyle = this.properties["color"];
 		var v = this.properties["value"];
 
-		if(this.properties["glowSize"])
-		{
+		if(this.properties["glowSize"]) {
 			ctx.shadowColor = this.properties["color"];
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
@@ -635,8 +573,7 @@
 		ctx.font = fontsize.toString() + "px " + this.properties["font"];
 		this.str = typeof(v) == 'number' ? v.toFixed(this.properties["decimals"]) : v;
 
-		if( typeof(this.str) == 'string')
-		{
+		if( typeof(this.str) == 'string') {
 			var lines = this.str.split("\\n");
 			for(var i in lines)
 				ctx.fillText(lines[i],this.properties["align"] == "left" ? 15 : this.size[0] - 15, fontsize * -0.15 + fontsize * (parseInt(i)+1) );
@@ -647,8 +584,7 @@
 		ctx.textAlign = "left";
 	}
 
-	WidgetText.prototype.onExecute = function()
-	{
+	WidgetText.prototype.onExecute = function() {
 		var v = this.getInputData(0);
 		if(v != null)
 			this.properties["value"] = v;
@@ -657,15 +593,13 @@
 		this.setDirtyCanvas(true);
 	}
 
-	WidgetText.prototype.resize = function()
-	{
+	WidgetText.prototype.resize = function() {
 		if(!this.lastCtx) return;
 
 		var lines = this.str.split("\\n");
 		this.lastCtx.font = this.properties["fontsize"] + "px " + this.properties["font"];
 		var max = 0;
-		for(var i in lines)
-		{
+		for(var i in lines) {
 			var w = this.lastCtx.measureText(lines[i]).width;
 			if(max < w) max = w;
 		}
@@ -675,25 +609,21 @@
 		this.setDirtyCanvas(true);
 	}
 
-	WidgetText.prototype.onWidget = function(e,widget)
-	{
+	WidgetText.prototype.onWidget = function(e,widget) {
 		if(widget.name == "resize")
 			this.resize();
-		else if (widget.name == "ledText")
-		{
+		else if (widget.name == "ledText") {
 			this.properties["font"] = "Digital";
 			this.properties["glowSize"] = 4;
 			this.setDirtyCanvas(true);
 		}
-		else if (widget.name == "normalText")
-		{
+		else if (widget.name == "normalText") {
 			this.properties["font"] = "Arial";
 			this.setDirtyCanvas(true);
 		}
 	}
 
-	WidgetText.prototype.onPropertyChange = function(name,value)
-	{
+	WidgetText.prototype.onPropertyChange = function(name,value) {
 		this.properties[name] = value;
 		this.str = typeof(value) == 'number' ? value.toFixed(3) : value;
 		//this.resize();
@@ -703,8 +633,7 @@
 	LiteGraph.registerNodeType("widget/text", WidgetText );
 
 
-	function WidgetPanel()
-	{
+	function WidgetPanel() {
 		this.size = [200,100];
 		this.properties = {borderColor:"#ffffff",bgcolorTop:"#f0f0f0",bgcolorBottom:"#e0e0e0",shadowSize:2, borderRadius:3};
 	}
@@ -714,10 +643,8 @@
 	WidgetPanel.widgets = [{name:"update",text:"Update",type:"button"}];
 
 
-	WidgetPanel.prototype.createGradient = function(ctx)
-	{
-		if(this.properties["bgcolorTop"] == "" || this.properties["bgcolorBottom"] == "")
-		{
+	WidgetPanel.prototype.createGradient = function(ctx) {
+		if(this.properties["bgcolorTop"] == "" || this.properties["bgcolorBottom"] == "") {
 			this.lineargradient = 0;
 			return;
 		}
@@ -727,8 +654,7 @@
 		this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
 	}
 
-	WidgetPanel.prototype.onDrawForeground = function(ctx)
-	{
+	WidgetPanel.prototype.onDrawForeground = function(ctx) {
 		if(this.lineargradient == null)
 			this.createGradient(ctx);
 
@@ -740,8 +666,7 @@
 		//ctx.fillStyle = "#ebebeb";
 		ctx.fillStyle = this.lineargradient;
 
-		if(this.properties["shadowSize"])
-		{
+		if(this.properties["shadowSize"]) {
 			ctx.shadowColor = "#000";
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
@@ -757,10 +682,8 @@
 		ctx.stroke();
 	}
 
-	WidgetPanel.prototype.onWidget = function(e,widget)
-	{
-		if(widget.name == "update")
-		{
+	WidgetPanel.prototype.onWidget = function(e,widget) {
+		if(widget.name == "update") {
 			this.lineargradient = null;
 			this.setDirtyCanvas(true);
 		}

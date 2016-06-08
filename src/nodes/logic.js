@@ -1,5 +1,4 @@
-function Selector()
-{
+function Selector() {
 	this.addInput("sel","boolean");
 	this.addOutput("value","number");
 	this.properties = { A:0, B:1 };
@@ -8,14 +7,12 @@ function Selector()
 Selector.title = "Selector";
 Selector.desc = "outputs A if selector is true, B if selector is false";
 
-Selector.prototype.onExecute = function()
-{
+Selector.prototype.onExecute = function() {
 	var cond = this.getInputData(0);
 	if(cond === undefined)
 		return;
 
-	for(var i = 1; i < this.inputs.length; i++)
-	{
+	for(var i = 1; i < this.inputs.length; i++) {
 		var input = this.inputs[i];
 		var v = this.getInputData(i);
 		if(v === undefined)
