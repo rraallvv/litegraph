@@ -1,7 +1,6 @@
 (function() {
 
-function GamepadInput()
-{
+function GamepadInput() {
 	this.addOutput("leftX_axis","number");
 	this.addOutput("leftY_axis","number");
 	this.properties = {};
@@ -10,22 +9,17 @@ function GamepadInput()
 GamepadInput.title = "Gamepad";
 GamepadInput.desc = "gets the input of the gamepad";
 
-GamepadInput.prototype.onExecute = function()
-{
+GamepadInput.prototype.onExecute = function() {
 	//get gamepad
 	var gamepad = this.getGamepad();
 
-	if (this.outputs)
-	{
-		for (var i = 0; i < this.outputs.length; i++)
-		{
+	if (this.outputs) {
+		for (var i = 0; i < this.outputs.length; i++) {
 			var output = this.outputs[i];
 			var v = null;
 
-			if (gamepad)
-			{
-				switch ( output.name )
-				{
+			if (gamepad) {
+				switch ( output.name ) {
 					case "leftAxis": v = [ gamepad.xbox.axes["lx"], gamepad.xbox.axes["ly"]]; break;
 					case "rightAxis": v = [ gamepad.xbox.axes["rx"], gamepad.xbox.axes["ry"]]; break;
 					case "leftX_axis": v = gamepad.xbox.axes["lx"]; break;
@@ -50,8 +44,7 @@ GamepadInput.prototype.onExecute = function()
 			else
 			{
 				//if no gamepad is connected, output 0
-				switch ( output.name )
-				{
+				switch ( output.name ) {
 					case "leftAxis":
 					case "rightAxis":
 						v = [0,0];
@@ -65,18 +58,15 @@ GamepadInput.prototype.onExecute = function()
 	}
 }
 
-GamepadInput.prototype.getGamepad = function()
-{
+GamepadInput.prototype.getGamepad = function() {
 	var getGamepads = navigator.getGamepads || navigator.webkitGetGamepads || navigator.mozGetGamepads; 
 	if (!getGamepads)
 		return null;
 	var gamepads = getGamepads.call(navigator);
 	var gamepad = null;
 
-	for (var i = 0; i < 4; i++)
-	{
-		if (gamepads[i])
-		{
+	for (var i = 0; i < 4; i++) {
+		if (gamepads[i]) {
 			gamepad = gamepads[i];
 
 			//xbox controller mapping
@@ -91,8 +81,7 @@ GamepadInput.prototype.getGamepad = function()
 			xbox.axes["ltrigger"] = gamepad.buttons[6].value;
 			xbox.axes["rtrigger"] = gamepad.buttons[7].value;
 
-			for (var i = 0; i < gamepad.buttons.length; i++)
-			{
+			for (var i = 0; i < gamepad.buttons.length; i++) {
 				//mapping of XBOX
 				switch (i) //I use a switch to ensure that a player with another gamepad could play
 				{
@@ -122,8 +111,7 @@ GamepadInput.prototype.getGamepad = function()
 	}
 }
 
-GamepadInput.prototype.onDrawBackground = function(ctx)
-{
+GamepadInput.prototype.onDrawBackground = function(ctx) {
 	//render
 }
 

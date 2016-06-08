@@ -1,8 +1,6 @@
-(function( global )
-{
+(function( global ) {
 
-function MIDIEvent( data )
-{
+function MIDIEvent( data ) {
 	this.channel = 0;
 	this.cmd = 0;
 
@@ -12,8 +10,7 @@ function MIDIEvent( data )
 		this.data = [0,0,0];
 }
 
-MIDIEvent.prototype.setup = function( rawData )
-{
+MIDIEvent.prototype.setup = function( rawData ) {
 	this.data = rawData;
 
 	var midiStatus = rawData[0];
@@ -51,35 +48,29 @@ Object.defineProperty( MIDIEvent.prototype, "velocity", {
 MIDIEvent.notes = ["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"];
 
 //returns HZs
-MIDIEvent.prototype.getPitch = function()
-{
+MIDIEvent.prototype.getPitch = function() {
 	return Math.pow(2, (this.data[1] - 69) / 12 ) * 440;
 }
 
-MIDIEvent.computePitch = function( note )
-{
+MIDIEvent.computePitch = function( note ) {
 	return Math.pow(2, (note - 69) / 12 ) * 440;
 }
 
 
 //not tested, there is a formula missing here
-MIDIEvent.prototype.getPitchBend = function()
-{
+MIDIEvent.prototype.getPitchBend = function() {
 	return this.data[1] + (this.data[2] << 7) - 8192;
 }
 
-MIDIEvent.computePitchBend = function(v1,v2)
-{
+MIDIEvent.computePitchBend = function(v1,v2) {
 	return v1 + (v2 << 7) - 8192;
 }
 
-MIDIEvent.prototype.setCommandFromString = function( str )
-{
+MIDIEvent.prototype.setCommandFromString = function( str ) {
 	this.cmd = MIDIEvent.computeCommandFromString(str);
 }
 
-MIDIEvent.computeCommandFromString = function( str )
-{
+MIDIEvent.computeCommandFromString = function( str ) {
 	if (!str)
 		return 0;
 
@@ -87,8 +78,7 @@ MIDIEvent.computeCommandFromString = function( str )
 		return str;
 
 	str = str.toUpperCase();
-	switch ( str )
-	{
+	switch ( str ) {
 		case "NOTE ON":
 		case "NOTEON": return MIDIEvent.NOTEON; break;
 		case "NOTE OFF":
@@ -111,8 +101,7 @@ MIDIEvent.computeCommandFromString = function( str )
 	}
 }
 
-MIDIEvent.toNoteString = function(d)
-{
+MIDIEvent.toNoteString = function(d) {
 	var note = d - 21;
 	var octave = d - 24;
 	note = note % 12;
@@ -121,11 +110,9 @@ MIDIEvent.toNoteString = function(d)
 	return MIDIEvent.notes[ note ] + Math.floor(octave / 12 + 1);
 }
 
-MIDIEvent.prototype.toString = function()
-{
+MIDIEvent.prototype.toString = function() {
 	var str = "" + this.channel + ". " ;
-	switch ( this.cmd )
-	{
+	switch ( this.cmd ) {
 		case MIDIEvent.NOTEON: str += "NOTEON " + MIDIEvent.toNoteString( this.data[1] ); break;
 		case MIDIEvent.NOTEOFF: str += "NOTEOFF " + MIDIEvent.toNoteString( this.data[1] ); break;
 		case MIDIEvent.CONTROLLERCHANGE: str += "CC " + this.data[1] + " " + this.data[2]; break;
@@ -137,8 +124,7 @@ MIDIEvent.prototype.toString = function()
 	return str;
 }
 
-MIDIEvent.prototype.toHexString = function()
-{
+MIDIEvent.prototype.toHexString = function() {
 	var str = "";
 	for (var i = 0; i < this.data.length; i++)
 		str += this.data[i].toString(16) + " ";
@@ -174,10 +160,8 @@ MIDIEvent.commands = {
 }
 
 //MIDI wrapper
-function MIDIInterface( onReady, onError )
-{
-	if (!navigator.requestMIDIAccess)
-	{
+function MIDIInterface( onReady, onError ) {
+	if (!navigator.requestMIDIAccess) {
 		this.error = "not suppoorted";
 		if (onError)
 			onError("Not supported");
@@ -193,8 +177,7 @@ function MIDIInterface( onReady, onError )
 
 MIDIInterface.MIDIEvent = MIDIEvent;
 
-MIDIInterface.prototype.onMIDISuccess = function(midiAccess)
-{
+MIDIInterface.prototype.onMIDISuccess = function(midiAccess) {
 	console.log( "MIDI ready!" );
 	console.log( midiAccess );
 	this.midi = midiAccess;  // store in the global (in real usage, would probably keep in an object instance)
@@ -204,8 +187,7 @@ MIDIInterface.prototype.onMIDISuccess = function(midiAccess)
 		this.onReady(this);
 }
 
-MIDIInterface.prototype.updatePorts = function()
-{
+MIDIInterface.prototype.updatePorts = function() {
 	var midi = this.midi;
 	this.inputPorts = midi.inputs;
 	var num = 0;
@@ -231,13 +213,11 @@ MIDIInterface.prototype.updatePorts = function()
 	this.numOutputPorts = num;
 }
 
-MIDIInterface.prototype.onMIDIFailure = function(msg)
-{
+MIDIInterface.prototype.onMIDIFailure = function(msg) {
 	console.error( "Failed to get MIDI access - " + msg );
 }
 
-MIDIInterface.prototype.openInputPort = function( port, callback)
-{
+MIDIInterface.prototype.openInputPort = function( port, callback) {
 	var inputPort = this.inputPorts.get( port );
 	if (!inputPort)
 		return false;
@@ -253,13 +233,11 @@ MIDIInterface.prototype.openInputPort = function( port, callback)
 	return true;
 }
 
-MIDIInterface.parseMsg = function(data)
-{
+MIDIInterface.parseMsg = function(data) {
 
 }
 
-MIDIInterface.prototype.sendMIDI = function( port, midiData )
-{
+MIDIInterface.prototype.sendMIDI = function( port, midiData ) {
 	if ( !midiData )
 		return;
 
@@ -275,8 +253,7 @@ MIDIInterface.prototype.sendMIDI = function( port, midiData )
 
 
 
-function LGMIDIIn()
-{
+function LGMIDIIn() {
 	this.addOutput( "onMidi", LiteGraph.EXECUTE );
 	this.addOutput( "out", "midi" );
 	this.properties = {port: 0};
@@ -289,8 +266,7 @@ LGMIDIIn.MIDIInterface = MIDIInterface;
 LGMIDIIn.title = "MIDI Input";
 LGMIDIIn.desc = "Reads MIDI from a input port";
 
-LGMIDIIn.prototype.onStart = function()
-{
+LGMIDIIn.prototype.onStart = function() {
 	var that = this;
 	this._midi = new MIDIInterface( function( midi ) {
 		//open
@@ -298,8 +274,7 @@ LGMIDIIn.prototype.onStart = function()
 	});
 }
 
-LGMIDIIn.prototype.onMIDIEvent = function( data, midiEvent )
-{
+LGMIDIIn.prototype.onMIDIEvent = function( data, midiEvent ) {
 	this._lastMidiEvent = midiEvent;
 
 	this.trigger( "onMidi" );
@@ -315,17 +290,13 @@ LGMIDIIn.prototype.onMIDIEvent = function( data, midiEvent )
 		this.trigger( "onPitchbend" );
 }
 
-LGMIDIIn.prototype.onExecute = function()
-{
-	if (this.outputs)
-	{
+LGMIDIIn.prototype.onExecute = function() {
+	if (this.outputs) {
 		var last = this._lastMidiEvent;
-		for (var i = 0; i < this.outputs.length; ++i)
-		{
+		for (var i = 0; i < this.outputs.length; ++i) {
 			var output = this.outputs[i];
 			var v = null;
-			switch (output.name)
-			{
+			switch (output.name) {
 				case "lastMidi": v = last; break;
 				default:
 					continue;
@@ -350,8 +321,7 @@ LGMIDIIn.prototype.onGetOutputs = function() {
 LiteGraph.registerNodeType("midi/input", LGMIDIIn);
 
 
-function LGMIDIOut()
-{
+function LGMIDIOut() {
 	this.addInput( "send", LiteGraph.EXECUTE );
 	this.addInput( "midi", "midi" );
 	this.properties = {port: 0};
@@ -362,16 +332,14 @@ LGMIDIOut.MIDIInterface = MIDIInterface;
 LGMIDIOut.title = "MIDI Output";
 LGMIDIOut.desc = "Sends MIDI to output channel";
 
-LGMIDIOut.prototype.onStart = function()
-{
+LGMIDIOut.prototype.onStart = function() {
 	var that = this;
 	this._midi = new MIDIInterface( function( midi ) {
 		//ready
 	});
 }
 
-LGMIDIOut.prototype.onExecute = function(event)
-{
+LGMIDIOut.prototype.onExecute = function(event) {
 	var midiEvent = this.getInputData(1);
 	console.log(midiEvent);
 	if (!this._midi)
@@ -391,8 +359,7 @@ LGMIDIOut.prototype.onGetOutputs = function() {
 LiteGraph.registerNodeType("midi/output", LGMIDIOut);
 
 
-function LGMIDIShow()
-{
+function LGMIDIShow() {
 	this.addInput( "onMidi", LiteGraph.EXECUTE );
 	this.addInput( "midi", "midi" );
 	this._str = "";
@@ -402,8 +369,7 @@ function LGMIDIShow()
 LGMIDIShow.title = "MIDI Show";
 LGMIDIShow.desc = "Shows MIDI in the graph";
 
-LGMIDIShow.prototype.onExecute = function(event)
-{
+LGMIDIShow.prototype.onExecute = function(event) {
 	var midiEvent = this.getInputData(1);
 	if (!midiEvent)
 		return;
@@ -413,8 +379,7 @@ LGMIDIShow.prototype.onExecute = function(event)
 		this._str = "???";
 }
 
-LGMIDIShow.prototype.onDrawForeground = function( ctx )
-{
+LGMIDIShow.prototype.onDrawForeground = function( ctx ) {
 	if ( !this._str )
 		return;
 
@@ -434,8 +399,7 @@ LiteGraph.registerNodeType("midi/show", LGMIDIShow);
 
 
 
-function LGMIDIFilter()
-{
+function LGMIDIFilter() {
 	this.properties = {
 		channel: -1,
 		cmd: -1,
@@ -452,8 +416,7 @@ function LGMIDIFilter()
 LGMIDIFilter.title = "MIDI Filter";
 LGMIDIFilter.desc = "Filters MIDI messages";
 
-LGMIDIFilter.prototype.onExecute = function(event)
-{
+LGMIDIFilter.prototype.onExecute = function(event) {
 	var midiEvent = this.getInputData(1);
 
 	if (!midiEvent || midiEvent.constructor !== MIDIEvent)
@@ -474,8 +437,7 @@ LGMIDIFilter.prototype.onExecute = function(event)
 LiteGraph.registerNodeType("midi/filter", LGMIDIFilter);
 
 
-function LGMIDIEvent()
-{
+function LGMIDIEvent() {
 	this.properties = {
 		channel: 0,
 		cmd: "CC",
@@ -492,12 +454,10 @@ function LGMIDIEvent()
 LGMIDIEvent.title = "MIDIEvent";
 LGMIDIEvent.desc = "Create a MIDI Event";
 
-LGMIDIEvent.prototype.onExecute = function(event)
-{
+LGMIDIEvent.prototype.onExecute = function(event) {
 	var midiEvent = this.getInputData(1);
 
-	if (event == "assign")
-	{
+	if (event == "assign") {
 		this.properties.channel = midiEvent.channel;
 		this.properties.cmd = midiEvent.cmd;
 		this.properties.value1 = midiEvent.data[1];
@@ -505,8 +465,7 @@ LGMIDIEvent.prototype.onExecute = function(event)
 		return;
 	}
 
-	if (event == "send")
-	{
+	if (event == "send") {
 		var midiEvent = new MIDIEvent();
 		midiEvent.channel = this.properties.channel;
 		if (this.properties.cmd && this.properties.cmd.constructor === String)
@@ -523,14 +482,11 @@ LGMIDIEvent.prototype.onExecute = function(event)
 
 	var props = this.properties;
 
-	if (this.outputs)
-	{
-		for (var i = 0; i < this.outputs.length; ++i)
-		{
+	if (this.outputs) {
+		for (var i = 0; i < this.outputs.length; ++i) {
 			var output = this.outputs[i];
 			var v = null;
-			switch (output.name)
-			{
+			switch (output.name) {
 				case "midi":
 					v = new MIDIEvent();
 					v.setup([ props.cmd, props.value1, props.value2 ]);
@@ -550,8 +506,7 @@ LGMIDIEvent.prototype.onExecute = function(event)
 	}
 }
 
-LGMIDIEvent.prototype.onPropertyChanged = function(name,value)
-{
+LGMIDIEvent.prototype.onPropertyChanged = function(name,value) {
 	if (name == "cmd")
 		this.properties.cmd = MIDIEvent.computeCommandFromString( value );
 }

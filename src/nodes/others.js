@@ -9,13 +9,11 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 		properties: {size:256,bgcolor:"#000",lineWidth:1},
 		bgcolor: "#000",
 		flags: {allowFastrender:true},
-		onLoad: function()
-		{
+		onLoad: function() {
 			this.createCanvas();
 		},
 		
-		createCanvas: function()
-		{
+		createCanvas: function() {
 			this.canvas = document.createElement("canvas");
 			this.canvas.width = this.properties["size"];
 			this.canvas.height = this.properties["size"];
@@ -23,8 +21,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			this.clearCanvas(true);
 		},
 
-		onExecute: function()
-		{
+		onExecute: function() {
 			var x = this.getInputData(0);
 			var y = this.getInputData(1);
 			var c = this.getInputData(2);
@@ -40,8 +37,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			if (size != this.canvas.width || size != this.canvas.height)
 				this.createCanvas();
 
-			if (!this.oldpos)
-			{
+			if (!this.oldpos) {
 				this.oldpos = [ (x * 0.5 + 0.5) * size, (y*0.5 + 0.5) * size];
 				return;
 			}
@@ -65,11 +61,9 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			this.setOutputData(0,this.canvas);
 		},
 
-		clearCanvas: function(alpha)
-		{
+		clearCanvas: function(alpha) {
 			var ctx = this.canvas.getContext("2d");
-			if (alpha)
-			{
+			if (alpha) {
 				ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 				this.trace("Clearing alpha");
 			}
@@ -80,32 +74,25 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			}
 		},
 		
-		onWidget: function(e,widget)
-		{
-			if (widget.name == "clearColor")
-			{
+		onWidget: function(e,widget) {
+			if (widget.name == "clearColor") {
 				this.clearCanvas(false);
 			}
-			else if (widget.name == "clearAlpha")
-			{
+			else if (widget.name == "clearAlpha") {
 				this.clearCanvas(true);
 			}
 		},
 
-		onPropertyChange: function(name,value)
-		{
-			if (name == "size")
-			{
+		onPropertyChange: function(name,value) {
+			if (name == "size") {
 				this.properties["size"] = parseInt(value);
 				this.createCanvas();
 			}
-			else if (name == "bgcolor")
-			{
+			else if (name == "bgcolor") {
 				this.properties["bgcolor"] = value;
 				this.createCanvas();
 			}
-			else if (name == "lineWidth")
-			{
+			else if (name == "lineWidth") {
 				this.properties["lineWidth"] = parseInt(value);
 				this.canvas.getContext("2d").lineWidth = this.properties["lineWidth"];
 			}
