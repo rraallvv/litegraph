@@ -1,10 +1,8 @@
 //Works with Litegl.js to create WebGL nodes
-if (typeof(LiteGraph) != "undefined")
-{
+if (typeof(LiteGraph) != "undefined") {
 	
 	// Texture Lens *****************************************
-	function LGraphFXLens()
-	{
+	function LGraphFXLens() {
 		this.addInput("Texture","Texture");
 		this.addInput("Aberration","number");
 		this.addInput("Distortion","number");
@@ -22,11 +20,9 @@ if (typeof(LiteGraph) != "undefined")
 		"precision": { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
 
-	LGraphFXLens.prototype.onExecute = function()
-	{
+	LGraphFXLens.prototype.onExecute = function() {
 		var tex = this.getInputData(0);
-		if (this.properties.precision === LGraphTexture.PASS_THROUGH )
-		{
+		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,tex);
 			return;
 		}		
@@ -37,22 +33,19 @@ if (typeof(LiteGraph) != "undefined")
 
 		//iterations
 		var aberration = this.properties.aberration;
-		if ( this.isInputConnected(1) )
-		{
+		if ( this.isInputConnected(1) ) {
 			aberration = this.getInputData(1);
 			this.properties.aberration = aberration;
 		}
 
 		var distortion = this.properties.distortion;
-		if ( this.isInputConnected(2) )
-		{
+		if ( this.isInputConnected(2) ) {
 			distortion = this.getInputData(2);
 			this.properties.distortion = distortion;
 		}
 
 		var blur = this.properties.blur;
-		if ( this.isInputConnected(3) )
-		{
+		if ( this.isInputConnected(3) ) {
 			blur = this.getInputData(3);
 			this.properties.blur = blur;
 		}
@@ -109,8 +102,7 @@ if (typeof(LiteGraph) != "undefined")
 
 	//*******************************************************
 
-	function LGraphFXBokeh()
-	{
+	function LGraphFXBokeh() {
 		this.addInput("Texture","Texture");
 		this.addInput("Blurred","Texture");
 		this.addInput("Mask","Texture");
@@ -124,13 +116,11 @@ if (typeof(LiteGraph) != "undefined")
 
 	LGraphFXBokeh.widgetsInfo = {"shape": { widget:"texture" }};
 
-	LGraphFXBokeh.prototype.onExecute = function()
-	{
+	LGraphFXBokeh.prototype.onExecute = function() {
 		var tex = this.getInputData(0);
 		var blurredTex = this.getInputData(1);
 		var maskTex = this.getInputData(2);
-		if (!tex || !maskTex || !this.properties.shape) 
-		{
+		if (!tex || !maskTex || !this.properties.shape) {
 			this.setOutputData(0, tex);
 			return;
 		}
@@ -143,8 +133,7 @@ if (typeof(LiteGraph) != "undefined")
 			return;
 
 		var threshold = this.properties.threshold;
-		if ( this.isInputConnected(3) )
-		{
+		if ( this.isInputConnected(3) ) {
 			threshold = this.getInputData(3);
 			this.properties.threshold = threshold;
 		}
@@ -205,8 +194,7 @@ if (typeof(LiteGraph) != "undefined")
 		this.setOutputData(0, this._tempTexture);
 	}
 
-	LGraphFXBokeh.prototype.createPointsMesh = function(width, height, spacing)
-	{
+	LGraphFXBokeh.prototype.createPointsMesh = function(width, height, spacing) {
 		var nwidth = Math.round(width / spacing);
 		var nheight = Math.round(height / spacing);
 
@@ -215,11 +203,9 @@ if (typeof(LiteGraph) != "undefined")
 		var ny = -1;
 		var dx = 2/width * spacing;
 		var dy = 2/height * spacing;
-		for (var y = 0; y < nheight; ++y )
-		{
+		for (var y = 0; y < nheight; ++y ) {
 			var nx = -1;
-			for (var x = 0; x < nwidth; ++x )
-			{
+			for (var x = 0; x < nwidth; ++x ) {
 				var pos = y*nwidth*2 + x*2;
 				vertices[pos] = nx;
 				vertices[pos+1] = ny;
@@ -310,8 +296,7 @@ if (typeof(LiteGraph) != "undefined")
 
 	//************************************************
 
-	function LGraphFXGeneric()
-	{
+	function LGraphFXGeneric() {
 		this.addInput("Texture","Texture");
 		this.addInput("value1","number");
 		this.addInput("value2","number");
@@ -328,14 +313,12 @@ if (typeof(LiteGraph) != "undefined")
 	};
 	LGraphFXGeneric.shaders = {};
 
-	LGraphFXGeneric.prototype.onExecute = function()
-	{
+	LGraphFXGeneric.prototype.onExecute = function() {
 		if (!this.isOutputConnected(0))
 			return; //saves work
 
 		var tex = this.getInputData(0);
-		if (this.properties.precision === LGraphTexture.PASS_THROUGH )
-		{
+		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,tex);
 			return;
 		}		
@@ -347,23 +330,20 @@ if (typeof(LiteGraph) != "undefined")
 
 		//iterations
 		var value1 = this.properties.value1;
-		if ( this.isInputConnected(1) )
-		{
+		if ( this.isInputConnected(1) ) {
 			value1 = this.getInputData(1);
 			this.properties.value1 = value1;
 		}
 
 		var value2 = this.properties.value2;
-		if ( this.isInputConnected(2) )
-		{
+		if ( this.isInputConnected(2) ) {
 			value2 = this.getInputData(2);
 			this.properties.value2 = value2;
 		}
 	
 		var fx = this.properties.fx;
 		var shader = LGraphFXGeneric.shaders[ fx ];
-		if (!shader)
-		{
+		if (!shader) {
 			var pixelShaderCode = LGraphFXGeneric["pixelShader_" + fx ];
 			if (!pixelShaderCode)
 				return;
@@ -476,8 +456,7 @@ if (typeof(LiteGraph) != "undefined")
 
 	// Vigneting ************************************
 
-	function LGraphFXVigneting()
-	{
+	function LGraphFXVigneting() {
 		this.addInput("Tex.","Texture");
 		this.addInput("intensity","number");
 
@@ -495,12 +474,10 @@ if (typeof(LiteGraph) != "undefined")
 		"precision": { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
 
-	LGraphFXVigneting.prototype.onExecute = function()
-	{
+	LGraphFXVigneting.prototype.onExecute = function() {
 		var tex = this.getInputData(0);
 
-		if (this.properties.precision === LGraphTexture.PASS_THROUGH )
-		{
+		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,tex);
 			return;
 		}		
@@ -510,8 +487,7 @@ if (typeof(LiteGraph) != "undefined")
 		this._tex = LGraphTexture.getTargetTexture( tex, this._tex, this.properties.precision );
 
 		var intensity = this.properties.intensity;
-		if ( this.isInputConnected(1) )
-		{
+		if ( this.isInputConnected(1) ) {
 			intensity = this.getInputData(1);
 			this.properties.intensity = intensity;
 		}

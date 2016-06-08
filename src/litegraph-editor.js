@@ -1,7 +1,6 @@
 //NOT FINISHED
 
-function Editor(containerId, options)
-{
+function Editor(containerId, options) {
 	//fill container
 	var html = "<div class='header'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
 	html += "<div class='content'><div class='editor-area'><canvas class='graphcanvas' width='1000' height='500' tabindex=10></canvas></div></div>";
@@ -40,8 +39,7 @@ function Editor(containerId, options)
 	//graphcanvas.draw(true,true);
 }
 
-Editor.prototype.addLoadCounter = function()
-{
+Editor.prototype.addLoadCounter = function() {
 	var meter = document.createElement("div");
 	meter.className = 'headerpanel loadmeter toolbar-widget';
 
@@ -61,8 +59,7 @@ Editor.prototype.addLoadCounter = function()
 	},200);
 }
 
-Editor.prototype.addToolsButton = function(id,name,iconUrl, callback, container)
-{
+Editor.prototype.addToolsButton = function(id,name,iconUrl, callback, container) {
 	if (!container) container = ".tools";
 
 	var button = this.createButton(name, iconUrl);
@@ -73,8 +70,7 @@ Editor.prototype.addToolsButton = function(id,name,iconUrl, callback, container)
 }
 
 
-Editor.prototype.createPanel = function(title, options)
-{
+Editor.prototype.createPanel = function(title, options) {
 
 	var root = document.createElement("div");
 	root.className = "dialog";
@@ -87,8 +83,7 @@ Editor.prototype.createPanel = function(title, options)
 	return root;
 }
 
-Editor.prototype.createButton = function(name, iconUrl)
-{
+Editor.prototype.createButton = function(name, iconUrl) {
 	var button = document.createElement("button");
 	if (iconUrl)
 		button.innerHTML = "<img src='"+iconUrl+"'/> ";
@@ -96,8 +91,7 @@ Editor.prototype.createButton = function(name, iconUrl)
 	return button;
 }
 
-Editor.prototype.onLoadButton = function()  
-{
+Editor.prototype.onLoadButton = function() {
 	var panel = this.createPanel("Load session");
 	var close = this.createButton("Close");
 	close.style.float = "right";
@@ -108,37 +102,30 @@ Editor.prototype.onLoadButton = function()
 	this.root.appendChild(panel);
 }
 
-Editor.prototype.onSaveButton = function()
-{
+Editor.prototype.onSaveButton = function() {
 	var object = this.graph.serialize();
 	var string = JSON.stringify(object, null, "\t");
 /*
 	var formatted = "";
 	var level = 0;
-	for (var i = 0, l = string.length; i < l; i++)
-	{
+	for (var i = 0, l = string.length; i < l; i++) {
 		var c = string[i];
-		if (c == "{" || c == "[" || c == "(")
-		{
+		if (c == "{" || c == "[" || c == "(") {
 			formatted += c;
 			level++;
-			if (level < 2)
-			{
+			if (level < 2) {
 				formatted += "\n";
 				for (var j = 0; j < level; j++)
 					formatted += "\t";
 			}
 		}
-		else if (c == "}" || c == "]" || c == ")")
-		{
+		else if (c == "}" || c == "]" || c == ")") {
 			level--;
 			formatted += c;
 		}
-		else if (c == ",")
-		{
+		else if (c == ",") {
 			formatted += c;
-			if (level == 2)
-			{
+			if (level == 2) {
 				formatted += "\n";
 				for (var j = 0; j < level; j++)
 					formatted += "\t";
@@ -152,13 +139,11 @@ Editor.prototype.onSaveButton = function()
 	window.open(dataURI);
 }
 
-Editor.prototype.onPlayButton = function()
-{
+Editor.prototype.onPlayButton = function() {
 	var graph = this.graph;
 	var button = this.root.querySelector("#playnodeButton");
 
-	if (graph.status == LGraph.STATUS_STOPPED)
-	{
+	if (graph.status == LGraph.STATUS_STOPPED) {
 		button.innerHTML = "<img src='imgs/icon-stop.png'/> Stop";
 		graph.start(1); 
 	}
@@ -169,15 +154,13 @@ Editor.prototype.onPlayButton = function()
 	}
 }
 
-Editor.prototype.onPlayStepButton = function()
-{
+Editor.prototype.onPlayStepButton = function() {
 	var graph = this.graph;
 	graph.runStep(1);
 	this.graphcanvas.draw(true,true);
 }
 
-Editor.prototype.goFullscreen = function()
-{
+Editor.prototype.goFullscreen = function() {
 	if (this.root.requestFullscreen)
 		this.root.requestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 	else if (this.root.mozRequestFullscreen)
@@ -193,18 +176,15 @@ Editor.prototype.goFullscreen = function()
 	},100);
 }
 
-Editor.prototype.onFullscreenButton = function()
-{
+Editor.prototype.onFullscreenButton = function() {
 	this.goFullscreen();
 }
 
-Editor.prototype.onMaximizeButton = function()
-{
+Editor.prototype.onMaximizeButton = function() {
 	this.maximize();
 }
 
-Editor.prototype.addMiniWindow = function(w,h)
-{
+Editor.prototype.addMiniWindow = function(w,h) {
 	var miniwindow = document.createElement("div");
 	miniwindow.className = "litegraph miniwindow";
 	miniwindow.innerHTML = "<canvas class='graphcanvas' width='"+w+"' height='"+h+"' tabindex=10></canvas>";
