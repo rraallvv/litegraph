@@ -33,7 +33,7 @@ function Editor(containerId, options)
 
 	//append to DOM
 	var	parent = document.getElementById(containerId);
-	if(parent)
+	if (parent)
 		parent.appendChild(root);
 
 	graphcanvas.resize();
@@ -54,7 +54,7 @@ Editor.prototype.addLoadCounter = function()
 
 	setInterval(function() {
 		meter.querySelector(".cpuload .fgload").style.width = ((2*self.graph.elapsedTime) * 90) + "px";
-		if(self.graph.status == LGraph.STATUS_RUNNING)
+		if (self.graph.status == LGraph.STATUS_RUNNING)
 			meter.querySelector(".gpuload .fgload").style.width = ((self.graphcanvas.renderTime*10) * 90) + "px";
 		else
 			meter.querySelector(".gpuload .fgload").style.width = 4 + "px";
@@ -63,7 +63,7 @@ Editor.prototype.addLoadCounter = function()
 
 Editor.prototype.addToolsButton = function(id,name,iconUrl, callback, container)
 {
-	if(!container) container = ".tools";
+	if (!container) container = ".tools";
 
 	var button = this.createButton(name, iconUrl);
 	button.id = id;
@@ -90,7 +90,7 @@ Editor.prototype.createPanel = function(title, options)
 Editor.prototype.createButton = function(name, iconUrl)
 {
 	var button = document.createElement("button");
-	if(iconUrl)
+	if (iconUrl)
 		button.innerHTML = "<img src='"+iconUrl+"'/> ";
 	button.innerHTML += name;
 	return button;
@@ -115,32 +115,32 @@ Editor.prototype.onSaveButton = function()
 /*
 	var formatted = "";
 	var level = 0;
-	for(var i = 0, l = string.length; i < l; i++)
+	for (var i = 0, l = string.length; i < l; i++)
 	{
 		var c = string[i];
-		if(c == "{" || c == "[" || c == "(")
+		if (c == "{" || c == "[" || c == "(")
 		{
 			formatted += c;
 			level++;
-			if(level < 2)
+			if (level < 2)
 			{
 				formatted += "\n";
-				for(var j = 0; j < level; j++)
+				for (var j = 0; j < level; j++)
 					formatted += "\t";
 			}
 		}
-		else if(c == "}" || c == "]" || c == ")")
+		else if (c == "}" || c == "]" || c == ")")
 		{
 			level--;
 			formatted += c;
 		}
-		else if(c == ",")
+		else if (c == ",")
 		{
 			formatted += c;
-			if(level == 2)
+			if (level == 2)
 			{
 				formatted += "\n";
-				for(var j = 0; j < level; j++)
+				for (var j = 0; j < level; j++)
 					formatted += "\t";
 			}
 		}
@@ -157,7 +157,7 @@ Editor.prototype.onPlayButton = function()
 	var graph = this.graph;
 	var button = this.root.querySelector("#playnodeButton");
 
-	if(graph.status == LGraph.STATUS_STOPPED)
+	if (graph.status == LGraph.STATUS_STOPPED)
 	{
 		button.innerHTML = "<img src='imgs/icon-stop.png'/> Stop";
 		graph.start(1); 
@@ -178,11 +178,11 @@ Editor.prototype.onPlayStepButton = function()
 
 Editor.prototype.goFullscreen = function()
 {
-	if(this.root.requestFullscreen)
+	if (this.root.requestFullscreen)
 		this.root.requestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-	else if(this.root.mozRequestFullscreen)
+	else if (this.root.mozRequestFullscreen)
 		this.root.requestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-	else if(this.root.webkitRequestFullscreen)
+	else if (this.root.webkitRequestFullscreen)
 		this.root.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 	else
 		throw("Fullscreen not supported");

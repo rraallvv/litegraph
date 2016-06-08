@@ -1,5 +1,5 @@
 //Works with Litegl.js to create WebGL nodes
-if(typeof(LiteGraph) != "undefined")
+if (typeof(LiteGraph) != "undefined")
 {
 	
 	// Texture Lens *****************************************
@@ -12,7 +12,7 @@ if(typeof(LiteGraph) != "undefined")
 		this.addOutput("Texture","Texture");
 		this.properties = { aberration:1.0, distortion: 1.0, blur: 1.0, precision: LGraphTexture.DEFAULT };
 
-		if(!LGraphFXLens._shader)
+		if (!LGraphFXLens._shader)
 			LGraphFXLens._shader = new GL.Shader( Shader.SCREEN_VERTEX_SHADER, LGraphFXLens.pixelShader );
 	}
 
@@ -25,33 +25,33 @@ if(typeof(LiteGraph) != "undefined")
 	LGraphFXLens.prototype.onExecute = function()
 	{
 		var tex = this.getInputData(0);
-		if(this.properties.precision === LGraphTexture.PASS_THROUGH )
+		if (this.properties.precision === LGraphTexture.PASS_THROUGH )
 		{
 			this.setOutputData(0,tex);
 			return;
 		}		
 
-		if(!tex) return;
+		if (!tex) return;
 
 		this._tex = LGraphTexture.getTargetTexture( tex, this._tex, this.properties.precision );
 
 		//iterations
 		var aberration = this.properties.aberration;
-		if( this.isInputConnected(1) )
+		if ( this.isInputConnected(1) )
 		{
 			aberration = this.getInputData(1);
 			this.properties.aberration = aberration;
 		}
 
 		var distortion = this.properties.distortion;
-		if( this.isInputConnected(2) )
+		if ( this.isInputConnected(2) )
 		{
 			distortion = this.getInputData(2);
 			this.properties.distortion = distortion;
 		}
 
 		var blur = this.properties.blur;
-		if( this.isInputConnected(3) )
+		if ( this.isInputConnected(3) )
 		{
 			blur = this.getInputData(3);
 			this.properties.blur = blur;
@@ -129,21 +129,21 @@ if(typeof(LiteGraph) != "undefined")
 		var tex = this.getInputData(0);
 		var blurredTex = this.getInputData(1);
 		var maskTex = this.getInputData(2);
-		if(!tex || !maskTex || !this.properties.shape) 
+		if (!tex || !maskTex || !this.properties.shape) 
 		{
 			this.setOutputData(0, tex);
 			return;
 		}
 
-		if(!blurredTex)
+		if (!blurredTex)
 			blurredTex = tex;
 
 		var shapeTex = LGraphTexture.getTexture( this.properties.shape );
-		if(!shapeTex)
+		if (!shapeTex)
 			return;
 
 		var threshold = this.properties.threshold;
-		if( this.isInputConnected(3) )
+		if ( this.isInputConnected(3) )
 		{
 			threshold = this.getInputData(3);
 			this.properties.threshold = threshold;
@@ -151,9 +151,9 @@ if(typeof(LiteGraph) != "undefined")
 
 
 		var precision = gl.UNSIGNED_BYTE;
-		if(this.properties.highPrecision)
+		if (this.properties.highPrecision)
 			precision = gl.halfFloatExt ? gl.HALF_FLOAT_OES : gl.FLOAT;			
-		if(!this._tempTexture || this._tempTexture.type != precision ||
+		if (!this._tempTexture || this._tempTexture.type != precision ||
 			this._tempTexture.width != tex.width || this._tempTexture.height != tex.height)
 			this._tempTexture = new GL.Texture( tex.width, tex.height, { type: precision, format: gl.RGBA, filter: gl.LINEAR });
 
@@ -161,15 +161,15 @@ if(typeof(LiteGraph) != "undefined")
 		var size = this.properties.size;
 
 		var firstShader = LGraphFXBokeh._firstShader;
-		if(!firstShader)
+		if (!firstShader)
 			firstShader = LGraphFXBokeh._firstShader = new GL.Shader( Shader.SCREEN_VERTEX_SHADER, LGraphFXBokeh._firstPixelShader );
 
 		var secondShader = LGraphFXBokeh._secondShader;
-		if(!secondShader)
+		if (!secondShader)
 			secondShader = LGraphFXBokeh._secondShader = new GL.Shader( LGraphFXBokeh._secondVertexShader, LGraphFXBokeh._secondPixelShader );
 
 		var pointsMesh = this._pointsMesh;
-		if(!pointsMesh || pointsMesh._width != tex.width || pointsMesh._height != tex.height || pointsMesh._spacing != 2)
+		if (!pointsMesh || pointsMesh._width != tex.width || pointsMesh._height != tex.height || pointsMesh._spacing != 2)
 			pointsMesh = this.createPointsMesh( tex.width, tex.height, 2 );
 
 		var screenMesh = Mesh.getScreenQuad();
@@ -215,10 +215,10 @@ if(typeof(LiteGraph) != "undefined")
 		var ny = -1;
 		var dx = 2/width * spacing;
 		var dy = 2/height * spacing;
-		for(var y = 0; y < nheight; ++y )
+		for (var y = 0; y < nheight; ++y )
 		{
 			var nx = -1;
-			for(var x = 0; x < nwidth; ++x )
+			for (var x = 0; x < nwidth; ++x )
 			{
 				var pos = y*nwidth*2 + x*2;
 				vertices[pos] = nx;
@@ -283,7 +283,7 @@ if(typeof(LiteGraph) != "undefined")
 				float luminance = length(vColor) * mask;\n\
 				/*luminance /= (uPointSize*uPointSize)*0.01 */;\n\
 				luminance -= uThreshold;\n\
-				if(luminance < 0.0)\n\
+				if (luminance < 0.0)\n\
 				{\n\
 					gl_Position.x = -100.0;\n\
 					return;\n\
@@ -330,31 +330,31 @@ if(typeof(LiteGraph) != "undefined")
 
 	LGraphFXGeneric.prototype.onExecute = function()
 	{
-		if(!this.isOutputConnected(0))
+		if (!this.isOutputConnected(0))
 			return; //saves work
 
 		var tex = this.getInputData(0);
-		if(this.properties.precision === LGraphTexture.PASS_THROUGH )
+		if (this.properties.precision === LGraphTexture.PASS_THROUGH )
 		{
 			this.setOutputData(0,tex);
 			return;
 		}		
 
-		if(!tex)
+		if (!tex)
 			return;
 
 		this._tex = LGraphTexture.getTargetTexture( tex, this._tex, this.properties.precision );
 
 		//iterations
 		var value1 = this.properties.value1;
-		if( this.isInputConnected(1) )
+		if ( this.isInputConnected(1) )
 		{
 			value1 = this.getInputData(1);
 			this.properties.value1 = value1;
 		}
 
 		var value2 = this.properties.value2;
-		if( this.isInputConnected(2) )
+		if ( this.isInputConnected(2) )
 		{
 			value2 = this.getInputData(2);
 			this.properties.value2 = value2;
@@ -362,10 +362,10 @@ if(typeof(LiteGraph) != "undefined")
 	
 		var fx = this.properties.fx;
 		var shader = LGraphFXGeneric.shaders[ fx ];
-		if(!shader)
+		if (!shader)
 		{
 			var pixelShaderCode = LGraphFXGeneric["pixelShader_" + fx ];
-			if(!pixelShaderCode)
+			if (!pixelShaderCode)
 				return;
 
 			shader = LGraphFXGeneric.shaders[ fx ] = new GL.Shader( Shader.SCREEN_VERTEX_SHADER, pixelShaderCode );
@@ -378,12 +378,12 @@ if(typeof(LiteGraph) != "undefined")
 		var camera = LS.Renderer._currentCamera;
 
 		var noise = null;
-		if(fx == "noise")
+		if (fx == "noise")
 			noise = LGraphTexture.getNoiseTexture();
 
 		this._tex.drawTo( function() {
 			tex.bind(0);
-			if(fx == "noise")
+			if (fx == "noise")
 				noise.bind(1);
 
 			shader.uniforms({uTexture:0, uNoise:1, uSize: [tex.width, tex.height], uRand:[ Math.random(), Math.random() ], uValue1: value1, uValue2: value2, uCameraPlanes: [LS.Renderer._currentCamera.near, LS.Renderer._currentCamera.far] })
@@ -484,7 +484,7 @@ if(typeof(LiteGraph) != "undefined")
 		this.addOutput("Texture","Texture");
 		this.properties = { intensity: 1, invert: false, precision: LGraphTexture.DEFAULT };
 
-		if(!LGraphFXVigneting._shader)
+		if (!LGraphFXVigneting._shader)
 			LGraphFXVigneting._shader = new GL.Shader( Shader.SCREEN_VERTEX_SHADER, LGraphFXVigneting.pixelShader );
 	}
 
@@ -499,18 +499,18 @@ if(typeof(LiteGraph) != "undefined")
 	{
 		var tex = this.getInputData(0);
 
-		if(this.properties.precision === LGraphTexture.PASS_THROUGH )
+		if (this.properties.precision === LGraphTexture.PASS_THROUGH )
 		{
 			this.setOutputData(0,tex);
 			return;
 		}		
 
-		if(!tex) return;
+		if (!tex) return;
 
 		this._tex = LGraphTexture.getTargetTexture( tex, this._tex, this.properties.precision );
 
 		var intensity = this.properties.intensity;
-		if( this.isInputConnected(1) )
+		if ( this.isInputConnected(1) )
 		{
 			intensity = this.getInputData(1);
 			this.properties.intensity = intensity;
@@ -541,7 +541,7 @@ if(typeof(LiteGraph) != "undefined")
 			void main() {\n\
 				float luminance = 1.0 - length( vCoord - vec2(0.5) ) * 1.414;\n\
 				vec4 color = texture2D(uTexture, vCoord);\n\
-				if(uInvert == 1)\n\
+				if (uInvert == 1)\n\
 					luminance = 1.0 - luminance;\n\
 				luminance = mix(1.0, luminance, uIntensity);\n\
 			   gl_FragColor = vec4( luminance * color.xyz, color.a);\n\

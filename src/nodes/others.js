@@ -29,15 +29,15 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			var y = this.getInputData(1);
 			var c = this.getInputData(2);
 
-			if(x == null && y == null) return;
+			if (x == null && y == null) return;
 
-			if(!x) x = 0;
-			if(!y) y = 0;
+			if (!x) x = 0;
+			if (!y) y = 0;
 			x*= 0.95;
 			y*= 0.95;
 
 			var size = this.properties["size"];
-			if(size != this.canvas.width || size != this.canvas.height)
+			if (size != this.canvas.width || size != this.canvas.height)
 				this.createCanvas();
 
 			if (!this.oldpos)
@@ -48,9 +48,9 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 
 			var ctx = this.canvas.getContext("2d");
 
-			if(c == null)
+			if (c == null)
 				c = "rgba(255,255,255,0.5)";
-			else if(typeof(c) == "object")  //array
+			else if (typeof(c) == "object")  //array
 				c = colorToString(c);
 
 			//stroke line
@@ -68,7 +68,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 		clearCanvas: function(alpha)
 		{
 			var ctx = this.canvas.getContext("2d");
-			if(alpha)
+			if (alpha)
 			{
 				ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 				this.trace("Clearing alpha");
@@ -82,11 +82,11 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 		
 		onWidget: function(e,widget)
 		{
-			if(widget.name == "clearColor")
+			if (widget.name == "clearColor")
 			{
 				this.clearCanvas(false);
 			}
-			else if(widget.name == "clearAlpha")
+			else if (widget.name == "clearAlpha")
 			{
 				this.clearCanvas(true);
 			}
@@ -94,17 +94,17 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 
 		onPropertyChange: function(name,value)
 		{
-			if(name == "size")
+			if (name == "size")
 			{
 				this.properties["size"] = parseInt(value);
 				this.createCanvas();
 			}
-			else if(name == "bgcolor")
+			else if (name == "bgcolor")
 			{
 				this.properties["bgcolor"] = value;
 				this.createCanvas();
 			}
-			else if(name == "lineWidth")
+			else if (name == "lineWidth")
 			{
 				this.properties["lineWidth"] = parseInt(value);
 				this.canvas.getContext("2d").lineWidth = this.properties["lineWidth"];
