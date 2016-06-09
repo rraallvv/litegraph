@@ -1,0 +1,4 @@
+{
+	"preset": "idiomatic",
+	"excludeFiles": ["demo/code_old.js"]
+}
