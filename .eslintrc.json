@@ -3,6 +3,11 @@
         "browser": true
     },
     "extends": "eslint:recommended",
+    "globals": {
+        "LGraph": false,
+        "LGraphCanvas": false,
+        "LiteGraph": false
+    },
     "rules": {
         "indent": [
             "error",
