@@ -8,7 +8,8 @@
 		"jscs": "^3.0.4"
 	},
 	"scripts": {
-		"test": "node_modules/eslint/bin/eslint.js --format=utils/eslint_reporter.js src/*.js src/nodes/*.js demo/*.js",
-		"jscs": "node_modules/jscs/bin/jscs src/*.js src/nodes/*.js demo/*.js"
+		"test": "npm run eslint && npm run jscs",
+		"eslint": "node_modules/eslint/bin/eslint.js --format=utils/eslint_reporter.js src/*.js src/nodes/*.js demo/*.js",
+		"jscs": "node_modules/jscs/bin/jscs --reporter=utils/jscs_reporter.js src/*.js src/nodes/*.js demo/*.js"
 	}
 }
