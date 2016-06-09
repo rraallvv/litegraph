@@ -1,14 +1,14 @@
 {
-  "name": "LiteGraph.js",
-  "description": "A graph node editor for Node.js applications.",
-  "author": "Rhody Lugo and Javi Agenjo",
-  "version": "0.0.4",
-  "devDependencies": {
-    "eslint": "^2.11.1",
-    "jscs": "^3.0.4"
-  },
-  "scripts": {
-    "test": "node_modules/eslint/bin/eslint.js --format utils/xcode_reporter.js src/*.js src/nodes/*.js demo/*.js",
-    "jscs": "jscs --preset=airbnb"
-  }
+	"name": "LiteGraph.js",
+	"description": "A graph node editor for Node.js applications.",
+	"author": "Rhody Lugo and Javi Agenjo",
+	"version": "0.0.4",
+	"devDependencies": {
+		"eslint": "^2.11.1",
+		"jscs": "^3.0.4"
+	},
+	"scripts": {
+		"eslint": "node_modules/eslint/bin/eslint.js --format utils/xcode_reporter.js src/*.js src/nodes/*.js demo/*.js",
+		"jscs": "node_modules/eslint/bin/jscs src/*.js src/nodes/*.js demo/*.js"
+	}
 }
