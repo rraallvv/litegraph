@@ -7,6 +7,6 @@
 		"jshint": "^2.9.2"
 	},
 	"scripts": {
-		"test": "./node_modules/jshint/bin/jshint --reporter=utils/XCodeReporter.js src/*.js src/nodes/*.js demo/*.js"
+		"test": "./node_modules/jshint/bin/jshint --reporter utils/XCodeReporter.js --exclude demo/code_old.js src/*.js src/nodes/*.js demo/*.js"
 	}
 }
