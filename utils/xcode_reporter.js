@@ -11,7 +11,7 @@ module.exports = function (results) {
 
 			if (msg.severity === 1) {
 				summary += 'warning';
-				warning++;
+				warnings++;
 			}
 			else if (msg.severity === 2) {
 				summary += 'error';
@@ -29,7 +29,7 @@ module.exports = function (results) {
 
 	if (errors > 0 || warnings > 0) {
 		if (tooMany)
-			summary += 'fatal error: too many errors emitted, stopping now\n';
+			summary += 'fatal error: too many errors emitted, stopping now.\n';
 
 		if (warnings > 0) {
 			summary += warnings +' warning';
