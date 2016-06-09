@@ -4,9 +4,9 @@
 	"author": "Rhody Lugo and Javi Agenjo",
 	"version": "0.0.4",
 	"devDependencies": {
-		"jshint": "^2.9.2"
+		"eslint": "^2.11.1"
 	},
 	"scripts": {
-		"test": "./node_modules/jshint/bin/jshint --reporter utils/XCodeReporter.js --exclude demo/code_old.js src/*.js src/nodes/*.js demo/*.js"
+		"test": "node_modules/eslint/bin/eslint.js --format utils/xcode_reporter.js src/*.js src/nodes/*.js demo/*.js"
 	}
 }
