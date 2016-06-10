@@ -136,7 +136,7 @@ function GlobalInput( title ) {
 
 	var that = this;
 
-	Object.defineProperty( this.properties, "name", {
+	this.addProperty("name", "", "string", {
 		get: function() {
 			return inputName;
 		},
@@ -152,18 +152,16 @@ function GlobalInput( title ) {
 			if (that.graph)
 				that.graph.renameGlobalInput(inputName, v);
 			inputName = v;
-		},
-		enumerable: true
+		}
 	});
 
-	Object.defineProperty( this.properties, "type", {
+	this.addProperty("type", "", "string", {
 		get: function() { return that.outputs[0].type; },
 		set: function(v) {
 			that.outputs[0].type = v;
 			if (that.graph)
 				that.graph.changeGlobalInputType(inputName, that.outputs[0].type);
-		},
-		enumerable: true
+		}
 	});
 }
 
@@ -200,7 +198,7 @@ function GlobalOutput( title ) {
 
 	var that = this;
 
-	Object.defineProperty(this.properties, "name", {
+	this.addProperty("name", "", "string", {
 		get: function() {
 			return outputName;
 		},
@@ -216,18 +214,16 @@ function GlobalOutput( title ) {
 			if (that.graph)
 				that.graph.renameGlobalOutput(outputName, v);
 			outputName = v;
-		},
-		enumerable: true
+		}
 	});
 
-	Object.defineProperty(this.properties, "type", {
+	this.addProperty("type", "", "string", {
 		get: function() { return that.inputs[0].type; },
 		set: function(v) {
 			that.inputs[0].type = v;
 			if (that.graph)
 				that.graph.changeGlobalInputType( outputName, that.inputs[0].type );
-		},
-		enumerable: true
+		}
 	});
 }
 
@@ -255,7 +251,7 @@ function GetProperty( title ) {
 	this.properties = { name: propertyName };
 	var that = this;
 
-	Object.defineProperty( this.properties, "name", {
+	this.addProperty("name", "", "string", {
 		get: function() {
 			return propertyName;
 		},
@@ -270,8 +266,7 @@ function GetProperty( title ) {
 				return;
 			info.name = v;
 			propertyName = v;
-		},
-		enumerable: true
+		}
 	});
 }
 
@@ -304,7 +299,7 @@ function SetProperty( title ) {
 	this.properties = {name: propertyName};
 	var that = this;
 
-	Object.defineProperty(this.properties, "name", {
+	this.addProperty("name", "", "string", {
 		get: function() {
 			return propertyName;
 		},
@@ -321,8 +316,7 @@ function SetProperty( title ) {
 			propertyName = v;
 
 			that.computeSize();
-		},
-		enumerable: true
+		}
 	});
 }
 
@@ -364,7 +358,7 @@ function Comment( title ) {
 		that.graph.setDirtyCanvas(false,true);
 	}
 
-	Object.defineProperty( this.properties, "comment", {
+	this.addProperty("comment", "", "string", {
 		get: function() {
 			return that.title;
 		},
@@ -372,11 +366,10 @@ function Comment( title ) {
 			if (v == "")
 				return;
 			that.title = v;
-		},
-		enumerable: true
+		}
 	});
 
-	Object.defineProperty( this.properties, "color", {
+	this.addProperty("color", "", "string", {
 		get: function() {
 			return that.bgcolor;
 		},
@@ -384,8 +377,7 @@ function Comment( title ) {
 			if (v == "")
 				return;
 			that.bgcolor = v;
-		},
-		enumerable: true
+		}
 	});
 }
 
