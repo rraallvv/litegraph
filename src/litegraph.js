@@ -1628,8 +1628,11 @@ LGraphNode.prototype.addProperty = function( name, defaultValue, type, extraInfo
 	if (extraInfo) {
 		var definition = {};
 		for (var i in extraInfo) {
-			if (i === "set" || i === "get")
-				definition[i] = extraInfo[i];
+			if (i === "set" || i === "get") {
+				if (typeof extraInfo[i] === "function") {
+					definition[i] = extraInfo[i].bind(this);
+				}
+			}
 			else
 				o[i] = extraInfo[i];
 		}
