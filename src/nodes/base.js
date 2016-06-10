@@ -5,7 +5,6 @@
 //Number constant
 function BasicNumber() {
 	var value;
-	var that = this;
 	this.addOutput("value","number");
 	this.addProperty("value", 1.0, "number", {
 		get: function() {
@@ -15,8 +14,8 @@ function BasicNumber() {
 			if (typeof(v) !== "number")
 				v = parseFloat(v);
 			value = v;
-			that.outputs[0].label = value.toFixed(3);
-			that.setDirtyCanvas(true);
+			this.outputs[0].label = value.toFixed(3);
+			this.setDirtyCanvas(true);
 		}
 	});
 }
