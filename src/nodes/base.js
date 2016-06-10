@@ -6,7 +6,6 @@
 function BasicNumber() {
 	this.addOutput("value","number");
 	this.addProperty( "value", 1.0 );
-	this.editable = { property:"value", type:"number" };
 }
 
 BasicNumber.title = "Number";
@@ -125,7 +124,6 @@ LiteGraph.registerNodeType("basic/branch", Branch );
 function BasicString() {
 	this.addOutput("value","string");
 	this.addProperty( "value", "" );
-	this.editable = { property:"value", type:"string" };
 }
 
 BasicString.title = "String";
@@ -174,7 +172,6 @@ LiteGraph.registerNodeType("basic/string", BasicString);
 function BasicBoolean() {
 	this.addOutput("value","boolean");
 	this.addProperty( "value", true );
-	this.editable = { property:"value", type:"boolean" };
 }
 
 BasicBoolean.title = "Boolean";

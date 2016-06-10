@@ -6,17 +6,14 @@ function DemoComponent() {
 	//BasicBoolean
 	this.addOutput("value","boolean");
 	this.addProperty( "value", true );
-	this.editable = { property:"value", type:"boolean" };
 
 	//BasicNumber
 	this.addOutput("value","number");
 	this.addProperty( "value", 1.0 );
-	this.editable = { property:"value", type:"number" };
 
 	//BasicString
 	this.addOutput("value","string");
 	this.addProperty( "value", "" );
-	this.editable = { property:"value", type:"string" };
 
 	//Watch
 	this.addInput("value",0,{label:""});
