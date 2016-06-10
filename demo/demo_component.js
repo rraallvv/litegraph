@@ -123,6 +123,15 @@ function DemoComponent() {
 	this.addOutput("loop body", LiteGraph.EXECUTE);
 	this.addOutput("index", "number");
 	this.addOutput("completed", LiteGraph.EXECUTE);
+
+	//ForLoopWithBreak
+	this.addInput("for", LiteGraph.EXECUTE);
+	this.addInput("first index", "number");
+	this.addInput("last index", "number");
+	this.addInput("break", LiteGraph.EXECUTE);
+	this.addOutput("loop body", LiteGraph.EXECUTE);
+	this.addOutput("index", "number");
+	this.addOutput("completed", LiteGraph.EXECUTE);
 }
 
 DemoComponent.title = "Demo Component";
@@ -199,6 +208,25 @@ DemoComponent.prototype.onExecute = function() {
 	}
 
 	this.trigger("completed");
+
+	//ForLoopWithBreak
+	if (action == "break" && this.looping) {
+		this.looping = false;
+		return;
+	}
+
+	this.looping = true;
+
+	var firstIndex = this.getInputData(1);
+	var lastIndex = this.getInputData(2);
+
+	for (var i = firstIndex; i <= lastIndex; i++) {
+		this.setOutputData(1, i);
+		this.trigger("loop body");
+		if (!this.looping) return;
+	}
+
+	this.trigger("completed");
 }
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
@@ -257,48 +285,6 @@ DemoComponent.prototype.onWidget = function(e,widget) {
 }
 
 LiteGraph.registerNodeType("demo/component", DemoComponent);
-
-
-
-
-
-
-//For loop with break
-function ForLoopWithBreak() {
-	this.addInput("for", LiteGraph.EXECUTE);
-	this.addInput("first index", "number");
-	this.addInput("last index", "number");
-	this.addInput("break", LiteGraph.EXECUTE);
-	this.addOutput("loop body", LiteGraph.EXECUTE);
-	this.addOutput("index", "number");
-	this.addOutput("completed", LiteGraph.EXECUTE);
-}
-
-ForLoopWithBreak.title = "For loop with break";
-ForLoopWithBreak.desc = "Loop from the first to the last index, interrupted if break is triggered";
-
-ForLoopWithBreak.prototype.onExecute = function(action) {
-	if (action == "break" && this.looping) {
-		this.looping = false;
-		return;
-	}
-
-	this.looping = true;
-
-	var firstIndex = this.getInputData(1);
-	var lastIndex = this.getInputData(2);
-
-	for (var i = firstIndex; i <= lastIndex; i++) {
-		this.setOutputData(1, i);
-		this.trigger("loop body");
-		if (!this.looping) return;
-	}
-
-	this.trigger("completed");
-}
-
-LiteGraph.registerNodeType("basic/forLoopWithBreak", ForLoopWithBreak );
-
 
 
 })();
