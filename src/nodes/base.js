@@ -4,26 +4,32 @@
 
 //Number constant
 function BasicNumber() {
+	var value;
+	var that = this;
 	this.addOutput("value","number");
-	this.addProperty( "value", 1.0 );
+	this.addProperty("value", 1.0, "number", {
+		get: function() {
+			return value;
+		},
+		set: function(v) {
+			if (typeof(v) !== "number")
+				v = parseFloat(v);
+			value = v;
+			that.outputs[0].label = value.toFixed(3);
+			that.setDirtyCanvas(true);
+		}
+	});
 }
 
 BasicNumber.title = "Number";
 BasicNumber.desc = "Number value";
 
 BasicNumber.prototype.setValue = function(v) {
-	if ( typeof(v) == "string") v = parseFloat(v);
-	this.properties["value"] = v;
-	this.setDirtyCanvas(true);
+	this.properties.value = v;
 };
 
 BasicNumber.prototype.onExecute = function() {
-	this.setOutputData(0, parseFloat( this.properties["value"] ) );
-}
-
-BasicNumber.prototype.onDrawBackground = function(ctx) {
-	//show the current value
-	this.outputs[0].label = this.properties["value"].toFixed(3);
+	this.setOutputData(0, this.properties.value);
 }
 
 BasicNumber.prototype.onWidget = function(e,widget) {
