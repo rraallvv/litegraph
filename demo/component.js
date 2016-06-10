@@ -6,6 +6,11 @@ function DemoComponent() {
 	this.addOutput("value","number");
 	this.addProperty( "value", 1.0 );
 	this.editable = { property:"value", type:"number" };
+
+	//Watch
+	this.addInput("value",0,{label:""});
+	this.addOutput("value",0,{label:""});
+	this.addProperty( "value", "" );
 }
 
 DemoComponent.title = "Demo Component";
@@ -19,37 +24,17 @@ DemoComponent.prototype.setValue = function(v) {
 
 DemoComponent.prototype.onExecute = function() {
 	this.setOutputData(0, parseFloat( this.properties["value"] ) );
+
+	//Watch
+	this.properties.value = this.getInputData(0);
+	this.setOutputData(0, this.properties.value);
 }
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
 	//show the current value
 	this.outputs[0].label = this.properties["value"].toFixed(3);
-}
 
-DemoComponent.prototype.onWidget = function(e,widget) {
-	if (widget.name == "value")
-		this.setValue(widget.value);
-}
-
-LiteGraph.registerNodeType("demo/component", DemoComponent);
-
-
-//Watch a value in the editor
-function Watch() {
-	this.addInput("value",0,{label:""});
-	this.addOutput("value",0,{label:""});
-	this.addProperty( "value", "" );
-}
-
-Watch.title = "Watch";
-Watch.desc = "Show value of input";
-
-Watch.prototype.onExecute = function() {
-	this.properties.value = this.getInputData(0);
-	this.setOutputData(0, this.properties.value);
-}
-
-Watch.prototype.onDrawBackground = function(ctx) {
+	//Watch
 	//show the current value
 	if (this.inputs[0] && this.properties["value"] != null) {
 		if (this.properties["value"].constructor === Number )
@@ -64,7 +49,15 @@ Watch.prototype.onDrawBackground = function(ctx) {
 	}
 }
 
-LiteGraph.registerNodeType("basic/watch", Watch);
+DemoComponent.prototype.onWidget = function(e,widget) {
+	if (widget.name == "value")
+		this.setValue(widget.value);
+}
+
+LiteGraph.registerNodeType("demo/component", DemoComponent);
+
+
+
 
 
 //Show value inside the debug console
