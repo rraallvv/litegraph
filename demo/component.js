@@ -3,6 +3,7 @@
 
 //Demo component
 function DemoComponent() {
+	//BasicNumber
 	this.addOutput("value","number");
 	this.addProperty( "value", 1.0 );
 	this.editable = { property:"value", type:"number" };
@@ -16,6 +17,11 @@ function DemoComponent() {
 	this.addProperty( "msg", "" );
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
+
+	//BasicString
+	this.addOutput("value","string");
+	this.addProperty( "value", "" );
+	this.editable = { property:"value", type:"string" };
 }
 
 DemoComponent.title = "Demo Component";
@@ -27,12 +33,19 @@ DemoComponent.prototype.onGetInputs = function() {
 };
 
 DemoComponent.prototype.setValue = function(v) {
+	//BasicNumber
 	if ( typeof(v) == "string") v = parseFloat(v);
 	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+
+	//BasicString
+	if ( typeof(v) != "string") v = v.toString();
+		this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 };
 
 DemoComponent.prototype.onExecute = function() {
+	//BasicNumber
 	this.setOutputData(0, parseFloat( this.properties["value"] ) );
 
 	//Watch
@@ -46,14 +59,16 @@ DemoComponent.prototype.onExecute = function() {
 	else
 		msg = this.properties.msg;
 	console.log(msg);
+
+	//BasicString
+	this.setOutputData(0, this.properties["value"] );
 }
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
-	//show the current value
+	//BasicNumber
 	this.outputs[0].label = this.properties["value"].toFixed(3);
 
 	//Watch
-	//show the current value
 	if (this.inputs[0] && this.properties["value"] != null) {
 		if (this.properties["value"].constructor === Number )
 			this.inputs[0].label = this.properties["value"].toFixed(3);
@@ -65,67 +80,9 @@ DemoComponent.prototype.onDrawBackground = function(ctx) {
 			this.inputs[0].label = str;
 		}
 	}
-}
-
-DemoComponent.prototype.onWidget = function(e,widget) {
-	if (widget.name == "value")
-		this.setValue(widget.value);
-}
-
-LiteGraph.registerNodeType("demo/component", DemoComponent);
 
 
-
-
-
-//Branch the execution path depending on the condition value
-function Branch() {
-	this.addInput("if", LiteGraph.EXECUTE);
-	this.addProperty("condition", false, "boolean");
-	this.addInput("condition","boolean");
-	this.addOutput("true", LiteGraph.EXECUTE);
-	this.addOutput("false", LiteGraph.EXECUTE);
-}
-
-Branch.title = "Branch";
-Branch.desc = "Choose a diferent execution brach depending on the value in condition";
-
-Branch.prototype.onExecute = function() {
-	var condition = this.getInputData(1);
-	if (condition !== undefined)
-		this.properties.condition = condition;
-	else
-		condition = this.properties.condition;
-	if (condition)
-		this.trigger("true");
-	else
-		this.trigger("false");
-}
-
-LiteGraph.registerNodeType("basic/branch", Branch );
-
-
-//String constant
-function BasicString() {
-	this.addOutput("value","string");
-	this.addProperty( "value", "" );
-	this.editable = { property:"value", type:"string" };
-}
-
-BasicString.title = "String";
-BasicString.desc = "String value";
-
-BasicString.prototype.setValue = function(v) {
-	if ( typeof(v) != "string") v = v.toString();
-	this.properties["value"] = v;
-	this.setDirtyCanvas(true);
-};
-
-BasicString.prototype.onExecute = function() {
-	this.setOutputData(0, this.properties["value"] );
-}
-
-BasicString.prototype.onDrawBackground = function(ctx) {
+	//BasicString
 	var text = this.properties["value"];
 
 	ctx.font = LGraphCanvas.innerTextFont;
@@ -142,16 +99,24 @@ BasicString.prototype.onDrawBackground = function(ctx) {
 			}
 		}
 
-	//show the current value
 	this.outputs[0].label = text;
 }
 
-BasicString.prototype.onWidget = function(e,widget) {
+DemoComponent.prototype.onWidget = function(e,widget) {
+	//BasicNumber
+	if (widget.name == "value")
+		this.setValue(widget.value);
+
+	//BasicString
 	if (widget.name == "value")
 		this.setValue(widget.value);
 }
 
-LiteGraph.registerNodeType("basic/string", BasicString);
+LiteGraph.registerNodeType("demo/component", DemoComponent);
+
+
+
+
 
 
 //Boolean constant
