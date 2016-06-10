@@ -115,6 +115,14 @@ function DemoComponent() {
 	this.properties.name = "console.log";
 	this.properties.arguments = "msg";
 	this.properties.return = undefined;
+
+	//ForLoop
+	this.addInput("for", LiteGraph.EXECUTE);
+	this.addInput("first index", "number");
+	this.addInput("last index", "number");
+	this.addOutput("loop body", LiteGraph.EXECUTE);
+	this.addOutput("index", "number");
+	this.addOutput("completed", LiteGraph.EXECUTE);
 }
 
 DemoComponent.title = "Demo Component";
@@ -180,6 +188,17 @@ DemoComponent.prototype.onExecute = function() {
 
 	//continue with the control flow
 	this.trigger("completed");
+
+	//ForLoop
+	var firstIndex = this.getInputData(1);
+	var lastIndex = this.getInputData(2);
+
+	for (var i = firstIndex; i <= lastIndex; i++) {
+		this.setOutputData(1, i);
+		this.trigger("loop body");
+	}
+
+	this.trigger("completed");
 }
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
@@ -242,34 +261,6 @@ LiteGraph.registerNodeType("demo/component", DemoComponent);
 
 
 
-
-
-//For loop
-function ForLoop() {
-	this.addInput("for", LiteGraph.EXECUTE);
-	this.addInput("first index", "number");
-	this.addInput("last index", "number");
-	this.addOutput("loop body", LiteGraph.EXECUTE);
-	this.addOutput("index", "number");
-	this.addOutput("completed", LiteGraph.EXECUTE);
-}
-
-ForLoop.title = "For loop";
-ForLoop.desc = "Loop from the first to the last index";
-
-ForLoop.prototype.onExecute = function() {
-	var firstIndex = this.getInputData(1);
-	var lastIndex = this.getInputData(2);
-
-	for (var i = firstIndex; i <= lastIndex; i++) {
-		this.setOutputData(1, i);
-		this.trigger("loop body");
-	}
-
-	this.trigger("completed");
-}
-
-LiteGraph.registerNodeType("basic/forLoop", ForLoop );
 
 
 //For loop with break
