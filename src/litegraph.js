@@ -1623,14 +1623,24 @@ LGraphNode.prototype.trigger = function( action ) {
 */
 LGraphNode.prototype.addProperty = function( name, defaultValue, type, extraInfo ) {
 	var o = { name: name, type: type, defaultValue: defaultValue };
-	if (extraInfo)
-		for (var i in extraInfo)
-			o[i] = extraInfo[i];
+	if (!this.properties)
+		this.properties = {};
+	if (extraInfo) {
+		var definition = {};
+		for (var i in extraInfo) {
+			if (i === "set" || i === "get")
+				definition[i] = extraInfo[i];
+			else
+				o[i] = extraInfo[i];
+		}
+		if (!isEmpty(definition)) {
+			definition.enumerable = true;
+			Object.defineProperty( this.properties, name, definition);
+		}
+	}
 	if (!this.propertiesInfo)
 		this.propertiesInfo = [];
 	this.propertiesInfo.push(o);
-	if (!this.properties)
-		this.properties = {};
 	this.properties[ name ] = defaultValue;
 	return o;
 }

@@ -37,7 +37,7 @@ function DemoComponent() {
 
 	this.properties = {};
 
-	Object.defineProperty( this.properties, "name", {
+	this.addProperty("name", "", "string", {
 		get: function() {
 			return functionName;
 		},
@@ -56,11 +56,10 @@ function DemoComponent() {
 			that._functionObject = functionObject;
 
 			functionName = v;
-		},
-		enumerable: true
+		}
 	});
 
-	Object.defineProperty( this.properties, "arguments", {
+	this.addProperty("arguments", "", "string", {
 		get: function() {
 			return functionArguments;
 		},
@@ -83,12 +82,10 @@ function DemoComponent() {
 			}
 
 			functionArguments = v;
-		},
-		enumerable: true
+		}
 	});
 
-
-	Object.defineProperty( this.properties, "return", {
+	this.addProperty("return", "", "string", {
 		get: function() {
 			return functionReturn;
 		},
@@ -105,8 +102,7 @@ function DemoComponent() {
 				that.addOutput(v);
 
 			functionReturn = v;
-		},
-		enumerable: true
+		}
 	});
 
 	this.properties.name = "console.log";
