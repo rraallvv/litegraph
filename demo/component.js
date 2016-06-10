@@ -11,10 +11,20 @@ function DemoComponent() {
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
 	this.addProperty( "value", "" );
+
+	//Console
+	this.addProperty( "msg", "" );
+	this.addInput("log", LiteGraph.EXECUTE);
+	this.addInput("msg",0);
 }
 
 DemoComponent.title = "Demo Component";
 DemoComponent.desc = "The description goes here";
+
+DemoComponent.prototype.onGetInputs = function() {
+	//Console
+	return [["log",LiteGraph.EXECUTE],["warn",LiteGraph.EXECUTE],["error",LiteGraph.EXECUTE]];
+};
 
 DemoComponent.prototype.setValue = function(v) {
 	if ( typeof(v) == "string") v = parseFloat(v);
@@ -28,6 +38,14 @@ DemoComponent.prototype.onExecute = function() {
 	//Watch
 	this.properties.value = this.getInputData(0);
 	this.setOutputData(0, this.properties.value);
+
+	//Console
+	var msg = this.getInputData(1);
+	if (msg !== undefined)
+		this.properties.msg = msg;
+	else
+		msg = this.properties.msg;
+	console.log(msg);
 }
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
@@ -58,32 +76,6 @@ LiteGraph.registerNodeType("demo/component", DemoComponent);
 
 
 
-
-
-//Show value inside the debug console
-function Console() {
-	this.addProperty( "msg", "" );
-	this.addInput("log", LiteGraph.EXECUTE);
-	this.addInput("msg",0);
-}
-
-Console.title = "Console";
-Console.desc = "Show value inside the console";
-
-Console.prototype.onExecute = function() {
-	var msg = this.getInputData(1);
-	if (msg !== undefined)
-		this.properties.msg = msg;
-	else
-		msg = this.properties.msg;
-	console.log(msg);
-}
-
-Console.prototype.onGetInputs = function() {
-	return [["log",LiteGraph.EXECUTE],["warn",LiteGraph.EXECUTE],["error",LiteGraph.EXECUTE]];
-}
-
-LiteGraph.registerNodeType("basic/console", Console );
 
 
 //Branch the execution path depending on the condition value
