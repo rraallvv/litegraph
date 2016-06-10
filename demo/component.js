@@ -22,6 +22,11 @@ function DemoComponent() {
 	this.addOutput("value","string");
 	this.addProperty( "value", "" );
 	this.editable = { property:"value", type:"string" };
+
+	//BasicBoolean
+	this.addOutput("value","boolean");
+	this.addProperty( "value", true );
+	this.editable = { property:"value", type:"boolean" };
 }
 
 DemoComponent.title = "Demo Component";
@@ -40,7 +45,12 @@ DemoComponent.prototype.setValue = function(v) {
 
 	//BasicString
 	if ( typeof(v) != "string") v = v.toString();
-		this.properties["value"] = v;
+	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+
+	//BasicBoolean
+	if ( typeof(v) != "boolean") v = v === true;
+	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 };
 
@@ -61,6 +71,9 @@ DemoComponent.prototype.onExecute = function() {
 	console.log(msg);
 
 	//BasicString
+	this.setOutputData(0, this.properties["value"] );
+
+	//BasicBoolean
 	this.setOutputData(0, this.properties["value"] );
 }
 
@@ -95,11 +108,14 @@ DemoComponent.prototype.onDrawBackground = function(ctx) {
 			width = ctx.measureText(shortText).width;
 			if (width <= this.size[0] - 20) {
 				text = shortText;
-				break;
+				break;
 			}
 		}
 
 	this.outputs[0].label = text;
+
+	//BasicBoolean
+	this.outputs[0].label = this.properties["value"].toString();
 }
 
 DemoComponent.prototype.onWidget = function(e,widget) {
@@ -110,6 +126,10 @@ DemoComponent.prototype.onWidget = function(e,widget) {
 	//BasicString
 	if (widget.name == "value")
 		this.setValue(widget.value);
+
+	//BasicBoolean
+	if (widget.name == "value")
+		this.setValue(widget.value);
 }
 
 LiteGraph.registerNodeType("demo/component", DemoComponent);
@@ -117,39 +137,6 @@ LiteGraph.registerNodeType("demo/component", DemoComponent);
 
 
 
-
-
-//Boolean constant
-function BasicBoolean() {
-	this.addOutput("value","boolean");
-	this.addProperty( "value", true );
-	this.editable = { property:"value", type:"boolean" };
-}
-
-BasicBoolean.title = "Boolean";
-BasicBoolean.desc = "Boolean value";
-
-BasicBoolean.prototype.setValue = function(v) {
-	if ( typeof(v) != "boolean") v = v === true;
-	this.properties["value"] = v;
-	this.setDirtyCanvas(true);
-};
-
-BasicBoolean.prototype.onExecute = function() {
-	this.setOutputData(0, this.properties["value"] );
-}
-
-BasicBoolean.prototype.onDrawBackground = function(ctx) {
-	//show the current value
-	this.outputs[0].label = this.properties["value"].toString();
-}
-
-BasicBoolean.prototype.onWidget = function(e,widget) {
-	if (widget.name == "value")
-		this.setValue(widget.value);
-}
-
-LiteGraph.registerNodeType("basic/boolean", BasicBoolean);
 
 
 //Function wrapper
