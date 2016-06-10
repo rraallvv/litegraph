@@ -3,10 +3,20 @@
 
 //Demo component
 function DemoComponent() {
+	//BasicBoolean
+	this.addOutput("value","boolean");
+	this.addProperty( "value", true );
+	this.editable = { property:"value", type:"boolean" };
+
 	//BasicNumber
 	this.addOutput("value","number");
 	this.addProperty( "value", 1.0 );
 	this.editable = { property:"value", type:"number" };
+
+	//BasicString
+	this.addOutput("value","string");
+	this.addProperty( "value", "" );
+	this.editable = { property:"value", type:"string" };
 
 	//Watch
 	this.addInput("value",0,{label:""});
@@ -17,16 +27,6 @@ function DemoComponent() {
 	this.addProperty( "msg", "" );
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
-
-	//BasicString
-	this.addOutput("value","string");
-	this.addProperty( "value", "" );
-	this.editable = { property:"value", type:"string" };
-
-	//BasicBoolean
-	this.addOutput("value","boolean");
-	this.addProperty( "value", true );
-	this.editable = { property:"value", type:"boolean" };
 
 	//Wrapper
 	var functionName = undefined;
@@ -143,25 +143,34 @@ DemoComponent.prototype.onGetInputs = function() {
 };
 
 DemoComponent.prototype.setValue = function(v) {
+	//BasicBoolean
+	if ( typeof(v) != "boolean")
+		v = v === true;
+	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+
 	//BasicNumber
-	if ( typeof(v) == "string") v = parseFloat(v);
+	if ( typeof(v) == "string")
+		v = parseFloat(v);
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 
 	//BasicString
-	if ( typeof(v) != "string") v = v.toString();
-	this.properties["value"] = v;
-	this.setDirtyCanvas(true);
-
-	//BasicBoolean
-	if ( typeof(v) != "boolean") v = v === true;
+	if ( typeof(v) != "string")
+		v = v.toString();
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 };
 
 DemoComponent.prototype.onExecute = function() {
+	//BasicBoolean
+	this.setOutputData(0, this.properties["value"] );
+
 	//BasicNumber
 	this.setOutputData(0, parseFloat( this.properties["value"] ) );
+
+	//BasicString
+	this.setOutputData(0, this.properties["value"] );
 
 	//Watch
 	this.properties.value = this.getInputData(0);
@@ -174,12 +183,6 @@ DemoComponent.prototype.onExecute = function() {
 	else
 		msg = this.properties.msg;
 	console.log(msg);
-
-	//BasicString
-	this.setOutputData(0, this.properties["value"] );
-
-	//BasicBoolean
-	this.setOutputData(0, this.properties["value"] );
 
 	//Wraper
 	//collect the arguments
@@ -230,22 +233,11 @@ DemoComponent.prototype.onExecute = function() {
 }
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
+	//BasicBoolean
+	this.outputs[0].label = this.properties["value"].toString();
+
 	//BasicNumber
 	this.outputs[0].label = this.properties["value"].toFixed(3);
-
-	//Watch
-	if (this.inputs[0] && this.properties["value"] != null) {
-		if (this.properties["value"].constructor === Number )
-			this.inputs[0].label = this.properties["value"].toFixed(3);
-		else
-		{
-			var str = this.properties["value"];
-			if (str && str.length) //convert typed to array
-				str = Array.prototype.slice.call(str).join(",");
-			this.inputs[0].label = str;
-		}
-	}
-
 
 	//BasicString
 	var text = this.properties["value"];
@@ -266,20 +258,24 @@ DemoComponent.prototype.onDrawBackground = function(ctx) {
 
 	this.outputs[0].label = text;
 
-	//BasicBoolean
-	this.outputs[0].label = this.properties["value"].toString();
+	//Watch
+	if (this.inputs[0] && this.properties["value"] != null) {
+		if (this.properties["value"].constructor === Number )
+			this.inputs[0].label = this.properties["value"].toFixed(3);
+		else
+		{
+			var str = this.properties["value"];
+			if (str && str.length) //convert typed to array
+				str = Array.prototype.slice.call(str).join(",");
+			this.inputs[0].label = str;
+		}
+	}
 }
 
 DemoComponent.prototype.onWidget = function(e,widget) {
-	//BasicNumber
-	if (widget.name == "value")
-		this.setValue(widget.value);
-
-	//BasicString
-	if (widget.name == "value")
-		this.setValue(widget.value);
-
 	//BasicBoolean
+	//BasicNumber
+	//BasicString
 	if (widget.name == "value")
 		this.setValue(widget.value);
 }
