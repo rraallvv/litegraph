@@ -27,120 +27,8 @@ function DemoComponent() {
 	this.addOutput("value","boolean");
 	this.addProperty( "value", true );
 	this.editable = { property:"value", type:"boolean" };
-}
 
-DemoComponent.title = "Demo Component";
-DemoComponent.desc = "The description goes here";
-
-DemoComponent.prototype.onGetInputs = function() {
-	//Console
-	return [["log",LiteGraph.EXECUTE],["warn",LiteGraph.EXECUTE],["error",LiteGraph.EXECUTE]];
-};
-
-DemoComponent.prototype.setValue = function(v) {
-	//BasicNumber
-	if ( typeof(v) == "string") v = parseFloat(v);
-	this.properties["value"] = v;
-	this.setDirtyCanvas(true);
-
-	//BasicString
-	if ( typeof(v) != "string") v = v.toString();
-	this.properties["value"] = v;
-	this.setDirtyCanvas(true);
-
-	//BasicBoolean
-	if ( typeof(v) != "boolean") v = v === true;
-	this.properties["value"] = v;
-	this.setDirtyCanvas(true);
-};
-
-DemoComponent.prototype.onExecute = function() {
-	//BasicNumber
-	this.setOutputData(0, parseFloat( this.properties["value"] ) );
-
-	//Watch
-	this.properties.value = this.getInputData(0);
-	this.setOutputData(0, this.properties.value);
-
-	//Console
-	var msg = this.getInputData(1);
-	if (msg !== undefined)
-		this.properties.msg = msg;
-	else
-		msg = this.properties.msg;
-	console.log(msg);
-
-	//BasicString
-	this.setOutputData(0, this.properties["value"] );
-
-	//BasicBoolean
-	this.setOutputData(0, this.properties["value"] );
-}
-
-DemoComponent.prototype.onDrawBackground = function(ctx) {
-	//BasicNumber
-	this.outputs[0].label = this.properties["value"].toFixed(3);
-
-	//Watch
-	if (this.inputs[0] && this.properties["value"] != null) {
-		if (this.properties["value"].constructor === Number )
-			this.inputs[0].label = this.properties["value"].toFixed(3);
-		else
-		{
-			var str = this.properties["value"];
-			if (str && str.length) //convert typed to array
-				str = Array.prototype.slice.call(str).join(",");
-			this.inputs[0].label = str;
-		}
-	}
-
-
-	//BasicString
-	var text = this.properties["value"];
-
-	ctx.font = LGraphCanvas.innerTextFont;
-
-	var width = ctx.measureText(text).width;
-
-	if (width > this.size[0] - 20)
-		for (var i = 1; i < text.length; i++) {
-			var shortText = text.slice(0, -i) + "...";
-			width = ctx.measureText(shortText).width;
-			if (width <= this.size[0] - 20) {
-				text = shortText;
-				break;
-			}
-		}
-
-	this.outputs[0].label = text;
-
-	//BasicBoolean
-	this.outputs[0].label = this.properties["value"].toString();
-}
-
-DemoComponent.prototype.onWidget = function(e,widget) {
-	//BasicNumber
-	if (widget.name == "value")
-		this.setValue(widget.value);
-
-	//BasicString
-	if (widget.name == "value")
-		this.setValue(widget.value);
-
-	//BasicBoolean
-	if (widget.name == "value")
-		this.setValue(widget.value);
-}
-
-LiteGraph.registerNodeType("demo/component", DemoComponent);
-
-
-
-
-
-
-//Function wrapper
-function Wrapper() {
+	//Wrapper
 	var functionName = undefined;
 	var functionArguments = undefined;
 	var functionReturn = undefined;
@@ -229,10 +117,54 @@ function Wrapper() {
 	this.properties.return = undefined;
 }
 
-Wrapper.title = "Wrapper";
-Wrapper.desc = "Function wrapper";
+DemoComponent.title = "Demo Component";
+DemoComponent.desc = "The description goes here";
 
-Wrapper.prototype.onExecute = function() {
+DemoComponent.prototype.onGetInputs = function() {
+	//Console
+	return [["log",LiteGraph.EXECUTE],["warn",LiteGraph.EXECUTE],["error",LiteGraph.EXECUTE]];
+};
+
+DemoComponent.prototype.setValue = function(v) {
+	//BasicNumber
+	if ( typeof(v) == "string") v = parseFloat(v);
+	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+
+	//BasicString
+	if ( typeof(v) != "string") v = v.toString();
+	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+
+	//BasicBoolean
+	if ( typeof(v) != "boolean") v = v === true;
+	this.properties["value"] = v;
+	this.setDirtyCanvas(true);
+};
+
+DemoComponent.prototype.onExecute = function() {
+	//BasicNumber
+	this.setOutputData(0, parseFloat( this.properties["value"] ) );
+
+	//Watch
+	this.properties.value = this.getInputData(0);
+	this.setOutputData(0, this.properties.value);
+
+	//Console
+	var msg = this.getInputData(1);
+	if (msg !== undefined)
+		this.properties.msg = msg;
+	else
+		msg = this.properties.msg;
+	console.log(msg);
+
+	//BasicString
+	this.setOutputData(0, this.properties["value"] );
+
+	//BasicBoolean
+	this.setOutputData(0, this.properties["value"] );
+
+	//Wraper
 	//collect the arguments
 	var functionArguments = [];
 	for (var i = 1, l = this.inputs.length; i < l; i++)
@@ -250,7 +182,66 @@ Wrapper.prototype.onExecute = function() {
 	this.trigger("completed");
 }
 
-LiteGraph.registerNodeType("basic/wrapper", Wrapper);
+DemoComponent.prototype.onDrawBackground = function(ctx) {
+	//BasicNumber
+	this.outputs[0].label = this.properties["value"].toFixed(3);
+
+	//Watch
+	if (this.inputs[0] && this.properties["value"] != null) {
+		if (this.properties["value"].constructor === Number )
+			this.inputs[0].label = this.properties["value"].toFixed(3);
+		else
+		{
+			var str = this.properties["value"];
+			if (str && str.length) //convert typed to array
+				str = Array.prototype.slice.call(str).join(",");
+			this.inputs[0].label = str;
+		}
+	}
+
+
+	//BasicString
+	var text = this.properties["value"];
+
+	ctx.font = LGraphCanvas.innerTextFont;
+
+	var width = ctx.measureText(text).width;
+
+	if (width > this.size[0] - 20)
+		for (var i = 1; i < text.length; i++) {
+			var shortText = text.slice(0, -i) + "...";
+			width = ctx.measureText(shortText).width;
+			if (width <= this.size[0] - 20) {
+				text = shortText;
+				break;
+			}
+		}
+
+	this.outputs[0].label = text;
+
+	//BasicBoolean
+	this.outputs[0].label = this.properties["value"].toString();
+}
+
+DemoComponent.prototype.onWidget = function(e,widget) {
+	//BasicNumber
+	if (widget.name == "value")
+		this.setValue(widget.value);
+
+	//BasicString
+	if (widget.name == "value")
+		this.setValue(widget.value);
+
+	//BasicBoolean
+	if (widget.name == "value")
+		this.setValue(widget.value);
+}
+
+LiteGraph.registerNodeType("demo/component", DemoComponent);
+
+
+
+
 
 
 //For loop
