@@ -5,23 +5,33 @@
 function DemoComponent() {
 	//BasicBoolean
 	this.addOutput("value","boolean");
-	this.addProperty( "value", { default: true } );
+	this.addProperties({
+		value: { default: true }
+	});
 
 	//BasicNumber
 	this.addOutput("value","number");
-	this.addProperty( "value", { default: 1.0 } );
+	this.addProperties({
+		value: { default: 1.0 }
+	});
 
 	//BasicString
 	this.addOutput("value","string");
-	this.addProperty( "value", { default: "" } );
+	this.addProperties({
+		value: { default: "" }
+	});
 
 	//Watch
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
-	this.addProperty( "value", { default: "" } );
+	this.addProperties({
+		value: { default: "" }
+	});
 
 	//Console
-	this.addProperty( "msg", { default: "" } );
+	this.addProperties({
+		msg: { default: "" }
+	});
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
 
@@ -33,77 +43,77 @@ function DemoComponent() {
 	this.addInput("call", LiteGraph.EXECUTE);
 	this.addOutput("completed", LiteGraph.EXECUTE);
 
-	this.addProperty("name", {
-		default: "",
-		type: "string",
-		get: function() {
-			return functionName;
-		},
-		set: function(v) {
-			if (v == "")
-				return;
-			if (functionName == v)
-				return;
-			this.title = v;
+	this.addProperties({
+		name: {
+			default: "",
+			type: "string",
+			get: function() {
+				return functionName;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+				if (functionName == v)
+					return;
+				this.title = v;
 
-			//find a function with the given name
-			var path = v.split(".");
-			var functionObject = window[path.shift()];
-			while (path.length > 0)
-				functionObject = functionObject[path.shift()];
-			this._functionObject = functionObject;
+				//find a function with the given name
+				var path = v.split(".");
+				var functionObject = window[path.shift()];
+				while (path.length > 0)
+					functionObject = functionObject[path.shift()];
+				this._functionObject = functionObject;
 
-			functionName = v;
-		}
-	});
-
-	this.addProperty("arguments", {
-		default: "",
-		type: "string",
-		get: function() {
-			return functionArguments;
-		},
-		set: function(v) {
-			if (v == "")
-				return;
-			if (functionArguments == v)
-				return;
-
-			for (var i = 1, l = this.inputs.length; i < l; i++)
-				this.removeInput(i);
-
-			if (v != undefined) {
-				var strings = v.split(",");
-				if (typeof(strings) === "string")
-					this.addInput(strings);
-				else
-					for (var i = 0, l = strings.length; i < l; i++)
-						this.addInput(strings[i]);
+				functionName = v;
 			}
-
-			functionArguments = v;
-		}
-	});
-
-	this.addProperty("return", {
-		default: "",
-		type: "string",
-		get: function() {
-			return functionReturn;
 		},
-		set: function(v) {
-			if (v == "")
-				return;
-			if (functionReturn == v)
-				return;
+		arguments: {
+			default: "",
+			type: "string",
+			get: function() {
+				return functionArguments;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+				if (functionArguments == v)
+					return;
 
-			if (this.outputs.length == 2)
-				this.removeOutput(1);
+				for (var i = 1, l = this.inputs.length; i < l; i++)
+					this.removeInput(i);
 
-			if (v != undefined)
-				this.addOutput(v);
+				if (v != undefined) {
+					var strings = v.split(",");
+					if (typeof(strings) === "string")
+						this.addInput(strings);
+					else
+						for (var i = 0, l = strings.length; i < l; i++)
+							this.addInput(strings[i]);
+				}
 
-			functionReturn = v;
+				functionArguments = v;
+			}
+		},
+		return: {
+			default: "",
+			type: "string",
+			get: function() {
+				return functionReturn;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+				if (functionReturn == v)
+					return;
+
+				if (this.outputs.length == 2)
+					this.removeOutput(1);
+
+				if (v != undefined)
+					this.addOutput(v);
+
+				functionReturn = v;
+			}
 		}
 	});
 

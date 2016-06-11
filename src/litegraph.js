@@ -1614,39 +1614,44 @@ LGraphNode.prototype.trigger = function( action ) {
 }
 
 /**
-* add a new property to this node
-* @method addProperty
-* @param {string} name
-* @param {Object} extraInfo this can be used to have special properties of the property (type, default, set, get, values, etc.)
+* add a list of properties to this node
+* @method addProperties
+* @param {Object} info this is the list of property names with the metadata (type, default, set, get, values, etc.)
 */
-LGraphNode.prototype.addProperty = function( name, extraInfo ) {
-	if (name === undefined)
+LGraphNode.prototype.addProperties = function( info ) {
+	if (isEmpty(info))
 		return;
-	var o = { name: name };
-	if (!this.properties)
-		this.properties = {};
-	if (extraInfo) {
-		var definition = {};
-		for (var i in extraInfo) {
-			var v = extraInfo[i];
-			if (i === "set" || i === "get") {
-				if (typeof v === "function") {
-					definition[i] = v.bind(this);
+
+	for (var name in info) {
+		if (!this.properties)
+			this.properties = {};
+
+		var o = { name: name };
+		var metadata = info[name];
+		if (metadata) {
+			var definition = {};
+			for (var value in metadata) {
+				var v = metadata[value];
+				if (value === "set" || value === "get") {
+					if (typeof v === "function") {
+						definition[value] = v.bind(this);
+					}
 				}
+				else
+					o[value] = v;
 			}
-			else
-				o[i] = v;
+			if (!isEmpty(definition)) {
+				definition.enumerable = true;
+				Object.defineProperty( this.properties, name, definition);
+			}
 		}
-		if (!isEmpty(definition)) {
-			definition.enumerable = true;
-			Object.defineProperty( this.properties, name, definition);
-		}
+
+		if (!this.propertiesInfo)
+			this.propertiesInfo = [];
+
+		this.propertiesInfo.push(o);
+		this.properties[ name ] = o["default"];
 	}
-	if (!this.propertiesInfo)
-		this.propertiesInfo = [];
-	this.propertiesInfo.push(o);
-	this.properties[ name ] = o["default"];
-	return o;
 }
 
 

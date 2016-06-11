@@ -134,35 +134,36 @@ function GlobalInput( title ) {
 
 	this.properties = { name: inputName, type: null };
 
-	this.addProperty("name", {
-		default: "",
-		type: "string",
-		get: function() {
-			return inputName;
+	this.addProperties({
+		name: {
+			default: "",
+			type: "string",
+			get: function() {
+				return inputName;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+
+				var info = this.getOutputInfo(0);
+				if (info.name == v)
+					return;
+				info.name = v;
+				this.title = v;
+				if (this.graph)
+					this.graph.renameGlobalInput(inputName, v);
+				inputName = v;
+			}
 		},
-		set: function(v) {
-			if (v == "")
-				return;
-
-			var info = this.getOutputInfo(0);
-			if (info.name == v)
-				return;
-			info.name = v;
-			this.title = v;
-			if (this.graph)
-				this.graph.renameGlobalInput(inputName, v);
-			inputName = v;
-		}
-	});
-
-	this.addProperty("type", {
-		default: "",
-		type: "string",
-		get: function() { return this.outputs[0].type; },
-		set: function(v) {
-			this.outputs[0].type = v;
-			if (this.graph)
-				this.graph.changeGlobalInputType(inputName, this.outputs[0].type);
+		type: {
+			default: "",
+			type: "string",
+			get: function() { return this.outputs[0].type; },
+			set: function(v) {
+				this.outputs[0].type = v;
+				if (this.graph)
+					this.graph.changeGlobalInputType(inputName, this.outputs[0].type);
+			}
 		}
 	});
 }
@@ -198,35 +199,36 @@ function GlobalOutput( title ) {
 
 	this.properties = {name: outputName, type: null };
 
-	this.addProperty("name", {
-		default: "",
-		type: "string",
-		get: function() {
-			return outputName;
+	this.addProperties({
+		name: {
+			default: "",
+			type: "string",
+			get: function() {
+				return outputName;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+
+				var info = this.getInputInfo(0);
+				if (info.name == v)
+					return;
+				info.name = v;
+				this.title = v;
+				if (this.graph)
+					this.graph.renameGlobalOutput(outputName, v);
+				outputName = v;
+			}
 		},
-		set: function(v) {
-			if (v == "")
-				return;
-
-			var info = this.getInputInfo(0);
-			if (info.name == v)
-				return;
-			info.name = v;
-			this.title = v;
-			if (this.graph)
-				this.graph.renameGlobalOutput(outputName, v);
-			outputName = v;
-		}
-	});
-
-	this.addProperty("type", {
-		default: "",
-		type: "string",
-		get: function() { return this.inputs[0].type; },
-		set: function(v) {
-			this.inputs[0].type = v;
-			if (this.graph)
-				this.graph.changeGlobalInputType( outputName, this.inputs[0].type );
+		type: {
+			default: "",
+			type: "string",
+			get: function() { return this.inputs[0].type; },
+			set: function(v) {
+				this.inputs[0].type = v;
+				if (this.graph)
+					this.graph.changeGlobalInputType( outputName, this.inputs[0].type );
+			}
 		}
 	});
 }
@@ -254,23 +256,25 @@ function GetProperty( title ) {
 	var propertyName = title;
 	this.properties = { name: propertyName };
 
-	this.addProperty("name", {
-		default: "",
-		type: "string",
-		get: function() {
-			return propertyName;
-		},
-		set: function(v) {
-			if (v == "")
-				return;
-			if (this.graph.properties[v] === undefined)
-				return;
+	this.addProperties({
+		name: {
+			default: "",
+			type: "string",
+			get: function() {
+				return propertyName;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+				if (this.graph.properties[v] === undefined)
+					return;
 
-			var info = this.getOutputInfo(0);
-			if (info.name == v)
-				return;
-			info.name = v;
-			propertyName = v;
+				var info = this.getOutputInfo(0);
+				if (info.name == v)
+					return;
+				info.name = v;
+				propertyName = v;
+			}
 		}
 	});
 }
@@ -303,25 +307,27 @@ function SetProperty( title ) {
 	var propertyName = title;
 	this.properties = {name: propertyName};
 
-	this.addProperty("name", {
-		default: "",
-		type: "string",
-		get: function() {
-			return propertyName;
-		},
-		set: function(v) {
-			if (v == "")
-				return;
-			if (this.graph.properties[v] === undefined)
-				return;
+	this.addProperties({
+		name: {
+			default: "",
+			type: "string",
+			get: function() {
+				return propertyName;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+				if (this.graph.properties[v] === undefined)
+					return;
 
-			var info = this.getInputInfo(1);
-			if (info.name == v)
-				return;
-			info.name = v;
-			propertyName = v;
+				var info = this.getInputInfo(1);
+				if (info.name == v)
+					return;
+				info.name = v;
+				propertyName = v;
 
-			this.computeSize();
+				this.computeSize();
+			}
 		}
 	});
 }
@@ -364,29 +370,30 @@ function Comment( title ) {
 		that.graph.setDirtyCanvas(false,true);
 	}
 
-	this.addProperty("comment", {
-		default: "",
-		type: "string",
-		get: function() {
-			return this.title;
+	this.addProperties({
+		comment: {
+			default: "",
+			type: "string",
+			get: function() {
+				return this.title;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+				this.title = v;
+			}
 		},
-		set: function(v) {
-			if (v == "")
-				return;
-			this.title = v;
-		}
-	});
-
-	this.addProperty("color", {
-		default: "",
-		type: "string",
-		get: function() {
-			return this.bgcolor;
-		},
-		set: function(v) {
-			if (v == "")
-				return;
-			this.bgcolor = v;
+		color: {
+			default: "",
+			type: "string",
+			get: function() {
+				return this.bgcolor;
+			},
+			set: function(v) {
+				if (v == "")
+					return;
+				this.bgcolor = v;
+			}
 		}
 	});
 }
