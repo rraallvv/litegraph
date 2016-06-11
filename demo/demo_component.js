@@ -33,7 +33,8 @@ function DemoComponent() {
 	this.addInput("call", LiteGraph.EXECUTE);
 	this.addOutput("completed", LiteGraph.EXECUTE);
 
-	this.addProperty("name", "", "string", {
+	this.addProperty("name", "", {
+		type: "string",
 		get: function() {
 			return functionName;
 		},
@@ -55,7 +56,8 @@ function DemoComponent() {
 		}
 	});
 
-	this.addProperty("arguments", "", "string", {
+	this.addProperty("arguments", "", {
+		type: "string",
 		get: function() {
 			return functionArguments;
 		},
@@ -81,7 +83,8 @@ function DemoComponent() {
 		}
 	});
 
-	this.addProperty("return", "", "string", {
+	this.addProperty("return", "", {
+		type: "string",
 		get: function() {
 			return functionReturn;
 		},

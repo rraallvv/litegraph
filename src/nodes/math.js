@@ -302,7 +302,7 @@ function MathOperation() {
 	this.addOutput("=","number");
 	this.addProperty( "A", 1 );
 	this.addProperty( "B", 1 );
-	this.addProperty( "OP", "+", "string", { values: MathOperation.values } );
+	this.addProperty( "OP", "+", { type: "string", values: MathOperation.values } );
 }
 
 MathOperation.values = ["+","-","*","/","%","^"];
@@ -414,7 +414,7 @@ function MathCondition() {
 	this.addOutput("out","boolean");
 	this.addProperty( "A", 1 );
 	this.addProperty( "B", 1 );
-	this.addProperty( "OP", ">", "string", { values: MathCondition.values } );
+	this.addProperty( "OP", ">", { type: "string", values: MathCondition.values } );
 }
 
 MathCondition.values = [">","<","==","!=","<=",">="];
@@ -477,7 +477,7 @@ function MathLogicCompare() {
 	this.addOutput("out","boolean");
 	this.addProperty( "A", true );
 	this.addProperty( "B", true );
-	this.addProperty( "OP", "&&", "string", { values: MathLogicCompare.values } );
+	this.addProperty( "OP", "&&", { type: "string", values: MathLogicCompare.values } );
 }
 
 MathLogicCompare.values = ["&&","||"];
