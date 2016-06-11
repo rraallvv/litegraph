@@ -194,7 +194,7 @@ $(window).load(function() {
 		}
 	}
 
-	LiteGraph.nodeImagesPath = "../nodesData/";
+	LiteGraph.nodeImagesPath = "../nodes_data/";
 	graph = new LGraph();
 	graphcanvas = new LGraphCanvas("graphcanvas",graph);
 	graphcanvas.backgroundImage = "imgs/grid.png";
