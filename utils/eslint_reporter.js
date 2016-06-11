@@ -7,7 +7,9 @@ module.exports = function (results) {
 
 	results.some(function (current) {
 		current.messages.some(function (msg) {
-			line = current.filePath + ':' + msg.line + ':' + msg.column + ': ';
+			line = current.filePath;
+
+			line+= ':' + (msg.line || 0) + ':' + (msg.column || 0) + ': ';
 
 			if (msg.severity === 1) {
 				line += 'warning';
@@ -31,6 +33,7 @@ module.exports = function (results) {
 	});
 
 	if (errors > 0 || warnings > 0) {
+		line = '';
 
 		if (tooMany)
 			line = 'fatal error: too many errors emitted, stopping now.\n';
@@ -51,6 +54,8 @@ module.exports = function (results) {
 				line += 's';
 			}
 		}
+
+		line += ' generated.';
 
 		console.log(line);
 	}
