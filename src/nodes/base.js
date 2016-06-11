@@ -214,8 +214,6 @@ function Wrapper() {
 	this.addInput("call", LiteGraph.EXECUTE);
 	this.addOutput("completed", LiteGraph.EXECUTE);
 
-	this.properties = {};
-
 	this.addProperty("name", "", "string", {
 		get: function() {
 			return functionName;
