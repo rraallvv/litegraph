@@ -33,8 +33,6 @@ function DemoComponent() {
 	this.addInput("call", LiteGraph.EXECUTE);
 	this.addOutput("completed", LiteGraph.EXECUTE);
 
-	var that = this;
-
 	this.properties = {};
 
 	this.addProperty("name", "", "string", {
@@ -46,14 +44,14 @@ function DemoComponent() {
 				return;
 			if (functionName == v)
 				return;
-			that.title = v;
+			this.title = v;
 
 			//find a function with the given name
 			var path = v.split(".");
 			var functionObject = window[path.shift()];
 			while (path.length > 0)
 				functionObject = functionObject[path.shift()];
-			that._functionObject = functionObject;
+			this._functionObject = functionObject;
 
 			functionName = v;
 		}
@@ -69,16 +67,16 @@ function DemoComponent() {
 			if (functionArguments == v)
 				return;
 
-			for (var i = 1, l = that.inputs.length; i < l; i++)
-				that.removeInput(i);
+			for (var i = 1, l = this.inputs.length; i < l; i++)
+				this.removeInput(i);
 
 			if (v != undefined) {
 				var strings = v.split(",");
 				if (typeof(strings) === "string")
-					that.addInput(strings);
+					this.addInput(strings);
 				else
 					for (var i = 0, l = strings.length; i < l; i++)
-						that.addInput(strings[i]);
+						this.addInput(strings[i]);
 			}
 
 			functionArguments = v;
@@ -95,11 +93,11 @@ function DemoComponent() {
 			if (functionReturn == v)
 				return;
 
-			if (that.outputs.length == 2)
-				that.removeOutput(1);
+			if (this.outputs.length == 2)
+				this.removeOutput(1);
 
 			if (v != undefined)
-				that.addOutput(v);
+				this.addOutput(v);
 
 			functionReturn = v;
 		}
