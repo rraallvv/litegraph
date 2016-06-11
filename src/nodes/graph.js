@@ -134,7 +134,8 @@ function GlobalInput( title ) {
 
 	this.properties = { name: inputName, type: null };
 
-	this.addProperty("name", "", "string", {
+	this.addProperty("name", "", {
+		type: "string",
 		get: function() {
 			return inputName;
 		},
@@ -153,7 +154,8 @@ function GlobalInput( title ) {
 		}
 	});
 
-	this.addProperty("type", "", "string", {
+	this.addProperty("type", "", {
+		type: "string",
 		get: function() { return this.outputs[0].type; },
 		set: function(v) {
 			this.outputs[0].type = v;
@@ -194,7 +196,8 @@ function GlobalOutput( title ) {
 
 	this.properties = {name: outputName, type: null };
 
-	this.addProperty("name", "", "string", {
+	this.addProperty("name", "", {
+		type: "string",
 		get: function() {
 			return outputName;
 		},
@@ -213,7 +216,8 @@ function GlobalOutput( title ) {
 		}
 	});
 
-	this.addProperty("type", "", "string", {
+	this.addProperty("type", "", {
+		type: "string",
 		get: function() { return this.inputs[0].type; },
 		set: function(v) {
 			this.inputs[0].type = v;
@@ -246,7 +250,8 @@ function GetProperty( title ) {
 	var propertyName = title;
 	this.properties = { name: propertyName };
 
-	this.addProperty("name", "", "string", {
+	this.addProperty("name", "", {
+		type: "string",
 		get: function() {
 			return propertyName;
 		},
@@ -293,7 +298,8 @@ function SetProperty( title ) {
 	var propertyName = title;
 	this.properties = {name: propertyName};
 
-	this.addProperty("name", "", "string", {
+	this.addProperty("name", "", {
+		type: "string",
 		get: function() {
 			return propertyName;
 		},
@@ -352,7 +358,8 @@ function Comment( title ) {
 		that.graph.setDirtyCanvas(false,true);
 	}
 
-	this.addProperty("comment", "", "string", {
+	this.addProperty("comment", "", {
+		type: "string",
 		get: function() {
 			return this.title;
 		},
@@ -363,7 +370,8 @@ function Comment( title ) {
 		}
 	});
 
-	this.addProperty("color", "", "string", {
+	this.addProperty("color", "", {
+		type: "string",
 		get: function() {
 			return this.bgcolor;
 		},

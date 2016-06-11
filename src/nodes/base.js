@@ -6,7 +6,8 @@
 function BasicNumber() {
 	var value;
 	this.addOutput("value","number");
-	this.addProperty("value", 1.0, "number", {
+	this.addProperty("value", 1.0, {
+		type: "number",
 		get: function() {
 			return value;
 		},
@@ -214,7 +215,8 @@ function Wrapper() {
 	this.addInput("call", LiteGraph.EXECUTE);
 	this.addOutput("completed", LiteGraph.EXECUTE);
 
-	this.addProperty("name", "", "string", {
+	this.addProperty("name", "", {
+		type: "string",
 		get: function() {
 			return functionName;
 		},
@@ -236,7 +238,8 @@ function Wrapper() {
 		}
 	});
 
-	this.addProperty("arguments", "", "string", {
+	this.addProperty("arguments", "", {
+		type: "string",
 		get: function() {
 			return functionArguments;
 		},
@@ -263,7 +266,8 @@ function Wrapper() {
 	});
 
 
-	this.addProperty("return", "", "string", {
+	this.addProperty("return", "", {
+		type: "string",
 		get: function() {
 			return functionReturn;
 		},

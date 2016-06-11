@@ -1618,11 +1618,10 @@ LGraphNode.prototype.trigger = function( action ) {
 * @method addProperty
 * @param {string} name
 * @param {*} defaultValue
-* @param {string} type string defining the output type ("vec3","number",...)
 * @param {Object} extraInfo this can be used to have special properties of the property (like values, etc)
 */
-LGraphNode.prototype.addProperty = function( name, defaultValue, type, extraInfo ) {
-	var o = { name: name, type: type, defaultValue: defaultValue };
+LGraphNode.prototype.addProperty = function( name, defaultValue, extraInfo ) {
+	var o = { name: name, defaultValue: defaultValue };
 	if (!this.properties)
 		this.properties = {};
 	if (extraInfo) {
