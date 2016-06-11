@@ -1617,23 +1617,25 @@ LGraphNode.prototype.trigger = function( action ) {
 * add a new property to this node
 * @method addProperty
 * @param {string} name
-* @param {*} defaultValue
-* @param {Object} extraInfo this can be used to have special properties of the property (like values, etc)
+* @param {Object} extraInfo this can be used to have special properties of the property (type, default, set, get, values, etc.)
 */
-LGraphNode.prototype.addProperty = function( name, defaultValue, extraInfo ) {
-	var o = { name: name, defaultValue: defaultValue };
+LGraphNode.prototype.addProperty = function( name, extraInfo ) {
+	if (name === undefined)
+		return;
+	var o = { name: name };
 	if (!this.properties)
 		this.properties = {};
 	if (extraInfo) {
 		var definition = {};
 		for (var i in extraInfo) {
+			var v = extraInfo[i];
 			if (i === "set" || i === "get") {
-				if (typeof extraInfo[i] === "function") {
-					definition[i] = extraInfo[i].bind(this);
+				if (typeof v === "function") {
+					definition[i] = v.bind(this);
 				}
 			}
 			else
-				o[i] = extraInfo[i];
+				o[i] = v;
 		}
 		if (!isEmpty(definition)) {
 			definition.enumerable = true;
@@ -1643,7 +1645,7 @@ LGraphNode.prototype.addProperty = function( name, defaultValue, extraInfo ) {
 	if (!this.propertiesInfo)
 		this.propertiesInfo = [];
 	this.propertiesInfo.push(o);
-	this.properties[ name ] = defaultValue;
+	this.properties[ name ] = o["default"];
 	return o;
 }
 

@@ -5,23 +5,23 @@
 function DemoComponent() {
 	//BasicBoolean
 	this.addOutput("value","boolean");
-	this.addProperty( "value", true );
+	this.addProperty( "value", { default: true } );
 
 	//BasicNumber
 	this.addOutput("value","number");
-	this.addProperty( "value", 1.0 );
+	this.addProperty( "value", { default: 1.0 } );
 
 	//BasicString
 	this.addOutput("value","string");
-	this.addProperty( "value", "" );
+	this.addProperty( "value", { default: "" } );
 
 	//Watch
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
-	this.addProperty( "value", "" );
+	this.addProperty( "value", { default: "" } );
 
 	//Console
-	this.addProperty( "msg", "" );
+	this.addProperty( "msg", { default: "" } );
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
 
@@ -33,7 +33,8 @@ function DemoComponent() {
 	this.addInput("call", LiteGraph.EXECUTE);
 	this.addOutput("completed", LiteGraph.EXECUTE);
 
-	this.addProperty("name", "", {
+	this.addProperty("name", {
+		default: "",
 		type: "string",
 		get: function() {
 			return functionName;
@@ -56,7 +57,8 @@ function DemoComponent() {
 		}
 	});
 
-	this.addProperty("arguments", "", {
+	this.addProperty("arguments", {
+		default: "",
 		type: "string",
 		get: function() {
 			return functionArguments;
@@ -83,7 +85,8 @@ function DemoComponent() {
 		}
 	});
 
-	this.addProperty("return", "", {
+	this.addProperty("return", {
+		default: "",
 		type: "string",
 		get: function() {
 			return functionReturn;

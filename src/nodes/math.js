@@ -75,11 +75,11 @@ function MathRange() {
 	this.addInput("in","number",{locked:true});
 	this.addOutput("out","number",{locked:true});
 
-	this.addProperty( "in", 0 );
-	this.addProperty( "inMin", 0 );
-	this.addProperty( "inMax", 1 );
-	this.addProperty( "outMin", 0 );
-	this.addProperty( "outMax", 1 );
+	this.addProperty( "in", { default: 0 } );
+	this.addProperty( "inMin", { default: 0 } );
+	this.addProperty( "inMax", { default: 1 } );
+	this.addProperty( "outMin", { default: 0 } );
+	this.addProperty( "outMax", { default: 1 } );
 }
 
 MathRange.title = "Range";
@@ -126,8 +126,8 @@ LiteGraph.registerNodeType("math/range", MathRange);
 
 function MathRand() {
 	this.addOutput("value","number");
-	this.addProperty( "min", 0 );
-	this.addProperty( "max", 1 );
+	this.addProperty( "min", { default: 0 } );
+	this.addProperty( "max", { default: 1 } );
 }
 
 MathRand.title = "Rand";
@@ -167,8 +167,8 @@ LiteGraph.registerNodeType("math/rand", MathRand);
 function MathClamp() {
 	this.addInput("in","number");
 	this.addOutput("out","number");
-	this.addProperty( "min", 0 );
-	this.addProperty( "max", 1 );
+	this.addProperty( "min", { default: 0 } );
+	this.addProperty( "max", { default: 1 } );
 }
 
 MathClamp.title = "Clamp";
@@ -280,7 +280,7 @@ LiteGraph.registerNodeType("math/smoothStep", MathSmoothStep );
 function MathScale() {
 	this.addInput("in","number",{label:""});
 	this.addOutput("out","number",{label:""});
-	this.addProperty( "factor", 1 );
+	this.addProperty( "factor", { default: 1 } );
 }
 
 MathScale.title = "Scale";
@@ -300,9 +300,9 @@ function MathOperation() {
 	this.addInput("A","number");
 	this.addInput("B","number");
 	this.addOutput("=","number");
-	this.addProperty( "A", 1 );
-	this.addProperty( "B", 1 );
-	this.addProperty( "OP", "+", { type: "string", values: MathOperation.values } );
+	this.addProperty( "A", { default: 1 } );
+	this.addProperty( "B", { default: 1 } );
+	this.addProperty( "OP", { default: "+", type: "string", values: MathOperation.values } );
 }
 
 MathOperation.values = ["+","-","*","/","%","^"];
@@ -366,8 +366,8 @@ function MathCompare() {
 	this.addInput( "B","number" );
 	this.addOutput("A==B","boolean");
 	this.addOutput("A!=B","boolean");
-	this.addProperty( "A", 0 );
-	this.addProperty( "B", 0 );
+	this.addProperty( "A", { default: 0 } );
+	this.addProperty( "B", { default: 0 } );
 }
 
 MathCompare.title = "Compare";
@@ -412,9 +412,9 @@ function MathCondition() {
 	this.addInput("A","number");
 	this.addInput("B","number");
 	this.addOutput("out","boolean");
-	this.addProperty( "A", 1 );
-	this.addProperty( "B", 1 );
-	this.addProperty( "OP", ">", { type: "string", values: MathCondition.values } );
+	this.addProperty( "A", { default: 1 } );
+	this.addProperty( "B", { default: 1 } );
+	this.addProperty( "OP", { default: ">", type: "string", values: MathCondition.values } );
 }
 
 MathCondition.values = [">","<","==","!=","<=",">="];
@@ -475,9 +475,9 @@ function MathLogicCompare() {
 	this.addInput("A","boolean");
 	this.addInput("B","boolean");
 	this.addOutput("out","boolean");
-	this.addProperty( "A", true );
-	this.addProperty( "B", true );
-	this.addProperty( "OP", "&&", { type: "string", values: MathLogicCompare.values } );
+	this.addProperty( "A", { default: true } );
+	this.addProperty( "B", { default: true } );
+	this.addProperty( "OP", { default: "&&", type: "string", values: MathLogicCompare.values } );
 }
 
 MathLogicCompare.values = ["&&","||"];
@@ -533,7 +533,7 @@ LiteGraph.registerNodeType("math/logicCompare", MathLogicCompare);
 function MathLogicNot() {
 	this.addInput("in","boolean");
 	this.addOutput("out","boolean");
-	this.addProperty( "in", true );
+	this.addProperty( "in", { default: true } );
 }
 
 MathLogicNot.title = "Logic negation";
@@ -576,8 +576,8 @@ LiteGraph.registerNodeType("math/logicNot", MathLogicNot);
 function MathAccumulate() {
 	this.addInput("inc","number");
 	this.addOutput("total","number");
-	this.addProperty( "increment", 1 );
-	this.addProperty( "value", 0 );
+	this.addProperty( "increment", { default: 1 } );
+	this.addProperty( "value", { default: 0 } );
 }
 
 MathAccumulate.title = "Accumulate";
@@ -599,8 +599,8 @@ function MathTrigonometry() {
 	this.addInput("v","number");
 	this.addOutput("sin","number");
 
-	this.addProperty( "amplitude", 1 );
-	this.addProperty( "offset", 0 );
+	this.addProperty( "amplitude", { default: 1 } );
+	this.addProperty( "offset", { default: 0 } );
 	this.bgImageUrl = "nodes/imgs/icon-sin.png";
 }
 
