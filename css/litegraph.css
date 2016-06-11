@@ -58,14 +58,14 @@
 	-webkit-width: calc( 100% - 20px );
 }
 
-.graphmenu-entry .property_name {
+.graphmenu-entry .propertyName {
 	display: inline-block;
 	text-align: left;
 	min-width: 80px;
 	min-height: 1.2em;
 }
 
-.graphmenu-entry .property_value {
+.graphmenu-entry .propertyValue {
 	display: inline-block;
 	background-color: rgba(0,0,0,0.5);
 	text-align: right;
