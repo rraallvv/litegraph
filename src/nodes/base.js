@@ -48,9 +48,7 @@ function Watch() {
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
 	this.addProperties({
-		value: {
-			default: ""
-		}
+		value: ""
 	});
 }
 
@@ -83,9 +81,7 @@ LiteGraph.registerNodeType("basic/watch", Watch);
 //Show value inside the debug console
 function Console() {
 	this.addProperties({
-		msg: {
-			default: ""
-		}
+		msg: ""
 	});
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
@@ -146,7 +142,7 @@ LiteGraph.registerNodeType("basic/branch", Branch );
 function BasicString() {
 	this.addOutput("value","string");
 	this.addProperties({
-		value: { default: "" }
+		value: ""
 	});
 }
 
@@ -196,7 +192,7 @@ LiteGraph.registerNodeType("basic/string", BasicString);
 function BasicBoolean() {
 	this.addOutput("value","boolean");
 	this.addProperties({
-		value: { default: true }
+		value: true
 	});
 }
 

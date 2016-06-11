@@ -76,11 +76,11 @@ function MathRange() {
 	this.addOutput("out","number",{locked:true});
 
 	this.addProperties({
-		in: { default: 0 },
-		inMin: { default: 0 },
-		inMax: { default: 1 },
-		outMin: { default: 0 },
-		outMax: { default: 1 }
+		in: 0,
+		inMin: 0,
+		inMax: 1,
+		outMin: 0,
+		outMax: 1
 	});
 }
 
@@ -129,8 +129,8 @@ LiteGraph.registerNodeType("math/range", MathRange);
 function MathRand() {
 	this.addOutput("value","number");
 	this.addProperties({
-		min: { default: 0 },
-		max: { default: 1 }
+		min: 0,
+		max: 1
 	});
 }
 
@@ -172,8 +172,8 @@ function MathClamp() {
 	this.addInput("in","number");
 	this.addOutput("out","number");
 	this.addProperties({
-		min: { default: 0 },
-		max: { default: 1 }
+		min: 0,
+		max: 1
 	});
 }
 
@@ -287,7 +287,7 @@ function MathScale() {
 	this.addInput("in","number",{label:""});
 	this.addOutput("out","number",{label:""});
 	this.addProperties({
-		factor: { default: 1 }
+		factor: 1
 	});
 }
 
@@ -309,8 +309,8 @@ function MathOperation() {
 	this.addInput("B","number");
 	this.addOutput("=","number");
 	this.addProperties({
-		A: { default: 1 },
-		B: { default: 1 },
+		A: 1,
+		B: 1,
 		OP: {
 			default: "+",
 			type: "string",
@@ -381,8 +381,8 @@ function MathCompare() {
 	this.addOutput("A==B","boolean");
 	this.addOutput("A!=B","boolean");
 	this.addProperties({
-		A: { default: 0 },
-		B: { default: 0 }
+		A: 0,
+		B: 0
 	});
 }
 
@@ -429,8 +429,8 @@ function MathCondition() {
 	this.addInput("B","number");
 	this.addOutput("out","boolean");
 	this.addProperties({
-		A: { default: 1 },
-		B: { default: 1 },
+		A: 1,
+		B: 1,
 		OP: {
 			default: ">",
 			type: "string",
@@ -498,8 +498,8 @@ function MathLogicCompare() {
 	this.addInput("B","boolean");
 	this.addOutput("out","boolean");
 	this.addProperties({
-		A: { default: true },
-		B: { default: true },
+		A: true,
+		B: true,
 		OP: {
 			default: "&&",
 			type: "string",
@@ -562,7 +562,7 @@ function MathLogicNot() {
 	this.addInput("in","boolean");
 	this.addOutput("out","boolean");
 	this.addProperties({
-		in: { default: true }
+		in: true
 	});
 }
 
@@ -607,8 +607,8 @@ function MathAccumulate() {
 	this.addInput("inc","number");
 	this.addOutput("total","number");
 	this.addProperties({
-		increment: { default: 1 },
-		value: { default: 0 }
+		increment: 1,
+		value: 0
 	});
 }
 
@@ -632,8 +632,8 @@ function MathTrigonometry() {
 	this.addOutput("sin","number");
 
 	this.addProperties({
-		amplitude: { default: 1 },
-		offset: { default: 0 }
+		amplitude: 1,
+		offset: 0
 	});
 	this.bgImageUrl = "nodes/imgs/icon-sin.png";
 }

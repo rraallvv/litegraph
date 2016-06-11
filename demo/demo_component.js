@@ -6,31 +6,31 @@ function DemoComponent() {
 	//BasicBoolean
 	this.addOutput("value","boolean");
 	this.addProperties({
-		value: { default: true }
+		value: true
 	});
 
 	//BasicNumber
 	this.addOutput("value","number");
 	this.addProperties({
-		value: { default: 1.0 }
+		value: 1.0
 	});
 
 	//BasicString
 	this.addOutput("value","string");
 	this.addProperties({
-		value: { default: "" }
+		value: ""
 	});
 
 	//Watch
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
 	this.addProperties({
-		value: { default: "" }
+		value: ""
 	});
 
 	//Console
 	this.addProperties({
-		msg: { default: "" }
+		msg: ""
 	});
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);

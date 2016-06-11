@@ -1622,35 +1622,38 @@ LGraphNode.prototype.addProperties = function( info ) {
 	if (isEmpty(info))
 		return;
 
-	for (var name in info) {
+	for (var i in info) {
+		var o = { name: i };
+		var metadata = info[i];
+
 		if (!this.properties)
 			this.properties = {};
 
-		var o = { name: name };
-		var metadata = info[name];
-		if (metadata) {
+		if ( typeof metadata === "object" ) {
 			var definition = {};
-			for (var value in metadata) {
-				var v = metadata[value];
-				if (value === "set" || value === "get") {
+			for (var j in metadata) {
+				var v = metadata[j];
+				if (j === "set" || j === "get") {
 					if (typeof v === "function") {
-						definition[value] = v.bind(this);
+						definition[j] = v.bind(this);
 					}
 				}
 				else
-					o[value] = v;
+					o[j] = v;
 			}
 			if (!isEmpty(definition)) {
 				definition.enumerable = true;
-				Object.defineProperty( this.properties, name, definition);
+				Object.defineProperty( this.properties, i, definition);
 			}
 		}
+		else
+			o["default"] = metadata;
 
 		if (!this.propertiesInfo)
 			this.propertiesInfo = [];
 
 		this.propertiesInfo.push(o);
-		this.properties[ name ] = o["default"];
+		this.properties[i] = o["default"];
 	}
 }
 
