@@ -3,11 +3,11 @@ LiteGraph.nodeImagesPath = "../nodes_data/";
 var editor = new LiteGraph.Editor("main");
 window.graphcanvas = editor.graphcanvas;
 window.graph = editor.graph;
-window.addEventListener("resize", function() { editor.graphcanvas.resize(); } );
+window.addEventListener("resize", function() { editor.graphcanvas.resize(); });
 demo();
 
-function trace(a)
+function trace( a )
 {
-	if(typeof(console) == "object")
-		console.log(a);
+	if ( typeof(console) == "object")
+		console.log( a );
 }
