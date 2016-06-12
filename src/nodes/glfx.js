@@ -246,7 +246,7 @@ if ( typeof(LiteGraph) != "undefined") {
 				vec4 color = texture2D(uTexture, vCoord);\n\
 				vec4 blurredColor = texture2D(uTextureBlur, vCoord);\n\
 				float mask = texture2D(uMask, vCoord).x;\n\
-			   gl_FragColor = mix(color, blurredColor, mask);\n\
+				 gl_FragColor = mix(color, blurredColor, mask);\n\
 			}\n\
 			";
 
@@ -385,8 +385,8 @@ if ( typeof(LiteGraph) != "undefined") {
 				float s = sin(uValue1 * 3.1415), c = cos(uValue1 * 3.1415);\n\
 				vec2 tex = vCoord * uSize.xy;\n\
 				vec2 point = vec2(\n\
-				   c * tex.x - s * tex.y ,\n\
-				   s * tex.x + c * tex.y \n\
+					 c * tex.x - s * tex.y ,\n\
+					 s * tex.x + c * tex.y \n\
 				) * uValue2;\n\
 				return (sin(point.x) * sin(point.y)) * 4.0;\n\
 			}\n\
@@ -520,7 +520,7 @@ if ( typeof(LiteGraph) != "undefined") {
 				if (uInvert == 1)\n\
 					luminance = 1.0 - luminance;\n\
 				luminance = mix(1.0, luminance, uIntensity);\n\
-			   gl_FragColor = vec4( luminance * color.xyz, color.a);\n\
+				 gl_FragColor = vec4( luminance * color.xyz, color.a);\n\
 			}\n\
 			";
 

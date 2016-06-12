@@ -447,18 +447,18 @@ ImageVideo.prototype.loadVideo = function( url ) {
 		that.trace("Error loading video: " + this.src );
 		if ( this.error ) {
 		 switch ( this.error.code ) {
-		   case this.error.MEDIA_ERR_ABORTED:
-			  that.trace("You stopped the video.");
-			  break;
-		   case this.error.MEDIA_ERR_NETWORK:
-			  that.trace("Network error - please try again later.");
-			  break;
-		   case this.error.MEDIA_ERR_DECODE:
-			  that.trace("Video is broken..");
-			  break;
-		   case this.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-			  that.trace("Sorry, your browser can't play this video.");
-			  break;
+			 case this.error.MEDIA_ERR_ABORTED:
+				that.trace("You stopped the video.");
+				break;
+			 case this.error.MEDIA_ERR_NETWORK:
+				that.trace("Network error - please try again later.");
+				break;
+			 case this.error.MEDIA_ERR_DECODE:
+				that.trace("Video is broken..");
+				break;
+			 case this.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+				that.trace("Sorry, your browser can't play this video.");
+				break;
 		 }
 		}
 	});
@@ -545,8 +545,8 @@ ImageWebcam.prototype.openStream = function() {
 	window.URL = window.URL || window.webkitURL;
 
 	if ( !navigator.getUserMedia ) {
-	  // console.log('getUserMedia() is not supported in your browser, use chrome and enable WebRTC from about://flags');
-	  return;
+		// console.log('getUserMedia() is not supported in your browser, use chrome and enable WebRTC from about://flags');
+		return;
 	}
 
 	this._waitingConfirmation = true;

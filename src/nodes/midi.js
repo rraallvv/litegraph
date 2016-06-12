@@ -192,24 +192,24 @@ MIDIInterface.prototype.updatePorts = function() {
 	this.inputPorts = midi.inputs;
 	var num = 0;
 	for ( var i = 0; i < this.inputPorts.size; ++i ) {
-		  var input = this.inputPorts.get( i );
+			var input = this.inputPorts.get( i );
 			console.log( "Input port [type:'" + input.type + "'] id:'" + input.id +
-		  "' manufacturer:'" + input.manufacturer + "' name:'" + input.name +
-		  "' version:'" + input.version + "'" );
+			"' manufacturer:'" + input.manufacturer + "' name:'" + input.name +
+			"' version:'" + input.version + "'" );
 			num++;
-	  }
+		}
 	this.numInputPorts = num;
 
 
 	num = 0;
 	this.outputPorts = midi.outputs;
 	for ( var i = 0; i < this.outputPorts.size; ++i ) {
-		  var output = this.outputPorts.get( i );
+			var output = this.outputPorts.get( i );
 		console.log( "Output port [type:'" + output.type + "'] id:'" + output.id +
-		  "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
-		  "' version:'" + output.version + "'" );
+			"' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
+			"' version:'" + output.version + "'" );
 			num++;
-	  }
+		}
 	this.numOutputPorts = num;
 };
 

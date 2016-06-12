@@ -259,8 +259,8 @@ var LiteGraph = {
 // LiteGraph.debug = true;
 
 if ( typeof(performance) != "undefined")
-  LiteGraph.getTime = function getTime() { return performance.now(); }; else
-  LiteGraph.getTime = function getTime() { return Date.now(); };
+	LiteGraph.getTime = function getTime() { return performance.now(); }; else
+	LiteGraph.getTime = function getTime() { return Date.now(); };
 
 
 
@@ -2852,13 +2852,13 @@ LGraphCanvas.prototype.processMouseDown = function( e ) {
 	var n = this.graph.getNodeOnPos( e.canvasX, e.canvasY, this.visibleNodes );
 	var skipDragging = false;
 
-    LiteGraph.closeAllContextualMenus( refWindow );
+		LiteGraph.closeAllContextualMenus( refWindow );
 
 	if ( e.which == 1 ) // left button mouse
 	{
 		if ( !e.shiftKey ) {
-            // no node or another node selected
-            if ( !n || !this.selectedNodes[ n.id ] )
+						// no node or another node selected
+						if ( !n || !this.selectedNodes[ n.id ] )
 				this.deselectAllNodes();
 		}
 		var clickingCanvasBg = false;
@@ -2986,8 +2986,8 @@ LGraphCanvas.prototype.processMouseDown = function( e ) {
 	} else if ( e.which == 3 ) // right button
 	{
 		if ( !e.shiftKey ) {
-            // no node or another node selected
-            if ( !n || !this.selectedNodes[ n.id ] )
+						// no node or another node selected
+						if ( !n || !this.selectedNodes[ n.id ] )
 				this.deselectAllNodes();
 		}
 
@@ -4536,31 +4536,31 @@ LGraphCanvas.prototype.onNodeSelectionChange = function( node ) {
 
 LGraphCanvas.prototype.touchHandler = function( event ) {
 	// alert("foo");
-    var touches = event.changedTouches,
-        first = touches[ 0 ],
-        type = "";
+		var touches = event.changedTouches,
+				first = touches[ 0 ],
+				type = "";
 
-         switch ( event.type ) {
-        case "touchstart": type = "mousedown"; break;
-        case "touchmove":  type = "mousemove"; break;
-        case "touchend":   type = "mouseup"; break;
-        default: return;
-    }
+				 switch ( event.type ) {
+				case "touchstart": type = "mousedown"; break;
+				case "touchmove":  type = "mousemove"; break;
+				case "touchend":   type = "mouseup"; break;
+				default: return;
+		}
 
-             // initMouseEvent(type, canBubble, cancelable, view, clickCount,
-    //           screenX, screenY, clientX, clientY, ctrlKey,
-    //           altKey, shiftKey, metaKey, button, relatedTarget);
+						 // initMouseEvent(type, canBubble, cancelable, view, clickCount,
+		//           screenX, screenY, clientX, clientY, ctrlKey,
+		//           altKey, shiftKey, metaKey, button, relatedTarget);
 
 	var window = this.getCanvasWindow();
 	var document = window.document;
 
-    var simulatedEvent = document.createEvent("MouseEvent");
-    simulatedEvent.initMouseEvent( type, true, true, window, 1,
-                              first.screenX, first.screenY,
-                              first.clientX, first.clientY, false,
-                              false, false, false, 0/*left*/, null );
+		var simulatedEvent = document.createEvent("MouseEvent");
+		simulatedEvent.initMouseEvent( type, true, true, window, 1,
+															first.screenX, first.screenY,
+															first.clientX, first.clientY, false,
+															false, false, false, 0/*left*/, null );
 	first.target.dispatchEvent( simulatedEvent );
-    event.preventDefault();
+		event.preventDefault();
 };
 
 /* CONTEXT MENU ********************/
@@ -5015,23 +5015,23 @@ LGraphCanvas.prototype.processContextualMenu = function( node, event ) {
 // API *************************************************
 // function roundRect(ctx, x, y, width, height, radius, radiusLow) {
 CanvasRenderingContext2D.prototype.roundRect = function( x, y, width, height, radius, radiusLow ) {
-  if ( radius === undefined ) {
-    radius = 5;
-  }
+	if ( radius === undefined ) {
+		radius = 5;
+	}
 
-  if ( radiusLow === undefined )
+	if ( radiusLow === undefined )
 	 radiusLow  = radius;
 
-  this.moveTo( x + radius, y );
-  this.lineTo( x + width - radius, y );
-  this.quadraticCurveTo( x + width, y, x + width, y + radius );
+	this.moveTo( x + radius, y );
+	this.lineTo( x + width - radius, y );
+	this.quadraticCurveTo( x + width, y, x + width, y + radius );
 
-  this.lineTo( x + width, y + height - radiusLow );
-  this.quadraticCurveTo( x + width, y + height, x + width - radiusLow, y + height );
-  this.lineTo( x + radiusLow, y + height );
-  this.quadraticCurveTo( x, y + height, x, y + height - radiusLow );
-  this.lineTo( x, y + radius );
-  this.quadraticCurveTo( x, y, x + radius, y );
+	this.lineTo( x + width, y + height - radiusLow );
+	this.quadraticCurveTo( x + width, y + height, x + width - radiusLow, y + height );
+	this.lineTo( x + radiusLow, y + height );
+	this.quadraticCurveTo( x, y + height, x, y + height - radiusLow );
+	this.lineTo( x, y + radius );
+	this.quadraticCurveTo( x, y, x + radius, y );
 };
 
 CanvasRenderingContext2D.prototype.measureTextWidth = CanvasRenderingContext2D.prototype.measureText;
@@ -5059,8 +5059,8 @@ CanvasRenderingContext2D.prototype.measureFont = function( metrics ) {
 	if ( !result ) {
 		var canvas = document.createElement("canvas");
 		var w = canvas.width;
-        var h = canvas.height;
-        var baseline = h / 2;
+				var h = canvas.height;
+				var baseline = h / 2;
 
 		var ctx = canvas.getContext("2d");
 		ctx.fillRect( 0, 0, w, h );
@@ -5070,8 +5070,8 @@ CanvasRenderingContext2D.prototype.measureFont = function( metrics ) {
 		ctx.fillText("Hg", 0, baseline );
 		var pixels = ctx.getImageData( 0, 0, w, h ).data;
 		var i = 0;
-        var w4 = w * 4;
-        var l = pixels.length;
+				var w4 = w * 4;
+				var l = pixels.length;
 
 		while ( i < l && pixels[ i ] === 0 )
 			i += 4;
@@ -5248,16 +5248,16 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 	// allows to create graph canvas in separate window
 	refWindow = refWindow || window;
 
-    if ( !options.from )
-        LiteGraph.closeAllContextualMenus( refWindow );
-    else {
-        // closing submenus
-        var menus = document.querySelectorAll(".graphcontextualmenu");
-        for ( var key in menus ) {
-            if ( menus[ key ].previousSibling == options.from )
-                menus[ key ].closeMenu();
-        }
-    }
+		if ( !options.from )
+				LiteGraph.closeAllContextualMenus( refWindow );
+		else {
+				// closing submenus
+				var menus = document.querySelectorAll(".graphcontextualmenu");
+				for ( var key in menus ) {
+						if ( menus[ key ].previousSibling == options.from )
+								menus[ key ].closeMenu();
+				}
+		}
 
 	var root = refWindow.document.createElement("div");
 	root.className = "graphcontextualmenu graphmenubar-panel";
@@ -5450,10 +5450,10 @@ LiteGraph.createNodetypeWrapper = function( classObject ) {
 
 if ( !window[ "requestAnimationFrame" ] ) {
 	window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
-		  window.mozRequestAnimationFrame    ||
-		  (function( callback ) {
+			window.mozRequestAnimationFrame    ||
+			(function( callback ) {
 			window.setTimeout( callback, 1000 / 60 );
-		  });
+			});
 }
 
 
