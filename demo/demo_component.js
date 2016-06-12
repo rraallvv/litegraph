@@ -151,31 +151,31 @@ DemoComponent.prototype.setValue = function(v) {
 	// BasicBoolean
 	if ( typeof(v) != "boolean")
 		v = v === true;
-	this.properties["value"] = v;
+	this.properties.value = v;
 	this.setDirtyCanvas(true);
 
 	// BasicNumber
 	if ( typeof(v) == "string")
 		v = parseFloat(v);
-	this.properties["value"] = v;
+	this.properties.value = v;
 	this.setDirtyCanvas(true);
 
 	// BasicString
 	if ( typeof(v) != "string")
 		v = v.toString();
-	this.properties["value"] = v;
+	this.properties.value = v;
 	this.setDirtyCanvas(true);
 };
 
 DemoComponent.prototype.onExecute = function() {
 	// BasicBoolean
-	this.setOutputData(0, this.properties["value"] );
+	this.setOutputData(0, this.properties.value );
 
 	// BasicNumber
-	this.setOutputData(0, parseFloat( this.properties["value"] ) );
+	this.setOutputData(0, parseFloat( this.properties.value ) );
 
 	// BasicString
-	this.setOutputData(0, this.properties["value"] );
+	this.setOutputData(0, this.properties.value );
 
 	// Watch
 	this.properties.value = this.getInputData(0);
@@ -239,13 +239,13 @@ DemoComponent.prototype.onExecute = function() {
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
 	// BasicBoolean
-	this.outputs[0].label = this.properties["value"].toString();
+	this.outputs[0].label = this.properties.value.toString();
 
 	// BasicNumber
-	this.outputs[0].label = this.properties["value"].toFixed(3);
+	this.outputs[0].label = this.properties.value.toFixed(3);
 
 	// BasicString
-	var text = this.properties["value"];
+	var text = this.properties.value;
 
 	ctx.font = LGraphCanvas.innerTextFont;
 
@@ -264,12 +264,12 @@ DemoComponent.prototype.onDrawBackground = function(ctx) {
 	this.outputs[0].label = text;
 
 	// Watch
-	if (this.inputs[0] && this.properties["value"] != null) {
-		if (this.properties["value"].constructor === Number )
-			this.inputs[0].label = this.properties["value"].toFixed(3);
+	if (this.inputs[0] && this.properties.value != null) {
+		if (this.properties.value.constructor === Number )
+			this.inputs[0].label = this.properties.value.toFixed(3);
 		else
 		{
-			var str = this.properties["value"];
+			var str = this.properties.value;
 			if (str && str.length) // convert typed to array
 				str = Array.prototype.slice.call(str).join(",");
 			this.inputs[0].label = str;

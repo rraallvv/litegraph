@@ -111,9 +111,9 @@ Subgraph.prototype.serialize = function() {
 Subgraph.prototype.clone = function() {
 	var node = LiteGraph.createNode( this.type, this.title );
 	var data = this.serialize();
-	delete data[ "id" ];
-	delete data[ "inputs" ];
-	delete data[ "outputs" ];
+	delete data.id;
+	delete data.inputs;
+	delete data.outputs;
 	node.configure( data );
 	return node;
 };

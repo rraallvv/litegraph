@@ -15,8 +15,8 @@ GraphicsImage.widgets = [ { name:"load", text:"Load", type:"button" } ];
 
 
 GraphicsImage.prototype.onAdded = function() {
-	if ( this.properties[ "url" ] != "" && this.img == null ) {
-		this.loadImage( this.properties[ "url" ] );
+	if ( this.properties.url != "" && this.img == null ) {
+		this.loadImage( this.properties.url );
 	}
 };
 
@@ -78,7 +78,7 @@ GraphicsImage.prototype.loadImage = function( url ) {
 
 GraphicsImage.prototype.onWidget = function( e, widget ) {
 	if ( widget.name == "load") {
-		this.loadImage( this.properties[ "url" ] );
+		this.loadImage( this.properties.url );
 	}
 };
 
@@ -215,8 +215,8 @@ LiteGraph.registerNodeType("visualization/graph", {
 			}
 
 			if (this.data) {
-				var min = this.properties["min"];
-				var max = this.properties["max"];
+				var min = this.properties.min;
+				var max = this.properties.max;
 
 				for (var i in this.data) {
 					var data = this.data[i];
@@ -286,13 +286,13 @@ ImageFade.prototype.onAdded = function() {
 	this.createCanvas();
 	var ctx = this.canvas.getContext("2d");
 	ctx.fillStyle = "#000";
-	ctx.fillRect( 0, 0, this.properties[ "width" ], this.properties[ "height" ] );
+	ctx.fillRect( 0, 0, this.properties.width, this.properties.height );
 };
 
 ImageFade.prototype.createCanvas = function() {
 	this.canvas = document.createElement("canvas");
-	this.canvas.width = this.properties[ "width" ];
-	this.canvas.height = this.properties[ "height" ];
+	this.canvas.width = this.properties.width;
+	this.canvas.height = this.properties.height;
 };
 
 ImageFade.prototype.onExecute = function() {
@@ -306,9 +306,9 @@ ImageFade.prototype.onExecute = function() {
 
 	var fade = this.getInputData( 2 );
 	if ( fade == null )
-		fade = this.properties[ "fade" ];
+		fade = this.properties.fade;
 	else
-		this.properties[ "fade" ] = fade;
+		this.properties.fade = fade;
 
 	ctx.globalAlpha = fade;
 	var B = this.getInputData( 1 );
@@ -341,8 +341,8 @@ ImageCrop.prototype.onAdded = function() {
 
 ImageCrop.prototype.createCanvas = function() {
 	this.canvas = document.createElement("canvas");
-	this.canvas.width = this.properties[ "width" ];
-	this.canvas.height = this.properties[ "height" ];
+	this.canvas.width = this.properties.width;
+	this.canvas.height = this.properties.height;
 };
 
 ImageCrop.prototype.onExecute = function() {
@@ -352,7 +352,7 @@ ImageCrop.prototype.onExecute = function() {
 	if ( input.width ) {
 		var ctx = this.canvas.getContext("2d");
 
-		ctx.drawImage( input, -this.properties[ "x" ], -this.properties[ "y" ], input.width * this.properties[ "scale" ], input.height * this.properties[ "scale" ] );
+		ctx.drawImage( input, -this.properties.x, -this.properties.y, input.width * this.properties.scale, input.height * this.properties.scale );
 		this.setOutputData( 0, this.canvas );
 	} else
 		this.setOutputData( 0, null );

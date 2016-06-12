@@ -1867,9 +1867,9 @@ if ( typeof(LiteGraph) != "undefined") {
 		if ( !ctx.webgl )
 			return;
 
-		var cubeMesh = gl.meshes[ "cube" ];
+		var cubeMesh = gl.meshes.cube;
 		if ( !cubeMesh )
-			cubeMesh = gl.meshes[ "cube" ] = GL.Mesh.cube({ size:1 });
+			cubeMesh = gl.meshes.cube = GL.Mesh.cube({ size:1 });
 
 		// var view = mat4.lookAt( mat4.create(), [0,0
 	};

@@ -62,12 +62,12 @@ Watch.prototype.onExecute = function() {
 
 Watch.prototype.onDrawBackground = function( ctx ) {
 	// show the current value
-	if ( this.inputs[ 0 ] && this.properties[ "value" ] != null ) {
-		if ( this.properties[ "value" ].constructor === Number )
-			this.inputs[ 0 ].label = this.properties[ "value" ].toFixed( 3 );
+	if ( this.inputs[ 0 ] && this.properties.value != null ) {
+		if ( this.properties.value.constructor === Number )
+			this.inputs[ 0 ].label = this.properties.value.toFixed( 3 );
 		else
 		{
-			var str = this.properties[ "value" ];
+			var str = this.properties.value;
 			if ( str && str.length ) // convert typed to array
 				str = Array.prototype.slice.call( str ).join(",");
 			this.inputs[ 0 ].label = str;
@@ -151,16 +151,16 @@ BasicString.desc = "String value";
 
 BasicString.prototype.setValue = function( v ) {
 	if ( typeof(v) != "string") v = v.toString();
-	this.properties[ "value" ] = v;
+	this.properties.value = v;
 	this.setDirtyCanvas( true );
 };
 
 BasicString.prototype.onExecute = function() {
-	this.setOutputData( 0, this.properties[ "value" ] );
+	this.setOutputData( 0, this.properties.value );
 };
 
 BasicString.prototype.onDrawBackground = function( ctx ) {
-	var text = this.properties[ "value" ];
+	var text = this.properties.value;
 
 	ctx.font = LGraphCanvas.innerTextFont;
 
@@ -201,17 +201,17 @@ BasicBoolean.desc = "Boolean value";
 
 BasicBoolean.prototype.setValue = function( v ) {
 	if ( typeof(v) != "boolean") v = v === true;
-	this.properties[ "value" ] = v;
+	this.properties.value = v;
 	this.setDirtyCanvas( true );
 };
 
 BasicBoolean.prototype.onExecute = function() {
-	this.setOutputData( 0, this.properties[ "value" ] );
+	this.setOutputData( 0, this.properties.value );
 };
 
 BasicBoolean.prototype.onDrawBackground = function( ctx ) {
 	// show the current value
-	this.outputs[ 0 ].label = this.properties[ "value" ].toString();
+	this.outputs[ 0 ].label = this.properties.value.toString();
 };
 
 BasicBoolean.prototype.onWidget = function( e, widget ) {
