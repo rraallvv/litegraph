@@ -318,11 +318,11 @@ function onCloneNode()
 
 function onSaveSession()
 {
-	if(graph.session["name"])
-		$("#session-name-input").val(graph.session["name"]);
+	if(graph.session.name)
+		$("#session-name-input").val(graph.session.name);
 
-	if(graph.session["description"])
-		$("#session-desc-input").val(graph.session["description"]);
+	if(graph.session.description)
+		$("#session-desc-input").val(graph.session.description);
 
 	$("#modal-blocking-box").show();
 	$("#savesession-dialog").show();
@@ -334,13 +334,13 @@ function saveSession(name,desc)
 {
 	desc = desc || "";
 
-	graph.session["name"] = name;
-	graph.session["description"] = desc;
-	if(!graph.session["id"])
-		graph.session["id"] = new Date().getTime();
+	graph.session.name = name;
+	graph.session.description = desc;
+	if(!graph.session.id)
+		graph.session.id = new Date().getTime();
 
 	var str = graph.serializeSession();
-	localStorage.setItem("graphSession_" + graph.session["id"],str);
+	localStorage.setItem("graphSession_" + graph.session.id,str);
 
 	var sessionsStr = localStorage.getItem("nodeSessions");
 	var sessions = [];
@@ -350,7 +350,7 @@ function saveSession(name,desc)
 
 	var pos = -1;
 	for(var i = 0; i < sessions.length; i++)
-		if( sessions[i].id == graph.session["id"] && sessions[i].name == name)
+		if( sessions[i].id == graph.session.id && sessions[i].name == name)
 		{
 			pos = i;
 			break;
@@ -362,7 +362,7 @@ function saveSession(name,desc)
 	}
 	else
 	{
-		var currentSession = {name:name, desc:desc, id:graph.session["id"]};
+		var currentSession = {name:name, desc:desc, id:graph.session.id};
 		sessions.unshift(currentSession);
 		localStorage.setItem("graphSessions", JSON.stringify(sessions));
 	}

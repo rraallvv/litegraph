@@ -96,7 +96,7 @@ MathRange.prototype.onExecute = function() {
 			this.properties[ input.name ] = v;
 		}
 
-	var v = this.properties[ "in" ];
+	var v = this.properties.in;
 	if ( v === undefined || v === null || v.constructor !== Number )
 		v = 0;
 
@@ -327,21 +327,21 @@ MathOperation[ "@OP" ] = { type:"enum", title: "operation", values: MathOperatio
 
 MathOperation.prototype.setValue = function( v ) {
 	if ( typeof(v) == "string") v = parseFloat( v );
-	this.properties[ "value" ] = v;
+	this.properties.value = v;
 };
 
 MathOperation.prototype.onExecute = function() {
 	var A = this.getInputData( 0 );
 	var B = this.getInputData( 1 );
 	if ( A != null )
-		this.properties[ "A" ] = A;
+		this.properties.A = A;
 	else
-		A = this.properties[ "A" ];
+		A = this.properties.A;
 
 	if ( B != null )
-		this.properties[ "B" ] = B;
+		this.properties.B = B;
 	else
-		B = this.properties[ "B" ];
+		B = this.properties.B;
 
 	var result = 0;
 	switch ( this.properties.OP ) {
@@ -392,14 +392,14 @@ MathCompare.prototype.onExecute = function() {
 	var A = this.getInputData( 0 );
 	var B = this.getInputData( 1 );
 	if ( A !== undefined )
-		this.properties[ "A" ] = A;
+		this.properties.A = A;
 	else
-		A = this.properties[ "A" ];
+		A = this.properties.A;
 
 	if ( B !== undefined )
-		this.properties[ "B" ] = B;
+		this.properties.B = B;
 	else
-		B = this.properties[ "B" ];
+		B = this.properties.B;
 
 	for ( var i = 0, l = this.outputs.length; i < l; ++i ) {
 		var output = this.outputs[ i ];
@@ -643,11 +643,11 @@ MathTrigonometry.filter = "shader";
 
 MathTrigonometry.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	var amplitude = this.properties[ "amplitude" ];
+	var amplitude = this.properties.amplitude;
 	var slot = this.findInputSlot("amplitude");
 	if ( slot != -1 )
 		amplitude = this.getInputData( slot );
-	var offset = this.properties[ "offset" ];
+	var offset = this.properties.offset;
 	slot = this.findInputSlot("offset");
 	if ( slot != -1 )
 		offset = this.getInputData( slot );
@@ -696,22 +696,22 @@ if ( window.math ) {
 		var x = this.getInputData( 0 );
 		var y = this.getInputData( 1 );
 		if ( x != null )
-			this.properties[ "x" ] = x;
+			this.properties.x = x;
 		else
-			x = this.properties[ "x" ];
+			x = this.properties.x;
 
 		if ( y != null )
-			this.properties[ "y" ] = y;
+			this.properties.y = y;
 		else
-			y = this.properties[ "y" ];
+			y = this.properties.y;
 
-		var f = this.properties[ "formula" ];
+		var f = this.properties.formula;
 		var value = math.eval( f, { x:x, y:y, T: this.graph.globaltime });
 		this.setOutputData( 0, value );
 	};
 
 	MathFormula.prototype.onDrawBackground = function() {
-		var f = this.properties[ "formula" ];
+		var f = this.properties.formula;
 		this.outputs[ 0 ].label = f;
 	};
 

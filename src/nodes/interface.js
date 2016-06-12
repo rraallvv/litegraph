@@ -53,7 +53,7 @@
 
 
 	WidgetKnob.prototype.onAdded = function() {
-		this.value = (this.properties[ "value" ] - this.properties[ "min" ]) / (this.properties[ "max" ] - this.properties[ "min" ]);
+		this.value = (this.properties.value - this.properties.min) / (this.properties.max - this.properties.min);
 
 		this.imgbg = this.loadImage("imgs/knob_bg.png");
 		this.imgfg = this.loadImage("imgs/knob_fg.png");
@@ -100,7 +100,7 @@
 		ctx.stroke();
 
 		if ( this.value > 0 ) {
-			ctx.strokeStyle = this.properties[ "wcolor" ];
+			ctx.strokeStyle = this.properties.wcolor;
 			ctx.lineWidth = (this.properties.size * 0.2);
 			ctx.beginPath();
 			ctx.arc( this.size[ 0 ] * 0.5, this.size[ 1 ] * 0.5 + 10, this.properties.size * 0.35, Math.PI * -0.5 + Math.PI * 2 * this.value, Math.PI * -0.5, true );
@@ -112,7 +112,7 @@
 		ctx.fillStyle = "#AAA";
 		ctx.textAlign = "center";
 
-		var str = this.properties[ "value" ];
+		var str = this.properties.value;
 		if ( typeof(str) == "number" )
 			str = str.toFixed( 2 );
 
@@ -125,7 +125,7 @@
 	};
 
 	WidgetKnob.prototype.onExecute = function() {
-		this.setOutputData( 0, this.properties[ "value" ] );
+		this.setOutputData( 0, this.properties.value );
 
 		this.boxcolor = colorToString([ this.value, this.value, this.value ]);
 	};
@@ -161,7 +161,7 @@
 		else if ( v < 0.0 ) v = 0.0;
 
 		this.value = v;
-		this.properties[ "value" ] = this.properties[ "min" ] + (this.properties[ "max" ] - this.properties[ "min" ]) * this.value;
+		this.properties.value = this.properties.min + (this.properties.max - this.properties.min) * this.value;
 
 		this.oldmouse = m;
 		this.setDirtyCanvas( true );
@@ -228,7 +228,7 @@
 		ctx.rect( 2, 0, this.size[ 0 ] - 4, 20 );
 		ctx.stroke();
 
-		ctx.fillStyle = this.properties[ "wcolor" ];
+		ctx.fillStyle = this.properties.wcolor;
 		ctx.beginPath();
 		ctx.rect( 2 + (this.size[ 0 ] - 4 - 20) * this.value, 0, 20, 20 );
 		ctx.fill();
@@ -263,8 +263,8 @@
 	};
 
 	WidgetHSlider.prototype.onExecute = function() {
-		this.properties[ "value" ] = this.properties[ "min" ] + (this.properties[ "max" ] - this.properties[ "min" ]) * this.value;
-		this.setOutputData( 0, this.properties[ "value" ] );
+		this.properties.value = this.properties.min + (this.properties.max - this.properties.min) * this.value;
+		this.setOutputData( 0, this.properties.value );
 		this.boxcolor = colorToString([ this.value, this.value, this.value ]);
 	};
 
@@ -326,7 +326,7 @@
 	WidgetProgress.prototype.onExecute = function() {
 		var v = this.getInputData( 0 );
 		if ( v != undefined )
-			this.properties[ "value" ] = v;
+			this.properties.value = v;
 	};
 
 	WidgetProgress.prototype.onDrawForeground = function( ctx ) {
@@ -352,8 +352,8 @@
 
 		createGradient: function(ctx) {
 			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);
-			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);
-			this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
+			this.lineargradient.addColorStop(0,this.properties.bgcolorTop);
+			this.lineargradient.addColorStop(1,this.properties.bgcolorBottom);
 		},
 
 		onDrawBackground: function(ctx) {
@@ -361,22 +361,22 @@
 				this.createGradient(ctx);
 
 			ctx.lineWidth = 1;
-			ctx.strokeStyle = this.properties["borderColor"];
+			ctx.strokeStyle = this.properties.borderColor;
 			// ctx.fillStyle = "#ebebeb";
 			ctx.fillStyle = this.lineargradient;
 
 			ctx.shadowColor = "#000";
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
-			ctx.shadowBlur = this.properties["shadowSize"];
+			ctx.shadowBlur = this.properties.shadowSize;
 			ctx.beginPath();
-			ctx.roundRect(0,0,this.size[0],this.size[1],this.properties["shadowSize"]);
+			ctx.roundRect(0,0,this.size[0],this.size[1],this.properties.shadowSize);
 			ctx.fill();
 			ctx.shadowColor = "rgba(0,0,0,0)";
 			ctx.stroke();
 
 			ctx.fillStyle = "#A00";
-			ctx.fillRect(this.size[0] * this.properties["x"] - 5, this.size[1] * this.properties["y"] - 5,10,10);
+			ctx.fillRect(this.size[0] * this.properties.x - 5, this.size[1] * this.properties.y - 5,10,10);
 		},
 
 		onWidget: function(e,widget) {
@@ -387,8 +387,8 @@
 		},
 
 		onExecute: function() {
-			this.setOutputData(0, this.properties["x"] );
-			this.setOutputData(1, this.properties["y"] );
+			this.setOutputData(0, this.properties.x );
+			this.setOutputData(1, this.properties.y );
 		},
 
 		onMouseDown: function(e) {
@@ -443,12 +443,12 @@
 
 		createGradient: function(ctx) {
 			this.lineargradient = ctx.createLinearGradient(0,0,0,this.size[1]);
-			this.lineargradient.addColorStop(0,this.properties["bgcolorTop"]);
-			this.lineargradient.addColorStop(1,this.properties["bgcolorBottom"]);
+			this.lineargradient.addColorStop(0,this.properties.bgcolorTop);
+			this.lineargradient.addColorStop(1,this.properties.bgcolorBottom);
 		},
 
 		drawVectorShape: function(ctx) {
-			ctx.fillStyle = this.mouseOver ? this.properties["color"] : "#AAA";
+			ctx.fillStyle = this.mouseOver ? this.properties.color : "#AAA";
 
 			if (this.clicking)
 				ctx.fillStyle = "#FFF";
@@ -464,9 +464,9 @@
 			// ctx.fillRect(5,20,this.size[0] - 10,this.size[1] - 30);
 
 			ctx.fillStyle = this.mouseOver ? "#000" : "#AAA";
-			ctx.font = "bold " + this.properties["fontsize"] + "px Criticized,Tahoma";
+			ctx.font = "bold " + this.properties.fontsize + "px Criticized,Tahoma";
 			ctx.textAlign = "center";
-			ctx.fillText(this.properties["text"],this.size[0]*0.5,this.size[1]*0.5 + 0.5*parseInt(this.properties["fontsize"]));
+			ctx.fillText(this.properties.text,this.size[0]*0.5,this.size[1]*0.5 + 0.5*parseInt(this.properties.fontsize));
 			ctx.textAlign = "left";
 		},
 
@@ -474,12 +474,12 @@
 			ctx.shadowColor = "#000";
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
-			ctx.shadowBlur = this.properties["shadowSize"];
+			ctx.shadowBlur = this.properties.shadowSize;
 
 			if (!this.lineargradient)
 				this.createGradient(ctx);
 
-			ctx.fillStyle = this.mouseOver ? this.properties["color"] : this.lineargradient;
+			ctx.fillStyle = this.mouseOver ? this.properties.color : this.lineargradient;
 			if (this.clicking)
 				ctx.fillStyle = "#444";
 
@@ -491,9 +491,9 @@
 			ctx.stroke();
 
 			ctx.fillStyle = this.mouseOver ? "#000" : "#444";
-			ctx.font = "bold " + this.properties["fontsize"] + "px Century Gothic";
+			ctx.font = "bold " + this.properties.fontsize + "px Century Gothic";
 			ctx.textAlign = "center";
-			ctx.fillText(this.properties["text"],this.size[0]*0.5,this.size[1]*0.5 + 0.40*parseInt(this.properties["fontsize"]));
+			ctx.fillText(this.properties.text,this.size[0]*0.5,this.size[1]*0.5 + 0.40*parseInt(this.properties.fontsize));
 			ctx.textAlign = "left";
 		},
 
@@ -503,8 +503,8 @@
 
 		clickButton: function() {
 			var module = this.getOutputModule(0);
-			if (this.properties["command"] && this.properties["command"] != "") {
-				if (! module.executeAction(this.properties["command"]) )
+			if (this.properties.command && this.properties.command != "") {
+				if (! module.executeAction(this.properties.command) )
 					this.trace("Error executing action in other module");
 			}
 			else if (module && module.onTrigger) {
@@ -553,27 +553,27 @@
 	WidgetText.prototype.onDrawForeground = function( ctx ) {
 		// ctx.fillStyle="#000";
 		// ctx.fillRect(0,0,100,60);
-		ctx.fillStyle = this.properties[ "color" ];
-		var v = this.properties[ "value" ];
+		ctx.fillStyle = this.properties.color;
+		var v = this.properties.value;
 
-		if ( this.properties[ "glowSize" ] ) {
-			ctx.shadowColor = this.properties[ "color" ];
+		if ( this.properties.glowSize ) {
+			ctx.shadowColor = this.properties.color;
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
-			ctx.shadowBlur = this.properties[ "glowSize" ];
+			ctx.shadowBlur = this.properties.glowSize;
 		} else
 			ctx.shadowColor = "transparent";
 
-		var fontsize = this.properties[ "fontsize" ];
+		var fontsize = this.properties.fontsize;
 
-		ctx.textAlign = this.properties[ "align" ];
-		ctx.font = fontsize.toString() + "px " + this.properties[ "font" ];
-		this.str = typeof(v) == "number" ? v.toFixed( this.properties[ "decimals" ] ) : v;
+		ctx.textAlign = this.properties.align;
+		ctx.font = fontsize.toString() + "px " + this.properties.font;
+		this.str = typeof(v) == "number" ? v.toFixed( this.properties.decimals ) : v;
 
 		if ( typeof(this.str) == "string" ) {
 			var lines = this.str.split("\\n");
 			for ( var i in lines )
-				ctx.fillText( lines[ i ], this.properties[ "align" ] == "left" ? 15 : this.size[ 0 ] - 15, fontsize * -0.15 + fontsize * (parseInt( i ) + 1) );
+				ctx.fillText( lines[ i ], this.properties.align == "left" ? 15 : this.size[ 0 ] - 15, fontsize * -0.15 + fontsize * (parseInt( i ) + 1) );
 		}
 
 		ctx.shadowColor = "transparent";
@@ -584,9 +584,9 @@
 	WidgetText.prototype.onExecute = function() {
 		var v = this.getInputData( 0 );
 		if ( v != null )
-			this.properties[ "value" ] = v;
+			this.properties.value = v;
 		else
-			this.properties[ "value" ] = "";
+			this.properties.value = "";
 		this.setDirtyCanvas( true );
 	};
 
@@ -594,14 +594,14 @@
 		if ( !this.lastCtx ) return;
 
 		var lines = this.str.split("\\n");
-		this.lastCtx.font = this.properties[ "fontsize" ] + "px " + this.properties[ "font" ];
+		this.lastCtx.font = this.properties.fontsize + "px " + this.properties.font;
 		var max = 0;
 		for ( var i in lines ) {
 			var w = this.lastCtx.measureText( lines[ i ] ).width;
 			if ( max < w ) max = w;
 		}
 		this.size[ 0 ] = max + 20;
-		this.size[ 1 ] = 4 + lines.length * this.properties[ "fontsize" ];
+		this.size[ 1 ] = 4 + lines.length * this.properties.fontsize;
 
 		this.setDirtyCanvas( true );
 	};
@@ -610,11 +610,11 @@
 		if ( widget.name == "resize")
 			this.resize();
 		else if ( widget.name == "ledText") {
-			this.properties[ "font" ] = "Digital";
-			this.properties[ "glowSize" ] = 4;
+			this.properties.font = "Digital";
+			this.properties.glowSize = 4;
 			this.setDirtyCanvas( true );
 		} else if ( widget.name == "normalText") {
-			this.properties[ "font" ] = "Arial";
+			this.properties.font = "Arial";
 			this.setDirtyCanvas( true );
 		}
 	};
@@ -640,14 +640,14 @@
 
 
 	WidgetPanel.prototype.createGradient = function( ctx ) {
-		if ( this.properties[ "bgcolorTop" ] == "" || this.properties[ "bgcolorBottom" ] == "") {
+		if ( this.properties.bgcolorTop == "" || this.properties.bgcolorBottom == "") {
 			this.lineargradient = 0;
 			return;
 		}
 
 		this.lineargradient = ctx.createLinearGradient( 0, 0, 0, this.size[ 1 ] );
-		this.lineargradient.addColorStop( 0, this.properties[ "bgcolorTop" ] );
-		this.lineargradient.addColorStop( 1, this.properties[ "bgcolorBottom" ] );
+		this.lineargradient.addColorStop( 0, this.properties.bgcolorTop );
+		this.lineargradient.addColorStop( 1, this.properties.bgcolorBottom );
 	};
 
 	WidgetPanel.prototype.onDrawForeground = function( ctx ) {
@@ -658,20 +658,20 @@
 			return;
 
 		ctx.lineWidth = 1;
-		ctx.strokeStyle = this.properties[ "borderColor" ];
+		ctx.strokeStyle = this.properties.borderColor;
 		// ctx.fillStyle = "#ebebeb";
 		ctx.fillStyle = this.lineargradient;
 
-		if ( this.properties[ "shadowSize" ] ) {
+		if ( this.properties.shadowSize ) {
 			ctx.shadowColor = "#000";
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
-			ctx.shadowBlur = this.properties[ "shadowSize" ];
+			ctx.shadowBlur = this.properties.shadowSize;
 		} else
 			ctx.shadowColor = "transparent";
 
 		ctx.beginPath();
-		ctx.roundRect( 0, 0, this.size[ 0 ] - 1, this.size[ 1 ] - 1, this.properties[ "shadowSize" ] );
+		ctx.roundRect( 0, 0, this.size[ 0 ] - 1, this.size[ 1 ] - 1, this.properties.shadowSize );
 		ctx.fill();
 		ctx.shadowColor = "transparent";
 		ctx.stroke();

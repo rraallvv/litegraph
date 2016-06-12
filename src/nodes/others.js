@@ -15,8 +15,8 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 
 		createCanvas: function() {
 			this.canvas = document.createElement("canvas");
-			this.canvas.width = this.properties["size"];
-			this.canvas.height = this.properties["size"];
+			this.canvas.width = this.properties.size;
+			this.canvas.height = this.properties.size;
 			this.oldpos = null;
 			this.clearCanvas(true);
 		},
@@ -33,7 +33,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			x*= 0.95;
 			y*= 0.95;
 
-			var size = this.properties["size"];
+			var size = this.properties.size;
 			if (size != this.canvas.width || size != this.canvas.height)
 				this.createCanvas();
 
@@ -69,7 +69,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			}
 			else
 			{
-				ctx.fillStyle = this.properties["bgcolor"];
+				ctx.fillStyle = this.properties.bgcolor;
 				ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 			}
 		},
@@ -85,16 +85,16 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 
 		onPropertyChange: function(name,value) {
 			if (name == "size") {
-				this.properties["size"] = parseInt(value);
+				this.properties.size = parseInt(value);
 				this.createCanvas();
 			}
 			else if (name == "bgcolor") {
-				this.properties["bgcolor"] = value;
+				this.properties.bgcolor = value;
 				this.createCanvas();
 			}
 			else if (name == "lineWidth") {
-				this.properties["lineWidth"] = parseInt(value);
-				this.canvas.getContext("2d").lineWidth = this.properties["lineWidth"];
+				this.properties.lineWidth = parseInt(value);
+				this.canvas.getContext("2d").lineWidth = this.properties.lineWidth;
 			}
 			else
 				return false;

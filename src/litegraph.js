@@ -1405,7 +1405,7 @@ LGraphNode.prototype.clone = function() {
 	if ( data.outputs )
 		for ( var i in data.outputs )
 			data.outputs[ i ].links = null;
-	delete data[ "id" ];
+	delete data.id;
 	// remove links
 	node.configure( data );
 
@@ -1642,13 +1642,13 @@ LGraphNode.prototype.addProperties = function( info ) {
 				Object.defineProperty( this.properties, i, definition );
 			}
 		} else
-			o[ "default" ] = metadata;
+			o.default = metadata;
 
 		if ( !this.propertiesInfo )
 			this.propertiesInfo = [];
 
 		this.propertiesInfo.push( o );
-		this.properties[ i ] = o[ "default" ];
+		this.properties[ i ] = o.default;
 	}
 };
 
@@ -5307,7 +5307,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 			element.className += " " + item.className;
 
 		element.style.cursor = "pointer";
-		element.dataset[ "value" ] = typeof(item) == "string" ? item : item.value;
+		element.dataset.value = typeof(item) == "string" ? item : item.value;
 		element.data = item;
 		if ( typeof(item) == "string")
 			element.innerHTML = values.constructor == Array ? values[ i ] : i;
@@ -5372,7 +5372,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 	root.style.top = top  + "px";
 
 	function onClick( e ) {
-		var value = this.dataset[ "value" ];
+		var value = this.dataset.value;
 		var close = true;
 		if ( options.callback ) {
 			var ret = options.callback.call( root, this.data, e );
@@ -5448,7 +5448,7 @@ LiteGraph.createNodetypeWrapper = function( classObject ) {
 // LiteGraph.registerNodeType("scene/global", LGraphGlobal );
 */
 
-if ( !window[ "requestAnimationFrame" ] ) {
+if ( !window.requestAnimationFrame ) {
 	window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame    ||
 			(function( callback ) {
