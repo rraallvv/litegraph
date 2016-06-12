@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Works with Litegl.js to create WebGL nodes
 if ( typeof(LiteGraph) != "undefined") {
 
