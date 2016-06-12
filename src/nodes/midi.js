@@ -47,7 +47,7 @@ Object.defineProperty( MIDIEvent.prototype, "velocity", {
 
 MIDIEvent.notes = ["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"];
 
-//returns HZs
+// returns HZs
 MIDIEvent.prototype.getPitch = function() {
 	return Math.pow(2, (this.data[1] - 69) / 12 ) * 440;
 }
@@ -57,7 +57,7 @@ MIDIEvent.computePitch = function( note ) {
 }
 
 
-//not tested, there is a formula missing here
+// not tested, there is a formula missing here
 MIDIEvent.prototype.getPitchBend = function() {
 	return this.data[1] + (this.data[2] << 7) - 8192;
 }
@@ -97,7 +97,7 @@ MIDIEvent.computeCommandFromString = function( str ) {
 		case "PITCHBEND": return MIDIEvent.PITCHBEND; break;
 		case "TIME TICK":
 		case "TIMETICK": return MIDIEvent.TIMETICK; break;
-		default: return Number(str); //asume its a hex code
+		default: return Number(str); // asume its a hex code
 	}
 }
 
@@ -159,7 +159,7 @@ MIDIEvent.commands = {
 	0xFF: "Reset"
 }
 
-//MIDI wrapper
+// MIDI wrapper
 function MIDIInterface( onReady, onError ) {
 	if (!navigator.requestMIDIAccess) {
 		this.error = "not suppoorted";
@@ -269,7 +269,7 @@ LGMIDIIn.desc = "Reads MIDI from a input port";
 LGMIDIIn.prototype.onStart = function() {
 	var that = this;
 	this._midi = new MIDIInterface( function( midi ) {
-		//open
+		// open
 		midi.openInputPort( that.properties.port, that.onMIDIEvent.bind(that) );
 	});
 }
@@ -335,7 +335,7 @@ LGMIDIOut.desc = "Sends MIDI to output channel";
 LGMIDIOut.prototype.onStart = function() {
 	var that = this;
 	this._midi = new MIDIInterface( function( midi ) {
-		//ready
+		// ready
 	});
 }
 

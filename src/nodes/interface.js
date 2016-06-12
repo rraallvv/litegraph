@@ -1,4 +1,4 @@
-//widgets
+// widgets
 (function() {
 
 	/* Button ****************/
@@ -14,8 +14,8 @@
 		if (this.flags.collapsed)
 			return;
 
-		//ctx.font = "40px Arial";
-		//ctx.textAlign = "center";
+		// ctx.font = "40px Arial";
+		// ctx.textAlign = "center";
 		ctx.fillStyle = "black";
 		ctx.fillRect(7,7,this.size[0] - 13, this.size[1] - 13);
 		ctx.fillStyle = "#AAF";
@@ -69,11 +69,11 @@
 			ctx.translate(0,20);
 			ctx.scale(scale,scale);
 			ctx.drawImage(this.imgbg,0,0);
-			//ctx.drawImage(this.imgfg,0,20);
+			// ctx.drawImage(this.imgfg,0,20);
 
 			ctx.translate(d,d);
 			ctx.rotate(this.value * (Math.PI*2) * 6/8 + Math.PI * 10/8);
-			//ctx.rotate(this.value * (Math.PI*2));
+			// ctx.rotate(this.value * (Math.PI*2));
 			ctx.translate(-d,-d);
 			ctx.drawImage(this.imgfg,0,0);
 
@@ -91,7 +91,7 @@
 	WidgetKnob.prototype.onDrawVectorKnob = function(ctx) {
 		if (!this.imgfg || !this.imgfg.width) return;
 
-		//circle around
+		// circle around
 		ctx.lineWidth = 1;
 		ctx.strokeStyle= this.mouseOver ? "#FFF" : "#AAA";
 		ctx.fillStyle="#000";
@@ -133,8 +133,8 @@
 	WidgetKnob.prototype.onMouseDown = function(e) {
 		if (!this.imgfg || !this.imgfg.width) return;
 
-		//this.center = [this.imgbg.width * 0.5, this.imgbg.height * 0.5 + 20];
-		//this.radius = this.imgbg.width * 0.5;
+		// this.center = [this.imgbg.width * 0.5, this.imgbg.height * 0.5 + 20];
+		// this.radius = this.imgbg.width * 0.5;
 		this.center = [this.size[0] * 0.5, this.size[1] * 0.5 + 20];
 		this.radius = this.size[0] * 0.5;
 
@@ -175,7 +175,7 @@
 	}
 
 	WidgetKnob.prototype.onMouseLeave = function(e) {
-		//this.oldmouse = null;
+		// this.oldmouse = null;
 	}
 
 	WidgetKnob.prototype.onWidget = function(e,widget) {
@@ -204,7 +204,7 @@
 
 	LiteGraph.registerNodeType("widget/knob", WidgetKnob);
 
-	//Widget H SLIDER
+	// Widget H SLIDER
 	function WidgetHSlider() {
 		this.size = [160,26];
 		this.addOutput("",'number');
@@ -222,7 +222,7 @@
 	WidgetHSlider.prototype.onDrawVectorial = function(ctx) {
 		if (!this.imgfg || !this.imgfg.width) return;
 
-		//border
+		// border
 		ctx.lineWidth = 1;
 		ctx.strokeStyle= this.mouseOver ? "#FFF" : "#AAA";
 		ctx.fillStyle="#000";
@@ -240,7 +240,7 @@
 		if (!this.imgfg || !this.imgfg.width)
 			return;
 
-		//border
+		// border
 		ctx.lineWidth = 1;
 		ctx.fillStyle="#000";
 		ctx.fillRect(2,9,this.size[0]-4,2);
@@ -302,7 +302,7 @@
 	}
 
 	WidgetHSlider.prototype.onMouseLeave = function(e) {
-		//this.oldmouse = null;
+		// this.oldmouse = null;
 	}
 
 	WidgetHSlider.prototype.onPropertyChange = function(name,value) {
@@ -332,7 +332,7 @@
 	}
 
 	WidgetProgress.prototype.onDrawForeground = function(ctx) {
-		//border
+		// border
 		ctx.lineWidth = 1;
 		ctx.fillStyle=this.properties.wcolor;
 		var v = (this.properties.value - this.properties.min) / (this.properties.max - this.properties.min);
@@ -364,7 +364,7 @@
 
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = this.properties["borderColor"];
-			//ctx.fillStyle = "#ebebeb";
+			// ctx.fillStyle = "#ebebeb";
 			ctx.fillStyle = this.lineargradient;
 
 			ctx.shadowColor = "#000";
@@ -428,7 +428,7 @@
 		},
 
 		onMouseLeave: function(e) {
-			//this.oldmouse = null;
+			// this.oldmouse = null;
 		}
 	});
 
@@ -463,7 +463,7 @@
 			if (this.mouseOver)
 				ctx.fill();
 
-			//ctx.fillRect(5,20,this.size[0] - 10,this.size[1] - 30);
+			// ctx.fillRect(5,20,this.size[0] - 10,this.size[1] - 30);
 
 			ctx.fillStyle = this.mouseOver ? "#000" : "#AAA";
 			ctx.font = "bold " + this.properties["fontsize"] + "px Criticized,Tahoma";
@@ -553,8 +553,8 @@
 	WidgetText.widgets = [{name:"resize",text:"Resize box",type:"button"},{name:"ledText",text:"LED",type:"minibutton"},{name:"normalText",text:"Normal",type:"minibutton"}];
 
 	WidgetText.prototype.onDrawForeground = function(ctx) {
-		//ctx.fillStyle="#000";
-		//ctx.fillRect(0,0,100,60);
+		// ctx.fillStyle="#000";
+		// ctx.fillRect(0,0,100,60);
 		ctx.fillStyle = this.properties["color"];
 		var v = this.properties["value"];
 
@@ -626,7 +626,7 @@
 	WidgetText.prototype.onPropertyChange = function(name,value) {
 		this.properties[name] = value;
 		this.str = typeof(value) == 'number' ? value.toFixed(3) : value;
-		//this.resize();
+		// this.resize();
 		return true;
 	}
 
@@ -663,7 +663,7 @@
 
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = this.properties["borderColor"];
-		//ctx.fillStyle = "#ebebeb";
+		// ctx.fillStyle = "#ebebeb";
 		ctx.fillStyle = this.lineargradient;
 
 		if (this.properties["shadowSize"]) {

@@ -1,6 +1,6 @@
 (function() {
 
-//Converter
+// Converter
 function Converter() {
 	this.addInput("in","*");
 }
@@ -53,7 +53,7 @@ Converter.prototype.onGetOutputs = function() {
 LiteGraph.registerNodeType("math/converter", Converter );
 
 
-//Bypass
+// Bypass
 function Bypass() {
 	this.addInput("in");
 	this.addOutput("out");
@@ -111,7 +111,7 @@ MathRange.prototype.onExecute = function() {
 }
 
 MathRange.prototype.onDrawBackground = function(ctx) {
-	//show the current value
+	// show the current value
 	if (this._lastV)
 		this.outputs[0].label = this._lastV.toFixed(3);
 	else
@@ -154,7 +154,7 @@ MathRand.prototype.onExecute = function() {
 }
 
 MathRand.prototype.onDrawBackground = function(ctx) {
-	//show the current value
+	// show the current value
 	if (this._lastV)
 		this.outputs[0].label = this._lastV.toFixed(3);
 	else
@@ -167,7 +167,7 @@ MathRand.prototype.onGetInputs = function() {
 
 LiteGraph.registerNodeType("math/rand", MathRand);
 
-//Math clamp
+// Math clamp
 function MathClamp() {
 	this.addInput("in","number");
 	this.addOutput("out","number");
@@ -199,7 +199,7 @@ MathClamp.prototype.getCode = function(lang) {
 LiteGraph.registerNodeType("math/clamp", MathClamp );
 
 
-//Math ABS
+// Math ABS
 function MathAbs() {
 	this.addInput("in","number");
 	this.addOutput("out","number");
@@ -217,7 +217,7 @@ MathAbs.prototype.onExecute = function() {
 LiteGraph.registerNodeType("math/abs", MathAbs);
 
 
-//Math Floor
+// Math Floor
 function MathFloor() {
 	this.addInput("in","number");
 	this.addOutput("out","number");
@@ -235,7 +235,7 @@ MathFloor.prototype.onExecute = function() {
 LiteGraph.registerNodeType("math/floor", MathFloor );
 
 
-//Math frac
+// Math frac
 function MathFrac() {
 	this.addInput("in","number");
 	this.addOutput("out","number");
@@ -254,7 +254,7 @@ MathFrac.prototype.onExecute = function() {
 LiteGraph.registerNodeType("math/frac",MathFrac);
 
 
-//Math Floor
+// Math Floor
 function MathSmoothStep() {
 	this.addInput("in","number");
 	this.addOutput("out","number");
@@ -282,7 +282,7 @@ MathSmoothStep.prototype.onExecute = function() {
 
 LiteGraph.registerNodeType("math/smoothStep", MathSmoothStep );
 
-//Math scale
+// Math scale
 function MathScale() {
 	this.addInput("in","number",{label:""});
 	this.addOutput("out","number",{label:""});
@@ -303,7 +303,7 @@ MathScale.prototype.onExecute = function() {
 LiteGraph.registerNodeType("math/scale", MathScale );
 
 
-//Math operation
+// Math operation
 function MathOperation() {
 	this.addInput("A","number");
 	this.addInput("B","number");
@@ -374,7 +374,7 @@ MathOperation.prototype.onDrawBackground = function(ctx) {
 LiteGraph.registerNodeType("math/operation", MathOperation );
  
 
-//Math compare
+// Math compare
 function MathCompare() {
 	this.addInput( "A","number" );
 	this.addInput( "B","number" );
@@ -626,7 +626,7 @@ MathAccumulate.prototype.onExecute = function() {
 
 LiteGraph.registerNodeType("math/accumulate", MathAccumulate);
 
-//Math Trigonometry
+// Math Trigonometry
 function MathTrigonometry() {
 	this.addInput("v","number");
 	this.addOutput("sin","number");
@@ -681,7 +681,7 @@ LiteGraph.registerNodeType("math/trigonometry", MathTrigonometry );
 
 
 
-//math library for safe math operations without eval
+// math library for safe math operations without eval
 if (window.math) {
 	function MathFormula() {
 		this.addInputs("x","number");
@@ -882,7 +882,7 @@ LiteGraph.registerNodeType("math3d/xyzw-to-vec4", Math3DXYZWToVec4 );
 
 
 
-//if glMatrix is installed...
+// if glMatrix is installed...
 if (window.glMatrix) {
 
 
@@ -909,7 +909,7 @@ if (window.glMatrix) {
 	LiteGraph.registerNodeType("math3d/rotation", Math3DRotation );
 	
 
-	//Math3D rotate vec3
+	// Math3D rotate vec3
 	function Math3DRotateVec3() {
 		this.addInputs([["vec3","vec3"],["quat","quat"]]);
 		this.addOutput("result","vec3");
@@ -953,6 +953,6 @@ if (window.glMatrix) {
 
 	LiteGraph.registerNodeType("math3d/mult-quat", Math3DMultQuat );
 
-} //glMatrix
+} // glMatrix
 
 })();

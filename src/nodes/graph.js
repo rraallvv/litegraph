@@ -1,12 +1,12 @@
-//graph nodes
+// graph nodes
 (function() {
 
 
-//Subgraph: a node that contains a graph
+// Subgraph: a node that contains a graph
 function Subgraph() {
 	var that = this;
 
-	//create inner graph
+	// create inner graph
 	this.subgraph = new LGraph();
 	this.subgraph._subgraphNode = this;
 	this.subgraph._isSubgraph = true;
@@ -27,11 +27,11 @@ Subgraph.desc = "Graph inside a node";
 
 Subgraph.prototype.configure = function(o) {
 	LGraphNode.prototype.configure.call(this, o);
-	//this.subgraph.configure(o.graph);
+	// this.subgraph.configure(o.graph);
 }
 
 Subgraph.prototype.onSubgraphNewGlobalInput = function(name, type) {
-	//add input to the node
+	// add input to the node
 	this.addInput(name, type);
 }
 
@@ -52,7 +52,7 @@ Subgraph.prototype.onSubgraphTypeChangeGlobalInput = function(name, type) {
 }
 
 Subgraph.prototype.onSubgraphNewGlobalOutput = function(name, type) {
-	//add output to the node
+	// add output to the node
 	this.addOutput(name, type);
 }
 
@@ -82,7 +82,7 @@ Subgraph.prototype.getExtraMenuOptions = function(graphcanvas) {
 }
 
 Subgraph.prototype.onExecute = function() {
-	//send inputs to subgraph global inputs
+	// send inputs to subgraph global inputs
 	if (this.inputs)
 		for (var i = 0; i < this.inputs.length; i++) {
 			var input = this.inputs[i];
@@ -90,10 +90,10 @@ Subgraph.prototype.onExecute = function() {
 			this.subgraph.setGlobalInputData( input.name, value );
 		}
 
-	//execute
+	// execute
 	this.subgraph.runStep();
 
-	//send subgraph global outputs to outputs
+	// send subgraph global outputs to outputs
 	if (this.outputs)
 		for (var i = 0; i < this.outputs.length; i++) {
 			var output = this.outputs[i];
@@ -125,9 +125,9 @@ Subgraph.prototype.invalidateConnectedLinks = function(slot) {
 LiteGraph.registerNodeType("graph/subgraph", Subgraph );
 
 
-//Input for a subgraph
+// Input for a subgraph
 function GlobalInput( title ) {
-	//random name to avoid problems with other outputs when added
+	// random name to avoid problems with other outputs when added
 	var inputName = title || "input_" + (Math.random()*1000).toFixed();
 
 	this.addOutput(inputName, null, {label:""});
@@ -171,7 +171,7 @@ function GlobalInput( title ) {
 GlobalInput.title = "Input";
 GlobalInput.desc = "Input of the graph";
 
-//When added to graph tell the graph this is a new global input
+// When added to graph tell the graph this is a new global input
 GlobalInput.prototype.onAdded = function() {
 	this.graph.addGlobalInput( this.properties.name, this.properties.type );
 }
@@ -179,20 +179,20 @@ GlobalInput.prototype.onAdded = function() {
 GlobalInput.prototype.onExecute = function() {
 	var name = this.properties.name;
 
-	//read from global input
+	// read from global input
 	var	data = this.graph.globalInputs[name];
 	if (!data) return;
 
-	//put through output
+	// put through output
 	this.setOutputData(0,data.value);
 }
 
 LiteGraph.registerNodeType("graph/input", GlobalInput);
 
 
-//Output for a subgraph
+// Output for a subgraph
 function GlobalOutput( title ) {
-	//random name to avoid problems with other outputs when added
+	// random name to avoid problems with other outputs when added
 	var outputName = title || "output_" + (Math.random()*1000).toFixed();
 
 	this.addInput(outputName, null, {label:""});
@@ -247,7 +247,7 @@ GlobalOutput.prototype.onExecute = function() {
 LiteGraph.registerNodeType("graph/output", GlobalOutput);
 
 
-//Property getter
+// Property getter
 function GetProperty( title ) {
 	this.title = title;
 
@@ -285,18 +285,18 @@ GetProperty.desc = "Property getter";
 GetProperty.prototype.onExecute = function() {
 	var name = this.properties.name;
 
-	//read from graph properties
+	// read from graph properties
 	var	value = this.graph.properties[name];
 	if (value === undefined) return;
 
-	//put through output
+	// put through output
 	this.setOutputData(0,value);
 }
 
 LiteGraph.registerNodeType("graph/getProperty", GetProperty);
 
 
-//Property setter
+// Property setter
 function SetProperty( title ) {
 	this.title = title;
 
@@ -345,7 +345,7 @@ SetProperty.prototype.onExecute = function() {
 LiteGraph.registerNodeType("graph/setProperty", SetProperty);
 
 
-//Comment: a node that encloses other nodes and have a comment message for title
+// Comment: a node that encloses other nodes and have a comment message for title
 function Comment( title ) {
 	this.title = title;
 	this.flags = {

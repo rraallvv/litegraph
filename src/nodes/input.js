@@ -10,7 +10,7 @@ GamepadInput.title = "Gamepad";
 GamepadInput.desc = "gets the input of the gamepad";
 
 GamepadInput.prototype.onExecute = function() {
-	//get gamepad
+	// get gamepad
 	var gamepad = this.getGamepad();
 
 	if (this.outputs) {
@@ -43,7 +43,7 @@ GamepadInput.prototype.onExecute = function() {
 			}
 			else
 			{
-				//if no gamepad is connected, output 0
+				// if no gamepad is connected, output 0
 				switch ( output.name ) {
 					case "leftAxis":
 					case "rightAxis":
@@ -69,7 +69,7 @@ GamepadInput.prototype.getGamepad = function() {
 		if (gamepads[i]) {
 			gamepad = gamepads[i];
 
-			//xbox controller mapping
+			// xbox controller mapping
 			var xbox = this.xboxMapping;
 			if (!xbox)
 				xbox = this.xboxMapping = { axes:[], buttons:{}, hat: ""};
@@ -82,8 +82,8 @@ GamepadInput.prototype.getGamepad = function() {
 			xbox.axes["rtrigger"] = gamepad.buttons[7].value;
 
 			for (var i = 0; i < gamepad.buttons.length; i++) {
-				//mapping of XBOX
-				switch (i) //I use a switch to ensure that a player with another gamepad could play
+				// mapping of XBOX
+				switch (i) // I use a switch to ensure that a player with another gamepad could play
 				{
 					case 0: xbox.buttons["a"] = gamepad.buttons[i].pressed; break;
 					case 1: xbox.buttons["b"] = gamepad.buttons[i].pressed; break;
@@ -112,7 +112,7 @@ GamepadInput.prototype.getGamepad = function() {
 }
 
 GamepadInput.prototype.onDrawBackground = function(ctx) {
-	//render
+	// render
 }
 
 GamepadInput.prototype.onGetOutputs = function() {
