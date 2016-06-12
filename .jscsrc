@@ -1,4 +1,5 @@
 {
 	"preset": "idiomatic",
-	"excludeFiles": ["demo/code_old.js"]
+	"excludeFiles": ["demo/code_old.js"],
+	"validateLineBreaks": null,
 }
