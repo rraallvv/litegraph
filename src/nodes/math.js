@@ -10,14 +10,16 @@ Converter.desc = "type A to type B";
 
 Converter.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null )
+	if ( v == null ) {
 		return;
+	}
 
-	if ( this.outputs )
+	if ( this.outputs ) {
 		for ( var i = 0; i < this.outputs.length; i++ ) {
 			var output = this.outputs[ i ];
-			if ( !output.links || !output.links.length )
+			if ( !output.links || !output.links.length ) {
 				continue;
+			}
 
 			var result = null;
 			switch ( output.name ) {
@@ -35,14 +37,17 @@ Converter.prototype.onExecute = function() {
 
 					var result = new Float32Array( count );
 					if ( v.length ) {
-						for ( var j = 0; j < v.length && j < result.length; j++ )
+						for ( var j = 0; j < v.length && j < result.length; j++ ) {
 							result[ j ] = v[ j ];
-					} else
+						}
+					} else {
 						result[ 0 ] = parseFloat( v );
+					}
 					break;
 			}
 			this.setOutputData( i, result );
 		}
+	}
 };
 
 Converter.prototype.onGetOutputs = function() {
@@ -87,18 +92,21 @@ MathRange.title = "Range";
 MathRange.desc = "Convert a number from one range to another";
 
 MathRange.prototype.onExecute = function() {
-	if ( this.inputs )
+	if ( this.inputs ) {
 		for ( var i = 0; i < this.inputs.length; i++ ) {
 			var input = this.inputs[ i ];
 			var v = this.getInputData( i );
-			if ( v === undefined )
+			if ( v === undefined ) {
 				continue;
+			}
 			this.properties[ input.name ] = v;
 		}
+	}
 
 	var v = this.properties.in;
-	if ( v === undefined || v === null || v.constructor !== Number )
+	if ( v === undefined || v === null || v.constructor !== Number ) {
 		v = 0;
+	}
 
 	var inMin = this.properties.inMin;
 	var inMax = this.properties.inMax;
@@ -111,10 +119,11 @@ MathRange.prototype.onExecute = function() {
 
 MathRange.prototype.onDrawBackground = function( ctx ) {
 	// show the current value
-	if ( this._lastV )
+	if ( this._lastV ) {
 		this.outputs[ 0 ].label = this._lastV.toFixed( 3 );
-	else
+	} else {
 		this.outputs[ 0 ].label = "?";
+	}
 };
 
 MathRange.prototype.onGetInputs = function() {
@@ -137,14 +146,16 @@ MathRand.title = "Rand";
 MathRand.desc = "Random number";
 
 MathRand.prototype.onExecute = function() {
-	if ( this.inputs )
+	if ( this.inputs ) {
 		for ( var i = 0; i < this.inputs.length; i++ ) {
 			var input = this.inputs[ i ];
 			var v = this.getInputData( i );
-			if ( v === undefined )
+			if ( v === undefined ) {
 				continue;
+			}
 			this.properties[ input.name ] = v;
 		}
+	}
 
 	var min = this.properties.min;
 	var max = this.properties.max;
@@ -154,10 +165,11 @@ MathRand.prototype.onExecute = function() {
 
 MathRand.prototype.onDrawBackground = function( ctx ) {
 	// show the current value
-	if ( this._lastV )
+	if ( this._lastV ) {
 		this.outputs[ 0 ].label = this._lastV.toFixed( 3 );
-	else
+	} else {
 		this.outputs[ 0 ].label = "?";
+	}
 };
 
 MathRand.prototype.onGetInputs = function() {
@@ -182,7 +194,9 @@ MathClamp.filter = "shader";
 
 MathClamp.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null ) return;
+	if ( v == null ) {
+		return;
+	}
 	v = Math.max( this.properties.min, v );
 	v = Math.min( this.properties.max, v );
 	this.setOutputData( 0, v );
@@ -190,8 +204,9 @@ MathClamp.prototype.onExecute = function() {
 
 MathClamp.prototype.getCode = function( lang ) {
 	var code = "";
-	if ( this.isInputConnected( 0 ) )
+	if ( this.isInputConnected( 0 ) ) {
 		code += "clamp({{0}}," + this.properties.min + "," + this.properties.max + ")";
+	}
 	return code;
 };
 
@@ -209,7 +224,9 @@ MathAbs.desc = "Absolute";
 
 MathAbs.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null ) return;
+	if ( v == null ) {
+		return;
+	}
 	this.setOutputData( 0, Math.abs( v ) );
 };
 
@@ -227,7 +244,9 @@ MathFloor.desc = "Floor number to remove fractional part";
 
 MathFloor.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null ) return;
+	if ( v == null ) {
+		return;
+	}
 	this.setOutputData( 0, Math.floor( v ) );
 };
 
@@ -245,8 +264,9 @@ MathFrac.desc = "Returns fractional part";
 
 MathFrac.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null )
+	if ( v == null ) {
 		return;
+	}
 	this.setOutputData( 0, v % 1 );
 };
 
@@ -265,16 +285,17 @@ MathSmoothStep.desc = "Smoothstep";
 
 MathSmoothStep.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v === undefined )
+	if ( v === undefined ) {
 		return;
+	}
 
 	var edge0 = this.properties.A;
 	var edge1 = this.properties.B;
 
-		// Scale, bias and saturate x to 0..1 range
-		v = Math.clamp( (v - edge0) / (edge1 - edge0), 0.0, 1.0 );
-		// Evaluate polynomial
-		v = v * v * (3 - 2 * v);
+	// Scale, bias and saturate x to 0..1 range
+	v = Math.clamp( (v - edge0) / (edge1 - edge0), 0.0, 1.0 );
+	// Evaluate polynomial
+	v = v * v * (3 - 2 * v);
 
 	this.setOutputData( 0, v );
 };
@@ -295,8 +316,9 @@ MathScale.desc = "v * factor";
 
 MathScale.prototype.onExecute = function() {
 	var value = this.getInputData( 0 );
-	if ( value != null )
+	if ( value != null ) {
 		this.setOutputData( 0, value * this.properties.factor );
+	}
 };
 
 LiteGraph.registerNodeType("math/scale", MathScale );
@@ -326,22 +348,26 @@ MathOperation[ "@OP" ] = { type:"enum", title: "operation", values: MathOperatio
 
 
 MathOperation.prototype.setValue = function( v ) {
-	if ( typeof(v) == "string") v = parseFloat( v );
+	if ( typeof(v) == "string") {
+		v = parseFloat( v );
+	}
 	this.properties.value = v;
 };
 
 MathOperation.prototype.onExecute = function() {
 	var A = this.getInputData( 0 );
 	var B = this.getInputData( 1 );
-	if ( A != null )
+	if ( A != null ) {
 		this.properties.A = A;
-	else
+	} else {
 		A = this.properties.A;
+	}
 
-	if ( B != null )
+	if ( B != null ) {
 		this.properties.B = B;
-	else
+	} else {
 		B = this.properties.B;
+	}
 
 	var result = 0;
 	switch ( this.properties.OP ) {
@@ -360,8 +386,9 @@ MathOperation.prototype.onExecute = function() {
 };
 
 MathOperation.prototype.onDrawBackground = function( ctx ) {
-	if ( this.flags.collapsed )
+	if ( this.flags.collapsed ) {
 		return;
+	}
 
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
@@ -391,20 +418,23 @@ MathCompare.desc = "compares between two values";
 MathCompare.prototype.onExecute = function() {
 	var A = this.getInputData( 0 );
 	var B = this.getInputData( 1 );
-	if ( A !== undefined )
+	if ( A !== undefined ) {
 		this.properties.A = A;
-	else
+	} else {
 		A = this.properties.A;
+	}
 
-	if ( B !== undefined )
+	if ( B !== undefined ) {
 		this.properties.B = B;
-	else
+	} else {
 		B = this.properties.B;
+	}
 
 	for ( var i = 0, l = this.outputs.length; i < l; ++i ) {
 		var output = this.outputs[ i ];
-		if ( !output.links || !output.links.length )
+		if ( !output.links || !output.links.length ) {
 			continue;
+		}
 		switch ( output.name ) {
 			case "A==B": value = A == B; break;
 			case "A!=B": value = A != B; break;
@@ -446,16 +476,18 @@ MathCondition.desc = "evaluates condition between A and B";
 
 MathCondition.prototype.onExecute = function() {
 	var A = this.getInputData( 0 );
-	if ( A === undefined )
+	if ( A === undefined ) {
 		A = this.properties.A;
-	else
+	} else {
 		this.properties.A = A;
+	}
 
 	var B = this.getInputData( 1 );
-	if ( B === undefined )
+	if ( B === undefined ) {
 		B = this.properties.B;
-	else
+	} else {
 		this.properties.B = B;
+	}
 
 	var result = true;
 	switch ( this.properties.OP ) {
@@ -471,8 +503,9 @@ MathCondition.prototype.onExecute = function() {
 };
 
 MathCondition.prototype.onDrawBackground = function( ctx ) {
-	if ( this.flags.collapsed )
+	if ( this.flags.collapsed ) {
 		return;
+	}
 
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
@@ -482,8 +515,9 @@ MathCondition.prototype.onDrawBackground = function( ctx ) {
 };
 
 MathCondition.prototype.onComputeMinSize = function( ctx ) {
-	if ( !this.properties || !this.properties.OP )
+	if ( !this.properties || !this.properties.OP ) {
 		return;
+	}
 	ctx.font = "40px Arial";
 	var size = ctx.measureText( this.properties.OP, true ).size;
 	return [ size[ 0 ], size[ 1 ] ];
@@ -515,16 +549,18 @@ MathLogicCompare.desc = "evaluates logical opertion between A and B";
 
 MathLogicCompare.prototype.onExecute = function() {
 	var A = this.getInputData( 0 );
-	if ( A === undefined )
+	if ( A === undefined ) {
 		A = this.properties.A;
-	else
+	} else {
 		this.properties.A = A;
+	}
 
 	var B = this.getInputData( 1 );
-	if ( B === undefined )
+	if ( B === undefined ) {
 		B = this.properties.B;
-	else
+	} else {
 		this.properties.B = B;
+	}
 
 	var result = true;
 	switch ( this.properties.OP ) {
@@ -536,8 +572,9 @@ MathLogicCompare.prototype.onExecute = function() {
 };
 
 MathLogicCompare.prototype.onDrawBackground = function( ctx ) {
-	if ( this.flags.collapsed )
+	if ( this.flags.collapsed ) {
 		return;
+	}
 
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
@@ -547,8 +584,9 @@ MathLogicCompare.prototype.onDrawBackground = function( ctx ) {
 };
 
 MathLogicCompare.prototype.onComputeMinSize = function( ctx ) {
-	if ( !this.properties || !this.properties.OP )
+	if ( !this.properties || !this.properties.OP ) {
 		return;
+	}
 	ctx.font = "40px Arial";
 	var size = ctx.measureText( this.properties.OP, true ).size;
 	return [ size[ 0 ], size[ 1 ] ];
@@ -570,21 +608,24 @@ MathLogicNot.desc = "evaluates logical negation opertion";
 
 MathLogicNot.prototype.onExecute = function() {
 	var input = this.getInputData( 0 );
-	if ( input === undefined )
+	if ( input === undefined ) {
 		input = this.properties.input;
-	else
+	} else {
 		this.properties.input = input;
+	}
 
 	var result = true;
-	if ( input )
+	if ( input ) {
 		result = !input;
+	}
 
 	this.setOutputData( 0, result );
 };
 
 MathLogicNot.prototype.onDrawBackground = function( ctx ) {
-	if ( this.flags.collapsed )
+	if ( this.flags.collapsed ) {
 		return;
+	}
 
 	ctx.font = "40px Arial";
 	ctx.fillStyle = "black";
@@ -616,10 +657,11 @@ MathAccumulate.desc = "Increments a value every time";
 
 MathAccumulate.prototype.onExecute = function() {
 	var inc = this.getInputData( 0 );
-	if ( inc !== null )
+	if ( inc !== null ) {
 		this.properties.value += inc;
-	else
+	} else {
 		this.properties.value += this.properties.increment;
+	}
 	this.setOutputData( 0, this.properties.value );
 };
 
@@ -645,12 +687,14 @@ MathTrigonometry.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
 	var amplitude = this.properties.amplitude;
 	var slot = this.findInputSlot("amplitude");
-	if ( slot != -1 )
+	if ( slot != -1 ) {
 		amplitude = this.getInputData( slot );
+	}
 	var offset = this.properties.offset;
 	slot = this.findInputSlot("offset");
-	if ( slot != -1 )
+	if ( slot != -1 ) {
 		offset = this.getInputData( slot );
+	}
 
 	for ( var i = 0, l = this.outputs.length; i < l; ++i ) {
 		var output = this.outputs[ i ];
@@ -695,15 +739,17 @@ if ( window.math ) {
 	MathFormula.prototype.onExecute = function() {
 		var x = this.getInputData( 0 );
 		var y = this.getInputData( 1 );
-		if ( x != null )
+		if ( x != null ) {
 			this.properties.x = x;
-		else
+		} else {
 			x = this.properties.x;
+		}
 
-		if ( y != null )
+		if ( y != null ) {
 			this.properties.y = y;
-		else
+		} else {
 			y = this.properties.y;
+		}
 
 		var f = this.properties.formula;
 		var value = math.eval( f, { x:x, y:y, T: this.graph.globaltime });
@@ -734,7 +780,9 @@ Math3DVec2ToXYZ.desc = "vector 2 to components";
 
 Math3DVec2ToXYZ.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null ) return;
+	if ( v == null ) {
+		return;
+	}
 
 	this.setOutputData( 0, v[ 0 ] );
 	this.setOutputData( 1, v[ 1 ] );
@@ -755,9 +803,13 @@ Math3DXYToVec2.desc = "components to vector2";
 
 Math3DXYToVec2.prototype.onExecute = function() {
 	var x = this.getInputData( 0 );
-	if ( x == null ) x = this.properties.x;
+	if ( x == null ) {
+		x = this.properties.x;
+	}
 	var y = this.getInputData( 1 );
-	if ( y == null ) y = this.properties.y;
+	if ( y == null ) {
+		y = this.properties.y;
+	}
 
 	var data = this._data;
 	data[ 0 ] = x;
@@ -783,7 +835,9 @@ Math3DVec3ToXYZ.desc = "vector 3 to components";
 
 Math3DVec3ToXYZ.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null ) return;
+	if ( v == null ) {
+		return;
+	}
 
 	this.setOutputData( 0, v[ 0 ] );
 	this.setOutputData( 1, v[ 1 ] );
@@ -805,11 +859,17 @@ Math3DXYZToVec3.desc = "components to vector3";
 
 Math3DXYZToVec3.prototype.onExecute = function() {
 	var x = this.getInputData( 0 );
-	if ( x == null ) x = this.properties.x;
+	if ( x == null ) {
+		x = this.properties.x;
+	}
 	var y = this.getInputData( 1 );
-	if ( y == null ) y = this.properties.y;
+	if ( y == null ) {
+		y = this.properties.y;
+	}
 	var z = this.getInputData( 2 );
-	if ( z == null ) z = this.properties.z;
+	if ( z == null ) {
+		z = this.properties.z;
+	}
 
 	var data = this._data;
 	data[ 0 ] = x;
@@ -836,7 +896,9 @@ Math3DVec4ToXYZW.desc = "vector 4 to components";
 
 Math3DVec4ToXYZW.prototype.onExecute = function() {
 	var v = this.getInputData( 0 );
-	if ( v == null ) return;
+	if ( v == null ) {
+		return;
+	}
 
 	this.setOutputData( 0, v[ 0 ] );
 	this.setOutputData( 1, v[ 1 ] );
@@ -859,13 +921,21 @@ Math3DXYZWToVec4.desc = "components to vector4";
 
 Math3DXYZWToVec4.prototype.onExecute = function() {
 	var x = this.getInputData( 0 );
-	if ( x == null ) x = this.properties.x;
+	if ( x == null ) {
+		x = this.properties.x;
+	}
 	var y = this.getInputData( 1 );
-	if ( y == null ) y = this.properties.y;
+	if ( y == null ) {
+		y = this.properties.y;
+	}
 	var z = this.getInputData( 2 );
-	if ( z == null ) z = this.properties.z;
+	if ( z == null ) {
+		z = this.properties.z;
+	}
 	var w = this.getInputData( 3 );
-	if ( w == null ) w = this.properties.w;
+	if ( w == null ) {
+		w = this.properties.w;
+	}
 
 	var data = this._data;
 	data[ 0 ] = x;
@@ -896,9 +966,13 @@ if ( window.glMatrix ) {
 
 	Math3DRotation.prototype.onExecute = function() {
 		var angle = this.getInputData( 0 );
-		if ( angle == null ) angle = this.properties.angle;
+		if ( angle == null ) {
+			angle = this.properties.angle;
+		}
 		var axis = this.getInputData( 1 );
-		if ( axis == null ) axis = this.properties.axis;
+		if ( axis == null ) {
+			axis = this.properties.axis;
+		}
 
 		var R = quat.setAxisAngle( quat.create(), axis, angle * 0.0174532925 );
 		this.setOutputData( 0, R );
@@ -920,12 +994,15 @@ if ( window.glMatrix ) {
 
 	Math3DRotateVec3.prototype.onExecute = function() {
 		var vec = this.getInputData( 0 );
-		if ( vec == null ) vec = this.properties.vec;
+		if ( vec == null ) {
+			vec = this.properties.vec;
+		}
 		var quat = this.getInputData( 1 );
-		if ( quat == null )
+		if ( quat == null ) {
 			this.setOutputData( vec );
-		else
+		} else {
 			this.setOutputData( 0, vec3.transformQuat( vec3.create(), vec, quat ) );
+		}
 	};
 
 	LiteGraph.registerNodeType("math3d/rotateVec3", Math3DRotateVec3 );
@@ -942,9 +1019,13 @@ if ( window.glMatrix ) {
 
 	Math3DMultQuat.prototype.onExecute = function() {
 		var A = this.getInputData( 0 );
-		if ( A == null ) return;
+		if ( A == null ) {
+			return;
+		}
 		var B = this.getInputData( 1 );
-		if ( B == null ) return;
+		if ( B == null ) {
+			return;
+		}
 
 		var R = quat.multiply( quat.create(), A, B );
 		this.setOutputData( 0, R );

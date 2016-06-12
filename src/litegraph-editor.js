@@ -32,8 +32,9 @@ function Editor( containerId, options ) {
 
 	// append to DOM
 	var	parent = document.getElementById( containerId );
-	if ( parent )
+	if ( parent ) {
 		parent.appendChild( root );
+	}
 
 	graphcanvas.resize();
 	// graphcanvas.draw(true,true);
@@ -52,15 +53,18 @@ Editor.prototype.addLoadCounter = function() {
 
 	setInterval(function() {
 		meter.querySelector(".cpuload .fgload").style.width = ((2 * self.graph.elapsedTime) * 90) + "px";
-		if ( self.graph.status == LGraph.STATUS_RUNNING )
+		if ( self.graph.status == LGraph.STATUS_RUNNING ) {
 			meter.querySelector(".gpuload .fgload").style.width = ((self.graphcanvas.renderTime * 10) * 90) + "px";
-		else
+		} else {
 			meter.querySelector(".gpuload .fgload").style.width = 4 + "px";
+		}
 	}, 200 );
 };
 
 Editor.prototype.addToolsButton = function( id, name, iconUrl, callback, container ) {
-	if ( !container ) container = ".tools";
+	if ( !container ) {
+		container = ".tools";
+	}
 
 	var button = this.createButton( name, iconUrl );
 	button.id = id;
@@ -85,8 +89,9 @@ Editor.prototype.createPanel = function( title, options ) {
 
 Editor.prototype.createButton = function( name, iconUrl ) {
 	var button = document.createElement("button");
-	if ( iconUrl )
+	if ( iconUrl ) {
 		button.innerHTML = "<img src='" + iconUrl + "'/> ";
+	}
 	button.innerHTML += name;
 	return button;
 };
@@ -146,8 +151,7 @@ Editor.prototype.onPlayButton = function() {
 	if ( graph.status == LGraph.STATUS_STOPPED ) {
 		button.innerHTML = "<img src='imgs/icon-stop.png'/> Stop";
 		graph.start( 1 );
-	} else
-	{
+	} else {
 		button.innerHTML = "<img src='imgs/icon-play.png'/> Play";
 		graph.stop();
 	}
@@ -160,14 +164,15 @@ Editor.prototype.onPlayStepButton = function() {
 };
 
 Editor.prototype.goFullscreen = function() {
-	if ( this.root.requestFullscreen )
+	if ( this.root.requestFullscreen ) {
 		this.root.requestFullscreen( Element.ALLOW_KEYBOARD_INPUT );
-	else if ( this.root.mozRequestFullscreen )
+	} else if ( this.root.mozRequestFullscreen ) {
 		this.root.requestFullscreen( Element.ALLOW_KEYBOARD_INPUT );
-	else if ( this.root.webkitRequestFullscreen )
+	} else if ( this.root.webkitRequestFullscreen ) {
 		this.root.webkitRequestFullscreen( Element.ALLOW_KEYBOARD_INPUT );
-	else
+	} else {
 		throw("Fullscreen not supported");
+	}
 
 	var self = this;
 	setTimeout(function() {

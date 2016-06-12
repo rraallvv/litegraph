@@ -21,26 +21,31 @@ GraphicsImage.prototype.onAdded = function() {
 };
 
 GraphicsImage.prototype.onDrawBackground = function( ctx ) {
-	if ( this.img && this.size[ 0 ] > 5 && this.size[ 1 ] > 5 )
+	if ( this.img && this.size[ 0 ] > 5 && this.size[ 1 ] > 5 ) {
 		ctx.drawImage( this.img, 0, 0, this.size[ 0 ], this.size[ 1 ] );
+	}
 };
 
 
 GraphicsImage.prototype.onExecute = function() {
-	if ( !this.img )
+	if ( !this.img ) {
 		this.boxcolor = "#000";
-	if ( this.img && this.img.width )
+	}
+	if ( this.img && this.img.width ) {
 		this.setOutputData( 0, this.img );
-	else
+	} else {
 		this.setOutputData( 0, null );
-	if ( this.img && this.img.dirty )
+	}
+	if ( this.img && this.img.dirty ) {
 		this.img.dirty = false;
+	}
 };
 
 GraphicsImage.prototype.onPropertyChange = function( name, value ) {
 	this.properties[ name ] = value;
-	if ( name == "url" && value != "")
+	if ( name == "url" && value != "") {
 		this.loadImage( value );
+	}
 
 	return true;
 };
@@ -61,8 +66,9 @@ GraphicsImage.prototype.loadImage = function( url ) {
 
 	var url = name;
 	if ( url.substr( 0, 7 ) == "http://") {
-		if ( LiteGraph.proxy ) // proxy external files
+		if ( LiteGraph.proxy ) { // proxy external files
 			url = LiteGraph.proxy + url.substr( 7 );
+		}
 	}
 
 	this.img.src = url;
@@ -99,32 +105,40 @@ ColorPalette.desc = "Generates a color";
 ColorPalette.prototype.onExecute = function() {
 	var c = [];
 
-	if ( this.properties.colorA != null )
+	if ( this.properties.colorA != null ) {
 		c.push( hex2num( this.properties.colorA ) );
-	if ( this.properties.colorB != null )
+	}
+	if ( this.properties.colorB != null ) {
 		c.push( hex2num( this.properties.colorB ) );
-	if ( this.properties.colorC != null )
+	}
+	if ( this.properties.colorC != null ) {
 		c.push( hex2num( this.properties.colorC ) );
-	if ( this.properties.colorD != null )
+	}
+	if ( this.properties.colorD != null ) {
 		c.push( hex2num( this.properties.colorD ) );
+	}
 
 	var f = this.getInputData( 0 );
-	if ( f == null ) f = 0.5;
-	if ( f > 1.0 )
-		f = 1.0;
-	else if ( f < 0.0 )
-		f = 0.0;
+	if ( f == null ) {
+		f = 0.5;
+	}
 
-	if ( c.length == 0 )
+	if ( f > 1.0 ) {
+		f = 1.0;
+	} else if ( f < 0.0 ) {
+		f = 0.0;
+	}
+
+	if ( c.length == 0 ) {
 		return;
+	}
 
 	var result = [ 0, 0, 0 ];
-	if ( f == 0 )
+	if ( f == 0 ) {
 		result = c[ 0 ];
-	else if ( f == 1 )
+	} else if ( f == 1 ) {
 		result = c[ c.length - 1 ];
-	else
-	{
+	} else {
 		var pos = (c.length - 1) * f;
 		var c1 = c[ Math.floor( pos ) ];
 		var c2 = c[ Math.floor( pos ) + 1 ];
@@ -140,8 +154,9 @@ ColorPalette.prototype.onExecute = function() {
 	c[2] = Math.abs( Math.sin( 0.01 * reModular.getTime() * Math.PI) );
 	*/
 
-	for ( var i in result )
+	for ( var i in result ) {
 		result[ i ] /= 255;
+	}
 
 	this.boxcolor = colorToString( result );
 	this.setOutputData( 0, result );
@@ -162,8 +177,9 @@ ImageFrame.widgets = [ { name:"resize", text:"Resize box", type:"button" }, { na
 
 
 ImageFrame.prototype.onDrawBackground = function( ctx ) {
-	if ( this.frame )
+	if ( this.frame ) {
 		ctx.drawImage( this.frame, 0, 0, this.size[ 0 ], this.size[ 1 ] );
+	}
 };
 
 ImageFrame.prototype.onExecute = function() {
@@ -181,17 +197,20 @@ ImageFrame.prototype.onWidget = function( e, widget ) {
 			height = this.frame.videoHeight;
 		}
 
-		if ( width && height )
+		if ( width && height ) {
 			this.size = [ width, height ];
+		}
 		this.setDirtyCanvas( true, true );
-	} else if ( widget.name == "view")
+	} else if ( widget.name == "view") {
 		this.show();
+	}
 };
 
 ImageFrame.prototype.show = function() {
 	// var str = this.canvas.toDataURL("image/png");
-	if ( showElement && this.frame )
+	if ( showElement && this.frame ) {
 		showElement( this.frame );
+	}
 };
 
 
@@ -305,10 +324,11 @@ ImageFade.prototype.onExecute = function() {
 	}
 
 	var fade = this.getInputData( 2 );
-	if ( fade == null )
+	if ( fade == null ) {
 		fade = this.properties.fade;
-	else
+	} else {
 		this.properties.fade = fade;
+	}
 
 	ctx.globalAlpha = fade;
 	var B = this.getInputData( 1 );
@@ -347,15 +367,18 @@ ImageCrop.prototype.createCanvas = function() {
 
 ImageCrop.prototype.onExecute = function() {
 	var input = this.getInputData( 0 );
-	if ( !input ) return;
+	if ( !input ) {
+		return;
+	}
 
 	if ( input.width ) {
 		var ctx = this.canvas.getContext("2d");
 
 		ctx.drawImage( input, -this.properties.x, -this.properties.y, input.width * this.properties.scale, input.height * this.properties.scale );
 		this.setOutputData( 0, this.canvas );
-	} else
+	} else {
 		this.setOutputData( 0, null );
+	}
 };
 
 ImageCrop.prototype.onPropertyChange = function( name, value ) {
@@ -367,8 +390,9 @@ ImageCrop.prototype.onPropertyChange = function( name, value ) {
 			this.trace("Error in scale");
 			this.properties[ name ] = 1.0;
 		}
-	} else
+	} else {
 		this.properties[ name ] = parseInt( value );
+	}
 
 	this.createCanvas();
 
@@ -389,14 +413,17 @@ ImageVideo.desc = "Video playback";
 ImageVideo.widgets = [ { name:"play", text:"PLAY", type:"minibutton" }, { name:"stop", text:"STOP", type:"minibutton" }, { name:"demo", text:"Demo video", type:"button" }, { name:"mute", text:"Mute video", type:"button" } ];
 
 ImageVideo.prototype.onExecute = function() {
-	if ( !this.properties.url )
+	if ( !this.properties.url ) {
 		return;
+	}
 
-	if ( this.properties.url != this._videoUrl )
+	if ( this.properties.url != this._videoUrl ) {
 		this.loadVideo( this.properties.url );
+	}
 
-	if ( !this._video || this._video.width == 0 )
+	if ( !this._video || this._video.width == 0 ) {
 		return;
+	}
 
 	var t = this.getInputData( 0 );
 	if ( t && t >= 0 && t <= 1.0 ) {
@@ -473,36 +500,42 @@ ImageVideo.prototype.loadVideo = function( url ) {
 
 ImageVideo.prototype.onPropertyChange = function( name, value ) {
 	this.properties[ name ] = value;
-	if ( name == "url" && value != "")
+	if ( name == "url" && value != "") {
 		this.loadVideo( value );
+	}
 
 	return true;
 };
 
 ImageVideo.prototype.play = function() {
-	if ( this._video )
+	if ( this._video ) {
 		this._video.play();
+	}
 };
 
 ImageVideo.prototype.playPause = function() {
-	if ( !this._video )
+	if ( !this._video ) {
 		return;
-	if ( this._video.paused )
+	}
+	if ( this._video.paused ) {
 		this.play();
-	else
+	} else {
 		this.pause();
+	}
 };
 
 ImageVideo.prototype.stop = function() {
-	if ( !this._video )
+	if ( !this._video ) {
 		return;
+	}
 	this._video.pause();
 	this._video.currentTime = 0;
 };
 
 ImageVideo.prototype.pause = function() {
-	if ( !this._video )
+	if ( !this._video ) {
 		return;
+	}
 	this.trace("Video paused");
 	this._video.pause();
 };
@@ -590,10 +623,13 @@ ImageWebcam.prototype.streamReady = function( localMediaStream ) {
 },
 
 ImageWebcam.prototype.onExecute = function() {
-	if ( this._webcamStream == null && !this._waitingConfirmation )
+	if ( this._webcamStream == null && !this._waitingConfirmation ) {
 		this.openStream();
+	}
 
-	if ( !this._video || !this._video.videoWidth ) return;
+	if ( !this._video || !this._video.videoWidth ) {
+		return;
+	}
 
 	this._video.width = this._video.videoWidth;
 	this._video.height = this._video.videoHeight;
@@ -611,11 +647,13 @@ ImageWebcam.prototype.getExtraMenuOptions = function( graphcanvas ) {
 };
 
 ImageWebcam.prototype.onDrawBackground = function( ctx ) {
-	if ( this.flags.collapsed || this.size[ 1 ] <= 20 || !this.properties.show )
+	if ( this.flags.collapsed || this.size[ 1 ] <= 20 || !this.properties.show ) {
 		return;
+	}
 
-	if ( !this._video )
+	if ( !this._video ) {
 		return;
+	}
 
 	// render to graph canvas
 	ctx.save();
