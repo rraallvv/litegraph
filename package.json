@@ -4,6 +4,10 @@
 	"description": "A graph node editor for Node.js applications.",
 	"authors": "Rhody Lugo and Javi Agenjo",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rraallvv/litegraph.js"
+	},
 	"devDependencies": {
 		"eslint": "^2.11.1",
 		"jscs": "^3.0.4"
