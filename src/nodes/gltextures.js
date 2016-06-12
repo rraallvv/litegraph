@@ -871,7 +871,7 @@ if ( typeof(LiteGraph) != "undefined") {
 			}\n\
 			\n\
 			void main() {\n\
-			   gl_FragColor = applyFXAA( uTexture, vCoord * uViewportSize) ;\n\
+				 gl_FragColor = applyFXAA( uTexture, vCoord * uViewportSize) ;\n\
 			}\n\
 			";
 
@@ -883,7 +883,7 @@ if ( typeof(LiteGraph) != "undefined") {
 			void main() {\n\
 				vec4 color = texture2D( uTexture, vCoord);\n\
 				color.xyz = pow(color.xyz, vec3(uIgamma) );\n\
-			   gl_FragColor = color;\n\
+				 gl_FragColor = color;\n\
 			}\n\
 			";
 
@@ -1007,7 +1007,7 @@ if ( typeof(LiteGraph) != "undefined") {
 						color += texture2D(uTexture, vec2( uSamplesA[i][j], uSamplesB[i][j] ) );\n\
 						color += texture2D(uTexture, vec2( 1.0 - uSamplesA[i][j], uSamplesB[i][j] ) );\n\
 					}\n\
-			   gl_FragColor = color * 0.03125;\n\
+				 gl_FragColor = color * 0.03125;\n\
 			}\n\
 			";
 
@@ -1217,7 +1217,7 @@ if ( typeof(LiteGraph) != "undefined") {
 			uniform vec4 uMask;\n\
 			\n\
 			void main() {\n\
-			   gl_FragColor = vec4( vec3( length( texture2D(uTexture, vCoord) * uMask )), 1.0 );\n\
+				 gl_FragColor = vec4( vec3( length( texture2D(uTexture, vCoord) * uMask )), 1.0 );\n\
 			}\n\
 			";
 
@@ -1277,7 +1277,7 @@ if ( typeof(LiteGraph) != "undefined") {
 			uniform sampler2D uTextureA;\n\
 			\n\
 			void main() {\n\
-			   gl_FragColor = vec4( \
+				 gl_FragColor = vec4( \
 						texture2D(uTextureR, vCoord).r,\
 						texture2D(uTextureG, vCoord).r,\
 						texture2D(uTextureB, vCoord).r,\
@@ -1369,7 +1369,7 @@ if ( typeof(LiteGraph) != "undefined") {
 			void main() {\n\
 				float f = (rotate(uScale * (vCoord - vec2(0.5)), uAngle) + vec2(0.5)).x;\n\
 				vec3 color = mix(uColorA,uColorB,clamp(f,0.0,1.0));\n\
-			   gl_FragColor = vec4(color,1.0);\n\
+				 gl_FragColor = vec4(color,1.0);\n\
 			}\n\
 			";
 
@@ -1436,7 +1436,7 @@ if ( typeof(LiteGraph) != "undefined") {
 			uniform sampler2D uTextureMix;\n\
 			\n\
 			void main() {\n\
-			   gl_FragColor = mix( texture2D(uTextureA, vCoord), texture2D(uTextureB, vCoord), texture2D(uTextureMix, vCoord) );\n\
+				 gl_FragColor = mix( texture2D(uTextureA, vCoord), texture2D(uTextureB, vCoord), texture2D(uTextureMix, vCoord) );\n\
 			}\n\
 			";
 
@@ -1509,7 +1509,7 @@ if ( typeof(LiteGraph) != "undefined") {
 				diff *= uFactor;\n\
 				if (uInvert == 1)\n\
 					diff.xyz = vec3(1.0) - diff.xyz;\n\
-			   gl_FragColor = vec4( diff.xyz, center.a );\n\
+				 gl_FragColor = vec4( diff.xyz, center.a );\n\
 			}\n\
 			";
 
@@ -1596,7 +1596,7 @@ if ( typeof(LiteGraph) != "undefined") {
 				float dof = 1.0;\n\
 				if (diff <= uRange)\n\
 					dof = diff / uRange;\n\
-			   gl_FragColor = vec4(dof);\n\
+				 gl_FragColor = vec4(dof);\n\
 			}\n\
 			";
 
@@ -1695,19 +1695,19 @@ if ( typeof(LiteGraph) != "undefined") {
 			uniform vec2 uOffset;\n\
 			uniform float uIntensity;\n\
 			void main() {\n\
-			   vec4 sum = vec4(0.0);\n\
-			   vec4 center = texture2D(uTexture, vCoord);\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * -4.0) * 0.05/0.98;\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * -3.0) * 0.09/0.98;\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * -2.0) * 0.12/0.98;\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * -1.0) * 0.15/0.98;\n\
-			   sum += center * 0.16/0.98;\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * 4.0) * 0.05/0.98;\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * 3.0) * 0.09/0.98;\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * 2.0) * 0.12/0.98;\n\
-			   sum += texture2D(uTexture, vCoord + uOffset * 1.0) * 0.15/0.98;\n\
-			   gl_FragColor = uIntensity * sum;\n\
-			   /*gl_FragColor.a = center.a*/;\n\
+				 vec4 sum = vec4(0.0);\n\
+				 vec4 center = texture2D(uTexture, vCoord);\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * -4.0) * 0.05/0.98;\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * -3.0) * 0.09/0.98;\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * -2.0) * 0.12/0.98;\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * -1.0) * 0.15/0.98;\n\
+				 sum += center * 0.16/0.98;\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * 4.0) * 0.05/0.98;\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * 3.0) * 0.09/0.98;\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * 2.0) * 0.12/0.98;\n\
+				 sum += texture2D(uTexture, vCoord + uOffset * 1.0) * 0.15/0.98;\n\
+				 gl_FragColor = uIntensity * sum;\n\
+				 /*gl_FragColor.a = center.a*/;\n\
 			}\n\
 			";
 
@@ -1729,8 +1729,8 @@ if ( typeof(LiteGraph) != "undefined") {
 		window.URL = window.URL || window.webkitURL;
 
 		if ( !navigator.getUserMedia ) {
-		  // console.log('getUserMedia() is not supported in your browser, use chrome and enable WebRTC from about://flags');
-		  return;
+			// console.log('getUserMedia() is not supported in your browser, use chrome and enable WebRTC from about://flags');
+			return;
 		}
 
 		this._waitingConfirmation = true;
@@ -1750,11 +1750,11 @@ if ( typeof(LiteGraph) != "undefined") {
 		this._webcamStream = localMediaStream;
 		// this._waitingConfirmation = false;
 
-	    var video = this._video;
+			var video = this._video;
 		if ( !video ) {
 			video = document.createElement("video");
 			video.autoplay = true;
-		    video.src = window.URL.createObjectURL( localMediaStream );
+				video.src = window.URL.createObjectURL( localMediaStream );
 			this._video = video;
 			// document.body.appendChild( video ); // debug
 			// when video info is loaded (size and so)

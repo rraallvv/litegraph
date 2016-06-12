@@ -482,15 +482,15 @@ function RandomNumberGenerator(seed)
 }
 
 function nextRandomNumber(){
-  var hi = this.seed / this.Q;
-  var lo = this.seed % this.Q;
-  var test = this.A * lo - this.R * hi;
-  if(test > 0){
-    this.seed = test;
-  } else {
-    this.seed = test + this.M;
-  }
-  return (this.seed * this.oneOverM);
+	var hi = this.seed / this.Q;
+	var lo = this.seed % this.Q;
+	var test = this.A * lo - this.R * hi;
+	if(test > 0){
+		this.seed = test;
+	} else {
+		this.seed = test + this.M;
+	}
+	return (this.seed * this.oneOverM);
 }
 
 var RAND_GEN = RandomNumberGenerator(0);
@@ -498,7 +498,7 @@ var RAND_GEN = RandomNumberGenerator(0);
 function RandomSeed(s) { RAND_GEN = RandomNumberGenerator(s); };
 
 function myrand(Min, Max){
-  return Math.round((Max-Min) * RAND_GEN.next() + Min);
+	return Math.round((Max-Min) * RAND_GEN.next() + Min);
 }
 
 function myrandom() { return myrand(0,100000) / 100000; }
@@ -509,35 +509,35 @@ function randomColor(format)
  var rint = Math.round(0xffffff * myrandom());
  switch(format)
  {
-  case 'hex':
-   return ('#0' + rint.toString(16)).replace(/^#0([0-9a-f]{6})$/i, '#$1');
-  break;
+	case 'hex':
+	 return ('#0' + rint.toString(16)).replace(/^#0([0-9a-f]{6})$/i, '#$1');
+	break;
 
-  case 'rgb':
-   return 'rgb(' + (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255) + ')';
-  break;
+	case 'rgb':
+	 return 'rgb(' + (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255) + ')';
+	break;
 
-  default:
-   return rint;
-  break;
+	default:
+	 return rint;
+	break;
  }
 }
 
 $.extend({
-  getUrlVars: function(){
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
-    {
-      hash = hashes[i].split('=');
-      vars.push(hash[0]);
-      vars[hash[0]] = hash[1];
-    }
-    return vars;
-  },
-  getUrlVar: function(name){
-    return $.getUrlVars()[name];
-  }
+	getUrlVars: function(){
+		var vars = [], hash;
+		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		for(var i = 0; i < hashes.length; i++)
+		{
+			hash = hashes[i].split('=');
+			vars.push(hash[0]);
+			vars[hash[0]] = hash[1];
+		}
+		return vars;
+	},
+	getUrlVar: function(name){
+		return $.getUrlVars()[name];
+	}
 });
 
 function trace(a)
