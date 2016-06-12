@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var graph = null;
 var graphcanvas = null;
 
