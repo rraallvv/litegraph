@@ -22,9 +22,9 @@ Converter.prototype.onExecute = function() {
 			var result = null;
 			switch ( output.name ) {
 				case "number": result = v.length ? v[0] : parseFloat(v); break;
-				case "vec2": 
-				case "vec3": 
-				case "vec4": 
+				case "vec2":
+				case "vec3":
+				case "vec4":
 					var result = null;
 					var count = 1;
 					switch (output.name) {
@@ -246,7 +246,7 @@ MathFrac.desc = "Returns fractional part";
 
 MathFrac.prototype.onExecute = function() {
 	var v = this.getInputData(0);
-	if (v == null) 
+	if (v == null)
 		return;
 	this.setOutputData(0, v%1 );
 }
@@ -273,7 +273,7 @@ MathSmoothStep.prototype.onExecute = function() {
 	var edge1 = this.properties.B;
 
     // Scale, bias and saturate x to 0..1 range
-    v = Math.clamp((v - edge0)/(edge1 - edge0), 0.0, 1.0); 
+    v = Math.clamp((v - edge0)/(edge1 - edge0), 0.0, 1.0);
     // Evaluate polynomial
     v = v*v*(3 - 2*v);
 
@@ -348,8 +348,8 @@ MathOperation.prototype.onExecute = function() {
 	switch (this.properties.OP) {
 		case '+': result = A+B; break;
 		case '-': result = A-B; break;
-		case 'x': 
-		case 'X': 
+		case 'x':
+		case 'X':
 		case '*': result = A*B; break;
 		case '/': result = A/B; break;
 		case '%': result = A%B; break;
@@ -372,7 +372,7 @@ MathOperation.prototype.onDrawBackground = function(ctx) {
 }
 
 LiteGraph.registerNodeType("math/operation", MathOperation );
- 
+
 
 // Math compare
 function MathCompare() {
@@ -457,7 +457,7 @@ MathCondition.prototype.onExecute = function() {
 		B = this.properties.B;
 	else
 		this.properties.B = B;
-		
+
 	var result = true;
 	switch (this.properties.OP) {
 		case ">": result = A>B; break;
@@ -526,7 +526,7 @@ MathLogicCompare.prototype.onExecute = function() {
 		B = this.properties.B;
 	else
 		this.properties.B = B;
-		
+
 	var result = true;
 	switch (this.properties.OP) {
 		case "&&": result = A&&B; break;
@@ -692,7 +692,7 @@ if (window.math) {
 
 	MathFormula.title = "Formula";
 	MathFormula.desc = "Compute safe formula";
-		
+
 	MathFormula.prototype.onExecute = function() {
 		var x = this.getInputData(0);
 		var y = this.getInputData(1);
@@ -907,7 +907,7 @@ if (window.glMatrix) {
 
 
 	LiteGraph.registerNodeType("math3d/rotation", Math3DRotation );
-	
+
 
 	// Math3D rotate vec3
 	function Math3DRotateVec3() {

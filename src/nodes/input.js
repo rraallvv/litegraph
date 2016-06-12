@@ -59,7 +59,7 @@ GamepadInput.prototype.onExecute = function() {
 }
 
 GamepadInput.prototype.getGamepad = function() {
-	var getGamepads = navigator.getGamepads || navigator.webkitGetGamepads || navigator.mozGetGamepads; 
+	var getGamepads = navigator.getGamepads || navigator.webkitGetGamepads || navigator.mozGetGamepads;
 	if (!getGamepads)
 		return null;
 	var gamepads = getGamepads.call(navigator);
@@ -107,7 +107,7 @@ GamepadInput.prototype.getGamepad = function() {
 			}
 			gamepad.xbox = xbox;
 			return gamepad;
-		}	
+		}
 	}
 }
 

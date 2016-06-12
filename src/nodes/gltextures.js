@@ -76,7 +76,7 @@ if (typeof(LiteGraph) != "undefined") {
 			case LGraphTexture.LOW: texType = gl.UNSIGNED_BYTE; break;
 			case LGraphTexture.HIGH: texType = gl.HIGH_PRECISION_FORMAT; break;
 			case LGraphTexture.REUSE: return origin; break;
-			case LGraphTexture.COPY: 
+			case LGraphTexture.COPY:
 			default: texType = origin ? origin.type : gl.UNSIGNED_BYTE; break;
 		}
 
@@ -127,8 +127,8 @@ if (typeof(LiteGraph) != "undefined") {
 		var that = this;
 		if (!this._dropTexture)
 			return;
-		return [ {content:"Clear", callback: 
-			function() { 
+		return [ {content:"Clear", callback:
+			function() {
 				that._dropTexture = null;
 				that.properties.name = "";
 			}
@@ -138,7 +138,7 @@ if (typeof(LiteGraph) != "undefined") {
 	LGraphTexture.prototype.onExecute = function() {
 		var tex = null;
 		if (this.isOutputConnected(1))
-			tex = this.getInputData(0);		
+			tex = this.getInputData(0);
 
 		if (!tex && this._dropTexture)
 			tex = this._dropTexture;
@@ -146,14 +146,14 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!tex && this.properties.name)
 			tex = LGraphTexture.getTexture( this.properties.name );
 
-		if (!tex) 
+		if (!tex)
 			return;
 
 		this._lastTex = tex;
 
 		if (this.properties.filter === false)
 			tex.setParameter( gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-		else 
+		else
 			tex.setParameter( gl.TEXTURE_MAG_FILTER, gl.LINEAR );
 
 		this.setOutputData(0, tex);
@@ -197,7 +197,7 @@ if (typeof(LiteGraph) != "undefined") {
 			else
 			{
 				var texCanvas = LGraphTexture.generateLowResTexturePreview(this._lastTex);
-				if (!texCanvas) 
+				if (!texCanvas)
 					return;
 
 				this._lastPreviewTex = this._lastTex;
@@ -285,7 +285,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!tex) return;
 
 		var texCanvas = null;
-		
+
 		if (!tex.handle && ctx.webgl)
 			texCanvas = tex;
 		else
@@ -343,7 +343,7 @@ if (typeof(LiteGraph) != "undefined") {
 	}
 
 	LGraphTextureOperation.widgetsInfo = {
-		"uvcode": { widget:"textarea", height: 100 }, 
+		"uvcode": { widget:"textarea", height: 100 },
 		"pixelcode": { widget:"textarea", height: 100 },
 		"precision": { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
@@ -354,8 +354,8 @@ if (typeof(LiteGraph) != "undefined") {
 	LGraphTextureOperation.prototype.getExtraMenuOptions = function(graphcanvas) {
 		var that = this;
 		var txt = !that.properties.show ? "Show Texture" : "Hide Texture";
-		return [ {content: txt, callback: 
-			function() { 
+		return [ {content: txt, callback:
+			function() {
 				that.properties.show = !that.properties.show;
 			}
 		}];
@@ -427,7 +427,7 @@ if (typeof(LiteGraph) != "undefined") {
 			if (this.properties.uvcode.indexOf(";") != -1) // there are line breaks, means multiline code
 				uvcode = this.properties.uvcode;
 		}
-		
+
 		var pixelcode = "";
 		if (this.properties.pixelcode) {
 			pixelcode = "result = " + this.properties.pixelcode;
@@ -523,7 +523,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!this.isOutputConnected(0))
 			return; // saves work
 
-		// replug 
+		// replug
 		if (this._shaderCode != this.properties.code) {
 			this._shaderCode = this.properties.code;
 			this._shader = new GL.Shader(Shader.SCREEN_VERTEX_SHADER, LGraphTextureShader.pixelShader + this.properties.code );
@@ -780,7 +780,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphTextureToViewport.prototype.onExecute = function() {
 		var tex = this.getInputData(0);
-		if (!tex) 
+		if (!tex)
 			return;
 
 		if (this.properties.disableAlpha)
@@ -910,7 +910,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphTextureCopy.title = "Copy";
 	LGraphTextureCopy.desc = "Copy Texture";
-	LGraphTextureCopy.widgetsInfo = { 
+	LGraphTextureCopy.widgetsInfo = {
 		size: { widget:"combo", values:[0,32,64,128,256,512,1024,2048]},
 		precision: { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
@@ -984,7 +984,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!LGraphTextureAverage._shader) {
 			LGraphTextureAverage._shader = new GL.Shader(Shader.SCREEN_VERTEX_SHADER, LGraphTextureAverage.pixelShader);
 			var samples = new Float32Array(32);
-			for (var i = 0; i < 32; ++i)	
+			for (var i = 0; i < 32; ++i)
 				samples[i] = Math.random();
 			LGraphTextureAverage._shader.uniforms({uSamplesA: samples.subarray(0,16), uSamplesB: samples.subarray(16,32) });
 		}
@@ -1080,7 +1080,7 @@ if (typeof(LiteGraph) != "undefined") {
 			LGraphTextureLUT._shader = new GL.Shader( Shader.SCREEN_VERTEX_SHADER, LGraphTextureLUT.pixelShader );
 	}
 
-	LGraphTextureLUT.widgetsInfo = { 
+	LGraphTextureLUT.widgetsInfo = {
 		"precision": { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
 
@@ -1258,7 +1258,7 @@ if (typeof(LiteGraph) != "undefined") {
 				this.getInputData(2),
 				this.getInputData(3) ];
 
-		if (!tex[0] || !tex[1] || !tex[2] || !tex[3]) 
+		if (!tex[0] || !tex[1] || !tex[2] || !tex[3])
 			return;
 
 		gl.disable( gl.BLEND );
@@ -1402,7 +1402,7 @@ if (typeof(LiteGraph) != "undefined") {
 	LGraphTextureMix.title = "Mix";
 	LGraphTextureMix.desc = "Generates a texture mixing two textures";
 
-	LGraphTextureMix.widgetsInfo = { 
+	LGraphTextureMix.widgetsInfo = {
 		"precision": { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
 
@@ -1411,7 +1411,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 		if (!this.isOutputConnected(0))
 			return; // saves work
-		
+
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,texA);
 			return;
@@ -1467,7 +1467,7 @@ if (typeof(LiteGraph) != "undefined") {
 	LGraphTextureEdges.title = "Edges";
 	LGraphTextureEdges.desc = "Detects edges";
 
-	LGraphTextureEdges.widgetsInfo = { 
+	LGraphTextureEdges.widgetsInfo = {
 		"precision": { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
 
@@ -1480,7 +1480,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,tex);
 			return;
-		}		
+		}
 
 		if (!tex) return;
 
@@ -1550,7 +1550,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 		var precision = gl.UNSIGNED_BYTE;
 		if (this.properties.highPrecision)
-			precision = gl.halfFloatExt ? gl.HALF_FLOAT_OES : gl.FLOAT;			
+			precision = gl.halfFloatExt ? gl.HALF_FLOAT_OES : gl.FLOAT;
 
 		if (!this._tempTexture || this._tempTexture.type != precision ||
 			this._tempTexture.width != tex.width || this._tempTexture.height != tex.height)
@@ -1695,7 +1695,7 @@ if (typeof(LiteGraph) != "undefined") {
 			});
 			startTexture = this._finalTexture;
 		}
-		
+
 		this.setOutputData(0, this._finalTexture);
 	}
 
@@ -1747,7 +1747,7 @@ if (typeof(LiteGraph) != "undefined") {
 		this._waitingConfirmation = true;
 
 		// Not showing vendor prefixes.
-		navigator.getUserMedia({video: true}, this.streamReady.bind(this), onFailSoHard);		
+		navigator.getUserMedia({video: true}, this.streamReady.bind(this), onFailSoHard);
 
 		var that = this;
 		function onFailSoHard(e) {
@@ -1822,7 +1822,7 @@ if (typeof(LiteGraph) != "undefined") {
 			this._tempTexture = new GL.Texture( width, height, { format: gl.RGB, filter: gl.LINEAR });
 
 		this._tempTexture.uploadImage( this._video );
-		
+
 		if (this.properties.textureName) {
 			var container = LGraphTexture.getTexturesContainer();
 			container[ this.properties.textureName ] = this._tempTexture;
@@ -1866,7 +1866,7 @@ if (typeof(LiteGraph) != "undefined") {
 			return;
 
 		var tex = LGraphTexture.getTexture( this.properties.name );
-		if (!tex) 
+		if (!tex)
 			return;
 
 		this._lastTex = tex;

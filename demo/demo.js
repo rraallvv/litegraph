@@ -1,4 +1,4 @@
-								
+
 function demo()
 {
 	JSONGraph();
@@ -121,15 +121,15 @@ function multiConnection()
 	var nodeButton2 = LiteGraph.createNode("widget/button");
 	nodeButton2.pos = [1000,300];
 	graph.add(nodeButton2);
-	
+
 	var nodeConsole = LiteGraph.createNode("basic/console");
 	nodeConsole.pos = [1200,200];
 	graph.add(nodeConsole);
-	
+
 	var nodeConsole2 = LiteGraph.createNode("basic/console");
 	nodeConsole2.pos = [1200,300];
 	graph.add(nodeConsole2);
-	
+
 	var nodeConstA = LiteGraph.createNode("basic/const");
 	nodeConstA.pos = [200,200];
 	graph.add(nodeConstA);

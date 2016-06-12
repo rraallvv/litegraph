@@ -1,6 +1,6 @@
 // Works with Litegl.js to create WebGL nodes
 if (typeof(LiteGraph) != "undefined") {
-	
+
 	// Texture Lens *****************************************
 	function LGraphFXLens() {
 		this.addInput("Texture","Texture");
@@ -25,7 +25,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,tex);
 			return;
-		}		
+		}
 
 		if (!tex) return;
 
@@ -141,7 +141,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 		var precision = gl.UNSIGNED_BYTE;
 		if (this.properties.highPrecision)
-			precision = gl.halfFloatExt ? gl.HALF_FLOAT_OES : gl.FLOAT;			
+			precision = gl.halfFloatExt ? gl.HALF_FLOAT_OES : gl.FLOAT;
 		if (!this._tempTexture || this._tempTexture.type != precision ||
 			this._tempTexture.width != tex.width || this._tempTexture.height != tex.height)
 			this._tempTexture = new GL.Texture( tex.width, tex.height, { type: precision, format: gl.RGBA, filter: gl.LINEAR });
@@ -321,7 +321,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,tex);
 			return;
-		}		
+		}
 
 		if (!tex)
 			return;
@@ -340,7 +340,7 @@ if (typeof(LiteGraph) != "undefined") {
 			value2 = this.getInputData(2);
 			this.properties.value2 = value2;
 		}
-	
+
 		var fx = this.properties.fx;
 		var shader = LGraphFXGeneric.shaders[ fx ];
 		if (!shader) {
@@ -470,7 +470,7 @@ if (typeof(LiteGraph) != "undefined") {
 	LGraphFXVigneting.title = "Vigneting";
 	LGraphFXVigneting.desc = "Vigneting";
 
-	LGraphFXVigneting.widgetsInfo = { 
+	LGraphFXVigneting.widgetsInfo = {
 		"precision": { widget:"combo", values: LGraphTexture.MODE_VALUES }
 	};
 
@@ -480,7 +480,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,tex);
 			return;
-		}		
+		}
 
 		if (!tex) return;
 
