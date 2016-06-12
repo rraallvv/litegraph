@@ -1,7 +1,7 @@
-//NOT FINISHED
+// NOT FINISHED
 
 function Editor(containerId, options) {
-	//fill container
+	// fill container
 	var html = "<div class='header'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
 	html += "<div class='content'><div class='editor-area'><canvas class='graphcanvas' width='1000' height='500' tabindex=10></canvas></div></div>";
 	html += "<div class='footer'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
@@ -13,13 +13,13 @@ function Editor(containerId, options) {
 
 	var canvas = root.querySelector(".graphcanvas");
 
-	//create graph
+	// create graph
 	var graph = this.graph = new LGraph();
 	var graphcanvas = this.graphcanvas = new LGraphCanvas(canvas,graph);
 	graphcanvas.backgroundImage = "imgs/grid.png";
 	graph.onAfterExecute = function() { graphcanvas.draw(true) };
 
-	//add stuff
+	// add stuff
 	this.addToolsButton("loadsessionButton","Load","imgs/icon-load.png", this.onLoadButton.bind(this), ".tools-left" );
 	this.addToolsButton("savesessionButton","Save","imgs/icon-save.png", this.onSaveButton.bind(this), ".tools-left" );
 	this.addLoadCounter();
@@ -28,15 +28,15 @@ function Editor(containerId, options) {
 	
 	this.addToolsButton("maximizeButton","","imgs/icon-maximize.png", this.onFullscreenButton.bind(this), ".tools-right" );
 
-	//this.addMiniWindow(300,200);
+	// this.addMiniWindow(300,200);
 
-	//append to DOM
+	// append to DOM
 	var	parent = document.getElementById(containerId);
 	if (parent)
 		parent.appendChild(root);
 
 	graphcanvas.resize();
-	//graphcanvas.draw(true,true);
+	// graphcanvas.draw(true,true);
 }
 
 Editor.prototype.addLoadCounter = function() {

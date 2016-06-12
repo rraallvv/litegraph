@@ -1,4 +1,4 @@
-//Works with Litegl.js to create WebGL nodes
+// Works with Litegl.js to create WebGL nodes
 if (typeof(LiteGraph) != "undefined") {
 	
 	// Texture Lens *****************************************
@@ -31,7 +31,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 		this._tex = LGraphTexture.getTargetTexture( tex, this._tex, this.properties.precision );
 
-		//iterations
+		// iterations
 		var aberration = this.properties.aberration;
 		if ( this.isInputConnected(1) ) {
 			aberration = this.getInputData(1);
@@ -100,7 +100,7 @@ if (typeof(LiteGraph) != "undefined") {
 	LiteGraph.registerNodeType("fx/lens", LGraphFXLens );
 	window.LGraphFXLens = LGraphFXLens;
 
-	//*******************************************************
+	// *******************************************************
 
 	function LGraphFXBokeh() {
 		this.addInput("Texture","Texture");
@@ -146,7 +146,7 @@ if (typeof(LiteGraph) != "undefined") {
 			this._tempTexture.width != tex.width || this._tempTexture.height != tex.height)
 			this._tempTexture = new GL.Texture( tex.width, tex.height, { type: precision, format: gl.RGBA, filter: gl.LINEAR });
 
-		//iterations
+		// iterations
 		var size = this.properties.size;
 
 		var firstShader = LGraphFXBokeh._firstShader;
@@ -179,9 +179,9 @@ if (typeof(LiteGraph) != "undefined") {
 		});
 
 		this._tempTexture.drawTo( function() {
-			//clear because we use blending
-			//gl.clearColor(0.0,0.0,0.0,1.0);
-			//gl.clear( gl.COLOR_BUFFER_BIT );
+			// clear because we use blending
+			// gl.clearColor(0.0,0.0,0.0,1.0);
+			// gl.clear( gl.COLOR_BUFFER_BIT );
 			gl.enable( gl.BLEND );
 			gl.blendFunc( gl.ONE, gl.ONE );
 
@@ -294,7 +294,7 @@ if (typeof(LiteGraph) != "undefined") {
 	LiteGraph.registerNodeType("fx/bokeh", LGraphFXBokeh );
 	window.LGraphFXBokeh = LGraphFXBokeh;
 
-	//************************************************
+	// ************************************************
 
 	function LGraphFXGeneric() {
 		this.addInput("Texture","Texture");
@@ -315,7 +315,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphFXGeneric.prototype.onExecute = function() {
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		var tex = this.getInputData(0);
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
@@ -328,7 +328,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 		this._tex = LGraphTexture.getTargetTexture( tex, this._tex, this.properties.precision );
 
-		//iterations
+		// iterations
 		var value1 = this.properties.value1;
 		if ( this.isInputConnected(1) ) {
 			value1 = this.getInputData(1);

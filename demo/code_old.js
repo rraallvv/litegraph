@@ -105,7 +105,7 @@ $(window).load(function() {
 		graphcanvas.draw();
 		var url = graphcanvas.liveMode ? "imgs/gaussBgMedium.jpg" : "imgs/gaussBg.jpg";
 		$("#livemodeButton").html(!graphcanvas.liveMode ? "<img src='imgs/icon-record.png'/> Live" : "<img src='imgs/icon-gear.png'/> Edit" );
-		//$("canvas").css("background-image","url('"+url+"')");
+		// $("canvas").css("background-image","url('"+url+"')");
 	});
 
 	$("#newsessionButton").click( function() { 
@@ -189,7 +189,7 @@ $(window).load(function() {
 	{
 		window.onhashchange = function () {
 			var h = window.location.hash.substr(1);
-			//action
+			// action
 			return false;
 		}
 	}
@@ -216,7 +216,7 @@ $(window).load(function() {
 
 	graphcanvas.draw();
 
-	//update load counter
+	// update load counter
 	setInterval(function() {
 		$("#cpuload .fgload").width( (2*graph.elapsedTime) * 90);
 		if(graph.status == LGraph.STATUS_RUNNING)
@@ -225,7 +225,7 @@ $(window).load(function() {
 			$("#gpuload .fgload").width( 4 );
 	},200);
 
-	//LiteGraph.run(100);
+	// LiteGraph.run(100);
 });
 
 
@@ -238,7 +238,7 @@ function onShowNodes()
 		var node = LiteGraph.registeredNodeTypes[i];
 		var categories = node.category.split("/");
 
-		//create categories and find the propper one
+		// create categories and find the propper one
 		var root = $("#nodes-list")[0];
 		for(var i in categories)
 		{
@@ -268,7 +268,7 @@ function onShowNodes()
 				root = result[0];
 		}
 
-		//create entry
+		// create entry
 		var type = node.type;
 		var element = document.createElement("div");
 		element.innerHTML = "<strong>"+node.title+"</strong> " + (node.desc? node.desc : "");
@@ -326,8 +326,8 @@ function onSaveSession()
 
 	$("#modal-blocking-box").show();
 	$("#savesession-dialog").show();
-	//var str = LiteGraph.serialize();
-	//localStorage.setItem("graphSession",str);
+	// var str = LiteGraph.serialize();
+	// localStorage.setItem("graphSession",str);
 }
 
 function saveSession(name,desc)
@@ -358,7 +358,7 @@ function saveSession(name,desc)
 
 	if(pos != -1)
 	{	
-		//already on the list
+		// already on the list
 	}
 	else
 	{

@@ -1,41 +1,41 @@
 (function() {
 
 
-//Demo component
+// Demo component
 function DemoComponent() {
-	//BasicBoolean
+	// BasicBoolean
 	this.addOutput("value","boolean");
 	this.addProperties({
 		value: true
 	});
 
-	//BasicNumber
+	// BasicNumber
 	this.addOutput("value","number");
 	this.addProperties({
 		value: 1.0
 	});
 
-	//BasicString
+	// BasicString
 	this.addOutput("value","string");
 	this.addProperties({
 		value: ""
 	});
 
-	//Watch
+	// Watch
 	this.addInput("value",0,{label:""});
 	this.addOutput("value",0,{label:""});
 	this.addProperties({
 		value: ""
 	});
 
-	//Console
+	// Console
 	this.addProperties({
 		msg: ""
 	});
 	this.addInput("log", LiteGraph.EXECUTE);
 	this.addInput("msg",0);
 
-	//Wrapper
+	// Wrapper
 	var functionName = undefined;
 	var functionArguments = undefined;
 	var functionReturn = undefined;
@@ -57,7 +57,7 @@ function DemoComponent() {
 					return;
 				this.title = v;
 
-				//find a function with the given name
+				// find a function with the given name
 				var path = v.split(".");
 				var functionObject = window[path.shift()];
 				while (path.length > 0)
@@ -121,7 +121,7 @@ function DemoComponent() {
 	this.properties.arguments = "msg";
 	this.properties.return = undefined;
 
-	//ForLoop
+	// ForLoop
 	this.addInput("for", LiteGraph.EXECUTE);
 	this.addInput("first index", "number");
 	this.addInput("last index", "number");
@@ -129,7 +129,7 @@ function DemoComponent() {
 	this.addOutput("index", "number");
 	this.addOutput("completed", LiteGraph.EXECUTE);
 
-	//ForLoopWithBreak
+	// ForLoopWithBreak
 	this.addInput("for", LiteGraph.EXECUTE);
 	this.addInput("first index", "number");
 	this.addInput("last index", "number");
@@ -143,24 +143,24 @@ DemoComponent.title = "Demo Component";
 DemoComponent.desc = "The description goes here";
 
 DemoComponent.prototype.onGetInputs = function() {
-	//Console
+	// Console
 	return [["log",LiteGraph.EXECUTE],["warn",LiteGraph.EXECUTE],["error",LiteGraph.EXECUTE]];
 };
 
 DemoComponent.prototype.setValue = function(v) {
-	//BasicBoolean
+	// BasicBoolean
 	if ( typeof(v) != "boolean")
 		v = v === true;
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 
-	//BasicNumber
+	// BasicNumber
 	if ( typeof(v) == "string")
 		v = parseFloat(v);
 	this.properties["value"] = v;
 	this.setDirtyCanvas(true);
 
-	//BasicString
+	// BasicString
 	if ( typeof(v) != "string")
 		v = v.toString();
 	this.properties["value"] = v;
@@ -168,20 +168,20 @@ DemoComponent.prototype.setValue = function(v) {
 };
 
 DemoComponent.prototype.onExecute = function() {
-	//BasicBoolean
+	// BasicBoolean
 	this.setOutputData(0, this.properties["value"] );
 
-	//BasicNumber
+	// BasicNumber
 	this.setOutputData(0, parseFloat( this.properties["value"] ) );
 
-	//BasicString
+	// BasicString
 	this.setOutputData(0, this.properties["value"] );
 
-	//Watch
+	// Watch
 	this.properties.value = this.getInputData(0);
 	this.setOutputData(0, this.properties.value);
 
-	//Console
+	// Console
 	var msg = this.getInputData(1);
 	if (msg !== undefined)
 		this.properties.msg = msg;
@@ -189,24 +189,24 @@ DemoComponent.prototype.onExecute = function() {
 		msg = this.properties.msg;
 	console.log(msg);
 
-	//Wraper
-	//collect the arguments
+	// Wraper
+	// collect the arguments
 	var functionArguments = [];
 	for (var i = 1, l = this.inputs.length; i < l; i++)
 		functionArguments.push(this.getInputData(i));
 
-	//call the wrapped function
+	// call the wrapped function
 	var functionObject = this._functionObject;
 	if (functionObject) {
 		var result = functionObject.apply(functionObject, functionArguments);
-		if (this.outputs.length == 2) //set output to the result
+		if (this.outputs.length == 2) // set output to the result
 			this.setOutputData(1, result);
 	}
 
-	//continue with the control flow
+	// continue with the control flow
 	this.trigger("completed");
 
-	//ForLoop
+	// ForLoop
 	var firstIndex = this.getInputData(1);
 	var lastIndex = this.getInputData(2);
 
@@ -217,7 +217,7 @@ DemoComponent.prototype.onExecute = function() {
 
 	this.trigger("completed");
 
-	//ForLoopWithBreak
+	// ForLoopWithBreak
 	if (action == "break" && this.looping) {
 		this.looping = false;
 		return;
@@ -238,13 +238,13 @@ DemoComponent.prototype.onExecute = function() {
 }
 
 DemoComponent.prototype.onDrawBackground = function(ctx) {
-	//BasicBoolean
+	// BasicBoolean
 	this.outputs[0].label = this.properties["value"].toString();
 
-	//BasicNumber
+	// BasicNumber
 	this.outputs[0].label = this.properties["value"].toFixed(3);
 
-	//BasicString
+	// BasicString
 	var text = this.properties["value"];
 
 	ctx.font = LGraphCanvas.innerTextFont;
@@ -263,14 +263,14 @@ DemoComponent.prototype.onDrawBackground = function(ctx) {
 
 	this.outputs[0].label = text;
 
-	//Watch
+	// Watch
 	if (this.inputs[0] && this.properties["value"] != null) {
 		if (this.properties["value"].constructor === Number )
 			this.inputs[0].label = this.properties["value"].toFixed(3);
 		else
 		{
 			var str = this.properties["value"];
-			if (str && str.length) //convert typed to array
+			if (str && str.length) // convert typed to array
 				str = Array.prototype.slice.call(str).join(",");
 			this.inputs[0].label = str;
 		}
@@ -278,9 +278,9 @@ DemoComponent.prototype.onDrawBackground = function(ctx) {
 }
 
 DemoComponent.prototype.onWidget = function(e,widget) {
-	//BasicBoolean
-	//BasicNumber
-	//BasicString
+	// BasicBoolean
+	// BasicNumber
+	// BasicString
 	if (widget.name == "value")
 		this.setValue(widget.value);
 }

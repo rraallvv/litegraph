@@ -46,10 +46,10 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 
 			if (c == null)
 				c = "rgba(255,255,255,0.5)";
-			else if (typeof(c) == "object")  //array
+			else if (typeof(c) == "object")  // array
 				c = colorToString(c);
 
-			//stroke line
+			// stroke line
 			ctx.strokeStyle = c;
 			ctx.beginPath();
 			ctx.moveTo( this.oldpos[0], this.oldpos[1] );

@@ -1,4 +1,4 @@
-//Works with Litegl.js to create WebGL nodes
+// Works with Litegl.js to create WebGL nodes
 if (typeof(LiteGraph) != "undefined") {
 	function LGraphTexture() {
 		this.addOutput("Texture","Texture");
@@ -10,16 +10,16 @@ if (typeof(LiteGraph) != "undefined") {
 	LGraphTexture.desc = "Texture";
 	LGraphTexture.widgetsInfo = {"name": { widget:"texture"}, "filter": { widget:"checkbox"} };
 
-	//REPLACE THIS TO INTEGRATE WITH YOUR FRAMEWORK
-	LGraphTexture.loadTextureCallback = null; //function in charge of loading textures when not present in the container
+	// REPLACE THIS TO INTEGRATE WITH YOUR FRAMEWORK
+	LGraphTexture.loadTextureCallback = null; // function in charge of loading textures when not present in the container
 	LGraphTexture.imagePreviewSize = 256;
 
-	//flags to choose output texture type
-	LGraphTexture.PASS_THROUGH = 1; //do not apply FX
-	LGraphTexture.COPY = 2;			//create new texture with the same properties as the origin texture
-	LGraphTexture.LOW = 3;			//create new texture with low precision (byte)
-	LGraphTexture.HIGH = 4;			//create new texture with high precision (half-float)
-	LGraphTexture.REUSE = 5;		//reuse input texture
+	// flags to choose output texture type
+	LGraphTexture.PASS_THROUGH = 1; // do not apply FX
+	LGraphTexture.COPY = 2;			// create new texture with the same properties as the origin texture
+	LGraphTexture.LOW = 3;			// create new texture with low precision (byte)
+	LGraphTexture.HIGH = 4;			// create new texture with high precision (half-float)
+	LGraphTexture.REUSE = 5;		// reuse input texture
 	LGraphTexture.DEFAULT = 2;
 
 	LGraphTexture.MODE_VALUES = {
@@ -31,17 +31,17 @@ if (typeof(LiteGraph) != "undefined") {
 		"default": LGraphTexture.DEFAULT
 	};
 
-	//returns the container where all the loaded textures are stored (overwrite if you have a Resources Manager)
+	// returns the container where all the loaded textures are stored (overwrite if you have a Resources Manager)
 	LGraphTexture.getTexturesContainer = function() {
 		return gl.textures;
 	}
 
-	//process the loading of a texture (overwrite it if you have a Resources Manager)
+	// process the loading of a texture (overwrite it if you have a Resources Manager)
 	LGraphTexture.loadTexture = function(name, options) {
 		options = options || {};
 		var url = name;
 		if (url.substr(0,7) == "http://") {
-			if (LiteGraph.proxy) //proxy external files
+			if (LiteGraph.proxy) // proxy external files
 				url = LiteGraph.proxy + url.substr(7);
 		}
 
@@ -65,7 +65,7 @@ if (typeof(LiteGraph) != "undefined") {
 		return tex;
 	}
 
-	//used to compute the appropiate output texture
+	// used to compute the appropiate output texture
 	LGraphTexture.getTargetTexture = function( origin, target, mode ) {
 		if (!origin)
 			throw("LGraphTexture.getTargetTexture expects a reference texture");
@@ -184,12 +184,12 @@ if (typeof(LiteGraph) != "undefined") {
 
 		if ( this._dropTexture && ctx.webgl ) {
 			ctx.drawImage( this._dropTexture, 0,0,this.size[0],this.size[1]);
-			//this._dropTexture.renderQuad(this.pos[0],this.pos[1],this.size[0],this.size[1]);
+			// this._dropTexture.renderQuad(this.pos[0],this.pos[1],this.size[0],this.size[1]);
 			return;
 		}
 
 
-		//Different texture? then get it from the GPU
+		// Different texture? then get it from the GPU
 		if (this._lastPreviewTex != this._lastTex) {
 			if (ctx.webgl) {
 				this._canvas = this._lastTex;
@@ -208,9 +208,9 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!this._canvas)
 			return;
 
-		//render to graph canvas
+		// render to graph canvas
 		ctx.save();
-		if (!ctx.webgl) //reverse image
+		if (!ctx.webgl) // reverse image
 		{
 			ctx.translate(0,this.size[1]);
 			ctx.scale(1,-1);
@@ -220,7 +220,7 @@ if (typeof(LiteGraph) != "undefined") {
 	}
 
 
-	//very slow, used at your own risk
+	// very slow, used at your own risk
 	LGraphTexture.generateLowResTexturePreview = function(tex) {
 		if (!tex)
 			return null;
@@ -229,9 +229,9 @@ if (typeof(LiteGraph) != "undefined") {
 		var tempTex = tex;
 
 		if (tex.format == gl.DEPTH_COMPONENT)
-			return null; //cannot generate from depth
+			return null; // cannot generate from depth
 
-		//Generate low-level version in the GPU to speed up
+		// Generate low-level version in the GPU to speed up
 		if (tex.width > size || tex.height > size) {
 			tempTex = this._previewTempTex;
 			if (!this._previewTempTex) {
@@ -239,12 +239,12 @@ if (typeof(LiteGraph) != "undefined") {
 				this._previewTempTex = tempTex;
 			}
 
-			//copy
+			// copy
 			tex.copyTo(tempTex);
 			tex = tempTex;
 		}
 
-		//create intermediate canvas with lowquality version
+		// create intermediate canvas with lowquality version
 		var texCanvas = this._previewCanvas;
 		if (!texCanvas) {
 			texCanvas = createCanvas(size,size);
@@ -267,7 +267,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LiteGraph.registerNodeType("texture/texture", LGraphTexture );
 
-	//**************************
+	// **************************
 	function LGraphTexturePreview() {
 		this.addInput("Texture","Texture");
 		this.properties = { flipY: false };
@@ -291,7 +291,7 @@ if (typeof(LiteGraph) != "undefined") {
 		else
 			texCanvas = LGraphTexture.generateLowResTexturePreview(tex);
 
-		//render to graph canvas
+		// render to graph canvas
 		ctx.save();
 		if (this.properties.flipY) {
 			ctx.translate(0,this.size[1]);
@@ -303,7 +303,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LiteGraph.registerNodeType("texture/preview", LGraphTexturePreview );
 
-	//**************************************
+	// **************************************
 
 	function LGraphTextureSave() {
 		this.addInput("Texture","Texture");
@@ -328,7 +328,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LiteGraph.registerNodeType("texture/save", LGraphTextureSave );
 
-	//****************************************************
+	// ****************************************************
 
 	function LGraphTextureOperation() {
 		this.addInput("Texture","Texture");
@@ -368,11 +368,11 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!this._tex)
 			return;
 
-		//only works if using a webgl renderer
+		// only works if using a webgl renderer
 		if (this._tex.gl != ctx)
 			return;
 
-		//render to graph canvas
+		// render to graph canvas
 		ctx.save();
 		ctx.drawImage(this._tex, 0, 0, this.size[0], this.size[1]);
 		ctx.restore();
@@ -382,7 +382,7 @@ if (typeof(LiteGraph) != "undefined") {
 		var tex = this.getInputData(0);
 
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH) {
 			this.setOutputData(0, tex);
@@ -424,14 +424,14 @@ if (typeof(LiteGraph) != "undefined") {
 		var uvcode = "";
 		if (this.properties.uvcode) {
 			uvcode = "uv = " + this.properties.uvcode;
-			if (this.properties.uvcode.indexOf(";") != -1) //there are line breaks, means multiline code
+			if (this.properties.uvcode.indexOf(";") != -1) // there are line breaks, means multiline code
 				uvcode = this.properties.uvcode;
 		}
 		
 		var pixelcode = "";
 		if (this.properties.pixelcode) {
 			pixelcode = "result = " + this.properties.pixelcode;
-			if (this.properties.pixelcode.indexOf(";") != -1) //there are line breaks, means multiline code
+			if (this.properties.pixelcode.indexOf(";") != -1) // there are line breaks, means multiline code
 				pixelcode = this.properties.pixelcode;
 		}
 
@@ -503,13 +503,13 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LiteGraph.registerNodeType("texture/operation", LGraphTextureOperation );
 
-	//****************************************************
+	// ****************************************************
 
 	function LGraphTextureShader() {
 		this.addOutput("Texture","Texture");
 		this.properties = {code:"", width: 512, height: 512};
 
-		this.properties.code = "\nvoid main() {\n  vec2 uv = coord;\n  vec3 color = vec3(0.0);\n//your code here\n\ngl_FragColor = vec4(color, 1.0);\n}\n";
+		this.properties.code = "\nvoid main() {\n  vec2 uv = coord;\n  vec3 color = vec3(0.0);\n// your code here\n\ngl_FragColor = vec4(color, 1.0);\n}\n";
 	}
 
 	LGraphTextureShader.title = "Shader";
@@ -521,9 +521,9 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphTextureShader.prototype.onExecute = function() {
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
-		//replug 
+		// replug 
 		if (this._shaderCode != this.properties.code) {
 			this._shaderCode = this.properties.code;
 			this._shader = new GL.Shader(Shader.SCREEN_VERTEX_SHADER, LGraphTextureShader.pixelShader + this.properties.code );
@@ -535,7 +535,7 @@ if (typeof(LiteGraph) != "undefined") {
 				this.boxcolor = "green";
 			/*
 			var uniforms = this._shader.uniformLocations;
-			//disconnect inputs
+			// disconnect inputs
 			if (this.inputs)
 				for (var i = 0; i < this.inputs.length; i++) {
 					var slot = this.inputs[i];
@@ -609,7 +609,7 @@ if (typeof(LiteGraph) != "undefined") {
 		var tex = this.getInputData(0);
 
 		if (!this.isOutputConnected(0) || !tex)
-			return; //saves work
+			return; // saves work
 
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH) {
 			this.setOutputData(0, tex);
@@ -698,7 +698,7 @@ if (typeof(LiteGraph) != "undefined") {
 		var tex = this.getInputData(0);
 
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH) {
 			this.setOutputData(0, tex);
@@ -766,7 +766,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LiteGraph.registerNodeType("texture/warp", LGraphTextureWarp );
 
-	//****************************************************
+	// ****************************************************
 
 	// Texture to Viewport *****************************************
 	function LGraphTextureToViewport() {
@@ -804,7 +804,7 @@ if (typeof(LiteGraph) != "undefined") {
 			if (!LGraphTextureToViewport._shader)
 				LGraphTextureToViewport._shader = new GL.Shader( GL.Shader.SCREEN_VERTEX_SHADER, LGraphTextureToViewport.aaPixelShader );
 
-			var viewport = gl.getViewport(); //gl.getParameter(gl.VIEWPORT);
+			var viewport = gl.getViewport(); // gl.getParameter(gl.VIEWPORT);
 			var mesh = Mesh.getScreenQuad();
 			tex.bind(0);
 			LGraphTextureToViewport._shader.uniforms({uTexture:0, uViewportSize:[tex.width,tex.height], uIgamma: 1 / gamma,  inverseVP: [1/tex.width,1/tex.height] }).draw(mesh);
@@ -869,7 +869,7 @@ if (typeof(LiteGraph) != "undefined") {
 				vec3 rgbB = rgbA * 0.5 + 0.25 * (texture2D(tex, fragCoord * inverseVP + dir * -0.5).xyz + \n\
 					texture2D(tex, fragCoord * inverseVP + dir * 0.5).xyz);\n\
 				\n\
-				//return vec4(rgbA,1.0);\n\
+				// return vec4(rgbA,1.0);\n\
 				float lumaB = dot(rgbB, luma);\n\
 				if ((lumaB < lumaMin) || (lumaB > lumaMax))\n\
 					color = vec4(rgbA, 1.0);\n\
@@ -921,9 +921,9 @@ if (typeof(LiteGraph) != "undefined") {
 			return;
 
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
-		//copy the texture
+		// copy the texture
 		if (tex) {
 			var width = tex.width;
 			var height = tex.height;
@@ -979,7 +979,7 @@ if (typeof(LiteGraph) != "undefined") {
 			return;
 
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		if (!LGraphTextureAverage._shader) {
 			LGraphTextureAverage._shader = new GL.Shader(Shader.SCREEN_VERTEX_SHADER, LGraphTextureAverage.pixelShader);
@@ -1032,7 +1032,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphImageToTexture.title = "Image to Texture";
 	LGraphImageToTexture.desc = "Uploads an image to the GPU";
-	//LGraphImageToTexture.widgetsInfo = { size: { widget:"combo", values:[0,32,64,128,256,512,1024,2048]} };
+	// LGraphImageToTexture.widgetsInfo = { size: { widget:"combo", values:[0,32,64,128,256,512,1024,2048]} };
 
 	LGraphImageToTexture.prototype.onExecute = function() {
 		var img = this.getInputData(0);
@@ -1042,7 +1042,7 @@ if (typeof(LiteGraph) != "undefined") {
 		var width = img.videoWidth || img.width;
 		var height = img.videoHeight || img.height;
 
-		//this is in case we are using a webgl canvas already, no need to reupload it
+		// this is in case we are using a webgl canvas already, no need to reupload it
 		if (img.gltexture) {
 			this.setOutputData(0,img.gltexture);
 			return;
@@ -1090,7 +1090,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphTextureLUT.prototype.onExecute = function() {
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		var tex = this.getInputData(0);
 
@@ -1123,7 +1123,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 		this._tex = LGraphTexture.getTargetTexture( tex, this._tex, this.properties.precision );
 
-		//var mesh = Mesh.getScreenQuad();
+		// var mesh = Mesh.getScreenQuad();
 
 		this._tex.drawTo(function() {
 			lutTex.bind(1);
@@ -1331,7 +1331,7 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!B)
 			B = this.properties.B;
 
-		//angle and scale
+		// angle and scale
 		for (var i = 2; i < this.inputs.length; i++) {
 			var input = this.inputs[i];
 			var v = this.getInputData(i);
@@ -1410,7 +1410,7 @@ if (typeof(LiteGraph) != "undefined") {
 		var texA = this.getInputData(0);
 
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 		
 		if (this.properties.precision === LGraphTexture.PASS_THROUGH ) {
 			this.setOutputData(0,texA);
@@ -1473,7 +1473,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphTextureEdges.prototype.onExecute = function() {
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		var tex = this.getInputData(0);
 
@@ -1543,7 +1543,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphTextureDepthRange.prototype.onExecute = function() {
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		var tex = this.getInputData(0);
 		if (!tex) return;
@@ -1556,7 +1556,7 @@ if (typeof(LiteGraph) != "undefined") {
 			this._tempTexture.width != tex.width || this._tempTexture.height != tex.height)
 			this._tempTexture = new GL.Texture( tex.width, tex.height, { type: precision, format: gl.RGBA, filter: gl.LINEAR });
 
-		//iterations
+		// iterations
 		var distance = this.properties.distance;
 		if ( this.isInputConnected(1) ) {
 			distance = this.getInputData(1);
@@ -1574,7 +1574,7 @@ if (typeof(LiteGraph) != "undefined") {
 		var mesh = Mesh.getScreenQuad();
 		var shader = LGraphTextureDepthRange._shader;
 
-		//TODO: this asumes we have LiteScene, change it
+		// TODO: this asumes we have LiteScene, change it
 		var camera = LS.Renderer._currentCamera;
 		var planes = [LS.Renderer._currentCamera.near, LS.Renderer._currentCamera.far];
 
@@ -1636,24 +1636,24 @@ if (typeof(LiteGraph) != "undefined") {
 			return;
 
 		if (!this.isOutputConnected(0))
-			return; //saves work
+			return; // saves work
 
 		var temp = this._tempTexture;
 
 		if (!temp || temp.width != tex.width || temp.height != tex.height || temp.type != tex.type ) {
-			//we need two textures to do the blurring
+			// we need two textures to do the blurring
 			this._tempTexture = new GL.Texture( tex.width, tex.height, { type: tex.type, format: gl.RGBA, filter: gl.LINEAR });
 			this._finalTexture = new GL.Texture( tex.width, tex.height, { type: tex.type, format: gl.RGBA, filter: gl.LINEAR });
 		}
 
-		//iterations
+		// iterations
 		var iterations = this.properties.iterations;
 		if ( this.isInputConnected(1) ) {
 			iterations = this.getInputData(1);
 			this.properties.iterations = iterations;
 		}
 		iterations = Math.min( Math.floor(iterations), LGraphTextureBlur.maxIterations );
-		if (iterations == 0) //skip blurring
+		if (iterations == 0) // skip blurring
 		{
 			this.setOutputData(0, tex);
 			return;
@@ -1671,14 +1671,14 @@ if (typeof(LiteGraph) != "undefined") {
 		var shader = LGraphTextureBlur._shader;
 		var scale = this.properties.scale || [1,1];
 
-		//blur sometimes needs an aspect correction
+		// blur sometimes needs an aspect correction
 		var aspect = LiteGraph.cameraAspect;
 		if (!aspect && window.gl !== undefined)
 			aspect = gl.canvas.height / gl.canvas.width;
 		if (!aspect)
 			aspect = 1;
 
-		//iterate
+		// iterate
 		var startTexture = tex;
 		aspect = this.properties.preserveAspect ? aspect : 1;
 		for (var i = 0; i < iterations; ++i) {
@@ -1735,12 +1735,12 @@ if (typeof(LiteGraph) != "undefined") {
 
 
 	LGraphTextureWebcam.prototype.openStream = function() {
-		//Vendor prefixes hell
+		// Vendor prefixes hell
 		navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 		window.URL = window.URL || window.webkitURL;
 
 		if (!navigator.getUserMedia) {
-		  //console.log('getUserMedia() is not supported in your browser, use chrome and enable WebRTC from about://flags');
+		  // console.log('getUserMedia() is not supported in your browser, use chrome and enable WebRTC from about://flags');
 		  return;
 		}
 
@@ -1759,7 +1759,7 @@ if (typeof(LiteGraph) != "undefined") {
 
 	LGraphTextureWebcam.prototype.streamReady = function(localMediaStream) {
 		this._webcamStream = localMediaStream;
-		//this._waitingConfirmation = false;
+		// this._waitingConfirmation = false;
 
 	    var video = this._video;
 		if (!video) {
@@ -1767,8 +1767,8 @@ if (typeof(LiteGraph) != "undefined") {
 			video.autoplay = true;
 		    video.src = window.URL.createObjectURL( localMediaStream );
 			this._video = video;
-			//document.body.appendChild( video ); //debug
-			//when video info is loaded (size and so)
+			// document.body.appendChild( video ); // debug
+			// when video info is loaded (size and so)
 			video.onloadedmetadata = function(e) {
 				// Ready to go. Do some stuff.
 				console.log(e);
@@ -1791,9 +1791,9 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!this._video)
 			return;
 
-		//render to graph canvas
+		// render to graph canvas
 		ctx.save();
-		if (!ctx.webgl) //reverse image
+		if (!ctx.webgl) // reverse image
 		{
 			ctx.translate(0,this.size[1]);
 			ctx.scale(1,-1);
@@ -1834,7 +1834,7 @@ if (typeof(LiteGraph) != "undefined") {
 	LiteGraph.registerNodeType("texture/webcam", LGraphTextureWebcam );
 
 
-	//Cubemap reader
+	// Cubemap reader
 	function LGraphCubemap() {
 		this.addOutput("Cubemap","Cubemap");
 		this.properties = {name:""};
@@ -1884,9 +1884,9 @@ if (typeof(LiteGraph) != "undefined") {
 		if (!cubeMesh)
 			cubeMesh = gl.meshes["cube"] = GL.Mesh.cube({size:1});
 
-		//var view = mat4.lookAt( mat4.create(), [0,0
+		// var view = mat4.lookAt( mat4.create(), [0,0
 	}
 
 	LiteGraph.registerNodeType("texture/cubemap", LGraphCubemap );
 
-} //litegl.js defined
+} // litegl.js defined

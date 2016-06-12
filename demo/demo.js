@@ -38,7 +38,7 @@ function JSONGraph()
 						   {type:"basic/number",pos:[400,500],properties:{value:Math.PI/4}},
 						   {type:"basic/wrapper",pos:[700,450],properties:{name:"console.log", arguments:"msg"}},
 						   {type:"graph/comment",pos:[50,350],size:[800,200],properties:{comment:"Examples with the Wrapper node", color:"rgba(128,0,0,0.1)"}},
-						   //For loop
+						   // For loop
 						   {type:"widget/button",pos:[950,500]},
 						   {type:"basic/number",pos:[950,550]},
 						   {type:"basic/number",pos:[950,600],properties:{value:5}},
@@ -46,7 +46,7 @@ function JSONGraph()
 						   {type:"basic/console",pos:[1350,500]},
 						   {type:"basic/string",pos:[1200,590],properties:{value:"finished"}},
 						   {type:"basic/console",pos:[1350,570]},
-						   //For loop with break
+						   // For loop with break
 						   {type:"widget/button",pos:[950,750]},
 						   {type:"basic/number",pos:[950,800]},
 						   {type:"basic/number",pos:[950,850],properties:{value:5}},
@@ -80,7 +80,7 @@ function JSONGraph()
 						   [21,20.1],
 						   [20,22],
 						   [20.1,22.1],
-						   //For loop
+						   // For loop
 						   [24,27],
 						   [25,27.1],
 						   [26,27.2],
@@ -88,7 +88,7 @@ function JSONGraph()
 						   [27.1,28.1],
 						   [27.2,30],
 						   [29,30.1],
-						   //For loop with break
+						   // For loop with break
 						   [31,34],
 						   [32,34.1],
 						   [33,34.2],
