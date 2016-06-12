@@ -3,4 +3,5 @@
 	"excludeFiles": ["demo/code_old.js"],
 	"validateLineBreaks": null,
 	"maximumLineLength": null,
+	"validateCommentPosition": null
 }
