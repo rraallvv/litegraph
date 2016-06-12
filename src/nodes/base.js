@@ -14,8 +14,9 @@ function BasicNumber() {
 				return value;
 			},
 			set: function( v ) {
-				if ( typeof(v) !== "number")
+				if ( typeof(v) !== "number") {
 					v = parseFloat( v );
+				}
 				value = v;
 				this.outputs[ 0 ].label = value.toFixed( 3 );
 				this.setDirtyCanvas( true );
@@ -36,8 +37,9 @@ BasicNumber.prototype.onExecute = function() {
 };
 
 BasicNumber.prototype.onWidget = function( e, widget ) {
-	if ( widget.name == "value")
+	if ( widget.name == "value") {
 		this.setValue( widget.value );
+	}
 };
 
 LiteGraph.registerNodeType("basic/number", BasicNumber );
@@ -63,13 +65,13 @@ Watch.prototype.onExecute = function() {
 Watch.prototype.onDrawBackground = function( ctx ) {
 	// show the current value
 	if ( this.inputs[ 0 ] && this.properties.value != null ) {
-		if ( this.properties.value.constructor === Number )
+		if ( this.properties.value.constructor === Number ) {
 			this.inputs[ 0 ].label = this.properties.value.toFixed( 3 );
-		else
-		{
+		} else {
 			var str = this.properties.value;
-			if ( str && str.length ) // convert typed to array
+			if ( str && str.length ) { // convert typed to array
 				str = Array.prototype.slice.call( str ).join(",");
+			}
 			this.inputs[ 0 ].label = str;
 		}
 	}
@@ -92,10 +94,11 @@ Console.desc = "Show value inside the console";
 
 Console.prototype.onExecute = function() {
 	var msg = this.getInputData( 1 );
-	if ( msg !== undefined )
+	if ( msg !== undefined ) {
 		this.properties.msg = msg;
-	else
+	} else {
 		msg = this.properties.msg;
+	}
 	console.log( msg );
 };
 
@@ -125,14 +128,16 @@ Branch.desc = "Choose a diferent execution brach depending on the value in condi
 
 Branch.prototype.onExecute = function() {
 	var condition = this.getInputData( 1 );
-	if ( condition !== undefined )
+	if ( condition !== undefined ) {
 		this.properties.condition = condition;
-	else
+	} else {
 		condition = this.properties.condition;
-	if ( condition )
+	}
+	if ( condition ) {
 		this.trigger("true");
-	else
+	} else {
 		this.trigger("false");
+	}
 };
 
 LiteGraph.registerNodeType("basic/branch", Branch );
@@ -150,7 +155,9 @@ BasicString.title = "String";
 BasicString.desc = "String value";
 
 BasicString.prototype.setValue = function( v ) {
-	if ( typeof(v) != "string") v = v.toString();
+	if ( typeof(v) != "string") {
+		v = v.toString();
+	}
 	this.properties.value = v;
 	this.setDirtyCanvas( true );
 };
@@ -166,7 +173,7 @@ BasicString.prototype.onDrawBackground = function( ctx ) {
 
 	var width = ctx.measureText( text ).width;
 
-	if ( width > this.size[ 0 ] - 20 )
+	if ( width > this.size[ 0 ] - 20 ) {
 		for ( var i = 1; i < text.length; i++ ) {
 			var shortText = text.slice( 0, -i ) + "...";
 			width = ctx.measureText( shortText ).width;
@@ -175,14 +182,16 @@ BasicString.prototype.onDrawBackground = function( ctx ) {
 				break;
 			}
 		}
+	}
 
 	// show the current value
 	this.outputs[ 0 ].label = text;
 };
 
 BasicString.prototype.onWidget = function( e, widget ) {
-	if ( widget.name == "value")
+	if ( widget.name == "value") {
 		this.setValue( widget.value );
+	}
 };
 
 LiteGraph.registerNodeType("basic/string", BasicString );
@@ -200,7 +209,9 @@ BasicBoolean.title = "Boolean";
 BasicBoolean.desc = "Boolean value";
 
 BasicBoolean.prototype.setValue = function( v ) {
-	if ( typeof(v) != "boolean") v = v === true;
+	if ( typeof(v) != "boolean") {
+		v = v === true;
+	}
 	this.properties.value = v;
 	this.setDirtyCanvas( true );
 };
@@ -215,8 +226,9 @@ BasicBoolean.prototype.onDrawBackground = function( ctx ) {
 };
 
 BasicBoolean.prototype.onWidget = function( e, widget ) {
-	if ( widget.name == "value")
+	if ( widget.name == "value") {
 		this.setValue( widget.value );
+	}
 };
 
 LiteGraph.registerNodeType("basic/boolean", BasicBoolean );
@@ -239,17 +251,20 @@ function Wrapper() {
 				return functionName;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
-				if ( functionName == v )
+				}
+				if ( functionName == v ) {
 					return;
+				}
 				this.title = v;
 
 				// find a function with the given name
 				var path = v.split(".");
 				var functionObject = window[ path.shift() ];
-				while ( path.length > 0 )
+				while ( path.length > 0 ) {
 					functionObject = functionObject[ path.shift() ];
+				}
 				this._functionObject = functionObject;
 
 				functionName = v;
@@ -262,21 +277,26 @@ function Wrapper() {
 				return functionArguments;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
-				if ( functionArguments == v )
+				}
+				if ( functionArguments == v ) {
 					return;
+				}
 
-				for ( var i = 1, l = this.inputs.length; i < l; i++ )
+				for ( var i = 1, l = this.inputs.length; i < l; i++ ) {
 					this.removeInput( i );
+				}
 
 				if ( v != undefined ) {
 					var strings = v.split(",");
-					if ( typeof(strings) === "string")
+					if ( typeof(strings) === "string") {
 						this.addInput( strings );
-					else
-						for ( var i = 0, l = strings.length; i < l; i++ )
+					} else {
+						for ( var i = 0, l = strings.length; i < l; i++ ) {
 							this.addInput( strings[ i ] );
+						}
+					}
 				}
 
 				functionArguments = v;
@@ -289,16 +309,20 @@ function Wrapper() {
 				return functionReturn;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
-				if ( functionReturn == v )
+				}
+				if ( functionReturn == v ) {
 					return;
+				}
 
-				if ( this.outputs.length == 2 )
+				if ( this.outputs.length == 2 ) {
 					this.removeOutput( 1 );
+				}
 
-				if ( v != undefined )
+				if ( v != undefined ) {
 					this.addOutput( v );
+				}
 
 				functionReturn = v;
 			}
@@ -316,15 +340,17 @@ Wrapper.desc = "Function wrapper";
 Wrapper.prototype.onExecute = function() {
 	// collect the arguments
 	var functionArguments = [];
-	for ( var i = 1, l = this.inputs.length; i < l; i++ )
+	for ( var i = 1, l = this.inputs.length; i < l; i++ ) {
 		functionArguments.push( this.getInputData( i ) );
+	}
 
 	// call the wrapped function
 	var functionObject = this._functionObject;
 	if ( functionObject ) {
 		var result = functionObject.apply( functionObject, functionArguments );
-		if ( this.outputs.length == 2 ) // set output to the result
+		if ( this.outputs.length == 2 ) { // set output to the result
 			this.setOutputData( 1, result );
+		}
 	}
 
 	// continue with the control flow
@@ -390,7 +416,9 @@ ForLoopWithBreak.prototype.onExecute = function( action ) {
 	for ( var i = firstIndex; i <= lastIndex; i++ ) {
 		this.setOutputData( 1, i );
 		this.trigger("loop body");
-		if ( !this.looping ) return;
+		if ( !this.looping ) {
+			return;
+		}
 	}
 
 	this.trigger("completed");

@@ -11,8 +11,9 @@
 	WidgetButton.desc = "Triggers an event";
 
 	WidgetButton.prototype.onDrawForeground = function( ctx ) {
-		if ( this.flags.collapsed )
+		if ( this.flags.collapsed ) {
 			return;
+		}
 
 		// ctx.font = "40px Arial";
 		// ctx.textAlign = "center";
@@ -60,7 +61,9 @@
 	};
 
 	WidgetKnob.prototype.onDrawImageKnob = function( ctx ) {
-		if ( !this.imgfg || !this.imgfg.width ) return;
+		if ( !this.imgfg || !this.imgfg.width ) {
+			return;
+		}
 
 		var d = this.imgbg.width * 0.5;
 		var scale = this.size[ 0 ] / this.imgfg.width;
@@ -89,7 +92,9 @@
 	};
 
 	WidgetKnob.prototype.onDrawVectorKnob = function( ctx ) {
-		if ( !this.imgfg || !this.imgfg.width ) return;
+		if ( !this.imgfg || !this.imgfg.width ) {
+			return;
+		}
 
 		// circle around
 		ctx.lineWidth = 1;
@@ -113,8 +118,9 @@
 		ctx.textAlign = "center";
 
 		var str = this.properties.value;
-		if ( typeof(str) == "number" )
+		if ( typeof(str) == "number" ) {
 			str = str.toFixed( 2 );
+		}
 
 		ctx.fillText( str, this.size[ 0 ] * 0.5, this.size[ 1 ] * 0.65 );
 		ctx.textAlign = "left";
@@ -131,15 +137,18 @@
 	};
 
 	WidgetKnob.prototype.onMouseDown = function( e ) {
-		if ( !this.imgfg || !this.imgfg.width ) return;
+		if ( !this.imgfg || !this.imgfg.width ) {
+			return;
+		}
 
 		// this.center = [this.imgbg.width * 0.5, this.imgbg.height * 0.5 + 20];
 		// this.radius = this.imgbg.width * 0.5;
 		this.center = [ this.size[ 0 ] * 0.5, this.size[ 1 ] * 0.5 + 20 ];
 		this.radius = this.size[ 0 ] * 0.5;
 
-		if ( e.canvasY - this.pos[ 1 ] < 20 || distance([ e.canvasX, e.canvasY ], [ this.pos[ 0 ] + this.center[ 0 ], this.pos[ 1 ] + this.center[ 1 ] ]) > this.radius )
+		if ( e.canvasY - this.pos[ 1 ] < 20 || distance([ e.canvasX, e.canvasY ], [ this.pos[ 0 ] + this.center[ 0 ], this.pos[ 1 ] + this.center[ 1 ] ]) > this.radius ) {
 			return false;
+		}
 
 		this.oldmouse = [ e.canvasX - this.pos[ 0 ], e.canvasY - this.pos[ 1 ] ];
 		this.captureInput( true );
@@ -151,14 +160,19 @@
 	};
 
 	WidgetKnob.prototype.onMouseMove = function( e ) {
-		if ( !this.oldmouse ) return;
+		if ( !this.oldmouse ) {
+			return;
+		}
 
 		var m = [ e.canvasX - this.pos[ 0 ], e.canvasY - this.pos[ 1 ] ];
 
 		var v = this.value;
 		v -= (m[ 1 ] - this.oldmouse[ 1 ]) * 0.01;
-		if ( v > 1.0 ) v = 1.0;
-		else if ( v < 0.0 ) v = 0.0;
+		if ( v > 1.0 ) {
+			v = 1.0;
+		} else if ( v < 0.0 ) {
+			v = 0.0;
+		}
 
 		this.value = v;
 		this.properties.value = this.properties.min + (this.properties.max - this.properties.min) * this.value;
@@ -179,24 +193,26 @@
 	};
 
 	WidgetKnob.prototype.onWidget = function( e, widget ) {
-		if ( widget.name == "increase")
+		if ( widget.name == "increase") {
 			this.onPropertyChange("size", this.properties.size + 10 );
-		else if ( widget.name == "decrease")
+		} else if ( widget.name == "decrease") {
 			this.onPropertyChange("size", this.properties.size - 10 );
+		}
 	};
 
 	WidgetKnob.prototype.onPropertyChange = function( name, value ) {
-		if ( name == "wcolor")
+		if ( name == "wcolor") {
 			this.properties[ name ] = value;
-		else if ( name == "size") {
+		} else if ( name == "size") {
 			value = parseInt( value );
 			this.properties[ name ] = value;
 			this.size = [ value + 4, value + 24 ];
 			this.setDirtyCanvas( true, true );
 		} else if ( name == "min" || name == "max" || name == "value") {
 			this.properties[ name ] = parseFloat( value );
-		} else
+		} else {
 			return false;
+		}
 		return true;
 	};
 
@@ -218,7 +234,9 @@
 	};
 
 	WidgetHSlider.prototype.onDrawVectorial = function( ctx ) {
-		if ( !this.imgfg || !this.imgfg.width ) return;
+		if ( !this.imgfg || !this.imgfg.width ) {
+			return;
+		}
 
 		// border
 		ctx.lineWidth = 1;
@@ -235,8 +253,9 @@
 	};
 
 	WidgetHSlider.prototype.onDrawImage = function( ctx ) {
-		if ( !this.imgfg || !this.imgfg.width )
+		if ( !this.imgfg || !this.imgfg.width ) {
 			return;
+		}
 
 		// border
 		ctx.lineWidth = 1;
@@ -269,8 +288,9 @@
 	};
 
 	WidgetHSlider.prototype.onMouseDown = function( e ) {
-		if ( e.canvasY - this.pos[ 1 ] < 0 )
+		if ( e.canvasY - this.pos[ 1 ] < 0 ) {
 			return false;
+		}
 
 		this.oldmouse = [ e.canvasX - this.pos[ 0 ], e.canvasY - this.pos[ 1 ] ];
 		this.captureInput( true );
@@ -278,15 +298,20 @@
 	};
 
 	WidgetHSlider.prototype.onMouseMove = function( e ) {
-		if ( !this.oldmouse ) return;
+		if ( !this.oldmouse ) {
+			return;
+		}
 
 		var m = [ e.canvasX - this.pos[ 0 ], e.canvasY - this.pos[ 1 ] ];
 
 		var v = this.value;
 		var delta = (m[ 0 ] - this.oldmouse[ 0 ]);
 		v += delta / this.size[ 0 ];
-		if ( v > 1.0 ) v = 1.0;
-		else if ( v < 0.0 ) v = 0.0;
+		if ( v > 1.0 ) {
+			v = 1.0;
+		} else if ( v < 0.0 ) {
+			v = 0.0;
+		}
 
 		this.value = v;
 
@@ -304,10 +329,11 @@
 	};
 
 	WidgetHSlider.prototype.onPropertyChange = function( name, value ) {
-		if ( name == "wcolor")
+		if ( name == "wcolor") {
 			this.properties[ name ] = value;
-		else
+		} else {
 			return false;
+		}
 		return true;
 	};
 
@@ -325,8 +351,9 @@
 
 	WidgetProgress.prototype.onExecute = function() {
 		var v = this.getInputData( 0 );
-		if ( v != undefined )
+		if ( v != undefined ) {
 			this.properties.value = v;
+		}
 	};
 
 	WidgetProgress.prototype.onDrawForeground = function( ctx ) {
@@ -561,8 +588,9 @@
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
 			ctx.shadowBlur = this.properties.glowSize;
-		} else
+		} else {
 			ctx.shadowColor = "transparent";
+		}
 
 		var fontsize = this.properties.fontsize;
 
@@ -572,8 +600,9 @@
 
 		if ( typeof(this.str) == "string" ) {
 			var lines = this.str.split("\\n");
-			for ( var i in lines )
+			for ( var i in lines ) {
 				ctx.fillText( lines[ i ], this.properties.align == "left" ? 15 : this.size[ 0 ] - 15, fontsize * -0.15 + fontsize * (parseInt( i ) + 1) );
+			}
 		}
 
 		ctx.shadowColor = "transparent";
@@ -583,22 +612,27 @@
 
 	WidgetText.prototype.onExecute = function() {
 		var v = this.getInputData( 0 );
-		if ( v != null )
+		if ( v != null ) {
 			this.properties.value = v;
-		else
+		} else {
 			this.properties.value = "";
+		}
 		this.setDirtyCanvas( true );
 	};
 
 	WidgetText.prototype.resize = function() {
-		if ( !this.lastCtx ) return;
+		if ( !this.lastCtx ) {
+			return;
+		}
 
 		var lines = this.str.split("\\n");
 		this.lastCtx.font = this.properties.fontsize + "px " + this.properties.font;
 		var max = 0;
 		for ( var i in lines ) {
 			var w = this.lastCtx.measureText( lines[ i ] ).width;
-			if ( max < w ) max = w;
+			if ( max < w ) {
+				max = w;
+			}
 		}
 		this.size[ 0 ] = max + 20;
 		this.size[ 1 ] = 4 + lines.length * this.properties.fontsize;
@@ -607,9 +641,9 @@
 	};
 
 	WidgetText.prototype.onWidget = function( e, widget ) {
-		if ( widget.name == "resize")
+		if ( widget.name == "resize") {
 			this.resize();
-		else if ( widget.name == "ledText") {
+		} else if ( widget.name == "ledText") {
 			this.properties.font = "Digital";
 			this.properties.glowSize = 4;
 			this.setDirtyCanvas( true );
@@ -651,11 +685,13 @@
 	};
 
 	WidgetPanel.prototype.onDrawForeground = function( ctx ) {
-		if ( this.lineargradient == null )
+		if ( this.lineargradient == null ) {
 			this.createGradient( ctx );
+		}
 
-		if ( !this.lineargradient )
+		if ( !this.lineargradient ) {
 			return;
+		}
 
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = this.properties.borderColor;
@@ -667,8 +703,9 @@
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
 			ctx.shadowBlur = this.properties.shadowSize;
-		} else
+		} else {
 			ctx.shadowColor = "transparent";
+		}
 
 		ctx.beginPath();
 		ctx.roundRect( 0, 0, this.size[ 0 ] - 1, this.size[ 1 ] - 1, this.properties.shadowSize );

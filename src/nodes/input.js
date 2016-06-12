@@ -40,8 +40,7 @@ GamepadInput.prototype.onExecute = function() {
 					case "backButton": v = gamepad.xbox.buttons.back ? 1 : 0; break;
 					default: break;
 				}
-			} else
-			{
+			} else {
 				// if no gamepad is connected, output 0
 				switch ( output.name ) {
 					case "leftAxis":
@@ -59,8 +58,9 @@ GamepadInput.prototype.onExecute = function() {
 
 GamepadInput.prototype.getGamepad = function() {
 	var getGamepads = navigator.getGamepads || navigator.webkitGetGamepads || navigator.mozGetGamepads;
-	if ( !getGamepads )
+	if ( !getGamepads ) {
 		return null;
+	}
 	var gamepads = getGamepads.call( navigator );
 	var gamepad = null;
 
@@ -70,8 +70,9 @@ GamepadInput.prototype.getGamepad = function() {
 
 			// xbox controller mapping
 			var xbox = this.xboxMapping;
-			if ( !xbox )
+			if ( !xbox ) {
 				xbox = this.xboxMapping = { axes:[], buttons:{}, hat: "" };
+			}
 
 			xbox.axes.lx = gamepad.axes[ 0 ];
 			xbox.axes.ly = gamepad.axes[ 1 ];
@@ -82,25 +83,83 @@ GamepadInput.prototype.getGamepad = function() {
 
 			for ( var i = 0; i < gamepad.buttons.length; i++ ) {
 				// mapping of XBOX
-				switch ( i ) // I use a switch to ensure that a player with another gamepad could play
-				{
-					case 0: xbox.buttons.a = gamepad.buttons[ i ].pressed; break;
-					case 1: xbox.buttons.b = gamepad.buttons[ i ].pressed; break;
-					case 2: xbox.buttons.x = gamepad.buttons[ i ].pressed; break;
-					case 3: xbox.buttons.y = gamepad.buttons[ i ].pressed; break;
-					case 4: xbox.buttons.lb = gamepad.buttons[ i ].pressed; break;
-					case 5: xbox.buttons.rb = gamepad.buttons[ i ].pressed; break;
-					case 6: xbox.buttons.lt = gamepad.buttons[ i ].pressed; break;
-					case 7: xbox.buttons.rt = gamepad.buttons[ i ].pressed; break;
-					case 8: xbox.buttons.back = gamepad.buttons[ i ].pressed; break;
-					case 9: xbox.buttons.start = gamepad.buttons[ i ].pressed; break;
-					case 10: xbox.buttons.ls = gamepad.buttons[ i ].pressed; break;
-					case 11: xbox.buttons.rs = gamepad.buttons[ i ].pressed; break;
-					case 12: if ( gamepad.buttons[ i ].pressed ) xbox.hat += "up"; break;
-					case 13: if ( gamepad.buttons[ i ].pressed ) xbox.hat += "down"; break;
-					case 14: if ( gamepad.buttons[ i ].pressed ) xbox.hat += "left"; break;
-					case 15: if ( gamepad.buttons[ i ].pressed ) xbox.hat += "right"; break;
-					case 16: xbox.buttons.home = gamepad.buttons[ i ].pressed; break;
+				switch ( i ) { // I use a switch to ensure that a player with another gamepad could play
+					case 0:
+						xbox.buttons.a = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 1:
+						xbox.buttons.b = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 2:
+						xbox.buttons.x = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 3:
+						xbox.buttons.y = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 4:
+						xbox.buttons.lb = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 5:
+						xbox.buttons.rb = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 6:
+						xbox.buttons.lt = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 7:
+						xbox.buttons.rt = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 8:
+						xbox.buttons.back = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 9:
+						xbox.buttons.start = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 10:
+						xbox.buttons.ls = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 11:
+						xbox.buttons.rs = gamepad.buttons[ i ].pressed;
+						break;
+
+					case 12:
+						if ( gamepad.buttons[ i ].pressed ) {
+							xbox.hat += "up";
+						}
+						break;
+
+					case 13:
+						if ( gamepad.buttons[ i ].pressed ) {
+							xbox.hat += "down";
+						}
+						break;
+
+					case 14:
+						if ( gamepad.buttons[ i ].pressed ) {
+							xbox.hat += "left";
+						}
+						break;
+
+					case 15:
+						if ( gamepad.buttons[ i ].pressed ) {
+							xbox.hat += "right";
+						}
+						break;
+
+					case 16:
+						xbox.buttons.home = gamepad.buttons[ i ].pressed;
+						break;
+
 					default:
 				}
 			}

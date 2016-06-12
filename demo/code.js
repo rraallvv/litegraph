@@ -8,6 +8,7 @@ demo();
 
 function trace( a )
 {
-	if ( typeof(console) == "object")
+	if ( typeof(console) == "object") {
 		console.log( a );
+	}
 }

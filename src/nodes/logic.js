@@ -9,14 +9,16 @@ Selector.desc = "outputs A if selector is true, B if selector is false";
 
 Selector.prototype.onExecute = function() {
 	var cond = this.getInputData( 0 );
-	if ( cond === undefined )
+	if ( cond === undefined ) {
 		return;
+	}
 
 	for ( var i = 1; i < this.inputs.length; i++ ) {
 		var input = this.inputs[ i ];
 		var v = this.getInputData( i );
-		if ( v === undefined )
+		if ( v === undefined ) {
 			continue;
+		}
 		this.properties[ input.name ] = v;
 	}
 

@@ -37,16 +37,18 @@ Subgraph.prototype.onSubgraphNewGlobalInput = function( name, type ) {
 
 Subgraph.prototype.onSubgraphRenamedGlobalInput = function( oldname, name ) {
 	var slot = this.findInputSlot( oldname );
-	if ( slot == -1 )
+	if ( slot == -1 ) {
 		return;
+	}
 	var info = this.getInputInfo( slot );
 	info.name = name;
 };
 
 Subgraph.prototype.onSubgraphTypeChangeGlobalInput = function( name, type ) {
 	var slot = this.findInputSlot( name );
-	if ( slot == -1 )
+	if ( slot == -1 ) {
 		return;
+	}
 	var info = this.getInputInfo( slot );
 	info.type = type;
 };
@@ -58,16 +60,18 @@ Subgraph.prototype.onSubgraphNewGlobalOutput = function( name, type ) {
 
 Subgraph.prototype.onSubgraphRenamedGlobalOutput = function( oldname, name ) {
 	var slot = this.findOutputSlot( oldname );
-	if ( slot == -1 )
+	if ( slot == -1 ) {
 		return;
+	}
 	var info = this.getOutputInfo( slot );
 	info.name = name;
 };
 
 Subgraph.prototype.onSubgraphTypeChangeGlobalOutput = function( name, type ) {
 	var slot = this.findOutputSlot( name );
-	if ( slot == -1 )
+	if ( slot == -1 ) {
 		return;
+	}
 	var info = this.getOutputInfo( slot );
 	info.type = type;
 };
@@ -83,23 +87,25 @@ Subgraph.prototype.getExtraMenuOptions = function( graphcanvas ) {
 
 Subgraph.prototype.onExecute = function() {
 	// send inputs to subgraph global inputs
-	if ( this.inputs )
+	if ( this.inputs ) {
 		for ( var i = 0; i < this.inputs.length; i++ ) {
 			var input = this.inputs[ i ];
 			var value = this.getInputData( i );
 			this.subgraph.setGlobalInputData( input.name, value );
 		}
+	}
 
 	// execute
 	this.subgraph.runStep();
 
 	// send subgraph global outputs to outputs
-	if ( this.outputs )
+	if ( this.outputs ) {
 		for ( var i = 0; i < this.outputs.length; i++ ) {
 			var output = this.outputs[ i ];
 			var value = this.subgraph.getGlobalOutputData( output.name );
 			this.setOutputData( i, value );
 		}
+	}
 };
 
 Subgraph.prototype.serialize = function() {
@@ -142,16 +148,19 @@ function GlobalInput( title ) {
 				return inputName;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
+				}
 
 				var info = this.getOutputInfo( 0 );
-				if ( info.name == v )
+				if ( info.name == v ) {
 					return;
+				}
 				info.name = v;
 				this.title = v;
-				if ( this.graph )
+				if ( this.graph ) {
 					this.graph.renameGlobalInput( inputName, v );
+				}
 				inputName = v;
 			}
 		},
@@ -161,8 +170,9 @@ function GlobalInput( title ) {
 			get: function() { return this.outputs[ 0 ].type; },
 			set: function( v ) {
 				this.outputs[ 0 ].type = v;
-				if ( this.graph )
+				if ( this.graph ) {
 					this.graph.changeGlobalInputType( inputName, this.outputs[ 0 ].type );
+				}
 			}
 		}
 	});
@@ -181,7 +191,9 @@ GlobalInput.prototype.onExecute = function() {
 
 	// read from global input
 	var	data = this.graph.globalInputs[ name ];
-	if ( !data ) return;
+	if ( !data ) {
+		return;
+	}
 
 	// put through output
 	this.setOutputData( 0, data.value );
@@ -207,16 +219,19 @@ function GlobalOutput( title ) {
 				return outputName;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
+				}
 
 				var info = this.getInputInfo( 0 );
-				if ( info.name == v )
+				if ( info.name == v ) {
 					return;
+				}
 				info.name = v;
 				this.title = v;
-				if ( this.graph )
+				if ( this.graph ) {
 					this.graph.renameGlobalOutput( outputName, v );
+				}
 				outputName = v;
 			}
 		},
@@ -226,8 +241,9 @@ function GlobalOutput( title ) {
 			get: function() { return this.inputs[ 0 ].type; },
 			set: function( v ) {
 				this.inputs[ 0 ].type = v;
-				if ( this.graph )
+				if ( this.graph ) {
 					this.graph.changeGlobalInputType( outputName, this.inputs[ 0 ].type );
+				}
 			}
 		}
 	});
@@ -264,14 +280,17 @@ function GetProperty( title ) {
 				return propertyName;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
-				if ( this.graph.properties[ v ] === undefined )
+				}
+				if ( this.graph.properties[ v ] === undefined ) {
 					return;
+				}
 
 				var info = this.getOutputInfo( 0 );
-				if ( info.name == v )
+				if ( info.name == v ) {
 					return;
+				}
 				info.name = v;
 				propertyName = v;
 			}
@@ -287,7 +306,9 @@ GetProperty.prototype.onExecute = function() {
 
 	// read from graph properties
 	var	value = this.graph.properties[ name ];
-	if ( value === undefined ) return;
+	if ( value === undefined ) {
+		return;
+	}
 
 	// put through output
 	this.setOutputData( 0, value );
@@ -315,14 +336,17 @@ function SetProperty( title ) {
 				return propertyName;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
-				if ( this.graph.properties[ v ] === undefined )
+				}
+				if ( this.graph.properties[ v ] === undefined ) {
 					return;
+				}
 
 				var info = this.getInputInfo( 1 );
-				if ( info.name == v )
+				if ( info.name == v ) {
 					return;
+				}
 				info.name = v;
 				propertyName = v;
 
@@ -378,8 +402,9 @@ function Comment( title ) {
 				return this.title;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
+				}
 				this.title = v;
 			}
 		},
@@ -390,8 +415,9 @@ function Comment( title ) {
 				return this.bgcolor;
 			},
 			set: function( v ) {
-				if ( v == "")
+				if ( v == "") {
 					return;
+				}
 				this.bgcolor = v;
 			}
 		}
@@ -420,12 +446,13 @@ Comment.prototype.onMouseDown = function( e ) {
 };
 
 Comment.prototype.onMouseMove = function( e ) {
-	if ( this.isDragging && this.overlappingNodes )
+	if ( this.isDragging && this.overlappingNodes ) {
 		for ( var i = 0, l = this.overlappingNodes.length; i < l; i++ ) {
 			var node = this.overlappingNodes[ i ].node;
 			var delta = this.overlappingNodes[ i ].delta;
 			node.pos = [ this.pos[ 0 ] + delta[ 0 ], this.pos[ 1 ] + delta[ 1 ] ];
 		}
+	}
 };
 
 Comment.prototype.onMouseUp = function( e ) {
@@ -435,8 +462,9 @@ Comment.prototype.onMouseUp = function( e ) {
 };
 
 Comment.prototype.onDrawBackground = function( ctx ) {
-	if ( !this.handlePattern )
+	if ( !this.handlePattern ) {
 		this.handlePattern = ctx.createPattern( this.handleImage, "repeat");
+	}
 
 	var s = 13;
 	var r = 5;
