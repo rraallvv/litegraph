@@ -18,26 +18,26 @@ $(window).load(function() {
 		if(graph.status == LGraph.STATUS_STOPPED)
 		{
 			$(this).html("<img src='imgs/icon-stop.png'/> Stop");
-			graph.start(1); 
+			graph.start(1);
 		}
 		else
 		{
 			$(this).html("<img src='imgs/icon-play.png'/> Play");
-			graph.stop(); 
+			graph.stop();
 		}
 	});
-	
+
 	$("#playstepnodeButton").click( function() {
 		graph.runStep(1);
 		graphcanvas.draw(true,true);
 	});
-	
+
 	$("#playfastnodeButton").click( function() {
 		graph.runStep(5000);
 		graphcanvas.draw(true,true);
 	});
-	
-	$("#collapsenodeButton").click( function() { 
+
+	$("#collapsenodeButton").click( function() {
 		/*
 		for(var i in graphcanvas.nodesSelected)
 			graphcanvas.nodesSelected[i].collapse();
@@ -48,12 +48,12 @@ $(window).load(function() {
 		graphcanvas.draw();
 	});
 
-	$("#pinnodeButton").click( function() { 
+	$("#pinnodeButton").click( function() {
 		if(	graphcanvas.nodeInPanel )
 			graphcanvas.nodeInPanel.pin();
 	});
-	
-	$("#sendtobacknodeButton").click( function() { 
+
+	$("#sendtobacknodeButton").click( function() {
 		if(	graphcanvas.nodeInPanel )
 			graphcanvas.sendToBack( graphcanvas.nodeInPanel );
 		graphcanvas.draw(true);
@@ -81,7 +81,7 @@ $(window).load(function() {
 		$("#modal-blocking-box").hide();
 		$("#data-visor").hide();
 	});
-	
+
 	$("#confirm-loadsessionButton").click(function() {
 		var element = $(".session-item.selected")[0];
 		var info = element.data;
@@ -89,7 +89,7 @@ $(window).load(function() {
 		var str = localStorage.getItem("graphSession_" + info.id );
 		graph.stop();
 		graph.unserialize(str);
-	
+
 		graphcanvas.draw(true,true);
 		$("#modal-blocking-box").hide();
 		$("#sessions-browser").hide();
@@ -100,7 +100,7 @@ $(window).load(function() {
 		$("#sessions-browser").hide();
 	});
 
-	$("#livemodeButton").click( function() { 
+	$("#livemodeButton").click( function() {
 		graphcanvas.switchLiveMode(true);
 		graphcanvas.draw();
 		var url = graphcanvas.liveMode ? "imgs/gaussBgMedium.jpg" : "imgs/gaussBg.jpg";
@@ -108,18 +108,18 @@ $(window).load(function() {
 		// $("canvas").css("background-image","url('"+url+"')");
 	});
 
-	$("#newsessionButton").click( function() { 
+	$("#newsessionButton").click( function() {
 		$("#main-area").hide();
 		graph.clear();
 		graphcanvas.draw();
 		$("#main-area").show();
 	});
 
-	$("#savesessionButton").click( function() { 
+	$("#savesessionButton").click( function() {
 		onSaveSession();
 	});
 
-	$("#loadsessionButton").click( function() { 
+	$("#loadsessionButton").click( function() {
 		onLoadSession();
 	});
 
@@ -183,8 +183,8 @@ $(window).load(function() {
 		}
 		graphcanvas.draw(true,true);
 	});
-	
-	
+
+
 	if ("onhashchange" in window) // does the browser support the hashchange event?
 	{
 		window.onhashchange = function () {
@@ -278,13 +278,13 @@ function onShowNodes()
 		root.appendChild(element);
 	}
 
-	$(".node-type").click( function() { 
+	$(".node-type").click( function() {
 		$(".node-type.selected").removeClass("selected");
 		$(this).addClass("selected");
 		$("#confirm-createnodeButton").attr("disabled",false);
 	});
 
-	$(".node-type").dblclick( function() { 
+	$(".node-type").dblclick( function() {
 		$("#confirm-createnodeButton").click();
 	});
 
@@ -298,7 +298,7 @@ function onDeleteNode()
 {
 	if(!graphcanvas.nodeInPanel) return;
 
-	graph.remove( graphcanvas.nodeInPanel );	
+	graph.remove( graphcanvas.nodeInPanel );
 	graphcanvas.draw();
 	$("#node-panel").hide();
 	graphcanvas.nodeInPanel = null;
@@ -308,7 +308,7 @@ function onCloneNode()
 {
 	if(!graphcanvas.nodeInPanel) return;
 
-	var n = graphcanvas.nodeInPanel.clone();	
+	var n = graphcanvas.nodeInPanel.clone();
 	n.pos[0] += 10;
 	n.pos[1] += 10;
 
@@ -357,7 +357,7 @@ function saveSession(name,desc)
 		}
 
 	if(pos != -1)
-	{	
+	{
 		// already on the list
 	}
 	else
@@ -390,13 +390,13 @@ function onLoadSession()
 		$("#sessions-browser-list").append(element);
 	}
 
-	$(".session-item").click( function() { 
+	$(".session-item").click( function() {
 		$(".session-item.selected").removeClass("selected");
 		$(this).addClass("selected");
 		$("#confirm-loadsessionButton").attr("disabled",false);
 	});
 
-	$(".session-item").dblclick( function() { 
+	$(".session-item").dblclick( function() {
 		$("#confirm-loadsessionButton").click();
 	});
 
@@ -512,11 +512,11 @@ function randomColor(format)
   case 'hex':
    return ('#0' + rint.toString(16)).replace(/^#0([0-9a-f]{6})$/i, '#$1');
   break;
-  
+
   case 'rgb':
    return 'rgb(' + (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255) + ')';
   break;
-  
+
   default:
    return rint;
   break;

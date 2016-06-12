@@ -12,7 +12,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 		onLoad: function() {
 			this.createCanvas();
 		},
-		
+
 		createCanvas: function() {
 			this.canvas = document.createElement("canvas");
 			this.canvas.width = this.properties["size"];
@@ -73,7 +73,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 				ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 			}
 		},
-		
+
 		onWidget: function(e,widget) {
 			if (widget.name == "clearColor") {
 				this.clearCanvas(false);
@@ -98,7 +98,7 @@ LiteGraph.registerNodeType("graphics/supergraph", {
 			}
 			else
 				return false;
-				
+
 			return true;
 		}
 	});
