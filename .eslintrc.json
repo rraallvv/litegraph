@@ -29,6 +29,7 @@
 		"unused": false,
 		"LGraph": false,
 		"LGraphCanvas": false,
-		"LiteGraph": false
+		"LiteGraph": false,
+		"LGraphNode": false
 	}
 }
