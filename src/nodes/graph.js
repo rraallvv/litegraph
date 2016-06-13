@@ -254,7 +254,7 @@ GlobalOutput.title = "Ouput";
 GlobalOutput.desc = "Output of the graph";
 
 GlobalOutput.prototype.onAdded = function() {
-	//var name = this.graph.addGlobalOutput( this.properties.name, this.properties.type );
+	// var name = this.graph.addGlobalOutput( this.properties.name, this.properties.type );
 };
 
 GlobalOutput.prototype.onExecute = function() {
