@@ -20,7 +20,7 @@ module.exports = function (results) {
 				errors++;
 			}
 
-			line += ': ' + msg.message;
+			line += ': ' + msg.ruleId + ': ' + msg.message;
 
 			console.log(line);
 
