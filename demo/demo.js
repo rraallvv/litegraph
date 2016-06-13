@@ -34,7 +34,7 @@ function JSONGraph() {
 			{ type:"widget/button", pos:[ 950, 250 ] },
 			{ type:"basic/string", pos:[ 950, 350 ], properties:{ value:"!!!" } },
 			{ type:"graph/setProperty", pos:[ 1150, 300 ], properties:{ name:"astring" } },
-			{ type:"graph/comment", pos:[ 50, 100 ], size:[ 800, 200 ], properties:{ comment:"Comment on network 1", color:"rgba(0,128,0,0.1)" } },
+			{ type:"graph/comment", pos:[ 50, 100 ], size:[ 800, 200 ], properties:{ comment:"Comment on network 1", color:"rgba(0,256,0,1)" } },
 			{ type:"graph/comment", pos:[ 900, 100 ], size:[ 600, 300 ], properties:{ comment:"Comment on network 2" } },
 			{ type:"widget/button", pos:[ 100, 400 ] },
 			{ type:"basic/wrapper", pos:[ 250, 450 ], properties:{ name:"console.log", arguments:"msg" } },
@@ -43,7 +43,7 @@ function JSONGraph() {
 			{ type:"basic/wrapper", pos:[ 550, 450 ], properties:{ name:"Math.sin", arguments:"number", return:"sin" } },
 			{ type:"basic/number", pos:[ 400, 500 ], properties:{ value:Math.PI / 4 } },
 			{ type:"basic/wrapper", pos:[ 700, 450 ], properties:{ name:"console.log", arguments:"msg" } },
-			{ type:"graph/comment", pos:[ 50, 350 ], size:[ 800, 200 ], properties:{ comment:"Examples with the Wrapper node", color:"rgba(128,0,0,0.1)" } },
+			{ type:"graph/comment", pos:[ 50, 350 ], size:[ 800, 200 ], properties:{ comment:"Examples with the Wrapper node", color:"rgba(256,0,0,1)" } },
 			// For loop
 			{ type:"widget/button", pos:[ 950, 500 ] },
 			{ type:"basic/number", pos:[ 950, 550 ] },
@@ -68,7 +68,7 @@ function JSONGraph() {
 			{ type:"math/logicNot", pos:[ 1300, 675 ] },
 			{ type:"basic/console", pos:[ 1750, 850 ] },
 			{ type:"basic/string", pos:[ 1600, 900 ], properties:{ value:"break" } },
-			{ type:"graph/comment", pos:[ 900, 450 ], size:[ 1000, 500 ], properties:{ comment:"Examples with loops", color:"rgba(0,0,128,0.1)" } }
+			{ type:"graph/comment", pos:[ 900, 450 ], size:[ 1000, 500 ], properties:{ comment:"Examples with loops", color:"rgba(0,0,256,1)" } }
 		],
 		links:[
 			[ 0, 1 ],
