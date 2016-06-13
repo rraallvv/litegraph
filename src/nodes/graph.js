@@ -381,6 +381,7 @@ function Comment( title ) {
 	this.bgcolor = "rgba(128,128,128,0.1)";
 	this.resizable = true;
 	this.collapsible = false;
+	this.bgImageUrl = "imgs/9-slice.png";
 
 	this.properties = { comment: this.title, color: this.bgcolor };
 

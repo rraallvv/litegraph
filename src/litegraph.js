@@ -4579,48 +4579,50 @@ LGraphCanvas.prototype.drawNodeShape = function( node, ctx, size, fgcolor, bgcol
 	var titleHeight = LiteGraph.NODE_TITLE_HEIGHT;
 	ctx.lineWidth = this.selectionOutlineWidth;
 
-	// render depending on shape
+	if ( node.bgImageUrl && !node.bgImage ) {
+		node.bgImage = node.loadImage( node.bgImageUrl );
+	}
+
 	var shape = node.shape || "box";
-	if ( shape == "box") {
-		if ( selected ) {
+
+	// render selection outline
+	if ( selected ) {
+		if ( shape == "box") {
 			ctx.strokeStyle = "#CCC";
 			ctx.strokeRect( 0, noTitle ? 0 : -titleHeight, size[ 0 ], noTitle ? size[ 1 ] : size[ 1 ] + titleHeight );
 			ctx.strokeStyle = fgcolor;
-		}
-
-		ctx.beginPath();
-		ctx.rect( 0, noTitle ? 0 : -titleHeight, size[ 0 ], noTitle ? size[ 1 ] : size[ 1 ] + titleHeight );
-		ctx.fill();
-	} else if ( node.shape == "round") {
-		if ( selected ) {
+		} else if ( node.shape == "round") {
 			ctx.strokeStyle = "#CCC";
 			ctx.beginPath();
 			ctx.roundRect( 0, noTitle ? 0 : -titleHeight, size[ 0 ], noTitle ? size[ 1 ] : size[ 1 ] + titleHeight, 10 );
 			ctx.stroke();
 			ctx.strokeStyle = fgcolor;
 		}
-
-		ctx.beginPath();
-		ctx.roundRect( 0, noTitle ? 0 : -titleHeight, size[ 0 ], noTitle ? size[ 1 ] : size[ 1 ] + titleHeight, 10 );
-		ctx.fill();
-	} else if ( node.shape == "circle") {
-		ctx.beginPath();
-		ctx.arc( size[ 0 ] * 0.5, size[ 1 ] * 0.5, size[ 0 ] * 0.5, 0, Math.PI * 2 );
-		ctx.fill();
 	}
 
-	ctx.shadowColor = "transparent";
+	if ( !(node.bgImage && node.bgImage.width) ) {
+		// render depending on shape
+		if ( shape == "box") {
+			ctx.beginPath();
+			ctx.rect( 0, noTitle ? 0 : -titleHeight, size[ 0 ], noTitle ? size[ 1 ] : size[ 1 ] + titleHeight );
+			ctx.fill();
+		} else if ( node.shape == "round") {
+			ctx.beginPath();
+			ctx.roundRect( 0, noTitle ? 0 : -titleHeight, size[ 0 ], noTitle ? size[ 1 ] : size[ 1 ] + titleHeight, 10 );
+			ctx.fill();
+		} else if ( node.shape == "circle") {
+			ctx.beginPath();
+			ctx.arc( size[ 0 ] * 0.5, size[ 1 ] * 0.5, size[ 0 ] * 0.5, 0, Math.PI * 2 );
+			ctx.fill();
+		}
+	} else {
+		// image
+		ctx.draw9SliceImage( node.bgImage, 0, -titleHeight, node.size[ 0 ], node.size[ 1 ] + titleHeight, [ 6, 16, 6, 6 ]);
+	}
 
 	// ctx.stroke();
 
-	// image
-	if ( node.bgImage && node.bgImage.width ) {
-		ctx.drawImage( node.bgImage, (size[ 0 ] - node.bgImage.width) * 0.5, (size[ 1 ] - node.bgImage.height) * 0.5 );
-	}
-
-	if ( node.bgImageUrl && !node.bgImage ) {
-		node.bgImage = node.loadImage( node.bgImageUrl );
-	}
+	ctx.shadowColor = "transparent";
 
 	if ( node.onDrawBackground ) {
 		node.onDrawBackground( ctx );
@@ -4628,24 +4630,26 @@ LGraphCanvas.prototype.drawNodeShape = function( node, ctx, size, fgcolor, bgcol
 
 	// title bg (remember, it is rendered ABOVE the node
 	if ( !noTitle ) {
-		ctx.fillStyle = fgcolor || LiteGraph.NODE_DEFAULT_COLOR;
-		var oldAlpha = ctx.globalAlpha;
-		ctx.globalAlpha = 0.5 * oldAlpha;
-		if ( shape == "box") {
-			ctx.beginPath();
-			ctx.rect( 0, -titleHeight, size[ 0 ], titleHeight );
-			ctx.fill();
-			// ctx.stroke();
-		} else if ( shape == "round") {
-			var bottomRadius = node.flags.collapsed ? 10 : 0;
-			ctx.beginPath();
-			ctx.roundRect( 0, -titleHeight, size[ 0 ], titleHeight, 10, bottomRadius );
-			// ctx.fillRect(0,8,size[0],NODE_TITLE_HEIGHT - 12);
-			ctx.fill();
-			// ctx.stroke();
+		if ( !(node.bgImage && node.bgImage.width) ) {
+			ctx.fillStyle = fgcolor || LiteGraph.NODE_DEFAULT_COLOR;
+			var oldAlpha = ctx.globalAlpha;
+			ctx.globalAlpha = 0.5 * oldAlpha;
+			if ( shape == "box") {
+				ctx.beginPath();
+				ctx.rect( 0, -titleHeight, size[ 0 ], titleHeight );
+				ctx.fill();
+				// ctx.stroke();
+			} else if ( shape == "round") {
+				var bottomRadius = node.flags.collapsed ? 10 : 0;
+				ctx.beginPath();
+				ctx.roundRect( 0, -titleHeight, size[ 0 ], titleHeight, 10, bottomRadius );
+				// ctx.fillRect(0,8,size[0],NODE_TITLE_HEIGHT - 12);
+				ctx.fill();
+				// ctx.stroke();
+			}
 		}
 
-		// title box
+		// collapsible indicator
 		if ( node.collapsible !== false ) {
 			ctx.fillStyle = node.boxcolor || LiteGraph.NODE_DEFAULT_BOXCOLOR;
 			ctx.beginPath();
@@ -5571,6 +5575,65 @@ CanvasRenderingContext2D.prototype.measureText = function( text, metrics ) {
 		this.measureFont( result );
 	}
 	return result;
+};
+
+CanvasRenderingContext2D.prototype.draw9SliceImage = function( image, x, y, width, height, padding ) {
+		// top
+		this.drawImage( image,
+			0, 0,
+			padding[ 0 ], padding[ 1 ],
+			x, y,
+			padding[ 0 ], padding[ 1 ] );
+
+		this.drawImage( image,
+			padding[ 0 ], 0,
+			image.width - padding[ 0 ] - padding[ 2 ], padding[ 1 ],
+			x + padding[ 0 ], y,
+			width - padding[ 0 ] - padding[ 2 ], padding[ 1 ] );
+
+		this.drawImage( image,
+			image.width - padding[ 2 ], 0,
+			padding[ 2 ], padding[ 1 ],
+			x + width - padding[ 2 ], y,
+			padding[ 2 ], padding[ 1 ] );
+
+		// middle
+		this.drawImage( image,
+			0, padding[ 1 ],
+			padding[ 0 ], image.height - padding[ 1 ] - padding[ 3 ],
+			x, y + padding[ 1 ],
+			padding[ 0 ], height - padding[ 1 ] - padding[ 3 ] );
+
+		this.drawImage( image,
+			padding[ 0 ], padding[ 1 ],
+			image.width - padding[ 0 ] - padding[ 2 ], image.height - padding[ 1 ] - padding[ 3 ],
+			x + padding[ 0 ], y + padding[ 1 ],
+			width - padding[ 0 ] - padding[ 2 ], height - padding[ 1 ] - padding[ 3 ] );
+
+		this.drawImage( image,
+			image.width - padding[ 2 ], padding[ 1 ],
+			padding[ 2 ], image.height - padding[ 1 ] - padding[ 3 ],
+			x + width - padding[ 2 ], y + padding[ 1 ],
+			padding[ 2 ], height - padding[ 1 ] - padding[ 3 ] );
+
+		// bottom
+		this.drawImage( image,
+			0, image.height - padding[ 3 ],
+			padding[ 0 ], padding[ 3 ],
+			x, y + height - padding[ 3 ],
+			padding[ 0 ], padding[ 3 ] );
+
+		this.drawImage( image,
+			padding[ 0 ], image.height - padding[ 3 ],
+			image.width - padding[ 0 ] - padding[ 2 ], padding[ 3 ],
+			x + padding[ 0 ], y + height - padding[ 3 ],
+			width - padding[ 0 ] - padding[ 2 ], padding[ 3 ] );
+
+		this.drawImage( image,
+			image.width - padding[ 2 ], image.height - padding[ 3 ],
+			padding[ 2 ], padding[ 3 ],
+			x + width - padding[ 2 ], y + height - padding[ 3 ],
+			padding[ 2 ], padding[ 3 ] );
 };
 
 /*
