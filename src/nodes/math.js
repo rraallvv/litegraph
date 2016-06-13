@@ -730,7 +730,7 @@ LiteGraph.registerNodeType("math/trigonometry", MathTrigonometry );
 
 // math library for safe math operations without eval
 if ( window.math ) {
-(function(){
+(function() {
 
 	function MathFormula() {
 		this.addInputs("x", "number");
@@ -961,7 +961,7 @@ LiteGraph.registerNodeType("math3d/xyzw-to-vec4", Math3DXYZWToVec4 );
 
 // if glMatrix is installed...
 if ( window.glMatrix ) {
-(function(){
+(function() {
 
 	function Math3DRotation() {
 		this.addInputs([ [ "degrees", "number" ], [ "axis", "vec3" ] ]);

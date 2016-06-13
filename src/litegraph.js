@@ -46,7 +46,7 @@ var LiteGraph = {
 	NODE_DEFAULT_BOXCOLOR: "#AEF",
 	NODE_DEFAULT_SHAPE: "box",
 	MAX_NUMBER_OF_NODES: 1000, // avoid infinite loops
-	DEFAULT_POSITION: [ 100, 100 ],// default node position
+	DEFAULT_POSITION: [ 100, 100 ], // default node position
 	nodeImagesPath: "",
 
 	// enums
@@ -79,7 +79,7 @@ var LiteGraph = {
 			console.log("Node registered: " + type );
 		}
 
-		//var categories = type.split("/");
+		// var categories = type.split("/");
 
 		var pos = type.lastIndexOf("/");
 		baseClass.category = type.substr( 0, pos );
@@ -130,7 +130,7 @@ var LiteGraph = {
 			return null;
 		}
 
-		//var prototype = baseClass.prototype || baseClass;
+		// var prototype = baseClass.prototype || baseClass;
 
 		title = title || baseClass.title || type;
 
@@ -3195,7 +3195,7 @@ LGraphCanvas.prototype.processMouseDown = function( e ) {
 	this.adjustMouseEvent( e );
 
 	var refWindow = this.getCanvasWindow();
-	//var document = refWindow.document;
+	// var document = refWindow.document;
 
 	// move mouse move event to the window in case it drags outside of the canvas
 	this.canvas.removeEventListener("mousemove", this._mousemoveCallback );
@@ -3203,7 +3203,7 @@ LGraphCanvas.prototype.processMouseDown = function( e ) {
 	refWindow.document.addEventListener("mouseup", this._mouseupCallback, true );
 
 	var n = this.graph.getNodeOnPos( e.canvasX, e.canvasY, this.visibleNodes );
-	//var skipDragging = false;
+	// var skipDragging = false;
 
 		LiteGraph.closeAllContextualMenus( refWindow );
 
@@ -3719,7 +3719,7 @@ LGraphCanvas.prototype.isOverNodeBox = function( node, canvasx, canvasy ) {
 LGraphCanvas.prototype.isOverNodeInput = function( node, canvasx, canvasy, slotPos ) {
 	if ( node.inputs ) {
 		for ( var i = 0, l = node.inputs.length; i < l; ++i ) {
-			//var input = node.inputs[ i ];
+			// var input = node.inputs[ i ];
 			var linkPos = node.getConnectionPos( true, i );
 			if ( isInsideRectangle( canvasx, canvasy, linkPos[ 0 ] - 10, linkPos[ 1 ] - 5, 20, 10 ) ) {
 				if ( slotPos ) {
@@ -3805,7 +3805,7 @@ LGraphCanvas.prototype.processDrop = function( e ) {
 			for ( var i = 0; i < files.length; i++ ) {
 				var file = e.dataTransfer.files[ 0 ];
 				var filename = file.name;
-				//var ext = LGraphCanvas.getFileExtension( filename );
+				// var ext = LGraphCanvas.getFileExtension( filename );
 				// console.log(file);
 
 				// prepare reader
@@ -4374,7 +4374,7 @@ LGraphCanvas.prototype.drawBackCanvas = function() {
 
 /* Renders the LGraphNode on the canvas */
 LGraphCanvas.prototype.drawNode = function( node, ctx ) {
-	//var glow = false;
+	// var glow = false;
 
 	var color = node.color || LiteGraph.NODE_DEFAULT_COLOR;
 	// if (this.selected) color = "#88F";
@@ -4388,13 +4388,13 @@ LGraphCanvas.prototype.drawNode = function( node, ctx ) {
 	}
 
 	// shadow and glow
-	//if ( node.mouseOver ) {
-	//	glow = true;
-	//}
+	// if ( node.mouseOver ) {
+	//     glow = true;
+	// }
 
 	if ( node.selected ) {
 		/*
-		ctx.shadowColor = "#EEEEFF";// glow ? "#AAF" : "#000";
+		ctx.shadowColor = "#EEEEFF"; // glow ? "#AAF" : "#000";
 		ctx.shadowOffsetX = 0;
 		ctx.shadowOffsetY = 0;
 		ctx.shadowBlur = 1;
@@ -4553,7 +4553,7 @@ LGraphCanvas.prototype.drawNode = function( node, ctx ) {
 		if ( node.onDrawForeground ) {
 			node.onDrawForeground( ctx );
 		}
-	}// !collapsed
+	} // !collapsed
 
 	if ( node.flags.clipArea ) {
 		ctx.restore();
@@ -4848,7 +4848,7 @@ LGraphCanvas.prototype.renderLink = function( ctx, a, b, color, skipBorder, flow
 	}
 
 	// control points
-	const control = 0.25;// 0.5;
+	const control = 0.25; // 0.5;
 
 	var cdist = computeConnectionDistance( a, b );
 	// var cdist = b[0] - a[0];
@@ -5944,7 +5944,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 	root.style.top = top  + "px";
 
 	function onClick( e ) {
-		//var value = this.dataset.value;
+		// var value = this.dataset.value;
 		var close = true;
 		if ( options.callback ) {
 			var ret = options.callback.call( root, this.data, e );
