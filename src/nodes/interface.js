@@ -33,7 +33,7 @@
 		}
 	};
 
-	WidgetButton.prototype.onMouseUp = function( e ) {
+	WidgetButton.prototype.onMouseUp = function( e ) { // eslint-disable-line no-unused-vars
 		this.clicked = false;
 	};
 
@@ -133,7 +133,7 @@
 	WidgetKnob.prototype.onExecute = function() {
 		this.setOutputData( 0, this.properties.value );
 
-		this.boxcolor = colorToString([ this.value, this.value, this.value ]);
+		this.boxcolor = colorToString([ this.value, this.value, this.value ]); // eslint-disable-line no-undef
 	};
 
 	WidgetKnob.prototype.onMouseDown = function( e ) {
@@ -146,7 +146,7 @@
 		this.center = [ this.size[ 0 ] * 0.5, this.size[ 1 ] * 0.5 + 20 ];
 		this.radius = this.size[ 0 ] * 0.5;
 
-		if ( e.canvasY - this.pos[ 1 ] < 20 || distance([ e.canvasX, e.canvasY ], [ this.pos[ 0 ] + this.center[ 0 ], this.pos[ 1 ] + this.center[ 1 ] ]) > this.radius ) {
+		if ( e.canvasY - this.pos[ 1 ] < 20 || distance([ e.canvasX, e.canvasY ], [ this.pos[ 0 ] + this.center[ 0 ], this.pos[ 1 ] + this.center[ 1 ] ]) > this.radius ) { // eslint-disable-line no-undef
 			return false;
 		}
 
@@ -181,14 +181,14 @@
 		this.setDirtyCanvas( true );
 	};
 
-	WidgetKnob.prototype.onMouseUp = function( e ) {
+	WidgetKnob.prototype.onMouseUp = function( e ) { // eslint-disable-line no-unused-vars
 		if ( this.oldmouse ) {
 			this.oldmouse = null;
 			this.captureInput( false );
 		}
 	};
 
-	WidgetKnob.prototype.onMouseLeave = function( e ) {
+	WidgetKnob.prototype.onMouseLeave = function( e ) { // eslint-disable-line no-unused-vars
 		// this.oldmouse = null;
 	};
 
@@ -284,7 +284,7 @@
 	WidgetHSlider.prototype.onExecute = function() {
 		this.properties.value = this.properties.min + (this.properties.max - this.properties.min) * this.value;
 		this.setOutputData( 0, this.properties.value );
-		this.boxcolor = colorToString([ this.value, this.value, this.value ]);
+		this.boxcolor = colorToString([ this.value, this.value, this.value ]); // eslint-disable-line no-undef
 	};
 
 	WidgetHSlider.prototype.onMouseDown = function( e ) {
@@ -319,12 +319,12 @@
 		this.setDirtyCanvas( true );
 	};
 
-	WidgetHSlider.prototype.onMouseUp = function( e ) {
+	WidgetHSlider.prototype.onMouseUp = function( e ) { // eslint-disable-line no-unused-vars
 		this.oldmouse = null;
 		this.captureInput( false );
 	};
 
-	WidgetHSlider.prototype.onMouseLeave = function( e ) {
+	WidgetHSlider.prototype.onMouseLeave = function( e ) { // eslint-disable-line no-unused-vars
 		// this.oldmouse = null;
 	};
 
