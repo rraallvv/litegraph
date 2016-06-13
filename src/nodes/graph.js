@@ -378,7 +378,7 @@ function Comment( title ) {
 	};
 	this.overlappingNodes = [];
 	this.isDragging = false;
-	this.bgcolor = "rgba(128,128,128,0.1)";
+	// this.bgcolor = "rgba(128,128,128,0.1)";
 	this.resizable = true;
 	this.collapsible = false;
 	this.bgImageUrl = "imgs/9-slice.png";
@@ -421,6 +421,8 @@ function Comment( title ) {
 					return;
 				}
 				this.bgcolor = v;
+				this.bgImage = null;
+				this.graph.setDirtyCanvas( false, true );
 			}
 		}
 	});

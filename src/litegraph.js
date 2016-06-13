@@ -2581,16 +2581,38 @@ LGraphNode.prototype.setDirtyCanvas = function( dirtyForeground, dirtyBackground
 	this.graph.sendActionToCanvas("setDirty", [ dirtyForeground, dirtyBackground ]);
 };
 
-LGraphNode.prototype.loadImage = function( url ) {
-	var img = new Image();
-	img.src = LiteGraph.nodeImagesPath + url;
-	img.ready = false;
+LGraphNode.prototype.loadImage = function( url, color ) {
+	var rawImg = new Image();
+	rawImg.src = LiteGraph.nodeImagesPath + url;
+	// rawImg.ready = false;
+
+	if ( rawImg.width ) {
+		process();
+	} else {
+		rawImg.onload = process;
+	}
+
+	var img = color ? document.createElement("canvas") : rawImg;
 
 	var that = this;
-	img.onload = function() {
-		this.ready = true;
+
+	function process() {
+		if ( color ) {
+			img.width = rawImg.width;
+			img.height = rawImg.height;
+
+			var ctx = img.getContext("2d");
+
+			ctx.fillStyle = color;
+			ctx.fillRect( 0, 0, img.width, img.height );
+			ctx.globalCompositeOperation = "destination-atop";
+			ctx.drawImage( rawImg, 0, 0 );
+		}
+
+		// this.ready = true;
 		that.setDirtyCanvas( true );
-	};
+	}
+
 	return img;
 };
 
@@ -4580,7 +4602,7 @@ LGraphCanvas.prototype.drawNodeShape = function( node, ctx, size, fgcolor, bgcol
 	ctx.lineWidth = this.selectionOutlineWidth;
 
 	if ( node.bgImageUrl && !node.bgImage ) {
-		node.bgImage = node.loadImage( node.bgImageUrl );
+		node.bgImage = node.loadImage( node.bgImageUrl, node.bgcolor );
 	}
 
 	var shape = node.shape || "box";
