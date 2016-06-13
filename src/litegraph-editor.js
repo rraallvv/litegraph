@@ -1,6 +1,6 @@
 // NOT FINISHED
 
-function Editor( containerId, options ) {
+function Editor( containerId, options ) { // eslint-disable-line no-unused-vars
 	// fill container
 	var html = "<div class='header'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
 	html += "<div class='content'><div class='editor-area'><canvas class='graphcanvas' width='1000' height='500' tabindex=10></canvas></div></div>";
@@ -74,7 +74,7 @@ Editor.prototype.addToolsButton = function( id, name, iconUrl, callback, contain
 };
 
 
-Editor.prototype.createPanel = function( title, options ) {
+Editor.prototype.createPanel = function( title, options ) { // eslint-disable-line no-unused-vars
 
 	var root = document.createElement("div");
 	root.className = "dialog";
@@ -205,7 +205,7 @@ Editor.prototype.addMiniWindow = function( w, h ) {
 	var closeButton = document.createElement("div");
 	closeButton.className = "corner-button";
 	closeButton.innerHTML = "X";
-	closeButton.addEventListener("click", function( e ) {
+	closeButton.addEventListener("click", function( e ) { // eslint-disable-line no-unused-vars
 		graphcanvas.setGraph( null );
 		miniwindow.parentNode.removeChild( miniwindow );
 	});

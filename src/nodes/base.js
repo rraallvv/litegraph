@@ -62,7 +62,7 @@ Watch.prototype.onExecute = function() {
 	this.setOutputData( 0, this.properties.value );
 };
 
-Watch.prototype.onDrawBackground = function( ctx ) {
+Watch.prototype.onDrawBackground = function( ctx ) { // eslint-disable-line no-unused-vars
 	// show the current value
 	if ( this.inputs[ 0 ] && this.properties.value != null ) {
 		if ( this.properties.value.constructor === Number ) {
@@ -220,7 +220,7 @@ BasicBoolean.prototype.onExecute = function() {
 	this.setOutputData( 0, this.properties.value );
 };
 
-BasicBoolean.prototype.onDrawBackground = function( ctx ) {
+BasicBoolean.prototype.onDrawBackground = function( ctx ) { // eslint-disable-line no-unused-vars
 	// show the current value
 	this.outputs[ 0 ].label = this.properties.value.toString();
 };
@@ -284,7 +284,10 @@ function Wrapper() {
 					return;
 				}
 
-				for ( var i = 1, l = this.inputs.length; i < l; i++ ) {
+				var i;
+				var l;
+
+				for ( i = 1, l = this.inputs.length; i < l; i++ ) {
 					this.removeInput( i );
 				}
 
@@ -293,7 +296,7 @@ function Wrapper() {
 					if ( typeof(strings) === "string") {
 						this.addInput( strings );
 					} else {
-						for ( var i = 0, l = strings.length; i < l; i++ ) {
+						for ( i = 0, l = strings.length; i < l; i++ ) {
 							this.addInput( strings[ i ] );
 						}
 					}

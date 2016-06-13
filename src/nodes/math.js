@@ -27,7 +27,7 @@ Converter.prototype.onExecute = function() {
 				case "vec2":
 				case "vec3":
 				case "vec4":
-					var result = null;
+					result = null;
 					var count = 1;
 					switch ( output.name ) {
 						case "vec2": count = 2; break;
@@ -35,7 +35,7 @@ Converter.prototype.onExecute = function() {
 						case "vec4": count = 4; break;
 					}
 
-					var result = new Float32Array( count );
+					result = new Float32Array( count );
 					if ( v.length ) {
 						for ( var j = 0; j < v.length && j < result.length; j++ ) {
 							result[ j ] = v[ j ];
@@ -92,10 +92,12 @@ MathRange.title = "Range";
 MathRange.desc = "Convert a number from one range to another";
 
 MathRange.prototype.onExecute = function() {
+	var v;
+
 	if ( this.inputs ) {
 		for ( var i = 0; i < this.inputs.length; i++ ) {
 			var input = this.inputs[ i ];
-			var v = this.getInputData( i );
+			v = this.getInputData( i );
 			if ( v === undefined ) {
 				continue;
 			}
@@ -103,7 +105,7 @@ MathRange.prototype.onExecute = function() {
 		}
 	}
 
-	var v = this.properties.in;
+	v = this.properties.in;
 	if ( v === undefined || v === null || v.constructor !== Number ) {
 		v = 0;
 	}
@@ -117,7 +119,7 @@ MathRange.prototype.onExecute = function() {
 	this.setOutputData( 0, this._lastV );
 };
 
-MathRange.prototype.onDrawBackground = function( ctx ) {
+MathRange.prototype.onDrawBackground = function( ctx ) { // eslint-disable-line no-unused-vars
 	// show the current value
 	if ( this._lastV ) {
 		this.outputs[ 0 ].label = this._lastV.toFixed( 3 );
@@ -163,7 +165,7 @@ MathRand.prototype.onExecute = function() {
 	this.setOutputData( 0, this._lastV );
 };
 
-MathRand.prototype.onDrawBackground = function( ctx ) {
+MathRand.prototype.onDrawBackground = function( ctx ) { // eslint-disable-line no-unused-vars
 	// show the current value
 	if ( this._lastV ) {
 		this.outputs[ 0 ].label = this._lastV.toFixed( 3 );
@@ -202,7 +204,7 @@ MathClamp.prototype.onExecute = function() {
 	this.setOutputData( 0, v );
 };
 
-MathClamp.prototype.getCode = function( lang ) {
+MathClamp.prototype.getCode = function( lang ) { // eslint-disable-line no-unused-vars
 	var code = "";
 	if ( this.isInputConnected( 0 ) ) {
 		code += "clamp({{0}}," + this.properties.min + "," + this.properties.max + ")";
@@ -435,6 +437,7 @@ MathCompare.prototype.onExecute = function() {
 		if ( !output.links || !output.links.length ) {
 			continue;
 		}
+		var value;
 		switch ( output.name ) {
 			case "A==B": value = A == B; break;
 			case "A!=B": value = A != B; break;
@@ -698,6 +701,7 @@ MathTrigonometry.prototype.onExecute = function() {
 
 	for ( var i = 0, l = this.outputs.length; i < l; ++i ) {
 		var output = this.outputs[ i ];
+		var value;
 		switch ( output.name ) {
 			case "sin": value = Math.sin( v ); break;
 			case "cos": value = Math.cos( v ); break;
@@ -726,6 +730,8 @@ LiteGraph.registerNodeType("math/trigonometry", MathTrigonometry );
 
 // math library for safe math operations without eval
 if ( window.math ) {
+(function(){
+
 	function MathFormula() {
 		this.addInputs("x", "number");
 		this.addInputs("y", "number");
@@ -752,7 +758,7 @@ if ( window.math ) {
 		}
 
 		var f = this.properties.formula;
-		var value = math.eval( f, { x:x, y:y, T: this.graph.globaltime });
+		var value = math.eval( f, { x:x, y:y, T: this.graph.globaltime }); // eslint-disable-line no-undef
 		this.setOutputData( 0, value );
 	};
 
@@ -766,6 +772,8 @@ if ( window.math ) {
 	};
 
 	LiteGraph.registerNodeType("math/formula", MathFormula );
+
+})();
 }
 
 
@@ -953,12 +961,12 @@ LiteGraph.registerNodeType("math3d/xyzw-to-vec4", Math3DXYZWToVec4 );
 
 // if glMatrix is installed...
 if ( window.glMatrix ) {
-
+(function(){
 
 	function Math3DRotation() {
 		this.addInputs([ [ "degrees", "number" ], [ "axis", "vec3" ] ]);
 		this.addOutput("quat", "quat");
-		this.properties = { angle:90.0, axis: vec3.fromValues( 0, 1, 0 ) };
+		this.properties = { angle:90.0, axis: vec3.fromValues( 0, 1, 0 ) }; // eslint-disable-line no-undef
 	}
 
 	Math3DRotation.title = "Rotation";
@@ -974,7 +982,7 @@ if ( window.glMatrix ) {
 			axis = this.properties.axis;
 		}
 
-		var R = quat.setAxisAngle( quat.create(), axis, angle * 0.0174532925 );
+		var R = quat.setAxisAngle( quat.create(), axis, angle * 0.0174532925 ); // eslint-disable-line no-undef
 		this.setOutputData( 0, R );
 	};
 
@@ -1001,7 +1009,7 @@ if ( window.glMatrix ) {
 		if ( quat == null ) {
 			this.setOutputData( vec );
 		} else {
-			this.setOutputData( 0, vec3.transformQuat( vec3.create(), vec, quat ) );
+			this.setOutputData( 0, vec3.transformQuat( vec3.create(), vec, quat ) ); // eslint-disable-line no-undef
 		}
 	};
 
@@ -1027,12 +1035,13 @@ if ( window.glMatrix ) {
 			return;
 		}
 
-		var R = quat.multiply( quat.create(), A, B );
+		var R = quat.multiply( quat.create(), A, B ); // eslint-disable-line no-undef
 		this.setOutputData( 0, R );
 	};
 
 	LiteGraph.registerNodeType("math3d/mult-quat", Math3DMultQuat );
 
+})();
 } // glMatrix
 
 })();

@@ -169,7 +169,7 @@ GamepadInput.prototype.getGamepad = function() {
 	}
 };
 
-GamepadInput.prototype.onDrawBackground = function( ctx ) {
+GamepadInput.prototype.onDrawBackground = function( ctx ) { // eslint-disable-line no-unused-vars
 	// render
 };
 

@@ -4,8 +4,6 @@
 
 // Subgraph: a node that contains a graph
 function Subgraph() {
-	var that = this;
-
 	// create inner graph
 	this.subgraph = new LGraph();
 	this.subgraph._subgraphNode = this;
@@ -86,11 +84,14 @@ Subgraph.prototype.getExtraMenuOptions = function( graphcanvas ) {
 };
 
 Subgraph.prototype.onExecute = function() {
+	var i;
+	var value;
+
 	// send inputs to subgraph global inputs
 	if ( this.inputs ) {
-		for ( var i = 0; i < this.inputs.length; i++ ) {
+		for ( i = 0; i < this.inputs.length; i++ ) {
 			var input = this.inputs[ i ];
-			var value = this.getInputData( i );
+			value = this.getInputData( i );
 			this.subgraph.setGlobalInputData( input.name, value );
 		}
 	}
@@ -100,9 +101,9 @@ Subgraph.prototype.onExecute = function() {
 
 	// send subgraph global outputs to outputs
 	if ( this.outputs ) {
-		for ( var i = 0; i < this.outputs.length; i++ ) {
+		for ( i = 0; i < this.outputs.length; i++ ) {
 			var output = this.outputs[ i ];
-			var value = this.subgraph.getGlobalOutputData( output.name );
+			value = this.subgraph.getGlobalOutputData( output.name );
 			this.setOutputData( i, value );
 		}
 	}
@@ -253,7 +254,7 @@ GlobalOutput.title = "Ouput";
 GlobalOutput.desc = "Output of the graph";
 
 GlobalOutput.prototype.onAdded = function() {
-	var name = this.graph.addGlobalOutput( this.properties.name, this.properties.type );
+	//var name = this.graph.addGlobalOutput( this.properties.name, this.properties.type );
 };
 
 GlobalOutput.prototype.onExecute = function() {
@@ -431,21 +432,21 @@ Comment.prototype.onAdded = function() {
 	this.graph.sendActionToCanvas("sendToBack", [ this ]);
 };
 
-Comment.prototype.onMouseDown = function( e ) {
+Comment.prototype.onMouseDown = function( e ) { // eslint-disable-line no-unused-vars
 	var bounding = this.getBounding();
 
 	this.isDragging = true;
 
 	for ( var i = 0, l = this.graph._nodes.length; i < l; i++ ) {
 		var node = this.graph._nodes[ i ];
-		if ( !Object.is( this, node ) && containsBounding( bounding, node.getBounding() ) ) {
+		if ( !Object.is( this, node ) && containsBounding( bounding, node.getBounding() ) ) { // eslint-disable-line no-undef
 			var delta = [ node.pos[ 0 ] - this.pos[ 0 ], node.pos[ 1 ] - this.pos[ 1 ] ];
 			this.overlappingNodes.push({ node: node, delta: delta });
 		}
 	}
 };
 
-Comment.prototype.onMouseMove = function( e ) {
+Comment.prototype.onMouseMove = function( e ) { // eslint-disable-line no-unused-vars
 	if ( this.isDragging && this.overlappingNodes ) {
 		for ( var i = 0, l = this.overlappingNodes.length; i < l; i++ ) {
 			var node = this.overlappingNodes[ i ].node;
