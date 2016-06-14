@@ -1,6 +1,6 @@
 {
 	"name": "LiteGraph.js",
-	"version": "0.0.5",
+	"version": "0.02",
 	"description": "A graph node editor for Node.js applications.",
 	"authors": "Rhody Lugo and Javi Agenjo",
 	"license": "MIT",
@@ -13,6 +13,7 @@
 		"jscs": "^3.0.4"
 	},
 	"scripts": {
+		"build": "",
 		"test": "npm run jscs && npm run eslint",
 		"eslint": "node_modules/eslint/bin/eslint.js --format=utils/eslint_reporter.js src/*.js src/nodes/*.js demo/*.js",
 		"jscs": "node_modules/jscs/bin/jscs --reporter=utils/jscs_reporter.js src/*.js src/nodes/*.js demo/*.js"
