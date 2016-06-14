@@ -1,41 +1,8 @@
 LiteGraph Changelog
 ===================
 
-v0.02
------
-
-Improvements:
-
-* Remove the outline in the output ports.
-* Render the comments above the node as a text bubble.
-* Improve node selection mechanism.
-* Improve a bit the connection links shape.
-* Make the collapsed node the same width.
-* Move the disclosure triangle in the node title to the right corner on the title bar.
-* Improve the shape in the bezier path for connections links that go backward.
-* Refactor the serialization process and data format.
-* Draw the resizing handle in the Comment node.
-* Add padding to the title width.
-* Draw the text in the operators taking into account the font baseline.
-* Remove setup for unused node properties.
-
-Features:
-
-* Add the comment node.
-* Add the function wrapper node.
-* Remove live mode.
-* Add the For-loop node.
-* Add the For-loop-with-break node.
-* Show the operator in the condition node.
-* Add the logic and negation operator nodes.
-* Serialize the properties in the graph.
-* Show the serialized data on with the save button.
-* Make the Comment node resizable even if the size property is not specified. 
-* Make nodes resizable from all four corners.
-* Add property to disable the feature to collapse a node.
-
-v0.01
------
+v1.0.0-alpha
+------------
 
 Fixes:
 
@@ -60,6 +27,18 @@ Improvements:
 * Control whether a node is enable/disable by its mode property.
 * Improve port drawings.
 * Improve the calculations for the connection link bezier paths.
+* Remove the outline in the output ports.
+* Render the comments above the node as a text bubble.
+* Improve node selection mechanism.
+* Improve a bit the connection links shape.
+* Make the collapsed node the same width.
+* Move the disclosure triangle in the node title to the right corner on the title bar.
+* Improve the shape in the bezier path for connections links that go backward.
+* Refactor the serialization process and data format.
+* Draw the resizing handle in the Comment node.
+* Add padding to the title width.
+* Draw the text in the operators taking into account the font baseline.
+* Remove setup for unused node properties.
 
 Features:
 
@@ -83,3 +62,15 @@ Features:
 * Add the graph property setter and getter nodes.
 * Ability to pass initial property values in the JSON graph.
 * Draw the data in the links when debugging.
+* Add the comment node.
+* Add the function wrapper node.
+* Remove live mode.
+* Add the For-loop node.
+* Add the For-loop-with-break node.
+* Show the operator in the condition node.
+* Add the logic and negation operator nodes.
+* Serialize the properties in the graph.
+* Show the serialized data on with the save button.
+* Make the Comment node resizable even if the size property is not specified. 
+* Make nodes resizable from all four corners.
+* Add property to disable the feature to collapse a node.
