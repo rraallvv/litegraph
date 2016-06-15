@@ -1,7 +1,5 @@
 
-function demo() { // eslint-disable-line no-unused-vars
-	JSONGraph();
-}
+JSONGraph();
 
 function JSONGraph() {
 	graph.configure({ // eslint-disable-line no-undef
