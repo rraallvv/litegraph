@@ -4655,9 +4655,12 @@ LGraphCanvas.prototype.drawNodeShape = function( node, ctx, size, fgcolor, bgcol
 
 	// title bg (remember, it is rendered ABOVE the node
 	if ( !noTitle ) {
-		if ( !(node.bgImage && node.bgImage.width) ) {
+		var oldAlpha = ctx.globalAlpha;
+
+		/*
+		// title bar
+		if ( !node.bgImageUrl ) {
 			ctx.fillStyle = fgcolor || LiteGraph.NODE_DEFAULT_COLOR;
-			var oldAlpha = ctx.globalAlpha;
 			ctx.globalAlpha = 0.5 * oldAlpha;
 			if ( shape == "box") {
 				ctx.beginPath();
@@ -4673,6 +4676,7 @@ LGraphCanvas.prototype.drawNodeShape = function( node, ctx, size, fgcolor, bgcol
 				// ctx.stroke();
 			}
 		}
+		*/
 
 		// collapsible indicator
 		if ( node.collapsible !== false ) {
