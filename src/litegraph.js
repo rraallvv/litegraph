@@ -2596,10 +2596,9 @@ LGraphNode.prototype.loadImage = function( url, color ) {
 
 			var ctx = canvas.getContext("2d");
 
-			ctx.fillStyle = color;
-			ctx.fillRect( 0, 0, img.width, img.height );
-			ctx.globalCompositeOperation = "destination-atop";
 			ctx.drawImage( img, 0, 0 );
+
+			colorize( canvas, color );
 
 			img.src = canvas.toDataURL();
 			img.onload = function() {
@@ -2609,6 +2608,42 @@ LGraphNode.prototype.loadImage = function( url, color ) {
 			that.setDirtyCanvas( true, true );
 		}
 	};
+
+	function colorize( canvas, color ) {
+		var w = canvas.width;
+		var h = canvas.height;
+
+		var ctx = canvas.getContext("2d");
+		var imgData = ctx.getImageData( 0, 0, w, h );
+		var pixels = imgData.data;
+
+		var colorCanvas = document.createElement("canvas");
+		colorCanvas.width = 1;
+		colorCanvas.height = 1;
+
+		var colorCtx = colorCanvas.getContext("2d");
+
+		colorCtx.fillStyle = color;
+		colorCtx.fillRect( 0, 0, 1, 1 );
+
+		var rgba = colorCtx.getImageData( 0, 0, 1, 1 ).data;
+
+		var i;
+		var l;
+
+		for ( i = 0, l = pixels.length; i < l; i += 4 ) {
+		/*
+			pixels[ i + 0 ] -= (pixels[ i + 0 ] - rgba[ 0 ]) * (rgba[ 3 ] / 256);
+			pixels[ i + 1 ] -= (pixels[ i + 1 ] - rgba[ 1 ]) * (rgba[ 3 ] / 256);
+			pixels[ i + 2 ] -= (pixels[ i + 2 ] - rgba[ 2 ]) * (rgba[ 3 ] / 256);
+		*/
+			pixels[ i + 0 ] *= (rgba[ 0 ] / 256) * (rgba[ 3 ] / 256);
+			pixels[ i + 1 ] *= (rgba[ 1 ] / 256) * (rgba[ 3 ] / 256);
+			pixels[ i + 2 ] *= (rgba[ 2 ] / 256) * (rgba[ 3 ] / 256);
+		}
+
+		ctx.putImageData( imgData, 0, 0 );
+	}
 
 	if ( img.width ) {
 		img.onload();
@@ -5685,8 +5720,8 @@ CanvasRenderingContext2D.prototype.measureFont = function( metrics ) {
 	if ( !result ) {
 		var canvas = document.createElement("canvas");
 		var w = canvas.width;
-				var h = canvas.height;
-				var baseline = h / 2;
+		var h = canvas.height;
+		var baseline = h / 2;
 
 		var ctx = canvas.getContext("2d");
 		ctx.fillRect( 0, 0, w, h );
@@ -5696,8 +5731,8 @@ CanvasRenderingContext2D.prototype.measureFont = function( metrics ) {
 		ctx.fillText("Hg", 0, baseline );
 		var pixels = ctx.getImageData( 0, 0, w, h ).data;
 		i = 0;
-				var w4 = w * 4;
-				var l = pixels.length;
+		var w4 = w * 4;
+		var l = pixels.length;
 
 		while ( i < l && pixels[ i ] === 0 ) {
 			i += 4;
