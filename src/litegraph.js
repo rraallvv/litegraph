@@ -156,6 +156,9 @@ var LiteGraph = {
 		if ( !node.enabled ) {
 			node.enabled = true;
 		}
+		// node.bgcolor = node.bgcolor || "white";
+		node.bgImageUrl = node.bgImageUrl || "imgs/default_bg.png";
+
 
 		// extra options
 		if ( options ) {
@@ -1521,7 +1524,6 @@ LGraphNode.prototype.configure = function( info ) {
 			output.links[ j ] = link[ 0 ];
 		}
 	}
-
 };
 
 /**
