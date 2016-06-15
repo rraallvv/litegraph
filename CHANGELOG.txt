@@ -6,71 +6,31 @@ v1.0.0-alpha
 
 Fixes:
 
-* Fix issue with the output color after disconnection.
+- Fix issue with ports being kept highlighted after disconnection.
 
 Improvements:
 
-* The connection links show the same number of dots in the animation independently of its length.
-* Don't remove the connection links immediately on disconnection.
-* Stop highlighting an input if dragging a connection outside the node.
-* Show the text "Expand" if a node is collapsed.
-* Hide the shadows and borders.
-* Remove link arrows.
-* Make links thinner.
-* Differentiate the nodes from subgraph nodes by its shape.
-* Make the flow dots twice the link width.
-* Replace the collapse/expand button by a disclosure triangle.
-* The Console component logs the inner value if the msg input is disconnected.
-* Draw the selection around the round nodes.
-* Improve node selection.
-* Make the min node width bigger.
-* Control whether a node is enable/disable by its mode property.
-* Improve port drawings.
-* Improve the calculations for the connection link bezier paths.
-* Remove the outline in the output ports.
-* Render the comments above the node as a text bubble.
-* Improve node selection mechanism.
-* Improve a bit the connection links shape.
-* Make the collapsed node the same width.
-* Move the disclosure triangle in the node title to the right corner on the title bar.
-* Improve the shape in the bezier path for connections links that go backward.
-* Refactor the serialization process and data format.
-* Draw the resizing handle in the Comment node.
-* Add padding to the title width.
-* Draw the text in the operators taking into account the font baseline.
-* Remove setup for unused node properties.
+- Refactor serialization, parsing and data formatting.
+- Improve node selection.
+- Connection terminals can be moved between ports.
+- Improved graphics for connection terminals and connection links.
+- Improved graphics for the different type of nodes.
 
 Features:
 
-* Add additional nodes from LiteGraph at http://tamats.com/webglstudio/litegraph/
-* Cap the FPS to 60.
-* Add option to disable rendering of connection flow.
-* Cap zoom to 1:1
-* Start with the mini window hidden.
-* Allow multiple connections in non-data input ports.
-* Start connecting a new link when disconnecting an input with only one connection.
-* Create graphs from a JSON object.
-* Add support for creating links from JSON objects.
-* Show the serialized graph when the save button is pressed.
-* Show the port name in the graph input and output nodes.
-* Open a subgraphs on double click.
-* The node size is computed from the number of ports, title and port labels.
-* Add the branch node.
-* Add the string node.
-* Add the boolean constant node.
-* Show the graph properties in the contextual menu.
-* Add the graph property setter and getter nodes.
-* Ability to pass initial property values in the JSON graph.
-* Draw the data in the links when debugging.
-* Add the comment node.
-* Add the function wrapper node.
-* Remove live mode.
-* Add the For-loop node.
-* Add the For-loop-with-break node.
-* Show the operator in the condition node.
-* Add the logic and negation operator nodes.
-* Serialize the properties in the graph.
-* Show the serialized data on with the save button.
-* Make the Comment node resizable even if the size property is not specified. 
-* Make nodes resizable from all four corners.
-* Add property to disable the feature to collapse a node.
+- Nodes can be disabled to skip execution.
+- Add support for comments in the form of text bubbles attached to nodes.
+- Remove the mini window.
+- Allow multiple input connections in execution ports.
+- Add support to save and load graphs from JSON data.
+- The node size is automatically adjusted according to the number of ports, labels and input fields.
+- Add editable properties to the graphs.
+- Add nodes to control the execution flow.
+- Add more basic node types.
+- Add nodes to set and get property values in the graphs.
+- Add the comment node.
+- Add the function wrapper node.
+- Add the logic and negation operator nodes.
+- Add more nodes from the online demos of LiteGraph at http://wwww.webglstudio.org and http://www.tamats.com
+- Show the data passing through the links in debug mode.
+- Remove the live mode.
