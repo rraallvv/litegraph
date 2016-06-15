@@ -378,7 +378,7 @@ function Comment( title ) {
 	};
 	this.overlappingNodes = [];
 	this.isDragging = false;
-	// this.bgcolor = "rgba(128,128,128,0.1)";
+	this.bgcolor = "white";
 	this.resizable = true;
 	this.collapsible = false;
 	this.bgImageUrl = "imgs/9-slice.png";
