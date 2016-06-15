@@ -2586,13 +2586,13 @@ LGraphNode.prototype.loadImage = function( url, color ) {
 	rawImg.src = LiteGraph.nodeImagesPath + url;
 	// rawImg.ready = false;
 
+	var img = color ? document.createElement("canvas") : rawImg;
+
 	if ( rawImg.width ) {
 		process();
 	} else {
 		rawImg.onload = process;
 	}
-
-	var img = color ? document.createElement("canvas") : rawImg;
 
 	var that = this;
 
