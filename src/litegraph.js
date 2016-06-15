@@ -2582,35 +2582,36 @@ LGraphNode.prototype.setDirtyCanvas = function( dirtyForeground, dirtyBackground
 };
 
 LGraphNode.prototype.loadImage = function( url, color ) {
-	var rawImg = new Image();
-	rawImg.src = LiteGraph.nodeImagesPath + url;
-	// rawImg.ready = false;
-
-	var img = color ? document.createElement("canvas") : rawImg;
-
-	if ( rawImg.width ) {
-		process();
-	} else {
-		rawImg.onload = process;
-	}
+	var img = new Image();
+	img.src = LiteGraph.nodeImagesPath + url;
 
 	var that = this;
 
-	function process() {
+	img.onload = function() {
 		if ( color ) {
-			img.width = rawImg.width;
-			img.height = rawImg.height;
+			var canvas = document.createElement("canvas");
 
-			var ctx = img.getContext("2d");
+			canvas.width = img.width;
+			canvas.height = img.height;
+
+			var ctx = canvas.getContext("2d");
 
 			ctx.fillStyle = color;
 			ctx.fillRect( 0, 0, img.width, img.height );
 			ctx.globalCompositeOperation = "destination-atop";
-			ctx.drawImage( rawImg, 0, 0 );
-		}
+			ctx.drawImage( img, 0, 0 );
 
-		// this.ready = true;
-		that.setDirtyCanvas( true );
+			img.src = canvas.toDataURL();
+			img.onload = function() {
+				that.setDirtyCanvas( true, true );
+			};
+		} else {
+			that.setDirtyCanvas( true, true );
+		}
+	};
+
+	if ( img.width ) {
+		img.onload();
 	}
 
 	return img;
@@ -4622,7 +4623,12 @@ LGraphCanvas.prototype.drawNodeShape = function( node, ctx, size, fgcolor, bgcol
 		}
 	}
 
-	if ( !(node.bgImage && node.bgImage.width) ) {
+	if ( node.bgImageUrl ) {
+		// image
+		if ( node.bgImage ) {
+			ctx.draw9SliceImage( node.bgImage, 0, -titleHeight, node.size[ 0 ], node.size[ 1 ] + titleHeight, [ 6, 16, 6, 6 ]);
+		}
+	} else {
 		// render depending on shape
 		if ( shape == "box") {
 			ctx.beginPath();
@@ -4637,9 +4643,6 @@ LGraphCanvas.prototype.drawNodeShape = function( node, ctx, size, fgcolor, bgcol
 			ctx.arc( size[ 0 ] * 0.5, size[ 1 ] * 0.5, size[ 0 ] * 0.5, 0, Math.PI * 2 );
 			ctx.fill();
 		}
-	} else {
-		// image
-		ctx.draw9SliceImage( node.bgImage, 0, -titleHeight, node.size[ 0 ], node.size[ 1 ] + titleHeight, [ 6, 16, 6, 6 ]);
 	}
 
 	// ctx.stroke();
