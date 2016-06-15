@@ -378,10 +378,10 @@ function Comment( title ) {
 	};
 	this.overlappingNodes = [];
 	this.isDragging = false;
-	this.bgcolor = "white";
+	// this.bgcolor = "white";
 	this.resizable = true;
 	this.collapsible = false;
-	this.bgImageUrl = "imgs/9-slice.png";
+	this.bgImageUrl = "imgs/comments_bg.png";
 
 	this.properties = { comment: this.title, color: this.bgcolor };
 
