@@ -52,10 +52,10 @@ var LiteGraph = {
 	// enums
 	INPUT: 1,
 	OUTPUT: 2,
-	PORTS_ALIGNMENT_TOP: 0,
-	PORTS_ALIGNMENT_CENTER: 1,
-	PORTS_ALIGNMENT_BOTTOM: 2,
-	PORTS_ALIGNMENT_SPREAD: 3,
+	SLOT_ALIGNMENT_TOP: 0,
+	SLOT_ALIGNMENT_MIDDLE: 1,
+	SLOT_ALIGNMENT_BOTTOM: 2,
+	SLOT_ALIGNMENT_SPREAD: 3,
 
 	EXECUTE: -1,
 
@@ -2558,41 +2558,47 @@ LGraphNode.prototype.getConnectionPos = function( isInput, slotNumber ) {
 	}
 
 	var x;
-	if ( !isInput ) { // output
-		x = this.size[ 0 ] + 1;
-	} else {
+	if ( isInput ) {
 		x = 0;
+	} else {
+		x = this.size[ 0 ] + 1;
 	}
 
-	this.portsAlignment = this.portsAlignment || LiteGraph.PORTS_ALIGNMENT_TOP;
 	var y;
-	switch ( this.portsAlignment ) {
-		case LiteGraph.PORTS_ALIGNMENT_CENTER:
-			if ( !isInput ) { // output
-				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.outputs.length - 1) / 2) * LiteGraph.NODE_SLOT_HEIGHT;
-			} else {
-				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.inputs.length - 1) / 2) * LiteGraph.NODE_SLOT_HEIGHT;
-			}
-			break;
-		case LiteGraph.PORTS_ALIGNMENT_BOTTOM:
-			if ( !isInput ) { // output
-				y = this.size[ 1 ] - 10 - (this.outputs.length - 1 - slotNumber) * LiteGraph.NODE_SLOT_HEIGHT;
-			} else {
-				y = this.size[ 1 ] - 10 - (this.inputs.length - 1 - slotNumber) * LiteGraph.NODE_SLOT_HEIGHT;
-			}
-			break;
-		case LiteGraph.PORTS_ALIGNMENT_SPREAD:
-			if ( !isInput ) { // output
-				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.outputs.length - 1) / 2) * (this.size[ 1 ] - 20) / (this.outputs.length > 1 ? this.outputs.length - 1 : 1);
-			} else {
-				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.inputs.length - 1) / 2) * (this.size[ 1 ] - 20) / (this.inputs.length > 1 ? this.inputs.length - 1 : 1);
-			}
-			break;
-		case LiteGraph.PORTS_ALIGNMENT_TOP:
-		default:
-			y = 10 + slotNumber * LiteGraph.NODE_SLOT_HEIGHT;
-			break;
+	if ( isInput ) {
+		switch ( this.inputAlignment ) {
+			case LiteGraph.SLOT_ALIGNMENT_MIDDLE:
+				y = 0.5 * this.size[ 1 ] - 0.5 + (slotNumber - (this.inputs.length - 1) / 2) * LiteGraph.NODE_SLOT_HEIGHT;
+				break;
+			case LiteGraph.SLOT_ALIGNMENT_BOTTOM:
+				y = this.size[ 1 ] - 11 - (this.inputs.length - 1 - slotNumber) * LiteGraph.NODE_SLOT_HEIGHT;
+				break;
+			case LiteGraph.SLOT_ALIGNMENT_SPREAD:
+				y = 0.5 * this.size[ 1 ] - 0.5 + (slotNumber - (this.inputs.length - 1) / 2) * (this.size[ 1 ] - 21) / (this.inputs.length > 1 ? this.inputs.length - 1 : 1);
+				break;
+			case LiteGraph.SLOT_ALIGNMENT_TOP:
+			default:
+				y = 10 + slotNumber * LiteGraph.NODE_SLOT_HEIGHT;
+				break;
+		}
+	} else {
+		switch ( this.outputAlignment ) {
+			case LiteGraph.SLOT_ALIGNMENT_MIDDLE:
+				y = 0.5 * this.size[ 1 ] - 0.5 + (slotNumber - (this.outputs.length - 1) / 2) * LiteGraph.NODE_SLOT_HEIGHT;
+				break;
+			case LiteGraph.SLOT_ALIGNMENT_BOTTOM:
+				y = this.size[ 1 ] - 11 - (this.outputs.length - 1 - slotNumber) * LiteGraph.NODE_SLOT_HEIGHT;
+				break;
+			case LiteGraph.SLOT_ALIGNMENT_SPREAD:
+				y = 0.5 * this.size[ 1 ] - 0.5 + (slotNumber - (this.outputs.length - 1) / 2) * (this.size[ 1 ] - 21) / (this.outputs.length > 1 ? this.outputs.length - 1 : 1);
+				break;
+			case LiteGraph.SLOT_ALIGNMENT_TOP:
+			default:
+				y = 10 + slotNumber * LiteGraph.NODE_SLOT_HEIGHT;
+				break;
+		}
 	}
+
 	return [ this.pos[ 0 ] + x, this.pos[ 1 ] + y ];
 };
 
