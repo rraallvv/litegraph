@@ -2096,6 +2096,10 @@ LGraphNode.prototype.computeSize = function( minHeight, out ) {
 		}
 	}
 
+	// round the size to avoid fuzzy borders
+	size[ 0 ] = Math.ceil( size[ 0 ] );
+	size[ 1 ] = Math.ceil( size[ 1 ] );
+
 	function computeTextSize( text, font ) {
 		if ( !text ) {
 			return 0;
@@ -2809,7 +2813,7 @@ function LGraphCanvas( canvas, graph, options ) {
 	this.highqualityRender = true;
 	this.editorAlpha = 1; // used for transition
 	this.pauseRendering = false;
-	this.renderShadows = false;
+	this.renderShadows = true;
 	this.clearBackground = true;
 
 	this.renderOnlySelected = true;
@@ -4463,7 +4467,7 @@ LGraphCanvas.prototype.drawNode = function( node, ctx ) {
 		ctx.shadowColor = "rgba(0,0,0,0.5)";
 		ctx.shadowOffsetX = 2;
 		ctx.shadowOffsetY = 2;
-		ctx.shadowBlur = 3;
+		ctx.shadowBlur = 4;
 	} else {
 		ctx.shadowColor = "transparent";
 	}
@@ -5644,62 +5648,78 @@ CanvasRenderingContext2D.prototype.measureText = function( text, metrics ) {
 };
 
 CanvasRenderingContext2D.prototype.draw9SliceImage = function( image, x, y, width, height, padding ) {
-		// top
-		this.drawImage( image,
-			0, 0,
-			padding[ 0 ], padding[ 1 ],
-			x, y,
-			padding[ 0 ], padding[ 1 ] );
 
-		this.drawImage( image,
-			padding[ 0 ], 0,
-			image.width - padding[ 0 ] - padding[ 2 ], padding[ 1 ],
-			x + padding[ 0 ], y,
-			width - padding[ 0 ] - padding[ 2 ], padding[ 1 ] );
+	// TODO: find a better way to draw the 9-slice image with its shadow
 
-		this.drawImage( image,
-			image.width - padding[ 2 ], 0,
-			padding[ 2 ], padding[ 1 ],
-			x + width - padding[ 2 ], y,
-			padding[ 2 ], padding[ 1 ] );
+	var canvas = document.createElement("canvas");
+	canvas.width = width;
+	canvas.height = height;
+	var ctx = canvas.getContext("2d");
 
-		// middle
-		this.drawImage( image,
-			0, padding[ 1 ],
-			padding[ 0 ], image.height - padding[ 1 ] - padding[ 3 ],
-			x, y + padding[ 1 ],
-			padding[ 0 ], height - padding[ 1 ] - padding[ 3 ] );
+	// top-left
+	ctx.drawImage( image,
+		0, 0,
+		padding[ 0 ], padding[ 1 ],
+		0, 0,
+		padding[ 0 ], padding[ 1 ] );
 
-		this.drawImage( image,
-			padding[ 0 ], padding[ 1 ],
-			image.width - padding[ 0 ] - padding[ 2 ], image.height - padding[ 1 ] - padding[ 3 ],
-			x + padding[ 0 ], y + padding[ 1 ],
-			width - padding[ 0 ] - padding[ 2 ], height - padding[ 1 ] - padding[ 3 ] );
+	// top-middle
+	ctx.drawImage( image,
+		padding[ 0 ], 0,
+		image.width - padding[ 0 ] - padding[ 2 ], padding[ 1 ],
+		padding[ 0 ], 0,
+		width - padding[ 0 ] - padding[ 2 ], padding[ 1 ] );
 
-		this.drawImage( image,
-			image.width - padding[ 2 ], padding[ 1 ],
-			padding[ 2 ], image.height - padding[ 1 ] - padding[ 3 ],
-			x + width - padding[ 2 ], y + padding[ 1 ],
-			padding[ 2 ], height - padding[ 1 ] - padding[ 3 ] );
+	// top-right
+	ctx.drawImage( image,
+		image.width - padding[ 2 ], 0,
+		padding[ 2 ], padding[ 1 ],
+		width - padding[ 2 ], 0,
+		padding[ 2 ], padding[ 1 ] );
 
-		// bottom
-		this.drawImage( image,
-			0, image.height - padding[ 3 ],
-			padding[ 0 ], padding[ 3 ],
-			x, y + height - padding[ 3 ],
-			padding[ 0 ], padding[ 3 ] );
+	// middle-left
+	ctx.drawImage( image,
+		0, padding[ 1 ],
+		padding[ 0 ], image.height - padding[ 1 ] - padding[ 3 ],
+		0, padding[ 1 ],
+		padding[ 0 ], height - padding[ 1 ] - padding[ 3 ] );
 
-		this.drawImage( image,
-			padding[ 0 ], image.height - padding[ 3 ],
-			image.width - padding[ 0 ] - padding[ 2 ], padding[ 3 ],
-			x + padding[ 0 ], y + height - padding[ 3 ],
-			width - padding[ 0 ] - padding[ 2 ], padding[ 3 ] );
+	// middle
+	ctx.drawImage( image,
+		padding[ 0 ], padding[ 1 ],
+		image.width - padding[ 0 ] - padding[ 2 ], image.height - padding[ 1 ] - padding[ 3 ],
+		padding[ 0 ], padding[ 1 ],
+		width - padding[ 0 ] - padding[ 2 ], height - padding[ 1 ] - padding[ 3 ] );
 
-		this.drawImage( image,
-			image.width - padding[ 2 ], image.height - padding[ 3 ],
-			padding[ 2 ], padding[ 3 ],
-			x + width - padding[ 2 ], y + height - padding[ 3 ],
-			padding[ 2 ], padding[ 3 ] );
+	// middle-right
+	ctx.drawImage( image,
+		image.width - padding[ 2 ], padding[ 1 ],
+		padding[ 2 ], image.height - padding[ 1 ] - padding[ 3 ],
+		width - padding[ 2 ], padding[ 1 ],
+		padding[ 2 ], height - padding[ 1 ] - padding[ 3 ] );
+
+	// bottom-left
+	ctx.drawImage( image,
+		0, image.height - padding[ 3 ],
+		padding[ 0 ], padding[ 3 ],
+		0, height - padding[ 3 ],
+		padding[ 0 ], padding[ 3 ] );
+
+	// bottom-middle
+	ctx.drawImage( image,
+		padding[ 0 ], image.height - padding[ 3 ],
+		image.width - padding[ 0 ] - padding[ 2 ], padding[ 3 ],
+		padding[ 0 ], height - padding[ 3 ],
+		width - padding[ 0 ] - padding[ 2 ], padding[ 3 ] );
+
+	// bottom-right
+	ctx.drawImage( image,
+		image.width - padding[ 2 ], image.height - padding[ 3 ],
+		padding[ 2 ], padding[ 3 ],
+		width - padding[ 2 ], height - padding[ 3 ],
+		padding[ 2 ], padding[ 3 ] );
+
+	this.drawImage( canvas, x, y );
 };
 
 /*
