@@ -1915,7 +1915,7 @@ LGraphNode.prototype.addOutput = function( name, type, extraInfo ) {
 LGraphNode.prototype.addOutputs = function( array ) {
 	for ( var i = 0; i < array.length; ++i ) {
 		var info = array[ i ];
-		var o = { name:info[ 0 ], type:info[ 1 ], link:null };
+		var o = { name:info[ 0 ], type:info[ 1 ], links:null };
 		if ( array[ 2 ] ) {
 			for ( var j in info[ 2 ] ) {
 				o[ j ] = info[ 2 ][ j ];
@@ -1957,7 +1957,7 @@ LGraphNode.prototype.removeOutput = function( slot ) {
 */
 LGraphNode.prototype.addInput = function( name, type, extraInfo ) {
 	type = type || 0;
-	var o = { name:name, type:type, link:null };
+	var o = { name:name, type:type, links:null };
 	if ( extraInfo ) {
 		for ( var i in extraInfo ) {
 			o[ i ] = extraInfo[ i ];
@@ -1983,7 +1983,7 @@ LGraphNode.prototype.addInput = function( name, type, extraInfo ) {
 LGraphNode.prototype.addInputs = function( array ) {
 	for ( var i = 0; i < array.length; ++i ) {
 		var info = array[ i ];
-		var o = { name:info[ 0 ], type:info[ 1 ], link:null };
+		var o = { name:info[ 0 ], type:info[ 1 ], links:null };
 		if ( array[ 2 ] ) {
 			for ( var j in info[ 2 ] ) {
 				o[ j ] = info[ 2 ][ j ];
