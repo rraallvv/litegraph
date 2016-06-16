@@ -4754,7 +4754,7 @@ LGraphCanvas.prototype.drawNodeComment = function( node, ctx ) {
 
 	var titleHeight = LiteGraph.NODE_TITLE_HEIGHT;
 	var commentHeight = parseInt( ctx.font );
-	var padding = 3;
+	var padding = 5;
 	var separation = 8;
 	var nodeBorderRadius = 10;
 
@@ -4772,7 +4772,7 @@ LGraphCanvas.prototype.drawNodeComment = function( node, ctx ) {
 	// comment box
 	ctx.fillStyle = "#fff";
 	ctx.beginPath();
-	ctx.roundRect( 0, -separation - commentHeight - 2 * padding, ctx.measureText( comment ).width + 2 * padding, commentHeight + 2 * padding, 3 );
+	ctx.roundRect( 0, -separation - commentHeight - 2 * padding, ctx.measureText( comment ).width + 2 * padding, commentHeight + 2 * padding, padding );
 	ctx.moveTo( nodeBorderRadius, -separation );
 	ctx.lineTo( nodeBorderRadius + separation, -separation );
 	ctx.lineTo( nodeBorderRadius + separation / 2, separation - separation );
