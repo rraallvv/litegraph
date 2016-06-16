@@ -3326,9 +3326,8 @@ LGraphCanvas.prototype.processMouseDown = function( e ) {
 		// when clicked on top of a node
 		// and it is not interactive
 		if ( n ) {
-			if ( !n.flags.background ) {
-				this.bringToFront( n ); // if it wasnt selected?
-			}
+			this.bringToFront( n ); // if it wasnt selected?
+
 			var skipAction = false;
 
 			var titleHeight = LiteGraph.NODE_TITLE_HEIGHT;
@@ -3897,7 +3896,7 @@ LGraphCanvas.prototype.processDrop = function( e ) {
 
 
 	var pos = [ e.canvasX, e.canvasY ];
-	var node = this.graph.getNodeOnPos( pos[ 0 ], pos[ 1 ] );
+	var node = this.graph.getNodeOnPos( pos[ 0 ], pos[ 1 ], this.visibleNodes );
 
 	if ( !node ) {
 		if ( this.onDropItem ) {

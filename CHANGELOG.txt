@@ -14,7 +14,8 @@ Improvements:
 - Improve node selection.
 - Connection terminals can be moved between ports.
 - Improved graphics for connection terminals and connection links.
-- Improved graphics for the different type of nodes.
+- Improved graphics for the different types of nodes.
+- Ports can be aligned to the top, bottom, middle, or spread evenly.
 
 Features:
 
