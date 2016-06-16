@@ -4230,9 +4230,9 @@ LGraphCanvas.prototype.drawFrontCanvas = function() {
 			ctx.beginPath();
 
 			if ( this.connectingOutput.type === LiteGraph.EXECUTE ) {
-				ctx.executablePort( this.connectingPos[ 0 ], this.connectingPos[ 1 ] );
+				ctx.drawExecutePort( this.connectingPos[ 0 ], this.connectingPos[ 1 ] );
 			} else {
-				ctx.dataPort( this.connectingPos[ 0 ], this.connectingPos[ 1 ] );
+				ctx.drawDataPort( this.connectingPos[ 0 ], this.connectingPos[ 1 ] );
 			}
 
 			/*
@@ -4248,9 +4248,9 @@ LGraphCanvas.prototype.drawFrontCanvas = function() {
 				ctx.beginPath();
 				// ctx.arc( this._highlightInput[0], this._highlightInput[1],6,0,Math.PI*2);
 				if ( this.connectingOutput.type === LiteGraph.EXECUTE ) {
-					ctx.executablePort( this._highlightInput[ 0 ], this._highlightInput[ 1 ] );
+					ctx.drawExecutePort( this._highlightInput[ 0 ], this._highlightInput[ 1 ] );
 				} else {
-					ctx.dataPort( this._highlightInput[ 0 ], this._highlightInput[ 1 ] );
+					ctx.drawDataPort( this._highlightInput[ 0 ], this._highlightInput[ 1 ] );
 				}
 				ctx.fill();
 			}
@@ -4547,9 +4547,9 @@ LGraphCanvas.prototype.drawNode = function( node, ctx ) {
 				ctx.beginPath();
 
 				if ( slot.type === LiteGraph.EXECUTE ) {
-					ctx.executablePort( pos[ 0 ], pos[ 1 ] );
+					ctx.drawExecutePort( pos[ 0 ], pos[ 1 ] );
 				} else {
-					ctx.dataPort( pos[ 0 ], pos[ 1 ] );
+					ctx.drawDataPort( pos[ 0 ], pos[ 1 ] );
 				}
 
 				ctx.fill();
@@ -4587,9 +4587,9 @@ LGraphCanvas.prototype.drawNode = function( node, ctx ) {
 				// ctx.rect( node.size[0] - 14,i*14,10,10);
 
 				if ( slot.type === LiteGraph.EXECUTE ) {
-					ctx.executablePort( pos[ 0 ], pos[ 1 ] );
+					ctx.drawExecutePort( pos[ 0 ], pos[ 1 ] );
 				} else {
-					ctx.dataPort( pos[ 0 ], pos[ 1 ] );
+					ctx.drawDataPort( pos[ 0 ], pos[ 1 ] );
 				}
 
 				// trigger
@@ -5875,7 +5875,7 @@ function containsBounding( a, b ) { // eslint-disable-line no-unused-vars
 	return false;
 }
 
-CanvasRenderingContext2D.prototype.executablePort = function( x, y, width, height, arrow ) {
+CanvasRenderingContext2D.prototype.drawExecutePort = function( x, y, width, height, arrow ) {
 	if ( width === undefined ) {
 		width = 8;
 	}
@@ -5899,7 +5899,7 @@ CanvasRenderingContext2D.prototype.executablePort = function( x, y, width, heigh
 	this.lineTo( left, bottom );
 };
 
-CanvasRenderingContext2D.prototype.dataPort = function( x, y, radius ) {
+CanvasRenderingContext2D.prototype.drawDataPort = function( x, y, radius ) {
 	if ( radius == undefined ) {
 		radius = 4;
 	}
