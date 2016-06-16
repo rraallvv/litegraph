@@ -52,6 +52,10 @@ var LiteGraph = {
 	// enums
 	INPUT: 1,
 	OUTPUT: 2,
+	PORTS_ALIGNMENT_TOP: 0,
+	PORTS_ALIGNMENT_CENTER: 1,
+	PORTS_ALIGNMENT_BOTTOM: 2,
+	PORTS_ALIGNMENT_SPREAD: 3,
 
 	EXECUTE: -1,
 
@@ -2049,7 +2053,7 @@ LGraphNode.prototype.computeSize = function( minHeight, out ) {
 	var rows = Math.max( this.inputs ? this.inputs.length : 1, this.outputs ? this.outputs.length : 1 );
 	var size = out || [ 0, 0 ];
 	rows = Math.max( rows, 1 );
-	size[ 1 ] = rows * 14 + 6;
+	size[ 1 ] = rows * LiteGraph.NODE_SLOT_HEIGHT + 6;
 
 	var titleWidth = computeTextSize( this.title, LGraphCanvas.titleTextFont );
 	var titleHeight = LiteGraph.NODE_TITLE_HEIGHT;
@@ -2553,10 +2557,43 @@ LGraphNode.prototype.getConnectionPos = function( isInput, slotNumber ) {
 		return [ this.pos[ 0 ] + this.outputs[ slotNumber ].pos[ 0 ], this.pos[ 1 ] + this.outputs[ slotNumber ].pos[ 1 ] ];
 	}
 
+	var x;
 	if ( !isInput ) { // output
-		return [ this.pos[ 0 ] + this.size[ 0 ] + 1, this.pos[ 1 ] + 10 + slotNumber * LiteGraph.NODE_SLOT_HEIGHT ];
+		x = this.size[ 0 ] + 1;
+	} else {
+		x = 0;
 	}
-	return [ this.pos[ 0 ], this.pos[ 1 ] + 10 + slotNumber * LiteGraph.NODE_SLOT_HEIGHT ];
+
+	this.portsAlignment = this.portsAlignment || LiteGraph.PORTS_ALIGNMENT_TOP;
+	var y;
+	switch ( this.portsAlignment ) {
+		case LiteGraph.PORTS_ALIGNMENT_CENTER:
+			if ( !isInput ) { // output
+				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.outputs.length - 1) / 2) * LiteGraph.NODE_SLOT_HEIGHT;
+			} else {
+				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.inputs.length - 1) / 2) * LiteGraph.NODE_SLOT_HEIGHT;
+			}
+			break;
+		case LiteGraph.PORTS_ALIGNMENT_BOTTOM:
+			if ( !isInput ) { // output
+				y = this.size[ 1 ] - 10 - (this.outputs.length - 1 - slotNumber) * LiteGraph.NODE_SLOT_HEIGHT;
+			} else {
+				y = this.size[ 1 ] - 10 - (this.inputs.length - 1 - slotNumber) * LiteGraph.NODE_SLOT_HEIGHT;
+			}
+			break;
+		case LiteGraph.PORTS_ALIGNMENT_SPREAD:
+			if ( !isInput ) { // output
+				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.outputs.length - 1) / 2) * (this.size[ 1 ] - 20) / (this.outputs.length > 1 ? this.outputs.length - 1 : 1);
+			} else {
+				y = 0.5 * this.size[ 1 ] + (slotNumber - (this.inputs.length - 1) / 2) * (this.size[ 1 ] - 20) / (this.inputs.length > 1 ? this.inputs.length - 1 : 1);
+			}
+			break;
+		case LiteGraph.PORTS_ALIGNMENT_TOP:
+		default:
+			y = 10 + slotNumber * LiteGraph.NODE_SLOT_HEIGHT;
+			break;
+	}
+	return [ this.pos[ 0 ] + x, this.pos[ 1 ] + y ];
 };
 
 /* Force align to grid */
