@@ -1,0 +1,233 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		E45403A11D0B09E3003647B1 /* node_modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = node_modules; path = node_modules; sourceTree = "<group>"; };
+		E457C69B1CEB9F0900BFBE0D /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = build; sourceTree = "<group>"; };
+		E457C69C1CEB9F0900BFBE0D /* css */ = {isa = PBXFileReference; lastKnownFileType = folder; name = css; path = css; sourceTree = "<group>"; };
+		E457C69D1CEB9F0900BFBE0D /* demo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = demo; path = demo; sourceTree = "<group>"; };
+		E457C69E1CEB9F0900BFBE0D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = doc; path = doc; sourceTree = "<group>"; };
+		E457C69F1CEB9F0900BFBE0D /* external */ = {isa = PBXFileReference; lastKnownFileType = folder; name = external; path = external; sourceTree = "<group>"; };
+		E457C6A01CEB9F0900BFBE0D /* guides */ = {isa = PBXFileReference; lastKnownFileType = folder; name = guides; path = guides; sourceTree = "<group>"; };
+		E457C6A11CEB9F0900BFBE0D /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = index.html; sourceTree = "<group>"; };
+		E457C6A21CEB9F0900BFBE0D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = LICENSE; sourceTree = "<group>"; };
+		E457C6A31CEB9F0900BFBE0D /* nodes_data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = nodes_data; path = nodes_data; sourceTree = "<group>"; };
+		E457C6A41CEB9F0900BFBE0D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = README.md; sourceTree = "<group>"; };
+		E457C6A51CEB9F0900BFBE0D /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = src; sourceTree = "<group>"; };
+		E457C6A61CEB9F0900BFBE0D /* style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = style.css; path = style.css; sourceTree = "<group>"; };
+		E457C6A71CEB9F0900BFBE0D /* utils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = utils; path = utils; sourceTree = "<group>"; };
+		E4BA51091D0F9C55006A882A /* CHANGELOG.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CHANGELOG.txt; path = CHANGELOG.txt; sourceTree = "<group>"; };
+		E4BA68C91D0C8424007FBBEA /* .eslintrc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = .eslintrc.json; path = .eslintrc.json; sourceTree = "<group>"; };
+		E4BA68CA1D0C8424007FBBEA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = .gitignore; sourceTree = "<group>"; };
+		E4BA68CB1D0C8425007FBBEA /* .jscsrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .jscsrc; path = .jscsrc; sourceTree = "<group>"; };
+		E4BA68CC1D0C8425007FBBEA /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .travis.yml; path = .travis.yml; sourceTree = "<group>"; };
+		E4BD4FDC1D08A1D9007160E6 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = index.html; sourceTree = "<group>"; };
+		E4BD4FDD1D08A1D9007160E6 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = LICENSE; sourceTree = "<group>"; };
+		E4BD4FDE1D08A1D9007160E6 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = package.json; path = package.json; sourceTree = "<group>"; };
+		E4BD4FDF1D08A1D9007160E6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = README.md; sourceTree = "<group>"; };
+		E4BD4FE01D08A1D9007160E6 /* style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = style.css; path = style.css; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		E457C6831CEB9D6D00BFBE0D = {
+			isa = PBXGroup;
+			children = (
+				E457C69B1CEB9F0900BFBE0D /* build */,
+				E457C69C1CEB9F0900BFBE0D /* css */,
+				E457C69D1CEB9F0900BFBE0D /* demo */,
+				E457C69E1CEB9F0900BFBE0D /* doc */,
+				E457C69F1CEB9F0900BFBE0D /* external */,
+				E457C6A01CEB9F0900BFBE0D /* guides */,
+				E457C6A11CEB9F0900BFBE0D /* index.html */,
+				E457C6A21CEB9F0900BFBE0D /* LICENSE */,
+				E45403A11D0B09E3003647B1 /* node_modules */,
+				E457C6A31CEB9F0900BFBE0D /* nodes_data */,
+				E457C6A41CEB9F0900BFBE0D /* README.md */,
+				E457C6A51CEB9F0900BFBE0D /* src */,
+				E457C6A61CEB9F0900BFBE0D /* style.css */,
+				E457C6A71CEB9F0900BFBE0D /* utils */,
+				E4BD4FDC1D08A1D9007160E6 /* index.html */,
+				E4BD4FDD1D08A1D9007160E6 /* LICENSE */,
+				E4BA51091D0F9C55006A882A /* CHANGELOG.txt */,
+				E4BD4FDE1D08A1D9007160E6 /* package.json */,
+				E4BD4FDF1D08A1D9007160E6 /* README.md */,
+				E4BD4FE01D08A1D9007160E6 /* style.css */,
+				E4BA68C91D0C8424007FBBEA /* .eslintrc.json */,
+				E4BA68CA1D0C8424007FBBEA /* .gitignore */,
+				E4BA68CB1D0C8425007FBBEA /* .jscsrc */,
+				E4BA68CC1D0C8425007FBBEA /* .travis.yml */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		E457C6971CEB9E0E00BFBE0D /* Demo */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = build;
+			buildConfigurationList = E457C6981CEB9E0E00BFBE0D /* Build configuration list for PBXLegacyTarget "Demo" */;
+			buildPhases = (
+			);
+			buildToolPath = npm;
+			buildWorkingDirectory = "$(SRCROOT)";
+			dependencies = (
+			);
+			name = Demo;
+			passBuildSettingsInEnvironment = 0;
+			productName = Demo;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		E457C6841CEB9D6D00BFBE0D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				TargetAttributes = {
+					E457C6971CEB9E0E00BFBE0D = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = E457C6871CEB9D6D00BFBE0D /* Build configuration list for PBXProject "LiteGraph" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E457C6831CEB9D6D00BFBE0D;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E457C6971CEB9E0E00BFBE0D /* Demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		E457C6881CEB9D6D00BFBE0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E457C6891CEB9D6D00BFBE0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E457C6991CEB9E0E00BFBE0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E457C69A1CEB9E0E00BFBE0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E457C6871CEB9D6D00BFBE0D /* Build configuration list for PBXProject "LiteGraph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E457C6881CEB9D6D00BFBE0D /* Debug */,
+				E457C6891CEB9D6D00BFBE0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E457C6981CEB9E0E00BFBE0D /* Build configuration list for PBXLegacyTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E457C6991CEB9E0E00BFBE0D /* Debug */,
+				E457C69A1CEB9E0E00BFBE0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E457C6841CEB9D6D00BFBE0D /* Project object */;
+}
