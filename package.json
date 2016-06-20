@@ -2,7 +2,7 @@
 	"name": "LiteGraph.js",
 	"version": "v1.0.0-alpha",
 	"description": "A graph node editor for Node.js applications.",
-	"authors": "Rhody Lugo and Javi Agenjo",
+	"authors": "Rhody Lugo",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
