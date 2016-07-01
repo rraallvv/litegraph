@@ -17,7 +17,7 @@
                BlueprintIdentifier = "E457C6971CEB9E0E00BFBE0D"
                BuildableName = "Demo"
                BlueprintName = "Demo"
-               ReferencedContainer = "container:LiteGraph.xcodeproj">
+               ReferencedContainer = "container:litegraph.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,7 +33,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
@@ -52,12 +52,12 @@
             BlueprintIdentifier = "E457C6971CEB9E0E00BFBE0D"
             BuildableName = "Demo"
             BlueprintName = "Demo"
-            ReferencedContainer = "container:LiteGraph.xcodeproj">
+            ReferencedContainer = "container:litegraph.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "$SRCROOT/demo/index.html"
+            argument = "http://localhost:8080/demo/index.html"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -76,7 +76,7 @@
             BlueprintIdentifier = "E457C6971CEB9E0E00BFBE0D"
             BuildableName = "Demo"
             BlueprintName = "Demo"
-            ReferencedContainer = "container:LiteGraph.xcodeproj">
+            ReferencedContainer = "container:litegraph.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

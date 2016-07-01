@@ -1,18 +1,21 @@
 {
-	"name": "LiteGraph.js",
+	"name": "litegraph",
 	"version": "v1.0.0-alpha",
-	"description": "A graph node editor for Node.js applications.",
+	"description": "A graph node editor similar to PD, it works in a HTML5 Canvas and allow to export graphs to be included in applications.",
 	"authors": "Rhody Lugo",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/rraallvv/litegraph.js"
+		"url": "https://github.com/rraallvv/litegraph"
 	},
 	"devDependencies": {
 		"eslint": "^2.11.1",
-		"jscs": "^3.0.4"
+		"jscs": "^3.0.4",
+		"Polymer": "^1.2.0",
+		"webcomponents.js": "^0.7.2"
 	},
 	"scripts": {
+		"start": "node utils/server 8080",
 		"build": "",
 		"test": "npm run jscs && npm run eslint",
 		"eslint": "node_modules/eslint/bin/eslint.js --format=utils/eslint_reporter.js src/*.js src/nodes/*.js demo/*.js",
