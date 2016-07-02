@@ -31,7 +31,7 @@ function LiteEditor( containerId, options ) { // eslint-disable-line no-unused-v
 	// this.addMiniWindow(300,200);
 
 	// append to DOM
-	var	parent = document.getElementById( containerId );
+	var	parent = litegraph.$[containerId];
 	if ( parent ) {
 		Polymer.dom( parent ).appendChild( root );
 	}
