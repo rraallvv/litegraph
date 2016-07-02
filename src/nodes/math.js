@@ -679,7 +679,7 @@ function MathTrigonometry() {
 		amplitude: 1,
 		offset: 0
 	});
-	this.bgImageUrl = "nodes/imgs/icon-sin.png";
+	this.bgImageUrl = "src/nodes/imgs/icon-sin.png";
 }
 
 MathTrigonometry.title = "Trigonometry";

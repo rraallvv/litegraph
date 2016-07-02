@@ -388,7 +388,7 @@ function Comment( title ) {
 
 	var that = this;
 
-	var handleImage = "imgs/resize-handle.png";
+	var handleImage = "src/imgs/resize-handle.png";
 	this.handleImage = new Image();
 	this.handleImage.name = handleImage;
 	this.handleImage.src = handleImage;

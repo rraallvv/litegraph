@@ -11,7 +11,6 @@
 		E457C69E1CEB9F0900BFBE0D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
 		E457C69F1CEB9F0900BFBE0D /* external */ = {isa = PBXFileReference; lastKnownFileType = folder; path = external; sourceTree = "<group>"; };
 		E457C6A01CEB9F0900BFBE0D /* guides */ = {isa = PBXFileReference; lastKnownFileType = folder; path = guides; sourceTree = "<group>"; };
-		E457C6A31CEB9F0900BFBE0D /* nodes_data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nodes_data; sourceTree = "<group>"; };
 		E457C6A51CEB9F0900BFBE0D /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; path = src; sourceTree = "<group>"; };
 		E457C6A71CEB9F0900BFBE0D /* utils */ = {isa = PBXFileReference; lastKnownFileType = folder; path = utils; sourceTree = "<group>"; };
 		E4BA51091D0F9C55006A882A /* CHANGELOG.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGELOG.txt; sourceTree = "<group>"; };
@@ -29,7 +28,6 @@
 				E457C69E1CEB9F0900BFBE0D /* doc */,
 				E457C69F1CEB9F0900BFBE0D /* external */,
 				E457C6A01CEB9F0900BFBE0D /* guides */,
-				E457C6A31CEB9F0900BFBE0D /* nodes_data */,
 				E457C6A51CEB9F0900BFBE0D /* src */,
 				E457C6A71CEB9F0900BFBE0D /* utils */,
 				E4BD4FDC1D08A1D9007160E6 /* index.html */,

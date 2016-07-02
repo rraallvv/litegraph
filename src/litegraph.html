@@ -24,7 +24,7 @@
 		Polymer({
 			is: 'lite-graph',
 			ready: function(){
-				LiteGraph.nodeImagesPath = "../nodes_data/";
+				LiteGraph.nodeImagesPath = "src/nodes/";
 				var editor = new LiteGraph.Editor("main");
 				window.graphcanvas = editor.graphcanvas;
 				window.graph = editor.graph;

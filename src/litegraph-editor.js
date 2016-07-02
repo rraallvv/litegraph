@@ -16,17 +16,17 @@ function Editor( containerId, options ) { // eslint-disable-line no-unused-vars
 	// create graph
 	var graph = this.graph = new LGraph();
 	var graphcanvas = this.graphcanvas = new LGraphCanvas( canvas, graph );
-	graphcanvas.backgroundImage = "imgs/grid.png";
+	graphcanvas.backgroundImage = "src/imgs/grid.png";
 	graph.onAfterExecute = function() { graphcanvas.draw( true ); };
 
 	// add stuff
-	this.addToolsButton("loadsessionButton", "Load", "imgs/icon-load.png", this.onLoadButton.bind( this ), ".tools-left" );
-	this.addToolsButton("savesessionButton", "Save", "imgs/icon-save.png", this.onSaveButton.bind( this ), ".tools-left" );
+	this.addToolsButton("loadsessionButton", "Load", "src/imgs/icon-load.png", this.onLoadButton.bind( this ), ".tools-left" );
+	this.addToolsButton("savesessionButton", "Save", "src/imgs/icon-save.png", this.onSaveButton.bind( this ), ".tools-left" );
 	this.addLoadCounter();
-	this.addToolsButton("playnodeButton", "Play", "imgs/icon-play.png", this.onPlayButton.bind( this ), ".tools-right" );
-	this.addToolsButton("playstepnodeButton", "Step", "imgs/icon-playstep.png", this.onPlayStepButton.bind( this ), ".tools-right" );
+	this.addToolsButton("playnodeButton", "Play", "src/imgs/icon-play.png", this.onPlayButton.bind( this ), ".tools-right" );
+	this.addToolsButton("playstepnodeButton", "Step", "src/imgs/icon-playstep.png", this.onPlayStepButton.bind( this ), ".tools-right" );
 
-	this.addToolsButton("maximizeButton", "", "imgs/icon-maximize.png", this.onFullscreenButton.bind( this ), ".tools-right" );
+	this.addToolsButton("maximizeButton", "", "src/imgs/icon-maximize.png", this.onFullscreenButton.bind( this ), ".tools-right" );
 
 	// this.addMiniWindow(300,200);
 
@@ -148,10 +148,10 @@ Editor.prototype.onPlayButton = function() {
 	var button = this.root.querySelector("#playnodeButton");
 
 	if ( graph.status == LGraph.STATUS_STOPPED ) {
-		button.innerHTML = "<img src='imgs/icon-stop.png'/> Stop";
+		button.innerHTML = "<img src='src/imgs/icon-stop.png'/> Stop";
 		graph.start( 1 );
 	} else {
-		button.innerHTML = "<img src='imgs/icon-play.png'/> Play";
+		button.innerHTML = "<img src='src/imgs/icon-play.png'/> Play";
 		graph.stop();
 	}
 };
@@ -194,7 +194,7 @@ Editor.prototype.addMiniWindow = function( w, h ) {
 	var canvas = miniwindow.querySelector("canvas");
 
 	var graphcanvas = new LGraphCanvas( canvas, this.graph );
-	graphcanvas.backgroundImage = "imgs/grid.png";
+	graphcanvas.backgroundImage = "src/imgs/grid.png";
 	graphcanvas.scale = 0.5;
 
 	miniwindow.style.position = "absolute";
