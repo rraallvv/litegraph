@@ -1,6 +1,6 @@
 // NOT FINISHED
 
-function Editor( containerId, options ) { // eslint-disable-line no-unused-vars
+function LiteEditor( containerId, options ) { // eslint-disable-line no-unused-vars
 	// fill container
 	var html = "<div class='header'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
 	html += "<div class='content'><div class='editor-area'><canvas class='graphcanvas' width='1000' height='500' tabindex=10></canvas></div></div>";
@@ -40,7 +40,7 @@ function Editor( containerId, options ) { // eslint-disable-line no-unused-vars
 	// graphcanvas.draw(true,true);
 }
 
-Editor.prototype.addLoadCounter = function() {
+LiteEditor.prototype.addLoadCounter = function() {
 	var meter = document.createElement("div");
 	meter.className = "headerpanel loadmeter toolbar-widget";
 
@@ -61,7 +61,7 @@ Editor.prototype.addLoadCounter = function() {
 	}, 200 );
 };
 
-Editor.prototype.addToolsButton = function( id, name, iconUrl, callback, container ) {
+LiteEditor.prototype.addToolsButton = function( id, name, iconUrl, callback, container ) {
 	if ( !container ) {
 		container = ".tools";
 	}
@@ -74,7 +74,7 @@ Editor.prototype.addToolsButton = function( id, name, iconUrl, callback, contain
 };
 
 
-Editor.prototype.createPanel = function( title, options ) { // eslint-disable-line no-unused-vars
+LiteEditor.prototype.createPanel = function( title, options ) { // eslint-disable-line no-unused-vars
 
 	var root = document.createElement("div");
 	root.className = "dialog";
@@ -87,7 +87,7 @@ Editor.prototype.createPanel = function( title, options ) { // eslint-disable-li
 	return root;
 };
 
-Editor.prototype.createButton = function( name, iconUrl ) {
+LiteEditor.prototype.createButton = function( name, iconUrl ) {
 	var button = document.createElement("button");
 	if ( iconUrl ) {
 		button.innerHTML = "<img src='" + iconUrl + "'/> ";
@@ -96,7 +96,7 @@ Editor.prototype.createButton = function( name, iconUrl ) {
 	return button;
 };
 
-Editor.prototype.onLoadButton = function() {
+LiteEditor.prototype.onLoadButton = function() {
 	var panel = this.createPanel("Load session");
 	var close = this.createButton("Close");
 	close.style.float = "right";
@@ -106,7 +106,7 @@ Editor.prototype.onLoadButton = function() {
 	Polymer.dom( panel.header ).appendChild( close );
 };
 
-Editor.prototype.onSaveButton = function() {
+LiteEditor.prototype.onSaveButton = function() {
 	var object = this.graph.serialize();
 	var string = JSON.stringify( object, null, "\t");
 /*
@@ -143,7 +143,7 @@ Editor.prototype.onSaveButton = function() {
 	window.open( dataURI );
 };
 
-Editor.prototype.onPlayButton = function() {
+LiteEditor.prototype.onPlayButton = function() {
 	var graph = this.graph;
 	var button = this.root.querySelector("#playnodeButton");
 
@@ -156,13 +156,13 @@ Editor.prototype.onPlayButton = function() {
 	}
 };
 
-Editor.prototype.onPlayStepButton = function() {
+LiteEditor.prototype.onPlayStepButton = function() {
 	var graph = this.graph;
 	graph.runStep( 1 );
 	this.graphcanvas.draw( true, true );
 };
 
-Editor.prototype.goFullscreen = function() {
+LiteEditor.prototype.goFullscreen = function() {
 	if ( this.root.requestFullscreen ) {
 		this.root.requestFullscreen( Element.ALLOW_KEYBOARD_INPUT );
 	} else if ( this.root.mozRequestFullscreen ) {
@@ -179,15 +179,15 @@ Editor.prototype.goFullscreen = function() {
 	}, 100 );
 };
 
-Editor.prototype.onFullscreenButton = function() {
+LiteEditor.prototype.onFullscreenButton = function() {
 	this.goFullscreen();
 };
 
-Editor.prototype.onMaximizeButton = function() {
+LiteEditor.prototype.onMaximizeButton = function() {
 	this.maximize();
 };
 
-Editor.prototype.addMiniWindow = function( w, h ) {
+LiteEditor.prototype.addMiniWindow = function( w, h ) {
 	var miniwindow = document.createElement("div");
 	miniwindow.className = "litegraph miniwindow";
 	miniwindow.innerHTML = "<canvas class='graphcanvas' width='" + w + "' height='" + h + "' tabindex=10></canvas>";
@@ -212,4 +212,4 @@ Editor.prototype.addMiniWindow = function( w, h ) {
 	Polymer.dom( miniwindow ).appendChild( closeButton );
 };
 
-LiteGraph.Editor = Editor;
+LiteGraph.Editor = LiteEditor;
