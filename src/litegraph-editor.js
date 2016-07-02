@@ -33,7 +33,7 @@ function Editor( containerId, options ) { // eslint-disable-line no-unused-vars
 	// append to DOM
 	var	parent = document.getElementById( containerId );
 	if ( parent ) {
-		parent.appendChild( root );
+		Polymer.dom( parent ).appendChild( root );
 	}
 
 	graphcanvas.resize();
@@ -48,7 +48,7 @@ Editor.prototype.addLoadCounter = function() {
 	html += "<div class='gpuload'><strong>GFX</strong> <div class='bgload'><div class='fgload'></div></div></div>";
 
 	meter.innerHTML = html;
-	this.root.querySelector(".header .tools-left").appendChild( meter );
+	Polymer.dom( this.root.querySelector(".header .tools-left") ).appendChild( meter );
 	var self = this;
 
 	setInterval(function() {
@@ -70,7 +70,7 @@ Editor.prototype.addToolsButton = function( id, name, iconUrl, callback, contain
 	button.id = id;
 	button.addEventListener("click", callback );
 
-	this.root.querySelector( container ).appendChild( button );
+	Polymer.dom( this.root.querySelector( container ) ).appendChild( button );
 };
 
 
@@ -101,10 +101,9 @@ Editor.prototype.onLoadButton = function() {
 	var close = this.createButton("Close");
 	close.style.float = "right";
 	close.addEventListener("click", function() { panel.parentNode.removeChild( panel ); });
-	panel.header.appendChild( close );
+	Polymer.dom( this.root ).appendChild( panel );
 	panel.content.innerHTML = "test";
-
-	this.root.appendChild( panel );
+	Polymer.dom( panel.header ).appendChild( close );
 };
 
 Editor.prototype.onSaveButton = function() {
@@ -209,10 +208,8 @@ Editor.prototype.addMiniWindow = function( w, h ) {
 		graphcanvas.setGraph( null );
 		miniwindow.parentNode.removeChild( miniwindow );
 	});
-	miniwindow.appendChild( closeButton );
-
-
-	this.root.querySelector(".content").appendChild( miniwindow );
+	Polymer.dom( this.root.querySelector(".content") ).appendChild( miniwindow );
+	Polymer.dom( miniwindow ).appendChild( closeButton );
 };
 
 LiteGraph.Editor = Editor;

@@ -5406,7 +5406,7 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 	var button = dialog.querySelector("button");
 	button.addEventListener("click", inner );
 
-	this.canvas.parentNode.appendChild( dialog );
+	Polymer.dom( this.canvas.parentNode ).appendChild( dialog );
 
 
 	function inner() {
@@ -6033,7 +6033,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 		element = document.createElement("div");
 		element.className = "graphcontextualmenu-title";
 		element.innerHTML = options.title;
-		root.appendChild( element );
+		Polymer.dom( root ).appendChild( element );
 	}
 
 	// avoid a context menu in a context menu
@@ -6046,7 +6046,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 
 		if ( item == null ) {
 			element.className += " separator";
-			root.appendChild( element );
+			Polymer.dom( root ).appendChild( element );
 			continue;
 		}
 
@@ -6072,7 +6072,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 		}
 
 		element.addEventListener("click", onClick );
-		root.appendChild( element );
+		Polymer.dom( root ).appendChild( element );
 	}
 
 	root.addEventListener("mouseover", function( e ) { // eslint-disable-line no-unused-vars
@@ -6097,7 +6097,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 	});
 
 	// insert before checking position
-	refWindow.document.body.appendChild( root );
+	Polymer.dom( refWindow.document.body ).appendChild( root );
 
 	var rootRect = root.getClientRects()[ 0 ];
 
