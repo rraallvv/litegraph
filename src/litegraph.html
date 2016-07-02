@@ -5,7 +5,6 @@
 	<link rel="import" type="css" href="css/litegraph-editor.css">
 
 	<template>
-		<p>loaded</p>
 		<div id="main"></div>
 	</template>
 
@@ -23,8 +22,10 @@
 	<script src="examples.js"></script>
 
 	<script>
+		var litegraph;
 		Editor.polymerElement({
 			ready: function(){
+				litegraph = this;
 				LiteGraph.nodeImagesPath = "src/nodes/";
 				var editor = new LiteGraph.Editor("main");
 				window.graphcanvas = editor.graphcanvas;
