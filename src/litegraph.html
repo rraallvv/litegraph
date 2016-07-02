@@ -41,8 +41,11 @@
 				}
 			},
 			setTransform: function( s, r, n, t ){
-				this.style.left = n;
-				this.style.top = t;
+				this.style.transform = "matrix(" +
+					s + ", 0, 0, " +
+					r + ", " +
+					Math.round(n + 0.5 * this.offsetWidth * (s - 1)) + ", " +
+					Math.round(t + 0.5 * this.offsetHeight * (r - 1)) + ")";
 			}
 		});
 	</script>
