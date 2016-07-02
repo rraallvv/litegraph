@@ -5425,7 +5425,7 @@ LGraphCanvas.prototype.showEditPropertyValue = function( node, property, options
 		if ( node.invalidateConnectedLinks ) {
 			node.invalidateConnectedLinks();
 		}
-		dialog.parentNode.removeChild( dialog );
+		Polymer.dom( dialog.parentNode ).removeChild( dialog );
 		node.setDirtyCanvas( true, true );
 	}
 };
@@ -6158,7 +6158,7 @@ LiteGraph.createContextualMenu = function( values, options, refWindow ) {
 			}
 		}
 		if ( this.parentNode ) {
-			refWindow.document.body.removeChild( this );
+			Polymer.dom( refWindow.document.body ).removeChild( this );
 		}
 	};
 
@@ -6182,7 +6182,7 @@ LiteGraph.closeAllContextualMenus = function( refWindow ) {
 
 	for ( i in result ) {
 		if ( result[ i ].parentNode ) {
-			result[ i ].parentNode.removeChild( result[ i ] );
+			Polymer.dom( result[ i ].parentNode ).removeChild( result[ i ] );
 		}
 	}
 };

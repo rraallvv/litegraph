@@ -100,7 +100,7 @@ Editor.prototype.onLoadButton = function() {
 	var panel = this.createPanel("Load session");
 	var close = this.createButton("Close");
 	close.style.float = "right";
-	close.addEventListener("click", function() { panel.parentNode.removeChild( panel ); });
+	close.addEventListener("click", function() { Polymer.dom( panel.parentNode ).removeChild( panel ); });
 	Polymer.dom( this.root ).appendChild( panel );
 	panel.content.innerHTML = "test";
 	Polymer.dom( panel.header ).appendChild( close );
@@ -206,7 +206,7 @@ Editor.prototype.addMiniWindow = function( w, h ) {
 	closeButton.innerHTML = "X";
 	closeButton.addEventListener("click", function( e ) { // eslint-disable-line no-unused-vars
 		graphcanvas.setGraph( null );
-		miniwindow.parentNode.removeChild( miniwindow );
+		Polymer.dom( miniwindow.parentNode ).removeChild( miniwindow );
 	});
 	Polymer.dom( this.root.querySelector(".content") ).appendChild( miniwindow );
 	Polymer.dom( miniwindow ).appendChild( closeButton );
