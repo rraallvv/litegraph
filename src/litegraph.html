@@ -1,9 +1,11 @@
 <dom-module id="lite-graph">
+
 	<link rel="import" type="css" href="css/style.css">
 	<link rel="import" type="css" href="css/litegraph.css">
 	<link rel="import" type="css" href="css/litegraph-editor.css">
 
 	<template>
+		<p>loaded</p>
 		<div id="main"></div>
 	</template>
 
@@ -21,8 +23,7 @@
 	<script src="examples.js"></script>
 
 	<script>
-		Polymer({
-			is: 'lite-graph',
+		Editor.polymerElement({
 			ready: function(){
 				LiteGraph.nodeImagesPath = "src/nodes/";
 				var editor = new LiteGraph.Editor("main");
@@ -37,6 +38,10 @@
 				if ( typeof(console) == "object") {
 					console.log( a );
 				}
+			},
+			setTransform: function( s, r, n, t ){
+				this.style.left = n;
+				this.style.top = t;
 			}
 		});
 	</script>
