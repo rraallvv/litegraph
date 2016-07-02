@@ -57,7 +57,7 @@
       </MacroExpansion>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "http://localhost:8080/src/index.html"
+            argument = "http://localhost:8080/index.html"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
