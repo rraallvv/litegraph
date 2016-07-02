@@ -179,7 +179,7 @@
 	display: inline-block;
 	width: 90px;
 	height: 15px;
-	background-image: url('../demo/imgs/load-progress-empty.png');
+	background-image: url('../imgs/load-progress-empty.png');
 }
 
 .litegraph-editor .cpuload .fgload, .litegraph-editor .gpuload .fgload  {
@@ -187,7 +187,7 @@
 	width: 4px;
 	height: 15px;
 	max-width: 90px;
-	background-image: url('../demo/imgs/load-progress-full.png');
+	background-image: url('../imgs/load-progress-full.png');
 }
 
 .litegraph-editor .dialog {

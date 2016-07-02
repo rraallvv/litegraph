@@ -1,0 +1,43 @@
+<dom-module id="lite-graph">
+	<link rel="import" type="css" href="css/style.css">
+	<link rel="import" type="css" href="css/litegraph.css">
+	<link rel="import" type="css" href="css/litegraph-editor.css">
+
+	<template>
+		<div id="main"></div>
+	</template>
+
+	<script src="litegraph.js"></script>
+	<script src="litegraph-editor.js"></script>
+
+	<script src="nodes/base.js"></script>
+	<script src="nodes/graph.js"></script>
+	<script src="nodes/math.js"></script>
+	<script src="nodes/interface.js"></script>
+	<script src="nodes/image.js"></script>
+	<script src="nodes/input.js"></script>
+	<script src="nodes/midi.js"></script>
+
+	<script src="examples.js"></script>
+
+	<script>
+		Polymer({
+			is: 'lite-graph',
+			ready: function(){
+				LiteGraph.nodeImagesPath = "../nodes_data/";
+				var editor = new LiteGraph.Editor("main");
+				window.graphcanvas = editor.graphcanvas;
+				window.graph = editor.graph;
+				window.addEventListener("resize", function() { editor.graphcanvas.resize(); });
+
+				// Load the example
+				JSONGraph();
+			},
+			trace: function( a ){ // eslint-disable-line no-unused-vars
+				if ( typeof(console) == "object") {
+					console.log( a );
+				}
+			}
+		});
+	</script>
+</dom-module>
