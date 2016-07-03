@@ -20,13 +20,13 @@ function LiteEditor( containerId, options ) { // eslint-disable-line no-unused-v
 	graph.onAfterExecute = function() { graphcanvas.draw( true ); };
 
 	// add stuff
-	this.addToolsButton("loadsessionButton", "Load", "src/imgs/icon-load.png", this.onLoadButton.bind( this ), ".tools-left" );
-	this.addToolsButton("savesessionButton", "Save", "src/imgs/icon-save.png", this.onSaveButton.bind( this ), ".tools-left" );
+	this.addToolsButton("loadsessionButton", "Load", litegraph.resolveUrl("imgs/icon-load.png"), this.onLoadButton.bind( this ), ".tools-left" );
+	this.addToolsButton("savesessionButton", "Save", litegraph.resolveUrl("imgs/icon-save.png"), this.onSaveButton.bind( this ), ".tools-left" );
 	this.addLoadCounter();
-	this.addToolsButton("playnodeButton", "Play", "src/imgs/icon-play.png", this.onPlayButton.bind( this ), ".tools-right" );
-	this.addToolsButton("playstepnodeButton", "Step", "src/imgs/icon-playstep.png", this.onPlayStepButton.bind( this ), ".tools-right" );
+	this.addToolsButton("playnodeButton", "Play", litegraph.resolveUrl("imgs/icon-play.png"), this.onPlayButton.bind( this ), ".tools-right" );
+	this.addToolsButton("playstepnodeButton", "Step", litegraph.resolveUrl("imgs/icon-playstep.png"), this.onPlayStepButton.bind( this ), ".tools-right" );
 
-	this.addToolsButton("maximizeButton", "", "src/imgs/icon-maximize.png", this.onFullscreenButton.bind( this ), ".tools-right" );
+	this.addToolsButton("maximizeButton", "", litegraph.resolveUrl("imgs/icon-maximize.png"), this.onFullscreenButton.bind( this ), ".tools-right" );
 
 	// this.addMiniWindow(300,200);
 
