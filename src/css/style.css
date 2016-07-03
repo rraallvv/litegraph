@@ -1,8 +1,11 @@
 :host {
 	position: absolute;
-	background-color: #333;
+	/*background-color: #333;*/
 	color: #EEE;
 	font: 14px Tahoma;
+	border-color: red;
+	border-style: solid;
+	border-width: 1px;
 }
 
 h1 {
@@ -14,7 +17,7 @@ h2 {
 }
 
 #main {
-	background-color: #222;
+	/*background-color: #222;*/
 	color: white;
 	width: 1024px;
 	height: 768px;

@@ -4,7 +4,7 @@
 	margin: 0;
 	padding: 0;
 
-	background-color: #333;
+	/*background-color: #333;*/
 	color: #EEE;
 	font: 14px Tahoma;
 
@@ -44,13 +44,13 @@
 	position: relative;
 	width: 100%;
 	height: calc( 100% - 80px );
-	background-color: #292929;
+	/*background-color: #292929;*/
 }
 
 .litegraph-editor .header, .litegraph-editor .footer {
 	position: relative;
 	height: 40px;
-	background-color: #333;
+	/*background-color: #333;*/
 	/*border-radius: 10px 10px 0 0;*/
 }
 
