@@ -36,7 +36,11 @@ function LiteEditor( containerId, options ) { // eslint-disable-line no-unused-v
 		Polymer.dom( parent ).appendChild( root );
 	}
 
-	graphcanvas.resize();
+	// TODO: find out why the canvas parent size is not availale yet
+	window.setTimeout( function(){
+		graphcanvas.resize();
+	}, 1000);
+
 	// graphcanvas.draw(true,true);
 }
 
