@@ -99,7 +99,7 @@ Console.prototype.onExecute = function() {
 	} else {
 		msg = this.properties.msg;
 	}
-	console.log( msg );
+	Editor.log( msg );
 };
 
 Console.prototype.onGetInputs = function() {
@@ -261,11 +261,12 @@ function Wrapper() {
 
 				// find a function with the given name
 				var path = v.split(".");
-				var functionObject = window[ path.shift() ];
-				while ( path.length > 0 ) {
-					functionObject = functionObject[ path.shift() ];
+				var object = window;
+				while ( path.length > 1 ) {
+					object = object[ path.shift() ];
 				}
-				this._functionObject = functionObject;
+				this._object = object;
+				this._function = object[ path[0] ] || object;
 
 				functionName = v;
 			}
@@ -332,7 +333,7 @@ function Wrapper() {
 		}
 	});
 
-	this.properties.name = "console.log";
+	this.properties.name = "Editor.log";
 	this.properties.arguments = "msg";
 	this.properties.return = undefined;
 }
@@ -348,9 +349,8 @@ Wrapper.prototype.onExecute = function() {
 	}
 
 	// call the wrapped function
-	var functionObject = this._functionObject;
-	if ( functionObject ) {
-		var result = functionObject.apply( functionObject, functionArguments );
+	if ( this._function ) {
+		var result = this._function.apply( this._object, functionArguments );
 		if ( this.outputs.length == 2 ) { // set output to the result
 			this.setOutputData( 1, result );
 		}
