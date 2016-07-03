@@ -16,7 +16,7 @@ function LiteEditor( containerId, options ) { // eslint-disable-line no-unused-v
 	// create graph
 	var graph = this.graph = new LGraph();
 	var graphcanvas = this.graphcanvas = new LGraphCanvas( canvas, graph );
-	graphcanvas.backgroundImage = "src/imgs/grid.png";
+	graphcanvas.backgroundImage = litegraph.resolveUrl("imgs/grid.png");
 	graph.onAfterExecute = function() { graphcanvas.draw( true ); };
 
 	// add stuff
@@ -194,7 +194,7 @@ LiteEditor.prototype.addMiniWindow = function( w, h ) {
 	var canvas = miniwindow.querySelector("canvas");
 
 	var graphcanvas = new LGraphCanvas( canvas, this.graph );
-	graphcanvas.backgroundImage = "src/imgs/grid.png";
+	graphcanvas.backgroundImage = litegraph.resolveUrl("imgs/grid.png");
 	graphcanvas.scale = 0.5;
 
 	miniwindow.style.position = "absolute";

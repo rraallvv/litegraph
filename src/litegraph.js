@@ -2632,7 +2632,7 @@ LGraphNode.prototype.setDirtyCanvas = function( dirtyForeground, dirtyBackground
 
 LGraphNode.prototype.loadImage = function( url, color ) {
 	var img = new Image();
-	img.src = LiteGraph.nodeImagesPath + url;
+	img.src = litegraph.resolveUrl( LiteGraph.nodeImagesPath + url );
 
 	var that = this;
 
